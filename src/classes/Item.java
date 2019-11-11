@@ -1,5 +1,6 @@
 package classes;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.io.Serializable;
 
@@ -8,6 +9,8 @@ public class Item implements Serializable {
 	
 	public String name;
 	public int minLevel;
+	
+	List<String> equipSlots;
 	
 	public Armor armor;
 	public Weapon weapon;
@@ -19,7 +22,15 @@ public class Item implements Serializable {
 	public List<String> dropLocations;
 	public List<Attribute> attributes;
 	
-	public Item() {}
+	public Item() {
+		dropLocations = new ArrayList<String>();
+		attributes = new ArrayList<Attribute>();
+	}
+	
+	public void setSlots(String[] slots) {
+		equipSlots = new ArrayList<String>();
+		for(String s : slots) equipSlots.add(s);
+	}
 	
 	
 	//Sub Classes
@@ -40,6 +51,7 @@ public class Item implements Serializable {
 			spellFailure = spellFail;
 		}
 	}
+	
 	public class Weapon implements Serializable {
 		public Dice attackRoll;
 		
