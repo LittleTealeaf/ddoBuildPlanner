@@ -37,12 +37,18 @@ public class Item {
 	public static class Weapon {
 		public Dice attackRoll;
 		
+		public int critRange;
+		public int critMultiplier;
+		
 		
 		public Weapon() {}
 		
 		
 		public double getBaseDamage() {
-			return attackRoll.getAverage();
+			double critChance = (double) (21 - critRange) / 20;
+			double critDamage = critChance * critMultiplier * attackRoll.getAverage();
+			
+			return attackRoll.getAverage() + critDamage;
 		}
 	}
 }
