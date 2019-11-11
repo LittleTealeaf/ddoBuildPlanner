@@ -3,7 +3,7 @@ package classes;
 import java.io.Serializable;
 
 @SuppressWarnings("serial")
-public class ItemAttribute implements Serializable {
+public class Attribute implements Serializable {
 
 	public String title;
 	public String details;
@@ -12,12 +12,12 @@ public class ItemAttribute implements Serializable {
 	public String attributeType;
 	public double attributeValue;
 	
-	public ItemAttribute(String Title, String Details) {
+	public Attribute(String Title, String Details) {
 		title = Title;
 		details = Details;
 	}
 	
-	public ItemAttribute(String Name, String Type, double Value) {
+	public Attribute(String Name, String Type, double Value) {
 		attributeName = Name;
 		attributeType = Type;
 		attributeValue = Value;
