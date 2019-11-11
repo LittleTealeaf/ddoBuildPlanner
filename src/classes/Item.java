@@ -17,6 +17,7 @@ public class Item implements Serializable {
 	public double weight;
 	
 	public List<String> dropLocations;
+	public List<Attribute> attributes;
 	
 	public Item() {}
 	
