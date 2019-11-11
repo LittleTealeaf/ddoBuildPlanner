@@ -22,4 +22,8 @@ public class Dice {
 		preAdd = d;
 		postAdd = e;
 	}
+	
+	public double getAverage() {
+		return firstCoeff * (dieCount * (1 + dieSides) / 2 + preAdd) + postAdd;
+	}
 }

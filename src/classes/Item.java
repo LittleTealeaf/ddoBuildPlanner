@@ -42,7 +42,7 @@ public class Item {
 		
 		
 		public double getBaseDamage() {
-			return attackRoll.firstCoeff * (attackRoll.dieCount * (1 + attackRoll.dieSides) / 2 + attackRoll.preAdd) + attackRoll.postAdd;
+			return attackRoll.getAverage();
 		}
 	}
 }
