@@ -14,7 +14,7 @@ public class Compendium {
 		ret.name = name;
 		
 		String displayHTML = util.getContents(SITE + "/w/" + name.replace(' ', '_'));
-		String editHTML = util.getContents(SITE + "/index.php?title=" + name.replace(' ', '_') + "&action=edit");
+		String editContents = getEditContents(util.getContents(SITE + "/index.php?title=" + name.replace(' ', '_') + "&action=edit"));
 		
 		
 		return ret;
