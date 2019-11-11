@@ -9,7 +9,6 @@ public class Build implements Serializable {
 	
 	public List<Gear> gearSets;
 	
-	
 	public class Gear implements Serializable {
 		public Item goggles;
 		public Item helmet;

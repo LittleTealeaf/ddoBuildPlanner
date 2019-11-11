@@ -22,7 +22,7 @@ public class Item implements Serializable {
 	
 	
 	//Sub Classes
-	public static class Armor implements Serializable {
+	public class Armor implements Serializable {
 		public String armorType;
 		public int armorBonus;
 		public int maxDexBonus;
@@ -39,7 +39,7 @@ public class Item implements Serializable {
 			spellFailure = spellFail;
 		}
 	}
-	public static class Weapon implements Serializable {
+	public class Weapon implements Serializable {
 		public Dice attackRoll;
 		
 		public List<String> damageTypes;
