@@ -1,7 +1,5 @@
 package application;
 
-import classes.*;
-import classes.Item.Armor;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
