@@ -1,6 +1,9 @@
 package classes;
 
-public class Dice {
+import java.io.Serializable;
+
+@SuppressWarnings("serial")
+public class Dice implements Serializable{
 	public double firstCoeff;
 	public int dieCount;
 	public int dieSides;

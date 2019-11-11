@@ -1,8 +1,10 @@
 package classes;
 
 import java.util.List;
+import java.io.Serializable;
 
-public class Item {
+@SuppressWarnings("serial")
+public class Item implements Serializable {
 	
 	public String name;
 	public int minLevel;
@@ -20,7 +22,7 @@ public class Item {
 	
 	
 	//Sub Classes
-	public static class Armor {
+	public static class Armor implements Serializable {
 		public String armorType;
 		public int armorBonus;
 		public int maxDexBonus;
@@ -37,7 +39,7 @@ public class Item {
 			spellFailure = spellFail;
 		}
 	}
-	public static class Weapon {
+	public static class Weapon implements Serializable {
 		public Dice attackRoll;
 		
 		public List<String> damageTypes;

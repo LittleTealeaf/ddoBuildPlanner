@@ -1,6 +1,9 @@
 package classes;
 
-public class ItemAttribute {
+import java.io.Serializable;
+
+@SuppressWarnings("serial")
+public class ItemAttribute implements Serializable {
 
 	public String title;
 	public String details;
