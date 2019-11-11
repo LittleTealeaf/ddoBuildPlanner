@@ -6,7 +6,12 @@ import java.net.URL;
 
 public class util {
 	
-	public String getContents(String siteURL) {
+	/**
+	 * Strips the site contents from the URL
+	 * @param siteURL
+	 * @return
+	 */
+	public static String getContents(String siteURL) {
 		try {
 			URL url = new URL(siteURL);
 			url.openConnection();

@@ -22,6 +22,7 @@ public class Main extends Application {
 	
 	public static void main(String[] args) {
 		
+		resource.Compendium.getItem("Luminous Truth");
 		
 		launch(args);
 	}
