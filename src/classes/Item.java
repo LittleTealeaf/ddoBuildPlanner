@@ -10,14 +10,16 @@ public class Item implements Serializable {
 	public String name;
 	public int minLevel;
 	
+	public double hardness;
+	public double durability;
+	public double baseValue;
+	public double weight;
+	public String material;
+	
 	List<String> equipSlots;
 	
 	public Armor armor;
 	public Weapon weapon;
-	
-	
-	public double baseValue;
-	public double weight;
 	
 	public List<String> dropLocations;
 	public List<Attribute> attributes;
@@ -34,7 +36,7 @@ public class Item implements Serializable {
 	
 	
 	//Sub Classes
-	public class Armor implements Serializable {
+	public static class Armor implements Serializable {
 		public String armorType;
 		public int armorBonus;
 		public int maxDexBonus;
@@ -43,6 +45,7 @@ public class Item implements Serializable {
 		public int damageReduction;
 		
 		public Armor() {}
+
 		public Armor(String type, int bonus, int maxDex, int checkPenalty, int spellFail, int damageReduction) {
 			armorType = type;
 			armorBonus = bonus;
@@ -52,7 +55,7 @@ public class Item implements Serializable {
 		}
 	}
 	
-	public class Weapon implements Serializable {
+	public static class Weapon implements Serializable {
 		public Dice attackRoll;
 		
 		public List<String> damageTypes;
@@ -62,6 +65,7 @@ public class Item implements Serializable {
 		
 		
 		public Weapon() {}
+		
 		public Weapon(Dice attack, int CritRange, int CritMultiplier, List<String> DamageTypes) {
 			attackRoll = attack;
 			critRange = CritRange;

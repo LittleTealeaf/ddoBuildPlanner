@@ -1,6 +1,8 @@
 package resource;
 
 import classes.*;
+import classes.Item.Armor;
+import classes.Item.Weapon;
 
 import java.net.*;
 import java.util.ArrayList;
@@ -18,7 +20,25 @@ public class Compendium {
 		String displayHTML = util.getContents(SITE + "/w/" + name.replace(' ', '_'));
 		String editContents = getEditContents(util.getContents(SITE + "/index.php?title=" + name.replace(' ', '_') + "&action=edit"));
 		
+		//Set up variables if needed
+		switch(getItemType(editContents)) {
+		case "Weapon": ret.weapon = new Item.Weapon(); break;
+		case "Armor": ret.armor = new Item.Armor(); break;
+		case "Shield": ret.weapon = new Item.Weapon(); ret.armor = new Item.Armor(); break;
+		}
+		
 		List<String[]> vars = getItemVariables(editContents);
+		
+		for(String[] a : vars) {
+			switch(a[0].toLowerCase()) {
+			case "minlevel": ret.minLevel = Integer.parseInt(a[1].replace(" ","")); break;
+			case "hardness": ret.hardness = Integer.parseInt(a[1].replace(" ", "")); break;
+			case "durability": ret.durability = Integer.parseInt(a[1].replace(" ", "")); break;
+			case "material": ret.material = a[1];
+			//TODO add the rest of the variables
+			}
+		}
+		
 		
 		return ret;
 	}
