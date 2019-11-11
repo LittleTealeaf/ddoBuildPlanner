@@ -43,7 +43,7 @@ public class Compendium {
 		return ret;
 	}
 	
-	private static String getEditContents(String HTML) {
+	private static String getEditContents(String HTML) { //TODO (also remove anything that's not part of the actual content!!!!)
 		final String START = "name=\"wpTextbox1\">", END = "</textarea>";
 		return HTML.substring(HTML.indexOf(START) + START.length(), HTML.indexOf(END));
 	}
