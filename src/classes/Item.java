@@ -1,5 +1,7 @@
 package classes;
 
+import java.util.List;
+
 public class Item {
 	
 	public String name;
@@ -12,7 +14,7 @@ public class Item {
 	public double baseValue;
 	public double weight;
 	
-	
+	public List<String> dropLocations;
 	
 	public Item() {}
 	
@@ -24,9 +26,10 @@ public class Item {
 		public int maxDexBonus;
 		public int armorCheckPenalty;
 		public int spellFailure;
+		public int damageReduction;
 		
 		public Armor() {}
-		public Armor(String type, int bonus, int maxDex, int checkPenalty, int spellFail) {
+		public Armor(String type, int bonus, int maxDex, int checkPenalty, int spellFail, int damageReduction) {
 			armorType = type;
 			armorBonus = bonus;
 			maxDexBonus = maxDex;
@@ -37,11 +40,19 @@ public class Item {
 	public static class Weapon {
 		public Dice attackRoll;
 		
+		public List<String> damageTypes;
+		
 		public int critRange;
 		public int critMultiplier;
 		
 		
 		public Weapon() {}
+		public Weapon(Dice attack, int CritRange, int CritMultiplier, List<String> DamageTypes) {
+			attackRoll = attack;
+			critRange = CritRange;
+			critMultiplier = CritMultiplier;
+			damageTypes = DamageTypes;
+		}
 		
 		
 		public double getBaseDamage() {
