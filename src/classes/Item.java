@@ -43,15 +43,17 @@ public class Item implements Serializable {
 		public int armorCheckPenalty;
 		public int spellFailure;
 		public int damageReduction;
+		public String proficiency;
 		
 		public Armor() {}
 
-		public Armor(String type, int bonus, int maxDex, int checkPenalty, int spellFail, int damageReduction) {
+		public Armor(String type, int bonus, int maxDex, int checkPenalty, int spellFail, int damageReduction, String Proficiency) {
 			armorType = type;
 			armorBonus = bonus;
 			maxDexBonus = maxDex;
 			armorCheckPenalty = checkPenalty;
 			spellFailure = spellFail;
+			proficiency = Proficiency;
 		}
 	}
 	
@@ -63,14 +65,17 @@ public class Item implements Serializable {
 		public int critRange;
 		public int critMultiplier;
 		
+		public String proficiency;
+		
 		
 		public Weapon() {}
 		
-		public Weapon(Dice attack, int CritRange, int CritMultiplier, List<String> DamageTypes) {
+		public Weapon(Dice attack, int CritRange, int CritMultiplier, List<String> DamageTypes, String Proficiency) {
 			attackRoll = attack;
 			critRange = CritRange;
 			critMultiplier = CritMultiplier;
 			damageTypes = DamageTypes;
+			proficiency = Proficiency;
 		}
 		
 		
