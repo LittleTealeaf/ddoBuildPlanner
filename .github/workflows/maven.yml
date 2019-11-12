@@ -5,7 +5,7 @@ on: [push]
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
     - uses: actions/checkout@v1
@@ -14,4 +14,4 @@ jobs:
       with:
         java-version: 13
     - name: Build with Maven
-      run: mvn clean install
+      run: mvn -B install
