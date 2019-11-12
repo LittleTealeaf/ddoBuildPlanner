@@ -71,4 +71,15 @@ public class Compendium {
 		return ret;
 	}
 
+	private static List<Attribute> parseAttributes(String attributes) {
+		List<Attribute> ret = new ArrayList<Attribute>();
+		
+		return ret;
+	}
+	
+	private static Attribute parseAttribute(String template) {
+		Attribute ret = new Attribute();
+		
+		return ret;
+	}
 }

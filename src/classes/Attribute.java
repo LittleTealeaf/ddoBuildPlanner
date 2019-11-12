@@ -25,4 +25,5 @@ public class Attribute implements Serializable {
 		title = Type + " " + Name + " +" + Value;
 		details = "Passive: +" + Value + " " + Type + " bonus to " + Name;
 	}
+	public Attribute() {}
 }
