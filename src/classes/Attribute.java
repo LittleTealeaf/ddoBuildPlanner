@@ -8,9 +8,9 @@ public class Attribute implements Serializable {
 	public String title;
 	public String details;
 	
-	public String attributeName;
-	public String attributeType;
-	public double attributeValue;
+	public String name;
+	public String type;
+	public double value;
 	
 	public Attribute(String Title, String Details) {
 		title = Title;
@@ -18,9 +18,9 @@ public class Attribute implements Serializable {
 	}
 	
 	public Attribute(String Name, String Type, double Value) {
-		attributeName = Name;
-		attributeType = Type;
-		attributeValue = Value;
+		name = Name;
+		type = Type;
+		value = Value;
 		
 		title = Type + " " + Name + " +" + Value;
 		details = "Passive: +" + Value + " " + Type + " bonus to " + Name;

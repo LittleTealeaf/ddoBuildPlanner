@@ -22,16 +22,25 @@ public class Compendium {
 		
 		
 		for(String[] a : getItemVariables(editContents)) {
+			String i = a[1].replace(" ", "");
 			switch(a[0].toLowerCase()) { //TODO sort these cases
-			case "minlevel": ret.minLevel = Integer.parseInt(a[1].replace(" ","")); break;
-			case "hardness": ret.hardness = Integer.parseInt(a[1].replace(" ", "")); break;
-			case "durability": ret.durability = Integer.parseInt(a[1].replace(" ", "")); break;
+			case "minlevel": ret.minLevel = Integer.parseInt(i); break;
+			case "hardness": ret.hardness = Integer.parseInt(i); break;
+			case "durability": ret.durability = Integer.parseInt(i); break;
 			case "material": ret.material = a[1]; break;
 			case "description": ret.description = a[1]; break;
-			case "weight": ret.weight = Double.parseDouble(a[1].replace(" ", "")); break;
+			case "enchantments": ret.attributes = parseAttributes(a[1]); break;
+			case "weight": ret.weight = Double.parseDouble(i); break;
+			//Weapon
 			case "damage": ret.weapon.attackRoll = new Dice(util.parseTemplate(a[1], false)); break;
 			case "damagetype": ret.weapon.damageTypes = util.parseTemplate(a[1],false); break;
+			//Armor
+			case "armorcheckpenalty": ret.armor.armorCheckPenalty = Integer.parseInt(i); break;
+			case "spellfailure": ret.armor.spellFailure = Integer.parseInt(i.replace("%", "")); break;
+			case "maxdex": ret.armor.maxDexBonus = Integer.parseInt(i); break;
+			case "armorbonus": ret.armor.armorBonus = Integer.parseInt(i); break;
 			//TODO add the rest of the variables
+			default: System.out.println(a[0] + " is empty");
 			}
 		}
 		
@@ -56,7 +65,7 @@ public class Compendium {
 					String data = temp.substring(temp.indexOf('=') + 1);
 					if(temp.contains(" =")) name = name.substring(0,name.length() - 1);
 					if(temp.contains("= ")) data = data.substring(1);
-					System.out.println(name + "|" + data);
+					System.out.println(name + " " + data);
 					ret.add(new String[] {name, data});
 				}
 				temp = "";
@@ -70,12 +79,70 @@ public class Compendium {
 	private static List<Attribute> parseAttributes(String attributes) {
 		List<Attribute> ret = new ArrayList<Attribute>();
 		
+		int depth = 0;
+		String temp = "";
+		for(char c : attributes.toCharArray()) {
+			if(c == '{') {
+				depth++;
+				if(depth > 2) temp+=c;
+			}
+			else if(c == '}') {
+				depth--;
+				if(depth == 1) {
+					ret.addAll(parseAttribute(temp));
+					temp = "";
+				} else if(depth > 1) temp+=c;
+			} else if(depth >= 2) temp+=c;
+		}
+		
 		return ret;
 	}
 	
-	private static Attribute parseAttribute(String template) {
+	private static List<Attribute> parseAttribute(String template) {
+		List<Attribute> r = new ArrayList<Attribute>();
 		Attribute ret = new Attribute();
 		
+		//Parse Template
+		List<String> vList = new ArrayList<String>();
+		String tmp = "";
+		int ind = 0;
+		for(char c : template.toCharArray()) {
+			if(c == '{') ind++;
+			else if(c == '}') ind--;
+			if(ind == 0 && c == '|') {
+				vList.add(tmp);
+				tmp = "";
+			}
+			else tmp+=c;
+		}
+		vList.add(tmp);
+		
+		String[] v = vList.toArray(String[]::new);
+		
+		//The great big switch case
+		switch(v[0]) {
+		case "CustomEnhancement": 
+			ret.name = v[1];
+			ret.details = v[2];
+			break;
+		case "Ability":
+			ret.name = v[1];
+			ret.value = Double.parseDouble(v[2]);
+			if(v.length >= 4) ret.type = v[3];
+			break;
+			
+		default:
+			ret.name = v[0];
+			ret.details = v[1];
+		}
+		
+		r.add(ret);
+		return r;
+	}
+	
+	private static String inLineTemplates(String template) {
+		//TODO add in-line template writing
+		String ret = "";
 		return ret;
 	}
 }
