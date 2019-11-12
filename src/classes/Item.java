@@ -16,6 +16,7 @@ public class Item implements Serializable {
 	public double weight;
 	public String material;
 	
+	public String description;
 	List<String> equipSlots;
 	
 	public Armor armor;

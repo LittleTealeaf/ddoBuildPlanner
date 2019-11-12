@@ -25,12 +25,16 @@ public class Compendium {
 		if(editContents.contains("Template:Weapon") || editContents.contains("Template:Shield")) ret.weapon = new Item.Weapon();
 		
 		
-		for(String[] a :  getItemVariables(editContents)) {
-			switch(a[0].toLowerCase()) {
+		for(String[] a : getItemVariables(editContents)) {
+			switch(a[0].toLowerCase()) { //TODO sort these cases
 			case "minlevel": ret.minLevel = Integer.parseInt(a[1].replace(" ","")); break;
 			case "hardness": ret.hardness = Integer.parseInt(a[1].replace(" ", "")); break;
 			case "durability": ret.durability = Integer.parseInt(a[1].replace(" ", "")); break;
-			case "material": ret.material = a[1];
+			case "material": ret.material = a[1]; break;
+			case "description": ret.description = a[1]; break;
+			case "weight": ret.weight = Double.parseDouble(a[1].replace(" ", "")); break;
+			case "damage": ret.weapon.attackRoll = new Dice(util.parseTemplate(a[1], false)); break;
+			case "damagetype": ret.weapon.damageTypes = util.parseTemplate(a[1],false); break;
 			//TODO add the rest of the variables
 			}
 		}
@@ -66,4 +70,5 @@ public class Compendium {
 		}
 		return ret;
 	}
+
 }
