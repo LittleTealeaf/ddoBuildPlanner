@@ -49,7 +49,7 @@ public class Compendium {
 	
 	
 	private static String getItemType(String editContents) {
-		String ret = editContents.substring(11);
+		String ret = editContents.substring(editContents.indexOf("Template:") + 9);
 		return ret.substring(0,ret.indexOf('|'));
 	}
 	
