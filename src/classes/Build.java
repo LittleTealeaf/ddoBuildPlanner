@@ -6,6 +6,8 @@ import java.util.List;
 public class Build implements Serializable {
 	//TODO implement Serializable ID to classes
 	
+	public static Build build;
+	
 	
 	public List<Gear> gearSets;
 	
