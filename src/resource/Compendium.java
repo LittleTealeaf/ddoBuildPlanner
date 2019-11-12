@@ -27,9 +27,8 @@ public class Compendium {
 		case "Shield": ret.weapon = new Item.Weapon(); ret.armor = new Item.Armor(); break;
 		}
 		
-		List<String[]> vars = getItemVariables(editContents);
 		
-		for(String[] a : vars) {
+		for(String[] a :  getItemVariables(editContents)) {
 			switch(a[0].toLowerCase()) {
 			case "minlevel": ret.minLevel = Integer.parseInt(a[1].replace(" ","")); break;
 			case "hardness": ret.hardness = Integer.parseInt(a[1].replace(" ", "")); break;
