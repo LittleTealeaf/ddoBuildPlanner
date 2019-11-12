@@ -1,13 +1,9 @@
 package resource;
 
 import classes.*;
-import classes.Item.Armor;
-import classes.Item.Weapon;
 
-import java.net.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.io.*;
 
 public class Compendium {
 	
