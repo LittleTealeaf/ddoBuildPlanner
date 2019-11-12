@@ -21,11 +21,8 @@ public class Compendium {
 		String editContents = getEditContents(util.getContents(SITE + "/index.php?title=" + name.replace(' ', '_') + "&action=edit"));
 		
 		//Set up variables if needed
-		switch(getItemType(editContents)) {
-		case "Weapon": ret.weapon = new Item.Weapon(); break;
-		case "Armor": ret.armor = new Item.Armor(); break;
-		case "Shield": ret.weapon = new Item.Weapon(); ret.armor = new Item.Armor(); break;
-		}
+		if(editContents.contains("Template:Armor") || editContents.contains("Template:Shield")) ret.armor = new Item.Armor();
+		if(editContents.contains("Template:Weapon") || editContents.contains("Template:Shield")) ret.weapon = new Item.Weapon();
 		
 		
 		for(String[] a :  getItemVariables(editContents)) {
@@ -45,12 +42,6 @@ public class Compendium {
 	private static String getEditContents(String HTML) { //TODO (also remove anything that's not part of the actual content!!!!)
 		final String START = "name=\"wpTextbox1\">", END = "</textarea>";
 		return HTML.substring(HTML.indexOf(START) + START.length(), HTML.indexOf(END));
-	}
-	
-	
-	private static String getItemType(String editContents) {
-		String ret = editContents.substring(editContents.indexOf("Template:") + 9);
-		return ret.substring(0,ret.indexOf('|'));
 	}
 	
 	private static List<String[]> getItemVariables(String editContents) {
