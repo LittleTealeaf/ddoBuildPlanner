@@ -124,19 +124,12 @@ public class Compendium {
 		
 		//The great big switch case
 		switch(v[0]) {
-		case "CustomEnhancement": 
-			ret.name = v[1];
-			ret.details = v[2];
-			break;
-		case "Ability":
-			ret.name = v[1];
+		case "Ability": case "Skill":
+			ret.attribute = v[1];
 			ret.value = Double.parseDouble(v[2]);
 			if(v.length >= 4) ret.type = v[3];
+			if(v.length >= 5) ret.name = v[4];
 			break;
-			
-		default:
-			ret.name = v[0];
-			ret.details = v[1];
 		}
 		
 		r.add(ret);

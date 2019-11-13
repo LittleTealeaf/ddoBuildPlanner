@@ -46,4 +46,26 @@ public class util {
 		if(!includeName) ret.remove(0);
 		return ret;
 	}
+	
+	public static String getSign(double number) {
+		if(number < 0) return "-";
+		return "+";
+	}
+	
+	public static String nameConversion(String a) {
+		switch(a) {
+		case "Combustion": return "Fire";
+		case "Corrosion": return "Acid";
+		case "Devotion": return "Positive";
+		case "Glaciation": return "Cold";
+		case "Impulse": return "Force";
+		case "Magnetism": return "Electric";
+		case "Nullification": return "Negative";
+		case "Radiance": return "Light";
+		case "Reconstruction": return "Repair";
+		case "Resonance": return "Sonic";
+		case "Potency": return "Each";
+		default: return a;
+		}
+	}
 }
