@@ -23,7 +23,7 @@ public class Main extends Application {
 	
 	public static void main(String[] args) {
 		
-		Compendium.getItem("Nocturne, the Song of Night");
+		Compendium.getItem("Belt of Wicked Insanity");
 		
 		launch(args);
 	}
