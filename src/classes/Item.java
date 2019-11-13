@@ -44,6 +44,7 @@ public class Item implements Serializable {
 		public int armorCheckPenalty;
 		public int spellFailure;
 		public int damageReduction;
+		public int attackPenalty;
 		
 		public Armor() {}
 
