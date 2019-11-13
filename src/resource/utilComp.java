@@ -68,9 +68,25 @@ public class utilComp {
 			}
 			break;
 		case "Sheltering":
-			int value = Integer.parseInt(v[1]);
+			String type = "";
+			if(v.length <= 2 || v[2].contentEquals("") || v[2].toLowerCase().contentEquals("both")) type = "";
+			else type = v[2].toLowerCase();
 			
-			break;
+			ret.value = Integer.parseInt(v[1]);
+			if(v.length >= 4) ret.type = v[3];
+			if(v.length >= 5) ret.name = v[4];
+			
+			if(type.contentEquals("physical") || type.contentEquals("")) {
+				ret.attribute = "Physical Sheltering";
+				if(v.length >= 6) ret.description = ret.getDescription() + v[5];
+				r.add(ret);
+			}
+			if(type.contentEquals("magical") || type.contentEquals("")) {
+				ret.attribute = "Magical Sheltering";
+				if(v.length >= 6) ret.description = ret.getDescription() + v[5];
+				r.add(ret);
+			}
+			return r;
 		default:
 			try {
 				ret.attribute = getAttributeName(v[0]);
