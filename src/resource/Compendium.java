@@ -126,12 +126,16 @@ public class Compendium {
 		switch(v[0]) {
 		case "Ability": case "Skill":
 			ret.attribute = v[1];
-			ret.value = Double.parseDouble(v[2]);
+			ret.value = Integer.parseInt(v[2]);
 			if(v.length >= 4) ret.type = v[3];
 			if(v.length >= 5) ret.name = v[4];
 			break;
+		case "SpellPower": case "SpellLore": case "SpellFocus":
+			ret.attribute =  util.nameConversion(v[1]) + " Spell " + v[0].substring(5);
+			ret.value = Integer.parseInt(v[2]);
+			if(v.length >= 4) ret.type = v[3];
 		}
-		
+		System.out.println(ret.toString());
 		r.add(ret);
 		return r;
 	}

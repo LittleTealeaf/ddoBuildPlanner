@@ -8,34 +8,51 @@ public class Attribute implements Serializable {
 	public String description;
 	
 	public String attribute;
-	public double value;
+	public int value;
 	public String type;
 	
-	public Attribute() {}
+	public Attribute() {
+		name = "";
+		description = "";
+		attribute = "";
+		value = 0;
+		type = "";
+	}
 	public Attribute(String Name, String Description) {
 		name = Name;
 		description = Description;
+		attribute = "";
+		value = 0;
+		type = "";
 	}
-	public Attribute(String Attribute, double Value, String Type) {
+	public Attribute(String Attribute, int Value, String Type) {
 		attribute = Attribute;
 		value = Value;
 		type = Type;
+		name = "";
+		description = "";
 	}
 	
 	
 	public String getTitle() {
-		if(name.contentEquals("")) return type + " " + attribute + " " + resource.util.getSign(value) + value;
-		return name;
+		if(!name.contentEquals("")) return name;
+		if(value == 0 || attribute.contentEquals("")) return "";
+		if(type.contentEquals("")) return attribute + " " + resource.util.getSign(value) + value;
+		return type + " " + attribute + " " + resource.util.getSign(value) + value;
 	}
 	
 	public String getDescription() {
-		if(description.contentEquals("")) {
-			String sign = resource.util.getSign(value);
-			String ret = "Passive: " + sign + value + " " + type + " ";
-			if(sign.contentEquals("+")) ret+= "bonus";
-			else if(sign.contentEquals("-")) ret+="penalty";
-			return ret + " to " + attribute;
-		}
-		return description;
+		if(!description.contentEquals("")) return description;
+		if(value == 0 || attribute.contentEquals("")) return "";
+		String sign = resource.util.getSign(value);
+		String ret = "Passive: " + sign + value + " " + type + " ";
+		if(sign.contentEquals("+")) ret+= "bonus";
+		else if(sign.contentEquals("-")) ret+="penalty";
+		ret = ret.replace("  ", " ");
+		return ret + " to " + attribute;
+	}
+	
+	public String toString() {
+		return getTitle() + ": " + getDescription();
 	}
 }

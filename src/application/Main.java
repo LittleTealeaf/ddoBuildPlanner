@@ -23,7 +23,7 @@ public class Main extends Application {
 	
 	public static void main(String[] args) {
 		
-		Compendium.getItem("Mail of the Mroranon");
+		Compendium.getItem("Nocturne, the Song of Night");
 		
 		launch(args);
 	}
