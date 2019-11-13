@@ -39,6 +39,7 @@ public class Compendium {
 			case "spellfailure": ret.armor.spellFailure = Integer.parseInt(i.replace("%", "")); break;
 			case "maxdex": ret.armor.maxDexBonus = Integer.parseInt(i); break;
 			case "armorbonus": ret.armor.armorBonus = Integer.parseInt(i); break;
+			case "attackpenalty": ret.armor.attackPenalty = Integer.parseInt(i); break;
 			//TODO add the rest of the variables
 			default: System.out.println(a[0] + " is empty");
 			}
