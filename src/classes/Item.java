@@ -21,7 +21,6 @@ public class Item implements Serializable {
 	
 	public Armor armor;
 	public Weapon weapon;
-	public Shield shield;
 	
 	public List<String> dropLocations;
 	public List<Attribute> attributes;
@@ -37,10 +36,13 @@ public class Item implements Serializable {
 	}
 	
 	
+	
+	
 	//Sub Classes
 	public static class Armor implements Serializable {
 		public String armorType;
 		public int armorBonus;
+		public int shieldBonus;
 		public int maxDexBonus;
 		public int armorCheckPenalty;
 		public int spellFailure;
@@ -81,29 +83,6 @@ public class Item implements Serializable {
 			double critChance = (double) (21 - critRange) / 20;
 			double critDamage = critChance * critMultiplier * attackRoll.getAverage();
 			
-			return attackRoll.getAverage() + critDamage;
-		}
-	}
-	
-	public static class Shield implements Serializable {
-		//Attack Variables
-		public Dice attackRoll;
-		public List<String> damageTypes;
-		public int critRange;
-		public int critMultiplier;
-		
-		public int shieldBonus;
-		public int maxDexBonus;
-		public int armorCheckPenalty;
-		public int spellFailure;
-		public int damageReduction;
-		public int attackPenalty;
-		
-		public Shield() {}
-		
-		public double getBaseDamage() {
-			double critChance = (double) (21 - critRange) / 20;
-			double critDamage = critChance * critMultiplier * attackRoll.getAverage();
 			return attackRoll.getAverage() + critDamage;
 		}
 	}
