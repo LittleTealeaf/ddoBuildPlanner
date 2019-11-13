@@ -89,16 +89,29 @@ public class utilComp {
 			return r;
 		default:
 			try {
-				ret.attribute = getAttributeName(v[0]);
-				ret.value = Integer.parseInt(v[1]);
-				if(v.length > 2) ret.type = v[2];
-			} catch (Exception e) {}
+				if(isInt(v[1].replace(" ", ""))) {
+					ret.attribute = getAttributeName(v[0]);
+					ret.value = Integer.parseInt(v[1]);
+					if(v.length > 2) ret.type = v[2];
+				} else if(isInt(v[2].replace(" ", ""))) {
+					ret.attribute = v[1];
+					ret.value = Integer.parseInt(v[2]);
+					if(v.length > 3) ret.type = v[3];
+				}
+			} catch (Exception e) {
+				
+			}
 		}
 		System.out.println(ret.toString());
 		r.add(ret);
 		return r;
 	}
 	
+	/**
+	 * Gets the attribute name in the Attribute form
+	 * @param template
+	 * @return
+	 */
 	private static String getAttributeName(String template) {
 		switch(template) {
 			default: 
@@ -107,8 +120,16 @@ public class utilComp {
 					if(java.lang.Character.isUpperCase(c)) r += " ";
 					r += c;
 				}
-				
+				//Remove extra space
+				r = r.substring(1);
 				return r;
 		}
+	}
+	
+	private static boolean isInt(String a) {
+		try {
+			int r = Integer.parseInt(a);
+			return true;
+		} catch (Exception e) {return false;}
 	}
 }

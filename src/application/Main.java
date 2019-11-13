@@ -23,7 +23,7 @@ public class Main extends Application {
 	
 	public static void main(String[] args) {
 		
-		Compendium.getItem("Crystalline Gauntlets");
+		Compendium.getItem("Legendary Mask of Vulkoorim");
 		
 		launch(args);
 	}
