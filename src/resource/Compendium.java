@@ -40,6 +40,7 @@ public class Compendium {
 			case "maxdex": ret.armor.maxDexBonus = Integer.parseInt(i); break;
 			case "armorbonus": ret.armor.armorBonus = Integer.parseInt(i); break;
 			case "attackpenalty": ret.armor.attackPenalty = Integer.parseInt(i); break;
+			case "dr": ret.armor.damageReduction = a[1];
 			//TODO add the rest of the variables
 			default: System.out.println(a[0] + " is empty");
 			}
