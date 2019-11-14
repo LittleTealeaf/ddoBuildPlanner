@@ -6,5 +6,5 @@ module buildPlanner {
 
 	requires javafx.base;
 	requires javafx.graphics;
-	requires javafx.controls;
+	requires transitive javafx.controls;
 }

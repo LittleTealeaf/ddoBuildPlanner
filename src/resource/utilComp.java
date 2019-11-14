@@ -128,7 +128,7 @@ public class utilComp {
 	
 	private static boolean isInt(String a) {
 		try {
-			int r = Integer.parseInt(a);
+			Integer.parseInt(a);
 			return true;
 		} catch (Exception e) {return false;}
 	}
