@@ -34,7 +34,7 @@ public class fxMain extends Application {
 			tabs = new TabPane();
 			
 			//Tome, Leveling, Enhancement Trees (sub tab in there), Gearsets
-			tabs.getTabs().addAll(fxTabs.Tomes.getTab(), fxTabs.Leveling.getTab(), fxTabs.Enhancements.getTab(), fxTabs.Gearsets.getTab(), fxTabs.Stats.getTab());
+			tabs.getTabs().addAll(fxTabs.Tabs.getMainTabs());
 			
 			for(Tab t : tabs.getTabs()) {
 				t.setClosable(false);
