@@ -4,25 +4,55 @@ import java.io.Serializable;
 
 @SuppressWarnings("serial")
 public class Attribute implements Serializable {
-
-	public String title;
-	public String details;
+	public String name;
+	public String description;
 	
-	public String attributeName;
-	public String attributeType;
-	public double attributeValue;
+	public String attribute;
+	public int value;
+	public String type;
 	
-	public Attribute(String Title, String Details) {
-		title = Title;
-		details = Details;
+	public Attribute() {
+		name = "";
+		description = "";
+		attribute = "";
+		value = 0;
+		type = "";
+	}
+	public Attribute(String Name, String Description) {
+		name = Name;
+		description = Description;
+		attribute = "";
+		value = 0;
+		type = "";
+	}
+	public Attribute(String Attribute, int Value, String Type) {
+		attribute = Attribute;
+		value = Value;
+		type = Type;
+		name = "";
+		description = "";
 	}
 	
-	public Attribute(String Name, String Type, double Value) {
-		attributeName = Name;
-		attributeType = Type;
-		attributeValue = Value;
-		
-		title = Type + " " + Name + " +" + Value;
-		details = "Passive: +" + Value + " " + Type + " bonus to " + Name;
+	
+	public String getTitle() {
+		if(!name.contentEquals("")) return name;
+		if(value == 0 || attribute.contentEquals("")) return "";
+		if(type.contentEquals("")) return attribute + " " + resource.util.getSign(value) + value;
+		return type + " " + attribute + " " + resource.util.getSign(value) + value;
+	}
+	
+	public String getDescription() {
+		if(!description.contentEquals("")) return description;
+		if(value == 0 || attribute.contentEquals("")) return "";
+		String sign = resource.util.getSign(value);
+		String ret = "Passive: " + sign + value + " " + type + " ";
+		if(sign.contentEquals("+")) ret+= "bonus";
+		else if(sign.contentEquals("-")) ret+="penalty";
+		ret = ret.replace("  ", " ");
+		return ret + " to " + attribute;
+	}
+	
+	public String toString() {
+		return getTitle() + ": " + getDescription();
 	}
 }

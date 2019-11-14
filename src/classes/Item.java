@@ -9,13 +9,14 @@ public class Item implements Serializable {
 	
 	public String name;
 	public int minLevel;
-	
+	public String proficiency;
 	public double hardness;
 	public double durability;
 	public double baseValue;
 	public double weight;
 	public String material;
 	
+	public String description;
 	List<String> equipSlots;
 	
 	public Armor armor;
@@ -35,14 +36,18 @@ public class Item implements Serializable {
 	}
 	
 	
+	
+	
 	//Sub Classes
 	public static class Armor implements Serializable {
 		public String armorType;
 		public int armorBonus;
+		public int shieldBonus;
 		public int maxDexBonus;
 		public int armorCheckPenalty;
 		public int spellFailure;
 		public int damageReduction;
+		public int attackPenalty;
 		
 		public Armor() {}
 
