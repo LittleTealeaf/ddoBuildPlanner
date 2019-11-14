@@ -11,9 +11,6 @@ import classes.Build;
 public class Main {
 	
 	public static void main(String[] args) {
-		
-
-		Compendium.getItem("Legendary Mask of Vulkoorim");
 
 		Build.build = new Build();
 		

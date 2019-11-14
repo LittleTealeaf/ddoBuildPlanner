@@ -22,8 +22,8 @@ public class fxMain extends Application {
 	}
 	
 	@Override
-	public void start(Stage primaryStage) {
-		sMainRef = primaryStage;
+	public void start(Stage sMain) {
+			sMainRef = sMain;
 			
 			//Menu
 			MenuBar menu = new MenuBar();
@@ -34,7 +34,7 @@ public class fxMain extends Application {
 			tabs = new TabPane();
 			
 			//Tome, Leveling, Enhancement Trees (sub tab in there), Gearsets
-			tabs.getTabs().addAll(getTomeTab(), getLevelingTab(), getEnhancementsTab(), getGearsetsTab());
+			tabs.getTabs().addAll(tabTome.getTab(), tabLeveling.getTab(), tabEnhancements.getTab(), tabGearsets.getTab());
 			
 			for(Tab t : tabs.getTabs()) {
 				t.setClosable(false);
@@ -49,32 +49,14 @@ public class fxMain extends Application {
 				scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			} catch(Exception e) {}
 			
-			primaryStage.setScene(scene);
-			primaryStage.show();
-		
+			sMain.setScene(scene);
+			sMain.show();
+			sMain.setMaximized(true);		
 	}
+
 	
-	private Tab getTomeTab() {
-		Tab ret = new Tab("Tomes");
-		return ret;
-	}
+
 	
-	private Tab getLevelingTab() {
-		Tab ret = new Tab("Leveling");
-		
-		return ret;
-	}
-	
-	private Tab getEnhancementsTab() {
-		Tab ret = new Tab("Enhancements");
-		
-		return ret;
-	}
-	
-	private Tab getGearsetsTab() {
-		Tab ret = new Tab("Gearsets");
-		
-		return ret;
-	}
+
 	
 }
