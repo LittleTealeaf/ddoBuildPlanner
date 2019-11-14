@@ -13,6 +13,7 @@ public class Main {
 	public static void main(String[] args) {
 
 		Build.build = new Build();
+		Build.build.gearSets.add(new Build.Gear("Testing"));
 		
 		//Launch fxMain
 		fxMain.open(args);

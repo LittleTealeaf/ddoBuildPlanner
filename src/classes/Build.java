@@ -1,6 +1,7 @@
 package classes;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Build implements Serializable {
@@ -8,10 +9,23 @@ public class Build implements Serializable {
 	
 	public static Build build;
 	
+	public Build() {
+		gearSets = new ArrayList<Gear>();
+	}
 	
 	public List<Gear> gearSets;
 	
-	public class Gear implements Serializable {
+	
+	public void removeGearSet(String name) {
+		for(Gear g : gearSets) if(g.name.contentEquals(name)) {
+			gearSets.remove(g);
+			return;
+		}
+	}
+	
+	public static class Gear implements Serializable {
+		public String name;
+		
 		public Item goggles;
 		public Item helmet;
 		public Item necklace;
@@ -26,7 +40,9 @@ public class Build implements Serializable {
 		public Item gloves;
 		
 		public Gear() {}
-		public Gear(Item Goggles, Item Helmet, Item Necklace, Item Trinket, Item Armor, Item Cloak, Item Bracers, Item Belt, Item Ring1, Item Ring2, Item Boots, Item Gloves) {
+		public Gear(String Name) {name = Name;}
+		public Gear(String Name, Item Goggles, Item Helmet, Item Necklace, Item Trinket, Item Armor, Item Cloak, Item Bracers, Item Belt, Item Ring1, Item Ring2, Item Boots, Item Gloves) {
+			name = Name;
 			goggles = Goggles;
 			helmet = Helmet;
 			necklace = Necklace;
