@@ -23,28 +23,30 @@ public class Compendium {
 		
 		for(String[] a : getItemVariables(editContents)) {
 			String i = a[1].replace(" ", "");
-			switch(a[0].toLowerCase()) { //TODO sort these cases
-			case "minlevel": ret.minLevel = Integer.parseInt(i); break;
-			case "hardness": ret.hardness = Integer.parseInt(i); break;
-			case "durability": ret.durability = Integer.parseInt(i); break;
-			case "material": ret.material = a[1]; break;
-			case "description": ret.description = a[1]; break;
-			case "enchantments": ret.attributes = parseAttributes(a[1]); break;
-			case "weight": ret.weight = Double.parseDouble(i); break;
-			//Weapon
-			case "damage": ret.weapon.attackRoll = new Dice(util.parseTemplate(a[1], false)); break;
-			case "damagetype": ret.weapon.damageTypes = util.parseTemplate(a[1],false); break;
-			//Armor
-			case "armorcheckpenalty": ret.armor.armorCheckPenalty = Integer.parseInt(i); break;
-			case "spellfailure": ret.armor.spellFailure = Integer.parseInt(i.replace("%", "")); break;
-			case "maxdex": ret.armor.maxDexBonus = Integer.parseInt(i); break;
-			case "armorbonus": ret.armor.armorBonus = Integer.parseInt(i); break;
-			case "attackpenalty": ret.armor.attackPenalty = Integer.parseInt(i); break;
-			case "dr": ret.armor.damageReduction = Integer.parseInt(i); break;
-			case "shiedbonus": ret.armor.shieldBonus = Integer.parseInt(i); break;
-			//TODO add the rest of the variables
-			default: System.out.println(a[0] + " is empty");
-			}
+			try {
+				switch(a[0].toLowerCase()) { //TODO sort these cases
+				case "minlevel": ret.minLevel = Integer.parseInt(i); break;
+				case "hardness": ret.hardness = Integer.parseInt(i); break;
+				case "durability": ret.durability = Integer.parseInt(i); break;
+				case "material": ret.material = a[1]; break;
+				case "description": ret.description = a[1]; break;
+				case "enchantments": ret.attributes = parseAttributes(a[1]); break;
+				case "weight": ret.weight = Double.parseDouble(i); break;
+				//Weapon
+				case "damage": ret.weapon.attackRoll = new Dice(util.parseTemplate(a[1], false)); break;
+				case "damagetype": ret.weapon.damageTypes = util.parseTemplate(a[1],false); break;
+				//Armor
+				case "armorcheckpenalty": ret.armor.armorCheckPenalty = Integer.parseInt(i); break;
+				case "spellfailure": ret.armor.spellFailure = Integer.parseInt(i.replace("%", "")); break;
+				case "maxdex": ret.armor.maxDexBonus = Integer.parseInt(i); break;
+				case "armorbonus": ret.armor.armorBonus = Integer.parseInt(i); break;
+				case "attackpenalty": ret.armor.attackPenalty = Integer.parseInt(i); break;
+				case "dr": ret.armor.damageReduction = Integer.parseInt(i); break;
+				case "shiedbonus": ret.armor.shieldBonus = Integer.parseInt(i); break;
+				//TODO add the rest of the variables
+				default: System.out.println(a[0] + " is empty");
+				}
+			} catch (Exception e) {}
 		}
 		
 		
