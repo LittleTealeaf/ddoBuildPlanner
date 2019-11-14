@@ -18,6 +18,7 @@ public class Attribute implements Serializable {
 		attribute = "";
 		value = 0;
 		type = "";
+		stringValue = "";
 	}
 	public Attribute(String Name, String Description) {
 		name = Name;
@@ -36,17 +37,18 @@ public class Attribute implements Serializable {
 		stringValue = "";
 	}
 	
-	//TODO fix these
 	public String getTitle() {
 		if(!name.contentEquals("")) return name;
-		if(value == 0 || attribute.contentEquals("")) return "";
+		if((value == 0 && stringValue.contentEquals(""))|| attribute.contentEquals("")) return "";
+		else if(value == 0 && !stringValue.contentEquals("")) return attribute;
 		if(type.contentEquals("")) return attribute + " " + resource.util.getSign(value) + value;
 		return type + " " + attribute + " " + resource.util.getSign(value) + value;
 	}
 	
 	public String getDescription() {
 		if(!description.contentEquals("")) return description;
-		if(value == 0 || attribute.contentEquals("")) return "";
+		if((value == 0 && stringValue.contentEquals(""))|| attribute.contentEquals("")) return "";
+		else if(value == 0) return stringValue;
 		String sign = resource.util.getSign(value);
 		String ret = "Passive: " + sign + value + " " + type + " ";
 		if(sign.contentEquals("+")) ret+= "bonus";
