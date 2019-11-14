@@ -3,36 +3,24 @@ package fxTabs;
 import java.util.Optional;
 
 import classes.*;
+import javafx.collections.FXCollections;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 
 public class Gearsets {
 	public static Tab getTab() {
 		Tab ret = new Tab("Gearsets");
+		BorderPane content = new BorderPane();
 		
-		TabPane setTabs = new TabPane();
+		ChoiceBox<Build.Gear> gearChoice = new ChoiceBox<Build.Gear>(FXCollections.observableArrayList(Build.gearSets));
 		
-		for(Build.Gear gear : Build.build.gearSets) {
-			Tab gsTab = new Tab(gear.name);
-			gsTab.setOnCloseRequest(event -> {
-				Alert alert = new Alert(AlertType.CONFIRMATION);
-				alert.setHeaderText("This will delete this gearset");
-				alert.setContentText("Are you ok with this?");
-
-				Optional<ButtonType> result = alert.showAndWait();
-				if (result.get() == ButtonType.OK){
-					Build.build.removeGearSet(((Tab) event.getSource()).getText());					
-				} else {
-				    event.consume();
-				}
-			});
-			
-			setTabs.getTabs().add(gsTab);
-		}
+		HBox hHeader = new HBox(gearChoice);
+		hHeader.setSpacing(10);
+		content.setTop(hHeader);
 		
-		ret.setContent(setTabs);
-		
+		ret.setContent(content);		
 		return ret;
 	}
 }

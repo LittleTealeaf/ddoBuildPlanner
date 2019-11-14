@@ -7,21 +7,27 @@ import java.util.List;
 public class Build implements Serializable {
 	//TODO implement Serializable ID to classes
 	
-	public static Build build;
+	public List<Gear> GearSets;
+	
+	public static List<Gear> gearSets;
+	
+	
 	
 	public Build() {
+		gearSets = GearSets;
+	}
+	
+	public static void initialize() {
 		gearSets = new ArrayList<Gear>();
 	}
 	
-	public List<Gear> gearSets;
-	
-	
-	public void removeGearSet(String name) {
+	public static void removeGearSet(String name) {
 		for(Gear g : gearSets) if(g.name.contentEquals(name)) {
 			gearSets.remove(g);
 			return;
 		}
 	}
+	
 	
 	public static class Gear implements Serializable {
 		public String name;
@@ -44,6 +50,9 @@ public class Build implements Serializable {
 			ring2 = Ring2;
 			boots = Boots;
 			gloves = Gloves;
+		}
+		public String toString() {
+			return name;
 		}
 	}
 }
