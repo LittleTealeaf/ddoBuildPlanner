@@ -87,6 +87,11 @@ public class utilComp {
 				r.add(ret);
 			}
 			return r;
+		case "HealingAmp":
+			ret.attribute = v[1] + " Healing Amplification";
+			ret.value = Integer.parseInt(v[2]);
+			if(v.length > 3) ret.type = v[3];
+			break;
 		default:
 			try {
 				if(isInt(v[1].replace(" ", ""))) {
@@ -102,7 +107,6 @@ public class utilComp {
 				
 			}
 		}
-		System.out.println(ret.toString());
 		r.add(ret);
 		return r;
 	}

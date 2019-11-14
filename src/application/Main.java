@@ -4,6 +4,7 @@ package application;
 
 import classes.Build;
 import classes.Build.Gear;
+import resource.Compendium;
 
 public class Main {
 	
@@ -11,6 +12,7 @@ public class Main {
 		
 		Build.initialize();
 		
+		Compendium.getItem("Hector's Bracer");
 		
 		//Launch fxMain
 		fxMain.open(args);

@@ -49,6 +49,20 @@ public class Compendium {
 			} catch (Exception e) {}
 		}
 		
+		//Enhancement Bonus
+		Attribute b = null;
+		for(Attribute a : ret.attributes) {
+			if(b == null && a.attribute.contentEquals("Enhancement Bonus")) b = a;
+		}
+		if(b!= null) {
+			ret.attributes.remove(b);
+			if(ret.armor != null) ret.attributes.add(new Attribute("Armor Class",b.value,"Enhancement"));
+			if(ret.weapon != null) {
+				ret.attributes.add(new Attribute("Attack",b.value,"Enhancement"));
+				ret.attributes.add(new Attribute("Damage",b.value,"Enhancement"));
+			}
+		}
+		System.out.println(ret.attributes);
 		
 		return ret;
 	}
