@@ -4,21 +4,40 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 public class Build implements Serializable {
 	//TODO implement Serializable ID to classes
 	
 	public List<Gear> GearSets;
+	public Gear CurrentGear;
 	
 	public static List<Gear> gearSets;
+	public static Gear currentGear;
 	
 	
 	
 	public Build() {
-		gearSets = GearSets;
+		GearSets = gearSets;
+		CurrentGear = currentGear;
 	}
 	
 	public static void initialize() {
 		gearSets = new ArrayList<Gear>();
+	}
+	
+	public static List<Attribute> getAllAttributes() {
+		ObservableList<Attribute> r = FXCollections.observableArrayList();
+		
+		//Add from all items
+		for(Item i : currentGear.getItems()) {
+			try {
+				r.addAll(i.attributes);
+			} catch(Exception e) {}
+		}
+		
+		return r;
 	}
 	
 	
@@ -44,9 +63,11 @@ public class Build implements Serializable {
 			boots = Boots;
 			gloves = Gloves;
 		}
+		
 		public String toString() {
 			return name;
 		}
+		
 		public Gear clone() {
 			Gear ret = new Gear();
 			ret.name = name;
@@ -63,6 +84,12 @@ public class Build implements Serializable {
 			ret.boots = boots;
 			ret.gloves = gloves;
 			return ret;
+		}
+		
+		public List<Item> getItems() {
+			ObservableList<Item> r = FXCollections.observableArrayList();
+			r.addAll(goggles, helmet, necklace, trinket, armor, cloak, bracers, belt, ring1, ring2, boots, gloves);
+			return r;
 		}
 	}
 }

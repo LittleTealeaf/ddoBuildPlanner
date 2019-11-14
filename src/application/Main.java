@@ -1,7 +1,9 @@
 package application;
 
 
+
 import classes.Build;
+import classes.Build.Gear;
 
 public class Main {
 	
@@ -9,7 +11,6 @@ public class Main {
 		
 		Build.initialize();
 		
-		Build.gearSets.add(new Build.Gear("Testing"));
 		
 		//Launch fxMain
 		fxMain.open(args);

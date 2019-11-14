@@ -25,8 +25,6 @@ public class Gearsets {
 	
 	public static Tab tab;
 	
-	public static Build.Gear gear;
-	
 	private static ChoiceBox<Build.Gear> gearChoice;
 	private static Button bDelete;
 	
@@ -41,7 +39,7 @@ public class Gearsets {
 		
 		gearChoice = new ChoiceBox<Build.Gear>(FXCollections.observableArrayList(Build.gearSets));
 		gearChoice.setOnAction(event -> {
-			gear = gearChoice.getValue();
+			Build.currentGear = gearChoice.getValue();
 		});
 		
 		Button bCreate = new Button("Create");
@@ -72,20 +70,20 @@ public class Gearsets {
 		
 		if(gearChoice.getItems().contains(current)) gearChoice.setValue(current);
 		else if(gearChoice.getItems().size() > 0) gearChoice.setValue(gearChoice.getItems().get(0));
-		gear = gearChoice.getValue();
-		bDelete.setDisable(gear == null);
+		Build.currentGear = gearChoice.getValue();
+		bDelete.setDisable(Build.currentGear == null);
 	}
 	
 	private static void deleteGearset() {
-		if(gear == null) return;
+		if(Build.currentGear == null) return;
 		Alert alert = new Alert(AlertType.CONFIRMATION);
-		alert.setTitle("Delete " + gear.name + "?");
-		alert.setHeaderText("Do you want to delete " + gear.name + "?");
+		alert.setTitle("Delete " + Build.currentGear.name + "?");
+		alert.setHeaderText("Do you want to delete " + Build.currentGear.name + "?");
 		alert.setContentText("You will not be able to recover the gearset");
 
 		Optional<ButtonType> result = alert.showAndWait();
 		if (result.get() == ButtonType.OK){
-			Build.gearSets.remove(gear);
+			Build.gearSets.remove(Build.currentGear);
 			updateGearList();
 		}
 	}
@@ -100,12 +98,12 @@ public class Gearsets {
 		Label label1 = new Label("Gearset Name");
 		TextField textName = new TextField();
 		CheckBox checkCopy;
-		if(gear != null) {
-			checkCopy = new CheckBox("Copy " + gear.name + "?");
+		if(Build.currentGear != null) {
+			checkCopy = new CheckBox("Copy " + Build.currentGear.name + "?");
 			if(copy) checkCopy.setSelected(true);
 		}
 		else checkCopy = new CheckBox("Copy Gearset");
-		checkCopy.setDisable(gear == null);
+		checkCopy.setDisable(Build.currentGear == null);
 		
 		GridPane grid = new GridPane();
 		grid.add(label1, 1, 1);
@@ -121,7 +119,7 @@ public class Gearsets {
 		createDialog.setResultConverter(r -> {
 			if(r == buttonTypeOk) {
 				Build.Gear ret = new Build.Gear();
-				if(gear != null && checkCopy.isSelected()) ret = gear.clone();
+				if(Build.currentGear != null && checkCopy.isSelected()) ret = Build.currentGear.clone();
 				ret.name = textName.getText();
 				return ret;
 			}
