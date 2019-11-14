@@ -32,6 +32,18 @@ public class utilComp {
 		case "Deadly": v[0] = "Damage"; break;
 		case "Accuracy": v[0] = "Attack"; break;
 		case "HealingAmp": v[1] += " Healing Amplification"; break;
+//		case "Ability":
+//			if(v[1].contentEquals("Well Rounded")) {
+//				for(String s : new String[] {"Strength","Dexterity","Constitution","Wisdom","Intelligence","Charisma"}) {
+//					ret = new Attribute();
+//					ret.attribute = s;
+//					ret.value = Integer.parseInt(v[2]);
+//					if(v.length > 3) ret.type = v[3];
+//					r.add(ret);
+//				}
+//				return r;
+//			}
+//			break;
 		}
 		
 		//The great big switch case
@@ -54,7 +66,7 @@ public class utilComp {
 			break;
 		case "Augment":
 			ret.attribute = "Augment";
-			ret.type = v[1];
+			ret.stringValue = v[1];
 			break;
 		case "FalseLife":
 			ret.attribute = "Health";
@@ -74,16 +86,19 @@ public class utilComp {
 			if(v.length <= 2 || v[2].contentEquals("") || v[2].toLowerCase().contentEquals("both")) type = "";
 			else type = v[2].toLowerCase();
 			
-			ret.value = Integer.parseInt(v[1]);
-			if(v.length >= 4) ret.type = v[3];
-			if(v.length >= 5) ret.name = v[4];
-			
 			if(type.contentEquals("physical") || type.contentEquals("")) {
+				ret.value = Integer.parseInt(v[1]);
+				if(v.length >= 4) ret.type = v[3];
+				if(v.length >= 5) ret.name = v[4];
 				ret.attribute = "Physical Sheltering";
 				if(v.length >= 6) ret.description = ret.getDescription() + v[5];
 				r.add(ret);
 			}
+			ret = new Attribute();
 			if(type.contentEquals("magical") || type.contentEquals("")) {
+				ret.value = Integer.parseInt(v[1]);
+				if(v.length >= 4) ret.type = v[3];
+				if(v.length >= 5) ret.name = v[4];
 				ret.attribute = "Magical Sheltering";
 				if(v.length >= 6) ret.description = ret.getDescription() + v[5];
 				r.add(ret);
@@ -102,6 +117,27 @@ public class utilComp {
 			ret.value = Integer.parseInt(v[2]);
 			if(v.length > 3) ret.type = v[3];
 			break;
+		case "SkillGroupBonus":
+			String[] skills = null;
+			switch(v[1].toLowerCase()) {
+			case "alluring":
+				skills = new String[] {"Bluff","Diplomacy","Haggle","Intimidate","Perform"};
+				break;
+			case "nimble":
+				skills = new String[] {"Balance","Hide","Move Silently","Open Lock","Tumble"};
+				break;
+			}
+			if(skills != null) for(String s : skills) {
+				ret = new Attribute();
+				ret.attribute = s;
+				ret.value = Integer.parseInt(v[2]);
+				if(v.length > 3) ret.type = v[3];
+				r.add(ret);
+			}
+			break;
+		case "Immune":
+			ret.attribute = "Immune";
+			ret.stringValue = v[1];
 		default:
 			try {
 				if(isInt(v[1].replace(" ", ""))) {

@@ -10,6 +10,7 @@ public class Attribute implements Serializable {
 	public String attribute;
 	public int value;
 	public String type;
+	public String stringValue;
 	
 	public Attribute() {
 		name = "";
@@ -24,6 +25,7 @@ public class Attribute implements Serializable {
 		attribute = "";
 		value = 0;
 		type = "";
+		stringValue = "";
 	}
 	public Attribute(String Attribute, int Value, String Type) {
 		attribute = Attribute;
@@ -31,9 +33,10 @@ public class Attribute implements Serializable {
 		type = Type;
 		name = "";
 		description = "";
+		stringValue = "";
 	}
 	
-	
+	//TODO fix these
 	public String getTitle() {
 		if(!name.contentEquals("")) return name;
 		if(value == 0 || attribute.contentEquals("")) return "";

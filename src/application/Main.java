@@ -12,7 +12,7 @@ public class Main {
 		
 		Build.initialize();
 		
-		Compendium.getItem("Legendary Black Velvet Capelet");
+		Compendium.getItem("Legendary Breaking the Bank");
 		
 		//Launch fxMain
 		fxMain.open(args);
