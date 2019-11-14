@@ -26,18 +26,7 @@ public class Build implements Serializable {
 	public static class Gear implements Serializable {
 		public String name;
 		
-		public Item goggles;
-		public Item helmet;
-		public Item necklace;
-		public Item trinket;
-		public Item armor;
-		public Item cloak;
-		public Item bracers;
-		public Item belt;
-		public Item ring1;
-		public Item ring2;
-		public Item boots;
-		public Item gloves;
+		public Item goggles, helmet, necklace, trinket, armor, cloak, bracers, belt, ring1, ring2, boots, gloves;
 		
 		public Gear() {}
 		public Gear(String Name) {name = Name;}
