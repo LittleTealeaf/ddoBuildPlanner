@@ -49,6 +49,7 @@ public class utilComp {
 			ret.attribute = "Armor Class";
 			ret.value = Integer.parseInt(v[2]);
 			if(v.length >= 4) ret.type = v[3] + " " + v[1];
+			else ret.type = v[1];
 			break;
 		case "Augment":
 			ret.attribute = "Augment";
