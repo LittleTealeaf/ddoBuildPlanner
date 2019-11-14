@@ -55,6 +55,7 @@ public class utilComp {
 			break;
 		case "SpellFocus":
 			ret.attribute = util.nameConversion(v[1]) + " Focus";
+			if(v[1].contentEquals("Mastery")) ret.attribute = "Spell Focus";
 			ret.value = Integer.parseInt(v[2]);
 			if(v.length >= 4) ret.type = v[3];
 			break;
@@ -104,6 +105,13 @@ public class utilComp {
 				r.add(ret);
 			}
 			return r;
+		case "Parrying":
+			r.add(new Attribute("Armor Class",Integer.parseInt(v[1]),"Insightful"));
+			r.add(new Attribute("Reflex",Integer.parseInt(v[1]),"Insightful"));
+			r.add(new Attribute("Fortitude",Integer.parseInt(v[1]),"Insightful"));
+			r.add(new Attribute("Will",Integer.parseInt(v[1]),"Insightful"));
+			return r;
+		//TODO incite
 		case "ShieldBash":
 			ret.attribute = "Shield Bash " + v[1];
 			ret.value = Integer.parseInt(v[2]);
