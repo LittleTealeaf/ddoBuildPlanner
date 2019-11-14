@@ -31,16 +31,11 @@ public class utilComp {
 		switch(v[0]) {
 		case "Deadly": v[0] = "Damage"; break;
 		case "Accuracy": v[0] = "Attack"; break;
+		case "HealingAmp": v[1] += " Healing Amplification"; break;
 		}
 		
 		//The great big switch case
 		switch(v[0]) {
-		case "Ability": case "Skill":
-			ret.attribute = v[1];
-			ret.value = Integer.parseInt(v[2]);
-			if(v.length >= 4) ret.type = v[3];
-			if(v.length >= 5) ret.name = v[4];
-			break;
 		case "SpellPower": case "SpellLore": 
 			ret.attribute =  util.nameConversion(v[1]) + " Spell " + v[0].substring(5);
 			ret.value = Integer.parseInt(v[2]);
@@ -94,11 +89,6 @@ public class utilComp {
 				r.add(ret);
 			}
 			return r;
-		case "HealingAmp":
-			ret.attribute = v[1] + " Healing Amplification";
-			ret.value = Integer.parseInt(v[2]);
-			if(v.length > 3) ret.type = v[3];
-			break;
 		case "ShieldBash":
 			ret.attribute = "Shield Bash " + v[1];
 			ret.value = Integer.parseInt(v[2]);

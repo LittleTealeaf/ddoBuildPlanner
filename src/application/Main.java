@@ -12,7 +12,7 @@ public class Main {
 		
 		Build.initialize();
 		
-		Compendium.getItem("Sigil of the Triumvirate");
+		Compendium.getItem("Legendary Black Velvet Capelet");
 		
 		//Launch fxMain
 		fxMain.open(args);
