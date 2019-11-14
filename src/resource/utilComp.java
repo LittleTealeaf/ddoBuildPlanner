@@ -27,6 +27,12 @@ public class utilComp {
 		
 		String[] v = vList.toArray(String[]::new);
 		
+		//Name Changes
+		switch(v[0]) {
+		case "Deadly": v[0] = "Damage"; break;
+		case "Accuracy": v[0] = "Attack"; break;
+		}
+		
 		//The great big switch case
 		switch(v[0]) {
 		case "Ability": case "Skill":
@@ -53,7 +59,7 @@ public class utilComp {
 			break;
 		case "Augment":
 			ret.attribute = "Augment";
-			ret.type = "Green";
+			ret.type = v[1];
 			break;
 		case "FalseLife":
 			ret.attribute = "Health";
@@ -93,6 +99,19 @@ public class utilComp {
 			ret.value = Integer.parseInt(v[2]);
 			if(v.length > 3) ret.type = v[3];
 			break;
+		case "ShieldBash":
+			ret.attribute = "Shield Bash " + v[1];
+			ret.value = Integer.parseInt(v[2]);
+			if(v.length > 3) ret.type = v[3];
+			break;
+		case "Speed":
+			//TODO make speed
+			break;
+		case "ElementalAbsorb":
+			ret.attribute = v[1] + " Absorption";
+			ret.value = Integer.parseInt(v[2]);
+			if(v.length > 3) ret.type = v[3];
+			break;
 		default:
 			try {
 				if(isInt(v[1].replace(" ", ""))) {
@@ -107,6 +126,7 @@ public class utilComp {
 			} catch (Exception e) {
 				
 			}
+			//Word Changes
 		}
 		r.add(ret);
 		return r;

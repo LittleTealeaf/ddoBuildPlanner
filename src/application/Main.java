@@ -12,7 +12,7 @@ public class Main {
 		
 		Build.initialize();
 		
-		Compendium.getItem("Hector's Bracer");
+		Compendium.getItem("Sigil of the Triumvirate");
 		
 		//Launch fxMain
 		fxMain.open(args);
