@@ -21,13 +21,6 @@ public class Build implements Serializable {
 		gearSets = new ArrayList<Gear>();
 	}
 	
-	public static void removeGearSet(String name) {
-		for(Gear g : gearSets) if(g.name.contentEquals(name)) {
-			gearSets.remove(g);
-			return;
-		}
-	}
-	
 	
 	public static class Gear implements Serializable {
 		public String name;
@@ -53,6 +46,23 @@ public class Build implements Serializable {
 		}
 		public String toString() {
 			return name;
+		}
+		public Gear clone() {
+			Gear ret = new Gear();
+			ret.name = name;
+			ret.goggles = goggles;
+			ret.helmet = helmet;
+			ret.necklace = necklace;
+			ret.trinket = trinket;
+			ret.armor = armor;
+			ret.cloak = cloak;
+			ret.bracers = bracers;
+			ret.belt = belt;
+			ret.ring1 = ring1;
+			ret.ring2 = ring2;
+			ret.boots = boots;
+			ret.gloves = gloves;
+			return ret;
 		}
 	}
 }
