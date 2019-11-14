@@ -1,13 +1,12 @@
-package application;
+package fxTabs;
 
 import javafx.scene.control.Tab;
 
-public class tabEnhancements {
+public class Enhancements {
 
 	public static Tab getTab() {
 		Tab ret = new Tab("Enhancements");
 		
 		return ret;
 	}
-	
 }

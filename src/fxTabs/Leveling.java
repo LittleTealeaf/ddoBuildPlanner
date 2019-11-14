@@ -1,10 +1,10 @@
-package application;
+package fxTabs;
 
 import javafx.scene.control.Tab;
 
-public class tabGearsets {
+public class Leveling {
 	public static Tab getTab() {
-		Tab ret = new Tab("Gearsets");
+		Tab ret = new Tab("Leveling");
 		
 		return ret;
 	}
