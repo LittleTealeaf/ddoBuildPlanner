@@ -13,7 +13,7 @@ public class Compendium {
 		Item ret = new Item();
 		ret.name = name;
 		
-		String displayHTML = util.getContents(SITE + "/w/" + name.replace(' ', '_'));
+		//String displayHTML = util.getContents(SITE + "/w/" + name.replace(' ', '_'));
 		String editContents = getEditContents(util.getContents(SITE + "/index.php?title=" + name.replace(' ', '_') + "&action=edit"));
 		
 		//Set up variables if needed
