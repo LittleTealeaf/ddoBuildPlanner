@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import classes.Item.Enchantment;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -32,9 +33,11 @@ public class Build implements Serializable {
 		
 		//Add from all items
 		for(Item i : currentGear.getItems()) {
-			try {
-				r.addAll(i.attributes);
-			} catch(Exception e) {}
+			for(Enchantment e : i.enchantments) {
+				try {
+					r.addAll(e.attributes);
+				} catch(Exception f) {}
+			}
 		}
 		
 		return r;

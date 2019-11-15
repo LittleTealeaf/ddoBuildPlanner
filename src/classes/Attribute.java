@@ -4,25 +4,13 @@ import java.io.Serializable;
 
 @SuppressWarnings("serial")
 public class Attribute implements Serializable {
-	public String name;
-	public String description;
-	
+
 	public String attribute;
 	public int value;
 	public String type;
 	public String stringValue;
 	
 	public Attribute() {
-		name = "";
-		description = "";
-		attribute = "";
-		value = 0;
-		type = "";
-		stringValue = "";
-	}
-	public Attribute(String Name, String Description) {
-		name = Name;
-		description = Description;
 		attribute = "";
 		value = 0;
 		type = "";
@@ -32,13 +20,10 @@ public class Attribute implements Serializable {
 		attribute = Attribute;
 		value = Value;
 		type = Type;
-		name = "";
-		description = "";
 		stringValue = "";
 	}
 	
 	public String getTitle() {
-		if(!name.contentEquals("")) return name;
 		if((value == 0 && stringValue.contentEquals(""))|| attribute.contentEquals("")) return "";
 		else if(value == 0 && !stringValue.contentEquals("")) return attribute;
 		if(type.contentEquals("")) return attribute + " " + resource.util.getSign(value) + value;
@@ -46,7 +31,6 @@ public class Attribute implements Serializable {
 	}
 	
 	public String getDescription() {
-		if(!description.contentEquals("")) return description;
 		if((value == 0 && stringValue.contentEquals(""))|| attribute.contentEquals("")) return "";
 		else if(value == 0) return stringValue;
 		String sign = resource.util.getSign(value);
