@@ -31,14 +31,10 @@ public class Build implements Serializable {
 	public static List<Attribute> getAllAttributes() {
 		ObservableList<Attribute> r = FXCollections.observableArrayList();
 		
-		//Add from all items
-		for(Item i : currentGear.getItems()) {
-			for(Enchantment e : i.enchantments) {
-				try {
-					r.addAll(e.attributes);
-				} catch(Exception f) {}
-			}
-		}
+		//Gets all the items, and for each enchantment adds the attributes to the list
+		for(Item i : currentGear.getItems()) for(Enchantment e : i.enchantments) try {
+			r.addAll(e.attributes);
+		} catch(Exception a) {}
 		
 		return r;
 	}
