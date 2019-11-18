@@ -4,11 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import classes.Attribute;
+import classes.Item;
 
 public class utilComp {
-	public static List<Attribute> parseAttribute(String template) {
-		List<Attribute> r = new ArrayList<Attribute>();
-		Attribute ret = new Attribute();
+	public static Item.Enchantment parseEnchantment(String template) {
+		Item.Enchantment r = new Item.Enchantment();
+		Attribute att = new Attribute();
 		
 		//Parse Template
 		List<String> vList = new ArrayList<String>();
@@ -27,83 +28,144 @@ public class utilComp {
 		
 		String[] v = vList.toArray(String[]::new);
 		
+		//Name Changes
+		switch(v[0]) {
+		case "Deadly": v[0] = "Damage"; break;
+		case "Accuracy": v[0] = "Attack"; break;
+		case "HealingAmp": v[1] += " Healing Amplification"; break;
+//		case "Ability":
+//			if(v[1].contentEquals("Well Rounded")) {
+//				for(String s : new String[] {"Strength","Dexterity","Constitution","Wisdom","Intelligence","Charisma"}) {
+//					ret = new Attribute();
+//					ret.attribute = s;
+//					ret.value = Integer.parseInt(v[2]);
+//					if(v.length > 3) ret.type = v[3];
+//					r.add(ret);
+//				}
+//				return r;
+//			}
+//			break;
+		}
+		
 		//The great big switch case
 		switch(v[0]) {
-		case "Ability": case "Skill":
-			ret.attribute = v[1];
-			ret.value = Integer.parseInt(v[2]);
-			if(v.length >= 4) ret.type = v[3];
-			if(v.length >= 5) ret.name = v[4];
-			break;
 		case "SpellPower": case "SpellLore": 
-			ret.attribute =  util.nameConversion(v[1]) + " Spell " + v[0].substring(5);
-			ret.value = Integer.parseInt(v[2]);
-			if(v.length >= 4) ret.type = v[3];
+			att.attribute =  util.nameConversion(v[1]) + " Spell " + v[0].substring(5);
+			att.value = Integer.parseInt(v[2]);
+			if(v.length >= 4) att.type = v[3];
 			break;
 		case "SpellFocus":
-			ret.attribute = util.nameConversion(v[1]) + " Focus";
-			ret.value = Integer.parseInt(v[2]);
-			if(v.length >= 4) ret.type = v[3];
+			att.attribute = util.nameConversion(v[1]) + " Focus";
+			if(v[1].contentEquals("Mastery")) att.attribute = "Spell Focus";
+			att.value = Integer.parseInt(v[2]);
+			if(v.length >= 4) att.type = v[3];
 			break;
 		case "AC":
-			ret.attribute = "Armor Class";
-			ret.value = Integer.parseInt(v[2]);
-			if(v.length >= 4) ret.type = v[3] + " " + v[1];
+			att.attribute = "Armor Class";
+			att.value = Integer.parseInt(v[2]);
+			if(v.length >= 4) att.type = v[3] + " " + v[1];
+			else att.type = v[1];
 			break;
 		case "Augment":
-			ret.attribute = "Augment";
-			ret.type = "Green";
+			att.attribute = "Augment";
+			att.stringValue = v[1];
 			break;
 		case "FalseLife":
-			ret.attribute = "Health";
-			if(v.length >= 3) ret.type = v[2] + " "; else ret.type = "";
-			ret.type+="False Life";
+			att.attribute = "Health";
+			if(v.length >= 3) att.type = v[2] + " "; else att.type = "";
+			att.type+="False Life";
 			switch(v[1].toLowerCase()) {
-			case "lesser": ret.value = 5; break;
-			case "improved": ret.value = 20; break;
-			case "greater": ret.value = 30; break;
-			case "superior": ret.value = 40; break;
-			case "epic": ret.value = 45; break;
-			default: ret.value = Integer.parseInt(v[3]); break;
+			case "lesser": att.value = 5; break;
+			case "improved": att.value = 20; break;
+			case "greater": att.value = 30; break;
+			case "superior": att.value = 40; break;
+			case "epic": att.value = 45; break;
+			default: att.value = Integer.parseInt(v[3]); break;
 			}
 			break;
 		case "Sheltering":
 			String type = "";
 			if(v.length <= 2 || v[2].contentEquals("") || v[2].toLowerCase().contentEquals("both")) type = "";
 			else type = v[2].toLowerCase();
-			
-			ret.value = Integer.parseInt(v[1]);
-			if(v.length >= 4) ret.type = v[3];
-			if(v.length >= 5) ret.name = v[4];
-			
+			//TODO Enchantment title / description
 			if(type.contentEquals("physical") || type.contentEquals("")) {
-				ret.attribute = "Physical Sheltering";
-				if(v.length >= 6) ret.description = ret.getDescription() + v[5];
-				r.add(ret);
+				att.value = Integer.parseInt(v[1]);
+				if(v.length >= 4) att.type = v[3];
+				if(v.length >= 5) r.name = v[4];
+				att.attribute = "Physical Sheltering";
+				if(v.length >= 6) r.description = att.getDescription() + v[5];
+				r.attributes.add(att);
 			}
+			att = new Attribute();
 			if(type.contentEquals("magical") || type.contentEquals("")) {
-				ret.attribute = "Magical Sheltering";
-				if(v.length >= 6) ret.description = ret.getDescription() + v[5];
-				r.add(ret);
+				att.value = Integer.parseInt(v[1]);
+				if(v.length >= 4) att.type = v[3];
+				if(v.length >= 5) r.name = v[4];
+				att.attribute = "Magical Sheltering";
+				if(v.length >= 6) r.description = att.getDescription() + v[5];
+				r.attributes.add(att);
 			}
 			return r;
+		case "Parrying":
+			//TODO Add Enchantment Description
+			r.attributes.add(new Attribute("Armor Class",Integer.parseInt(v[1]),"Insightful"));
+			r.attributes.add(new Attribute("Reflex",Integer.parseInt(v[1]),"Insightful"));
+			r.attributes.add(new Attribute("Fortitude",Integer.parseInt(v[1]),"Insightful"));
+			r.attributes.add(new Attribute("Will",Integer.parseInt(v[1]),"Insightful"));
+			return r;
+		//TODO incite
+		case "ShieldBash":
+			att.attribute = "Shield Bash " + v[1];
+			att.value = Integer.parseInt(v[2]);
+			if(v.length > 3) att.type = v[3];
+			break;
+		case "Speed":
+			//TODO make speed
+			break;
+		case "ElementalAbsorb":
+			att.attribute = v[1] + " Absorption";
+			att.value = Integer.parseInt(v[2]);
+			if(v.length > 3) att.type = v[3];
+			break;
+		case "SkillGroupBonus":
+			String[] skills = null;
+			switch(v[1].toLowerCase()) {
+			case "alluring":
+				skills = new String[] {"Bluff","Diplomacy","Haggle","Intimidate","Perform"};
+				break;
+			case "nimble":
+				skills = new String[] {"Balance","Hide","Move Silently","Open Lock","Tumble"};
+				break;
+			}
+			if(skills != null) for(String s : skills) {
+				att = new Attribute();
+				att.attribute = s;
+				att.value = Integer.parseInt(v[2]);
+				if(v.length > 3) att.type = v[3];
+				r.attributes.add(att);
+			}
+			break;
+		case "Immune":
+			att.attribute = "Immune";
+			att.stringValue = v[1];
 		default:
 			try {
 				if(isInt(v[1].replace(" ", ""))) {
-					ret.attribute = getAttributeName(v[0]);
-					ret.value = Integer.parseInt(v[1]);
-					if(v.length > 2) ret.type = v[2];
+					att.attribute = getAttributeName(v[0]);
+					att.value = Integer.parseInt(v[1]);
+					if(v.length > 2) att.type = v[2];
 				} else if(isInt(v[2].replace(" ", ""))) {
-					ret.attribute = v[1];
-					ret.value = Integer.parseInt(v[2]);
-					if(v.length > 3) ret.type = v[3];
+					att.attribute = v[1];
+					att.value = Integer.parseInt(v[2]);
+					if(v.length > 3) att.type = v[3];
 				}
 			} catch (Exception e) {
 				
 			}
+			//Word Changes
 		}
-		System.out.println(ret.toString());
-		r.add(ret);
+		r.attributes.add(att);
+	
 		return r;
 	}
 	

@@ -3,6 +3,7 @@ package classes;
 import java.util.ArrayList;
 import java.util.List;
 import java.io.Serializable;
+import javafx.scene.image.Image;
 
 @SuppressWarnings("serial")
 public class Item implements Serializable {
@@ -16,6 +17,9 @@ public class Item implements Serializable {
 	public double weight;
 	public String material;
 	
+	public Image icon;
+	public Image cosmetic;
+	
 	public String description;
 	List<String> equipSlots;
 	
@@ -23,11 +27,11 @@ public class Item implements Serializable {
 	public Weapon weapon;
 	
 	public List<String> dropLocations;
-	public List<Attribute> attributes;
+	public List<Enchantment> enchantments;
 	
 	public Item() {
 		dropLocations = new ArrayList<String>();
-		attributes = new ArrayList<Attribute>();
+		enchantments = new ArrayList<Enchantment>();
 	}
 	
 	public void setSlots(String[] slots) {
@@ -84,6 +88,30 @@ public class Item implements Serializable {
 			double critDamage = critChance * critMultiplier * attackRoll.getAverage();
 			
 			return attackRoll.getAverage() + critDamage;
+		}
+	}
+	
+	public static class Enchantment implements Serializable {
+		public List<Attribute> attributes;
+		public String name;
+		public String description;
+		
+		
+		public Enchantment() {
+			attributes = new ArrayList<Attribute>();
+			name = "";
+			description = "";
+		}
+		
+		public String getDescription() {
+			if(!description.contentEquals("")) return description;
+			else if(attributes.size() == 1) return attributes.get(0).getDescription();
+			else return "No Description Set";
+		}
+		public String getName() {
+			if(!name.contentEquals("")) return name;
+			else if(attributes.size() > 0) return attributes.get(0).getTitle();
+			else return null;
 		}
 	}
 }
