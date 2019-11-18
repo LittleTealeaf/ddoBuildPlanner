@@ -9,7 +9,7 @@ public class Tree {
   public int width;
   public int height;
   
-  public List<Enhanement> Enhancements;
+  public List<Enhancement> Enhancements;
   
   //Returns a borderpane with a sort system
   
