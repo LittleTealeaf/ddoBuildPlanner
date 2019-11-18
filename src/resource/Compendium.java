@@ -13,7 +13,7 @@ public class Compendium {
 		Item ret = new Item();
 		ret.name = name;
 		
-		String displayHTML = util.getContents(SITE + "/w/" + name.replace(' ', '_'));
+		//String displayHTML = util.getContents(SITE + "/w/" + name.replace(' ', '_'));
 		String editContents = getEditContents(util.getContents(SITE + "/index.php?title=" + name.replace(' ', '_') + "&action=edit"));
 		
 		//Set up variables if needed
@@ -30,7 +30,7 @@ public class Compendium {
 				case "durability": ret.durability = Integer.parseInt(i); break;
 				case "material": ret.material = a[1]; break;
 				case "description": ret.description = a[1]; break;
-				case "enchantments": ret.attributes = parseAttributes(a[1]); break;
+				case "enchantments": ret.enchantments = parseEnchantments(a[1]); break;
 				case "weight": ret.weight = Double.parseDouble(i); break;
 				//Weapon
 				case "damage": ret.weapon.attackRoll = new Dice(util.parseTemplate(a[1], false)); break;
@@ -49,6 +49,20 @@ public class Compendium {
 			} catch (Exception e) {}
 		}
 		
+		//Enhancement Bonus
+		//TODO re-implement
+//		Attribute b = null;
+//		for(Attribute a : ret.enchantment) {
+//			if(b == null && a.attribute.contentEquals("Enhancement Bonus")) b = a;
+//		}
+//		if(b!= null) {
+//			ret.attributes.remove(b);
+//			if(ret.armor != null) ret.attributes.add(new Attribute("Armor Class",b.value,"Enhancement"));
+//			if(ret.weapon != null) {
+//				ret.attributes.add(new Attribute("Attack",b.value,"Enhancement"));
+//				ret.attributes.add(new Attribute("Damage",b.value,"Enhancement"));
+//			}
+//		}
 		
 		return ret;
 	}
@@ -81,8 +95,8 @@ public class Compendium {
 		return ret;
 	}
 
-	private static List<Attribute> parseAttributes(String attributes) {
-		List<Attribute> ret = new ArrayList<Attribute>();
+	private static List<Item.Enchantment> parseEnchantments(String attributes) {
+		List<Item.Enchantment> ret = new ArrayList<Item.Enchantment>();
 		
 		int depth = 0;
 		String temp = "";
@@ -94,7 +108,7 @@ public class Compendium {
 			else if(c == '}') {
 				depth--;
 				if(depth == 1) {
-					ret.addAll(utilComp.parseAttribute(temp));
+					ret.add(utilComp.parseEnchantment(temp));
 					temp = "";
 				} else if(depth > 1) temp+=c;
 			} else if(depth >= 2) temp+=c;
