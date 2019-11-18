@@ -5,6 +5,8 @@ import classes.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.scene.image.Image;
+
 public class Compendium {
 	
 	private static final String SITE = "https://ddocompendium.com";
@@ -32,6 +34,7 @@ public class Compendium {
 				case "description": ret.description = a[1]; break;
 				case "enchantments": ret.enchantments = parseEnchantments(a[1]); break;
 				case "weight": ret.weight = Double.parseDouble(i); break;
+				//TODO add icon/image fetchers, might require a separate HTML grabber?
 				//Weapon
 				case "damage": ret.weapon.attackRoll = new Dice(util.parseTemplate(a[1], false)); break;
 				case "damagetype": ret.weapon.damageTypes = util.parseTemplate(a[1],false); break;
