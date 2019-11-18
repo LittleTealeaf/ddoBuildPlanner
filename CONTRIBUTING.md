@@ -1,0 +1,1 @@
+This is a personal hobby project, so I will not be accepting anyone to co-work with me just yet. However, if you see some method that would work better, or know a solution to a problem you notice me struggling in, feel free to branch and create a pull request!
