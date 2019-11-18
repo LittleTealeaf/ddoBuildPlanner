@@ -4,6 +4,9 @@
   <artifactId>ddoBuildPlanner</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>DDO Build Planner</name>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
   <dependencies>
   <dependency>
     <groupId>org.openjfx</groupId>
