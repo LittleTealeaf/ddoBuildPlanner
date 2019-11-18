@@ -3,6 +3,7 @@ package classes;
 import java.util.ArrayList;
 import java.util.List;
 import java.io.Serializable;
+import javafx.scene.image.Image;
 
 @SuppressWarnings("serial")
 public class Item implements Serializable {
@@ -15,6 +16,9 @@ public class Item implements Serializable {
 	public double baseValue;
 	public double weight;
 	public String material;
+	
+	public Image icon;
+	public Image cosmetic;
 	
 	public String description;
 	List<String> equipSlots;
