@@ -17,6 +17,12 @@ public class Stat {
 		attributes = new ArrayList<Attribute>();
 	}
 	
+	public Stat(String stat, Attribute attr) {
+		name = stat;
+		attributes = new ArrayList<Attribute>();
+		attributes.add(attr);
+	}
+	
 	public void addAttributes(List<Attribute> attrs) {
 		for(Attribute a : attrs) if(a.attribute.contentEquals(name)) addAttribute(a);
 	}
@@ -24,7 +30,6 @@ public class Stat {
 	public boolean addAttribute(Attribute attr) {
 		for(Attribute a : attributes) if(a.type.contentEquals(attr.type)) {
 			if(a.value >= attr.value) return false;
-			
 			a.value = attr.value;
 			return true;
 		}
@@ -40,4 +45,7 @@ public class Stat {
 		return ret;
 	}
 	
+	public String toString() {
+		return name + ": " + getTotal() + " | " + attributes;
+	}
 }

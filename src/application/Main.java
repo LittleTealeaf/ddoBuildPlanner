@@ -12,8 +12,11 @@ public class Main {
 		
 		Build.initialize();
 		
-		//Compendium.getItem("Legendary Celestial Topaz Ring");
-		
+		Build.Gear gear = new Build.Gear();
+		gear.gloves = Compendium.getItem("Bluescale Guides");
+		gear.trinket = Compendium.getItem("Echo of Ravenkind");
+		Build.gearSets.add(gear);
+		Build.currentGear = gear;
 		//Launch fxMain
 		fxMain.open(args);
 	}

@@ -3,7 +3,7 @@ package classes;
 public class Attribute {
 
 	public String attribute;
-	public int value;
+	public double value;
 	public String type;
 	public String stringValue;
 	
@@ -13,7 +13,7 @@ public class Attribute {
 		type = "";
 		stringValue = "";
 	}
-	public Attribute(String Attribute, int Value, String Type) {
+	public Attribute(String Attribute, double Value, String Type) {
 		attribute = Attribute;
 		value = Value;
 		type = Type;

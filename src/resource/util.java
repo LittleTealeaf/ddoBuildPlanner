@@ -48,7 +48,7 @@ public class util {
 	}
 	
 	public static String getSign(double number) {
-		if(number < 0) return "-";
+		if(number < 0) return "";
 		return "+";
 	}
 	

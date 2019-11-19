@@ -155,7 +155,7 @@ public class utilComp {
 					att.value = Integer.parseInt(v[1]);
 					if(v.length > 2) att.type = v[2];
 				} else if(isInt(v[2].replace(" ", ""))) {
-					att.attribute = v[1];
+					att.attribute = getAttributeName(v[1]);
 					att.value = Integer.parseInt(v[2]);
 					if(v.length > 3) att.type = v[3];
 				}
@@ -176,6 +176,7 @@ public class utilComp {
 	 */
 	private static String getAttributeName(String template) {
 		switch(template) {
+		case "Spellsight": return "Spellcraft";
 			default: 
 				String r = "";
 				for(char c : template.toCharArray()) {
@@ -183,7 +184,7 @@ public class utilComp {
 					r += c;
 				}
 				//Remove extra space
-				r = r.substring(1);
+				r = r.substring(1).replace("  ", " ");
 				return r;
 		}
 	}
