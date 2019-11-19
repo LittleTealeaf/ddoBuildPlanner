@@ -113,7 +113,7 @@ public class Gearsets {
 		grid.setVgap(10);
 		createDialog.getDialogPane().setContent(grid);
 		
-		ButtonType buttonTypeOk = new ButtonType("Okay", ButtonData.OK_DONE);
+		ButtonType buttonTypeOk = new ButtonType("Create", ButtonData.OK_DONE);
 		createDialog.getDialogPane().getButtonTypes().add(buttonTypeOk);
 		
 		createDialog.setResultConverter(r -> {
