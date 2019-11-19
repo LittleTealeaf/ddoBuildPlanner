@@ -12,7 +12,7 @@ public class Main {
 		
 		Build.initialize();
 		
-		Compendium.getItem("Legendary Celestial Topaz Ring");
+		//Compendium.getItem("Legendary Celestial Topaz Ring");
 		
 		//Launch fxMain
 		fxMain.open(args);
