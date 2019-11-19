@@ -1,10 +1,8 @@
 package classes;
 
-import java.io.Serializable;
 import java.util.List;
 
-@SuppressWarnings("serial")
-public class Dice implements Serializable{
+public class Dice {
 	public double firstCoeff;
 	public int dieCount;
 	public int dieSides;

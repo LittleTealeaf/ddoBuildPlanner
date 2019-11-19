@@ -1,6 +1,5 @@
 package classes;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,7 +7,7 @@ import classes.Item.Enchantment;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-public class Build implements Serializable {
+public class Build {
 	//TODO implement Serializable ID to classes
 	
 	public List<Gear> GearSets;
@@ -40,7 +39,8 @@ public class Build implements Serializable {
 	}
 	
 	
-	public static class Gear implements Serializable {
+	
+	public static class Gear {
 		public String name;
 		
 		public Item goggles, helmet, necklace, trinket, armor, cloak, bracers, belt, ring1, ring2, boots, gloves;

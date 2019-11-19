@@ -2,11 +2,9 @@ package classes;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.io.Serializable;
 import javafx.scene.image.Image;
 
-@SuppressWarnings("serial")
-public class Item implements Serializable {
+public class Item {
 	
 	public String name;
 	public int minLevel;
@@ -43,7 +41,7 @@ public class Item implements Serializable {
 	
 	
 	//Sub Classes
-	public static class Armor implements Serializable {
+	public static class Armor {
 		public String armorType;
 		public int armorBonus;
 		public int shieldBonus;
@@ -64,7 +62,7 @@ public class Item implements Serializable {
 		}
 	}
 	
-	public static class Weapon implements Serializable {
+	public static class Weapon {
 		public Dice attackRoll;
 		
 		public List<String> damageTypes;
@@ -91,7 +89,7 @@ public class Item implements Serializable {
 		}
 	}
 	
-	public static class Enchantment implements Serializable {
+	public static class Enchantment {
 		public List<Attribute> attributes;
 		public String name;
 		public String description;

@@ -1,9 +1,6 @@
 package classes;
 
-import java.io.Serializable;
-
-@SuppressWarnings("serial")
-public class Attribute implements Serializable {
+public class Attribute {
 
 	public String attribute;
 	public int value;
