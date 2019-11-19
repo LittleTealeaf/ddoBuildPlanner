@@ -10,18 +10,18 @@ import javafx.collections.ObservableList;
 public class Build {
 	//TODO implement Serializable ID to classes
 	
-	public List<Gear> GearSets;
-	public Gear CurrentGear;
-	
 	public static List<Gear> gearSets;
 	public static Gear currentGear;
 	
-	
+	//Saving Variables
+	public List<Gear> GearSets;
+	public Gear CurrentGear;
 	
 	public Build() {
 		GearSets = gearSets;
 		CurrentGear = currentGear;
 	}
+
 	
 	public static void initialize() {
 		gearSets = new ArrayList<Gear>();
@@ -37,8 +37,7 @@ public class Build {
 		
 		return r;
 	}
-	
-	
+
 	
 	public static class Gear {
 		public String name;
