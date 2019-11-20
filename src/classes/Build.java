@@ -8,7 +8,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class Build {
-	//TODO implement Serializable ID to classes
 	
 	public static List<Gear> gearSets;
 	private static int gearIndex;
@@ -42,6 +41,7 @@ public class Build {
 	}
 	
 	public static Gear getGear() {
+		if(gearSets.size() == 0) return null;
 		return gearSets.get(gearIndex);
 	}
 	public static void setGearIndex(int index) {
