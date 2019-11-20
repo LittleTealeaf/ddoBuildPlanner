@@ -12,11 +12,11 @@ public class Main {
 		
 		Build.initialize();
 		
-//		Build.Gear gear = new Build.Gear();
-//		gear.gloves = Compendium.getItem("Bluescale Guides");
-//		gear.trinket = Compendium.getItem("Echo of Ravenkind");
-//		Build.gearSets.add(gear);
-//		Build.currentGear = gear;
+		Build.Gear gear = new Build.Gear();
+		gear.gloves = Compendium.getItem("Bluescale Guides");
+		gear.trinket = Compendium.getItem("Echo of Ravenkind");
+		Build.gearSets.add(gear);
+		Build.setGearIndex(0);
 		//Launch fxMain
 		fxMain.open(args);
 	}

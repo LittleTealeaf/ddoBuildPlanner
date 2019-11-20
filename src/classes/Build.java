@@ -42,6 +42,7 @@ public class Build {
 	
 	public static Gear getGear() {
 		if(gearSets.size() == 0) return null;
+		if(gearIndex + 1 > gearSets.size()) gearIndex = 0;
 		return gearSets.get(gearIndex);
 	}
 	public static void setGearIndex(int index) {
