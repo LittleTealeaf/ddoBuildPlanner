@@ -12,7 +12,7 @@ public class Main {
 		
 		Build.initialize();
 		
-		Build.Gear gear = new Build.Gear();
+		Build.Gear gear = new Build.Gear("Test");
 		gear.gloves = Compendium.getItem("Bluescale Guides");
 		gear.trinket = Compendium.getItem("Echo of Ravenkind");
 		Build.gearSets.add(gear);

@@ -58,7 +58,9 @@ public class Build {
 		
 		public Item goggles, helmet, necklace, trinket, armor, cloak, bracers, belt, ring1, ring2, boots, gloves, mainhand, offhand, quiver;
 		
-		public Gear() {}
+		public Gear() {
+			name = "";
+		}
 		public Gear(String Name) {name = Name;}
 		public Gear(String Name, Item Goggles, Item Helmet, Item Necklace, Item Trinket, Item Armor, Item Cloak, Item Bracers, Item Belt, Item Ring1, Item Ring2, Item Boots, Item Gloves, Item Mainhand, Item Offhand, Item Quiver) {
 			name = Name;

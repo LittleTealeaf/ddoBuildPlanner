@@ -21,6 +21,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 
 public class Gearsets {
 	
@@ -106,8 +108,7 @@ public class Gearsets {
 		}
 		else checkCopy = new CheckBox("Copy Gearset");
 		checkCopy.setDisable(Build.getGear() == null);
-		
-		GridPane contentGrid = new GridPane();
+
 		GridPane grid = new GridPane();
 		grid.add(label1, 1, 1);
 		grid.add(textName, 2, 1);
@@ -116,8 +117,14 @@ public class Gearsets {
 		grid.setVgap(10);
 		if(error.contentEquals("")) createDialog.getDialogPane().setContent(grid);
 		else {
-			contentGrid.add(grid, 0, 1);
-			createDialog.getDialogPane().setContent(contentGrid);
+			Text errText = new Text(error);
+			errText.setFill(Color.RED);
+			
+			BorderPane bp = new BorderPane();
+			bp.setTop(errText);
+			bp.setCenter(grid);
+			
+			createDialog.getDialogPane().setContent(bp);
 		}
 		
 		
