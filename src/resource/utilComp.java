@@ -165,10 +165,15 @@ public class utilComp {
 					att.attribute = getAttributeName(v[0]);
 					att.value = Integer.parseInt(v[1]);
 					if(v.length > 2) att.type = v[2];
-				} else if(isInt(v[2].replace(" ", ""))) {
+				} else if(v.length > 2 && isInt(v[2].replace(" ", ""))) {
 					att.attribute = getAttributeName(v[1]);
 					att.value = Integer.parseInt(v[2]);
 					if(v.length > 3) att.type = v[3];
+				} else {
+					System.out.println(v[0] + " " + v[1]);
+					r.name = v[0];
+					r.description = v[1];
+					return r;
 				}
 			} catch (Exception e) {
 				
