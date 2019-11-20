@@ -3,6 +3,7 @@ package fxTabs;
 import java.util.Optional;
 
 import classes.Build;
+import classes.Build.Gear;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
@@ -89,7 +90,8 @@ public class Gearsets {
 	}
 	
 	private static void createGearset() {createGearset(false);}
-	private static void createGearset(boolean copy) {
+	private static void createGearset(boolean copy) {createGearset(copy,"");}
+	private static void createGearset(boolean copy, String error) {
 		//Using a custom dialog
 		Dialog<Build.Gear> createDialog = new Dialog<>();
 		createDialog.setTitle("Create Gearset");
@@ -105,13 +107,19 @@ public class Gearsets {
 		else checkCopy = new CheckBox("Copy Gearset");
 		checkCopy.setDisable(Build.getGear() == null);
 		
+		GridPane contentGrid = new GridPane();
 		GridPane grid = new GridPane();
 		grid.add(label1, 1, 1);
 		grid.add(textName, 2, 1);
 		grid.add(checkCopy, 2, 2);
 		grid.setHgap(10);
 		grid.setVgap(10);
-		createDialog.getDialogPane().setContent(grid);
+		if(error.contentEquals("")) createDialog.getDialogPane().setContent(grid);
+		else {
+			contentGrid.add(grid, 0, 1);
+			createDialog.getDialogPane().setContent(contentGrid);
+		}
+		
 		
 		ButtonType buttonTypeOk = new ButtonType("Create", ButtonData.OK_DONE);
 		createDialog.getDialogPane().getButtonTypes().add(buttonTypeOk);
@@ -129,14 +137,19 @@ public class Gearsets {
 		Optional<Build.Gear> newGear = createDialog.showAndWait();
 		if(newGear.isPresent() && newGear.get() != null) {
 			if(newGear.get().name.contentEquals("")) {
-				createGearset(checkCopy.isSelected());
+				createGearset(checkCopy.isSelected(),"Please enter a name");
+			} else if(!uniqueSetName(newGear.get().name)) {
+				createGearset(checkCopy.isSelected(),"Name must be unique");
 			} else {
 				Build.gearSets.add(newGear.get());
 				updateGearList();
 				gearChoice.setValue(newGear.get());
 			}
 		}
-		
 	}
 	
+	private static boolean uniqueSetName(String name) {
+		for(Gear g : Build.gearSets) if(g.name.contentEquals(name)) return false;
+		return true;
+	}
 }
