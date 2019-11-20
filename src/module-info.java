@@ -3,6 +3,8 @@ module buildPlanner {
 	exports classes;
 	exports fxTabs;
 	exports resource;
+	
+	opens classes to com.google.gson;
 
 	requires javafx.base;
 	requires transitive javafx.graphics;

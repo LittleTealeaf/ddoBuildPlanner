@@ -15,8 +15,8 @@ public class Item {
 	public double weight;
 	public String material;
 	
-	public Image icon;
-	public Image cosmetic;
+	public String iconURL;
+	public String cosmeticURL;
 	
 	public String description;
 	List<String> equipSlots;

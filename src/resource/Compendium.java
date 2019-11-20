@@ -96,8 +96,10 @@ public class Compendium {
 			else if(c == '}') {
 				depth--;
 				if(depth == 1) {
-					ret.add(utilComp.parseEnchantment(temp));
-					temp = "";
+					try {
+						ret.add(utilComp.parseEnchantment(temp));
+						temp = "";
+					} catch(Exception e) {}
 				} else if(depth > 1) temp+=c;
 			} else if(depth >= 2) temp+=c;
 		}
