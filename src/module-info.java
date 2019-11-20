@@ -5,6 +5,7 @@ module buildPlanner {
 	exports resource;
 
 	requires javafx.base;
-	requires javafx.graphics;
+	requires transitive javafx.graphics;
 	requires transitive javafx.controls;
+	requires com.google.gson;
 }
