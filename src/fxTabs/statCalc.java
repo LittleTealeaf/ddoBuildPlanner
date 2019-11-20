@@ -61,14 +61,10 @@ public class statCalc {
 				case "charisma": temp.addAll(newAttributes(new String[] {"Bluff","Diplomacy","Haggle","Intimidate","Perform","Use Magical Device"},DDOUtil.getMod(s.getTotal()),"Intelligence")); break;
 					//SKILLS
 				case "spellcraft":
-					temp.addAll(newAttributes(new String[] 
-							{"Acid Spell Power",
-									"Cold Spell Power",
-									"Electric Spell Power",
-									"Fire Spell Power",
-									"Force Spell Power",
-									"Light Spell Power"
-							},s.getTotal(),"Spellcraft")); break;
+					temp.addAll(newAttributes(
+						new String[] {"Acid Spell Power", "Cold Spell Power", "Electric Spell Power", "Fire Spell Power", "Force Spell Power", "Light Spell Power"},
+						s.getTotal(),
+						"Spellcraft")); break;
 				case "heal": temp.addAll(newAttributes(new String[] {"Positive Spell Power","Negative Spell Power"},s.getTotal(),"Heal (Skill)")); break;
 				case "perform": temp.add(new Attribute("Sonic Spell Power",s.getTotal(),"Perform")); break;
 				case "repair": temp.addAll(newAttributes(new String[] {"Repair Spell Power","Rust Spell Power"},s.getTotal(),"Repair")); break;
