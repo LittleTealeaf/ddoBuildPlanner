@@ -39,7 +39,7 @@ public class Gearsets {
 		
 		gearChoice = new ChoiceBox<Build.Gear>(FXCollections.observableArrayList(Build.gearSets));
 		gearChoice.setOnAction(event -> {
-			Build.currentGear = gearChoice.getValue();
+			Build.setGear(gearChoice.getValue());
 		});
 		
 		Button bCreate = new Button("Create");
@@ -70,20 +70,20 @@ public class Gearsets {
 		
 		if(gearChoice.getItems().contains(current)) gearChoice.setValue(current);
 		else if(gearChoice.getItems().size() > 0) gearChoice.setValue(gearChoice.getItems().get(0));
-		Build.currentGear = gearChoice.getValue();
-		bDelete.setDisable(Build.currentGear == null);
+		Build.setGear(gearChoice.getValue());
+		bDelete.setDisable(Build.getGear() == null);
 	}
 	
 	private static void deleteGearset() {
-		if(Build.currentGear == null) return;
+		if(Build.getGear() == null) return;
 		Alert alert = new Alert(AlertType.CONFIRMATION);
-		alert.setTitle("Delete " + Build.currentGear.name + "?");
-		alert.setHeaderText("Do you want to delete " + Build.currentGear.name + "?");
+		alert.setTitle("Delete " + Build.getGear().name + "?");
+		alert.setHeaderText("Do you want to delete " + Build.getGear().name + "?");
 		alert.setContentText("You will not be able to recover the gearset");
 
 		Optional<ButtonType> result = alert.showAndWait();
 		if (result.get() == ButtonType.OK){
-			Build.gearSets.remove(Build.currentGear);
+			Build.gearSets.remove(Build.getGear());
 			updateGearList();
 		}
 	}
@@ -98,12 +98,12 @@ public class Gearsets {
 		Label label1 = new Label("Gearset Name");
 		TextField textName = new TextField();
 		CheckBox checkCopy;
-		if(Build.currentGear != null) {
-			checkCopy = new CheckBox("Copy " + Build.currentGear.name + "?");
+		if(Build.getGear() != null) {
+			checkCopy = new CheckBox("Copy " + Build.getGear().name + "?");
 			if(copy) checkCopy.setSelected(true);
 		}
 		else checkCopy = new CheckBox("Copy Gearset");
-		checkCopy.setDisable(Build.currentGear == null);
+		checkCopy.setDisable(Build.getGear() == null);
 		
 		GridPane grid = new GridPane();
 		grid.add(label1, 1, 1);
@@ -119,7 +119,7 @@ public class Gearsets {
 		createDialog.setResultConverter(r -> {
 			if(r == buttonTypeOk) {
 				Build.Gear ret = new Build.Gear();
-				if(Build.currentGear != null && checkCopy.isSelected()) ret = Build.currentGear.clone();
+				if(Build.getGear() != null && checkCopy.isSelected()) ret = Build.getGear().clone();
 				ret.name = textName.getText();
 				return ret;
 			}

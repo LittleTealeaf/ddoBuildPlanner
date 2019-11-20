@@ -11,32 +11,44 @@ public class Build {
 	//TODO implement Serializable ID to classes
 	
 	public static List<Gear> gearSets;
-	public static Gear currentGear;
+	private static int gearIndex;
 	
 	//Saving Variables
 	public List<Gear> GearSets;
-	public Gear CurrentGear;
+	public int GearIndex;
 	
 	public Build() {
 		GearSets = gearSets;
-		CurrentGear = currentGear;
+		GearIndex = gearIndex;
 	}
 
 	
 	public static void initialize() {
 		gearSets = new ArrayList<Gear>();
-		currentGear = null;
+		gearIndex = 0;
 	}
 	
 	public static List<Attribute> getAllAttributes() {
 		ObservableList<Attribute> r = FXCollections.observableArrayList();
 		
 		//Gets all the items, and for each enchantment adds the attributes to the list
-		for(Item i : currentGear.getItems()) for(Enchantment e : i.enchantments) try {
-			r.addAll(e.attributes);
-		} catch(Exception a) {}
+		if(gearSets.size() > 0) {
+			for(Item i : getGear().getItems()) for(Enchantment e : i.enchantments) try {
+				r.addAll(e.attributes);
+			} catch(Exception a) {}
+		}
 		
 		return r;
+	}
+	
+	public static Gear getGear() {
+		return gearSets.get(gearIndex);
+	}
+	public static void setGearIndex(int index) {
+		gearIndex = index;
+	}
+	public static void setGear(Gear set) {
+		if(gearSets.contains(set)) gearIndex = gearSets.indexOf(set);
 	}
 
 	
