@@ -38,6 +38,11 @@ public class Compendium {
 				//Weapon
 				case "damage": ret.weapon.attackRoll = new Dice(util.parseTemplate(a[1], false)); break;
 				case "damagetype": ret.weapon.damageTypes = util.parseTemplate(a[1],false); break;
+				case "critprofile":
+					List<String> temp = util.parseTemplate(a[1],false);
+					ret.weapon.critRange = 20 - Integer.parseInt(temp.get(0));
+					ret.weapon.critMultiplier = Integer.parseInt(temp.get(1));
+					break;
 				//Armor
 				case "armorcheckpenalty": ret.armor.armorCheckPenalty = Integer.parseInt(i); break;
 				case "spellfailure": ret.armor.spellFailure = Integer.parseInt(i.replace("%", "")); break;
