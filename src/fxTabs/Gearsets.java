@@ -30,6 +30,7 @@ public class Gearsets {
 	
 	private static ChoiceBox<Build.Gear> gearChoice;
 	private static Button bDelete;
+	private static Button bRename;
 	
 	public static Tab getTab() {
 		
@@ -38,9 +39,10 @@ public class Gearsets {
 		tab = new Tab("Gearsets");
 		BorderPane content = new BorderPane();
 		
-		//Header: Gear Selection, Delete button, Create button
+		//Header: Gear Selection, Delete button, Create button, Rename Button
 		
 		gearChoice = new ChoiceBox<Build.Gear>(FXCollections.observableArrayList(Build.gearSets));
+		gearChoice.setValue(Build.getGear());
 		gearChoice.setOnAction(event -> {
 			Build.setGear(gearChoice.getValue());
 		});
@@ -48,6 +50,11 @@ public class Gearsets {
 		Button bCreate = new Button("Create");
 		bCreate.setOnAction(event -> {
 			createGearset();
+		});
+		
+		bRename = new Button("Rename");
+		bRename.setOnAction(event -> {
+			renameGearset();
 		});
 		
 		bDelete = new Button("Delete");
@@ -58,14 +65,15 @@ public class Gearsets {
 		Region reg = new Region();
 		reg.setPrefWidth(50);
 		
-		HBox hHeader = new HBox(gearChoice, bCreate, reg, bDelete);
+		HBox hHeader = new HBox(gearChoice, bCreate, reg, bRename, bDelete);
 		hHeader.setPadding(DEFAULTINSETS);
 		hHeader.setSpacing(10);
 		content.setTop(hHeader);
 		
-		tab.setContent(content);		
+		tab.setContent(content);
 		return tab;
 	}
+	
 	private static void updateGearList() {
 		Build.Gear current = gearChoice.getValue();
 		
@@ -151,6 +159,46 @@ public class Gearsets {
 				Build.gearSets.add(newGear.get());
 				updateGearList();
 				gearChoice.setValue(newGear.get());
+			}
+		}
+	}
+	
+	private static final String NO_RESPONSE = "¬";
+	
+	private static void renameGearset() { renameGearset(""); }
+	private static void renameGearset(String error) {
+		
+		Dialog<String> renDialog = new Dialog<String>();
+		renDialog.setTitle("Rename Gearset");
+		renDialog.setHeaderText("Type the new name for the gearset \'" + Build.getGear().name + "\'");
+		
+		TextField newName = new TextField(Build.getGear().name);
+		BorderPane content = new BorderPane();
+		content.setCenter(newName);
+		if(!error.contentEquals("")) {
+			Text errText = new Text(error);
+			errText.setFill(Color.RED);
+			content.setTop(errText);
+		}
+		
+		ButtonType buttonTypeOk = new ButtonType("Create", ButtonData.OK_DONE);
+		renDialog.getDialogPane().getButtonTypes().add(buttonTypeOk);
+		
+		renDialog.getDialogPane().setContent(content);
+		renDialog.setResultConverter(r -> {
+			if(r != buttonTypeOk) return NO_RESPONSE;
+			return newName.getText();
+		});
+		
+		Optional<String> input = renDialog.showAndWait();
+		if(input.isPresent()) {
+			if(input.get().contentEquals(NO_RESPONSE)) return;
+			else if(input.get().contentEquals("")) renameGearset("Please specify a new name");
+			else if(input.get().contentEquals(Build.getGear().name)) renameGearset("Cannot be the same name");
+			else if(!uniqueSetName(input.get())) renameGearset("Name is not unique");
+			else {
+				Build.getGear().name = input.get();
+				updateGearList();
 			}
 		}
 	}
