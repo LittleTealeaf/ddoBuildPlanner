@@ -15,7 +15,7 @@ public class Stats {
 		statText = new Text();
 		
 		ret.setContent(statText);
-		
+		updateStats();
 		return ret;
 	}
 

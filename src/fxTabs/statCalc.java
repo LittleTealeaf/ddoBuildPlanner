@@ -57,8 +57,8 @@ public class statCalc {
 				case "dexterity": temp.addAll(newAttributes(new String[] {"Balance","Hide","Move Silently","Open Lock","Tumble","Reflex","Armor Class"},DDOUtil.getMod(s.getTotal()),"Dexterity")); break;
 				case "constitution": temp.addAll(newAttributes(new String[] {"Fortitude","Concentration"},DDOUtil.getMod(s.getTotal()),"Constitution")); break;
 				case "intelligence": temp.addAll(newAttributes(new String[] {"Spellcraft","Search","Disable Device","Repair"},DDOUtil.getMod(s.getTotal()),"Intelligence")); break;
-				case "wisdom": temp.addAll(newAttributes(new String[] {"Will","Heal","Listen","Spot"},DDOUtil.getMod(s.getTotal()),"Intelligence")); break;
-				case "charisma": temp.addAll(newAttributes(new String[] {"Bluff","Diplomacy","Haggle","Intimidate","Perform","Use Magical Device"},DDOUtil.getMod(s.getTotal()),"Intelligence")); break;
+				case "wisdom": temp.addAll(newAttributes(new String[] {"Will","Heal","Listen","Spot"},DDOUtil.getMod(s.getTotal()),"Wisdom")); break;
+				case "charisma": temp.addAll(newAttributes(new String[] {"Bluff","Diplomacy","Haggle","Intimidate","Perform","Use Magical Device"},DDOUtil.getMod(s.getTotal()),"Charisma")); break;
 					//SKILLS
 				case "spellcraft":
 					temp.addAll(newAttributes(
