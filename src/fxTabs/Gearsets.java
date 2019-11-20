@@ -45,6 +45,7 @@ public class Gearsets {
 		gearChoice.setValue(Build.getGear());
 		gearChoice.setOnAction(event -> {
 			Build.setGear(gearChoice.getValue());
+			Stats.updateStats();
 		});
 		
 		Button bCreate = new Button("Create");

@@ -13,8 +13,10 @@ public class Main {
 		Build.initialize();
 		
 		Build.Gear gear = new Build.Gear("Test");
-		gear.gloves = Compendium.getItem("Bluescale Guides");
+		gear.gloves = Compendium.getItem("Legendary Knifepalm");
 		gear.trinket = Compendium.getItem("Echo of Ravenkind");
+		gear.mainhand = Compendium.getItem("Duality, the Moral Compass");
+		gear.offhand = Compendium.getItem("Vengeful Protector");
 		Build.gearSets.add(gear);
 		Build.setGearIndex(0);
 		//Launch fxMain

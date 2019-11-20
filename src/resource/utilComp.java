@@ -113,14 +113,25 @@ public class utilComp {
 			r.attributes.add(new Attribute("Fortitude",Integer.parseInt(v[1]),"Insightful"));
 			r.attributes.add(new Attribute("Will",Integer.parseInt(v[1]),"Insightful"));
 			return r;
-		//TODO incite
+		case "Incite": case "Diversion":
+			double value = Integer.parseInt(v[1]);
+			if(v[0].contentEquals("Diversion")) value*=-1;
+			String attrType = "Competence";
+			String sep = "";
+			if(v.length > 2) sep = v[2];
+			if(v.length > 3) attrType = v[3];
+			if(sep.toLowerCase().contains("melee") || sep.toLowerCase().contentEquals("all") || sep.replace(" ", "").contentEquals("")) 
+				r.attributes.add(new Attribute("Melee Threat Generation",value,attrType));
+			if(sep.toLowerCase().contains("spell") || sep.toLowerCase().contentEquals("all")) 
+				r.attributes.add(new Attribute("Spell Threat Generation",value,attrType));
+			if(sep.toLowerCase().contains("ranged") || sep.toLowerCase().contentEquals("all")) 
+				r.attributes.add(new Attribute("Ranged Threat Generation",value,attrType));
+			r.name = attrType + " " + v[0] + " " + value + "%";
+			return r;
 		case "ShieldBash":
 			att.attribute = "Shield Bash " + v[1];
 			att.value = Integer.parseInt(v[2]);
 			if(v.length > 3) att.type = v[3];
-			break;
-		case "Speed":
-			//TODO make speed
 			break;
 		case "ElementalAbsorb":
 			att.attribute = v[1] + " Absorption";

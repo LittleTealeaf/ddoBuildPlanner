@@ -47,25 +47,10 @@ public class Compendium {
 				case "dr": ret.armor.damageReduction = Integer.parseInt(i); break;
 				case "shiedbonus": ret.armor.shieldBonus = Integer.parseInt(i); break;
 				//TODO add the rest of the variables
-				default: System.out.println(a[0] + " is empty");
+				default: //System.out.println(a[0] + " is empty");
 				}
 			} catch (Exception e) {}
 		}
-		
-		//Enhancement Bonus
-		//TODO re-implement
-//		Attribute b = null;
-//		for(Attribute a : ret.enchantment) {
-//			if(b == null && a.attribute.contentEquals("Enhancement Bonus")) b = a;
-//		}
-//		if(b!= null) {
-//			ret.attributes.remove(b);
-//			if(ret.armor != null) ret.attributes.add(new Attribute("Armor Class",b.value,"Enhancement"));
-//			if(ret.weapon != null) {
-//				ret.attributes.add(new Attribute("Attack",b.value,"Enhancement"));
-//				ret.attributes.add(new Attribute("Damage",b.value,"Enhancement"));
-//			}
-//		}
 		
 		return ret;
 	}
