@@ -72,14 +72,20 @@ public class Item {
 		public int critRange;
 		public int critMultiplier;
 		
+		//DEFAULTS
+		public List<String> attackModifiers;
+		public List<String> damageModifiers;
+		
 		
 		public Weapon() {}
 		
-		public Weapon(Dice attack, int CritRange, int CritMultiplier, List<String> DamageTypes) {
+		public Weapon(Dice attack, int CritRange, int CritMultiplier, List<String> DamageTypes, List<String> AttackModifiers, List<String> DamageModifiers) {
 			attackRoll = attack;
 			critRange = CritRange;
 			critMultiplier = CritMultiplier;
 			damageTypes = DamageTypes;
+			attackModifiers = AttackModifiers;
+			damageModifiers = DamageModifiers;
 		}
 		
 		

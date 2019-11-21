@@ -47,6 +47,8 @@ public class Compendium {
 					ret.weapon.critRange = 20 - Integer.parseInt(temp.get(0));
 					ret.weapon.critMultiplier = Integer.parseInt(temp.get(1));
 					break;
+				case "attackmod": ret.weapon.attackModifiers = util.parseTemplate(a[1],false); break;
+				case "damagemod": ret.weapon.damageModifiers = util.parseTemplate(a[1],false); break;
 				//Armor
 				case "armorcheckpenalty": ret.armor.armorCheckPenalty = Integer.parseInt(i); break;
 				case "spellfailure": ret.armor.spellFailure = Integer.parseInt(i.replace("%", "")); break;
