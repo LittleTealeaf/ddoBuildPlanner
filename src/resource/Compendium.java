@@ -2,6 +2,8 @@ package resource;
 
 import classes.*;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +18,7 @@ public class Compendium {
 		ret.name = name;
 		
 		//String displayHTML = util.getContents(SITE + "/w/" + name.replace(' ', '_'));
-		String editContents = getEditContents(util.getContents(SITE + "/index.php?title=" + name.replace(' ', '_') + "&action=edit"));
+		String editContents = getEditContents(util.getContents(SITE + "/index.php?title=" + util.toURL(name) + "&action=edit"));
 		
 		//Set up variables if needed
 		if(editContents.contains("Template:Armor") || editContents.contains("Template:Shield")) ret.armor = new Item.Armor();
@@ -27,6 +29,8 @@ public class Compendium {
 			String i = a[1].replace(" ", "");
 			try {
 				switch(a[0].toLowerCase()) { //TODO sort these cases
+				case "icon": ret.icon = getImageURL(util.toURL(a[1]) + "_Icon.png"); break;
+				case "image": ret.cosmetic = getImageURL(util.toURL(a[1]) + ".png"); break;
 				case "minlevel": ret.minLevel = Integer.parseInt(i); break;
 				case "hardness": ret.hardness = Integer.parseInt(i); break;
 				case "durability": ret.durability = Integer.parseInt(i); break;
@@ -56,6 +60,8 @@ public class Compendium {
 				}
 			} catch (Exception e) {}
 		}
+		if(ret.icon == null) ret.icon = getImageURL(util.toURL(name) + "_Icon.png");
+		if(ret.cosmetic == null) ret.cosmetic = getImageURL(util.toURL(name) + ".png");
 		
 		return ret;
 	}
@@ -112,11 +118,15 @@ public class Compendium {
 		return ret;
 	}
 	
-	
-	
-	private static String inLineTemplates(String template) {
-		//TODO add in-line template writing
-		String ret = "";
-		return ret;
+	private static URL getImageURL(String imageName) {
+		final String ind = "/images";
+		String html = util.getContents(SITE + "/w/File:" + imageName);
+		if(html.contentEquals("")) return null;
+		html = html.substring(html.indexOf(ind) + 1);
+		html = html.substring(html.indexOf(ind));
+		try {
+			return new URL(SITE + html.substring(0,html.indexOf("\"")));
+		} catch(Exception e) {}
+		return null;
 	}
 }

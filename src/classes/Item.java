@@ -1,5 +1,7 @@
 package classes;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.image.Image;
@@ -15,8 +17,8 @@ public class Item {
 	public double weight;
 	public String material;
 	
-	public String iconURL;
-	public String cosmeticURL;
+	public URL icon;
+	public URL cosmetic;
 	
 	public String description;
 	List<String> equipSlots;

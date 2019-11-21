@@ -25,7 +25,6 @@ public class util {
 			}
 			return ret;
 		} catch (Exception e) {
-			e.printStackTrace();
 			return "";
 		}
 	}
@@ -67,5 +66,9 @@ public class util {
 		case "Potency": return "Each";
 		default: return a;
 		}
+	}
+	
+	public static String toURL(String in) {
+		return in.replace(' ', '_').replace("\'", "%27");
 	}
 }
