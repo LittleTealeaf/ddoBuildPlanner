@@ -12,8 +12,8 @@ public class Main {
 		
 		Build.initialize();
 	
-		Build.gearSets.add(testGear());
-		Build.setGearIndex(0);
+		//Build.gearSets.add(testGear());
+		//Build.setGearIndex(0);
 		//Launch fxMain
 		fxMain.open(args);
 	}

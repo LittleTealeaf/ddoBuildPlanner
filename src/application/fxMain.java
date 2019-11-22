@@ -5,6 +5,7 @@ import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
@@ -30,7 +31,15 @@ public class fxMain extends Application {
 			MenuBar menu = new MenuBar();
 			
 			Menu file = new Menu("File");
-			menu.getMenus().add(file);
+			
+			MenuItem item = new MenuItem("Item");
+			item.setOnAction(event -> {
+				fxItem.open();
+			});
+			
+			file.getItems().add(item);
+			
+			menu.getMenus().addAll(file);
 			
 			
 			//Center Area
