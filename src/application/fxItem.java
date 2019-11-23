@@ -97,7 +97,9 @@ public class fxItem {
 			tDamage.setText("Damage: " + item.weapon.attackRoll.toString());
 		});
 		
-		if(item.weapon != null && item.weapon.attackRoll != null) tDamage.setText("Damage: " + item.weapon.attackRoll.toString());
+		if(item.weapon != null) {
+			if(item.weapon.attackRoll != null) tDamage.setText("Damage: " + item.weapon.attackRoll.toString());
+		}
 		
 		GridPane grid = new GridPane();
 		grid.add(tDamage, 0, 0);

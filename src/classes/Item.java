@@ -72,7 +72,6 @@ public class Item {
 		public int critRange;
 		public int critMultiplier;
 		
-		//DEFAULTS
 		public List<String> attackModifiers;
 		public List<String> damageModifiers;
 		

@@ -108,6 +108,7 @@ public class Dice {
 		
 		for(Spinner<?> s : new Spinner<?>[] {tCoef,tCount,tSides,tPreAdd,tPostAdd}) {
 			s.setEditable(true);
+			s.setPrefWidth(75);
 		}
 		
 		dialog.setResultConverter(n -> {

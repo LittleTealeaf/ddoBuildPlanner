@@ -47,8 +47,8 @@ public class Compendium {
 					ret.weapon.critRange = 20 - Integer.parseInt(temp.get(0));
 					ret.weapon.critMultiplier = Integer.parseInt(temp.get(1));
 					break;
-				case "attackmod": ret.weapon.attackModifiers = util.parseTemplate(a[1],false); break;
-				case "damagemod": ret.weapon.damageModifiers = util.parseTemplate(a[1],false); break;
+				case "attackmod": ret.weapon.attackModifiers = clenseAbilities(util.parseTemplate(a[1],false)); break;
+				case "damagemod": ret.weapon.damageModifiers = clenseAbilities(util.parseTemplate(a[1],false)); break;
 				//Armor
 				case "armorcheckpenalty": ret.armor.armorCheckPenalty = Integer.parseInt(i); break;
 				case "spellfailure": ret.armor.spellFailure = Integer.parseInt(i.replace("%", "")); break;
@@ -130,5 +130,18 @@ public class Compendium {
 			return new URL(SITE + html.substring(0,html.indexOf("\"")));
 		} catch(Exception e) {}
 		return null;
+	}
+	
+	private static List<String> clenseAbilities(List<String> mods) {
+		
+		for(String s : mods) {
+			s = s.toLowerCase();
+			for(String a : classes.DDOUtil.abilities) {
+				s = s.replace(a.substring(0,3).toLowerCase(),a.toLowerCase());
+			}
+			s = s.substring(0, 1).toUpperCase() + s.substring(1);
+		}
+		
+		return mods;
 	}
 }
