@@ -31,7 +31,7 @@ public class DDOUtil {
 		
 		for(String s : abilities) {
 			CheckBox a = new CheckBox(s);
-			a.setSelected(selMods.contains(s));
+			if(selMods != null) a.setSelected(selMods.contains(s));
 			cbs.add(a);
 		}
 		
@@ -42,6 +42,8 @@ public class DDOUtil {
 		grid.add(cbs.get(3), 1, 0);
 		grid.add(cbs.get(4), 1, 1);
 		grid.add(cbs.get(5), 1, 2);
+		
+		dialog.getDialogPane().setContent(grid);
 		
 		dialog.setResultConverter(r -> {
 			List<String> mods = new ArrayList<String>();

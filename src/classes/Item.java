@@ -2,6 +2,7 @@ package classes;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.image.Image;
@@ -76,7 +77,10 @@ public class Item {
 		public List<String> damageModifiers;
 		
 		
-		public Weapon() {}
+		public Weapon() {
+			critRange = 20;
+			critMultiplier = 2;
+		}
 		
 		public Weapon(Dice attack, int CritRange, int CritMultiplier, List<String> DamageTypes, List<String> AttackModifiers, List<String> DamageModifiers) {
 			attackRoll = attack;
@@ -90,9 +94,14 @@ public class Item {
 		
 		public double getBaseDamage() {
 			double critChance = (double) (21 - critRange) / 20;
+			System.out.println(critChance);
 			double critDamage = critChance * critMultiplier * attackRoll.getAverage();
-			
+			System.out.println(attackRoll.getAverage());
 			return attackRoll.getAverage() + critDamage;
+		}
+		
+		public String getBaseDamageDisplay() {
+			return new DecimalFormat("#.00").format(getBaseDamage());
 		}
 	}
 	

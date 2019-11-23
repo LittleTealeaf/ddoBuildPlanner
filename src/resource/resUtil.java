@@ -6,7 +6,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class util {
+public class resUtil {
 	
 	/**
 	 * Strips the site contents from the URL

@@ -50,12 +50,12 @@ public class utilComp {
 		//The great big switch case
 		switch(v[0]) {
 		case "SpellPower": case "SpellLore": 
-			att.attribute =  util.nameConversion(v[1]) + " Spell " + v[0].substring(5);
+			att.attribute =  resUtil.nameConversion(v[1]) + " Spell " + v[0].substring(5);
 			att.value = Integer.parseInt(v[2]);
 			if(v.length >= 4) att.type = v[3];
 			break;
 		case "SpellFocus":
-			att.attribute = util.nameConversion(v[1]) + " Focus";
+			att.attribute = resUtil.nameConversion(v[1]) + " Focus";
 			if(v[1].contentEquals("Mastery")) att.attribute = "Spell Focus";
 			att.value = Integer.parseInt(v[2]);
 			if(v.length >= 4) att.type = v[3];
