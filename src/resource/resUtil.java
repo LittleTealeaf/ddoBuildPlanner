@@ -36,6 +36,7 @@ public class resUtil {
 		for(char c : template.toCharArray()) {
 			if(c != '{' && c != '}') {
 				if(c == '|') {
+					if(tmp.replace(" ", "").contentEquals("")) tmp = "";
 					ret.add(tmp);
 					tmp = "";
 				} else tmp+=c;

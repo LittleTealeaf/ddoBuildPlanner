@@ -6,113 +6,76 @@ import classes.DDOUtil;
 import classes.Dice;
 import classes.Item;
 import classes.util;
+import classes.Item.Armor;
+import classes.Item.Weapon;
 import javafx.geometry.Insets;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.SpinnerValueFactory.IntegerSpinnerValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 
 public class tabWeapon {
-
-	private static Item item;
+	
+	private static diceText die;
+	private static Text baseDamage;
+	private static Spinner<Integer> critRange;
+	private static Spinner<Integer> critMultiplier;
+	private static Text attackModifiers;
+	private static Text damageModifiers;
 	
 	public static Tab getTab() {
-		item = fxItem.item;
 		
-		Text tDamageRating = new Text("Base Damage:");
-		Function<String,String> updateBaseDamage = str -> {
-			try {
-				tDamageRating.setText("Base Damage: " + item.weapon.getBaseDamageDisplay());
-			} catch(Exception e) {}
-			return null;
-		};
+		die = new diceText();
 		
-		Text tDamage = new Text("Damage:");
-		tDamage.setOnMouseClicked(event -> {
-			item.weapon.attackRoll = Dice.fxDice(item.weapon.attackRoll);
-			tDamage.setText("Damage: " + item.weapon.attackRoll.toString());
-			updateBaseDamage.apply(null);
-		});
+		baseDamage = new Text("Base Damage: ");
 		
 		Text tCritRange = new Text("Crit Range:");
-		
-		Spinner<Integer> sCritRange = new Spinner<Integer>();
-		sCritRange.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 20, 20));
-		sCritRange.valueProperty().addListener((obs,o,n) -> {
-			item.weapon.critRange = n;
-			updateBaseDamage.apply(null);
-		});
+		critRange = new Spinner<Integer>();
+		critRange.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 20, 20));
+		critRange.setEditable(true);
+		critRange.valueProperty().addListener(event -> updateBaseDamage());
 		
 		Text tCritMultiplier = new Text("Crit Multiplier:");
+		critMultiplier = new Spinner<Integer>();
+		critMultiplier.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1,100,2));
+		critMultiplier.setEditable(true);
+		critMultiplier.valueProperty().addListener(event -> updateBaseDamage());
 		
-		Spinner<Integer> sCritMultiplier = new Spinner<Integer>();
-		sCritMultiplier.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1,100,2));
-		sCritMultiplier.valueProperty().addListener((obs,o,n) -> {
-			item.weapon.critMultiplier = n;
-			updateBaseDamage.apply(null);
-		});
+		Text tAttackModifiers = new Text("Attack Mods");
+		tAttackModifiers.setOnMouseClicked(e -> updateAttackModifiers());
+		attackModifiers = new Text("");
+		attackModifiers.setOnMouseClicked(e -> updateAttackModifiers());
 		
-		Text tAttackMods = new Text("");
-		tAttackMods.setOnMouseClicked(event -> {
-			item.weapon.attackModifiers = DDOUtil.modSelection(item.weapon.attackModifiers);
-			tAttackMods.setText(util.listToString(item.weapon.attackModifiers));
-		});
+		Text tDamageModifiers = new Text("Damage Mods");
+		tDamageModifiers.setOnMouseClicked(e -> updateDamageModifiers());
+		damageModifiers = new Text("");
+		damageModifiers.setOnMouseClicked(e -> updateDamageModifiers());
 		
-		Text lAttackMods = new Text("Attck Modifiers:");
-		lAttackMods.setOnMouseClicked(event -> {
-			item.weapon.attackModifiers = DDOUtil.modSelection(item.weapon.attackModifiers);
-			tAttackMods.setText(util.listToString(item.weapon.attackModifiers));
-		});
-		
-		Text tDamageMods = new Text("");
-		tDamageMods.setOnMouseClicked(event -> {
-			item.weapon.damageModifiers = DDOUtil.modSelection(item.weapon.damageModifiers);
-			tDamageMods.setText(util.listToString(item.weapon.damageModifiers));
-		});
-		
-		Text lDamageMods = new Text("Damage Modifiers:");
-		lDamageMods.setOnMouseClicked(event -> {
-			item.weapon.damageModifiers = DDOUtil.modSelection(item.weapon.damageModifiers);
-			tDamageMods.setText(util.listToString(item.weapon.damageModifiers));
-		});
-		
-		
-		GridPane statGrid = new GridPane();
-		statGrid.add(tCritRange, 0, 0);
-		statGrid.add(sCritRange, 1, 0);
-		statGrid.add(tCritMultiplier, 0, 1);
-		statGrid.add(sCritMultiplier, 1, 1);
-		statGrid.add(lAttackMods, 0, 2);
-		statGrid.add(tAttackMods, 1, 2);
-		statGrid.add(lDamageMods, 0, 3);
-		statGrid.add(tDamageMods, 1, 3);
-		statGrid.setHgap(10);
-		statGrid.setVgap(10);
-		
-		TextArea damageTypes = new TextArea();
-		damageTypes.textProperty().addListener((obs,o,n) -> {
-			item.weapon.damageTypes = util.stringToList(n, "\n");
-		});
-		damageTypes.setWrapText(true);
-		damageTypes.setPrefWidth(80);
+		GridPane leftGrid = new GridPane();
+		leftGrid.setHgap(10);
+		leftGrid.setVgap(10);
+		leftGrid.add(tCritRange, 0, 0);
+		leftGrid.add(critRange, 1, 0);
+		leftGrid.add(tCritMultiplier, 0, 1);
+		leftGrid.add(critMultiplier, 1, 1);
+		leftGrid.add(tAttackModifiers, 0, 2);
+		leftGrid.add(attackModifiers, 1, 2);
+		leftGrid.add(tDamageModifiers, 0, 3);
+		leftGrid.add(damageModifiers,1,3);
 		
 		GridPane grid = new GridPane();
-		grid.add(tDamage, 0, 0);
-		grid.add(tDamageRating, 1, 0);
-		grid.add(statGrid, 0, 1);
-		grid.add(damageTypes, 1, 1);
 		grid.setHgap(10);
 		grid.setVgap(10);
-		grid.setPadding(new Insets(10));
+		grid.add(die, 0, 0);
+		grid.add(baseDamage, 1, 0);
+		grid.add(leftGrid, 0, 1);
 		
-		if(item.weapon != null) {
-			if(item.weapon.attackRoll != null) tDamage.setText("Damage: " + item.weapon.attackRoll.toString());
-			updateBaseDamage.apply(null);
-			if(item.weapon.damageTypes != null) damageTypes.setText(util.listToString(item.weapon.damageTypes));
-			if(item.weapon.attackModifiers != null) tAttackMods.setText(util.listToString(item.weapon.attackModifiers));
-			if(item.weapon.damageModifiers != null) tDamageMods.setText(util.listToString(item.weapon.damageModifiers));
+		
+		if(fxItem.item.weapon != null) {
+			
 		}
 		
 		Tab r = new Tab("Weapon");
@@ -120,5 +83,53 @@ public class tabWeapon {
 		r.setClosable(false);
 		r.disableProperty().bind(fxItem.type.valueProperty().isNotEqualTo("Weapon").and(fxItem.type.valueProperty().isNotEqualTo("Shield")));
 		return r;
+	}
+	
+	private static void updateAttackModifiers() {
+		attackModifiers.setText(util.listToString(DDOUtil.modSelection(util.stringToList(attackModifiers.getText(), "\n"))));
+	}
+	
+	private static void updateDamageModifiers() {
+		damageModifiers.setText(util.listToString(DDOUtil.modSelection(util.stringToList(damageModifiers.getText(), "\n"))));
+	}
+	
+	private static void updateBaseDamage() {
+		baseDamage.setText(getWeapon().getBaseDamageDisplay());
+	}
+	
+	public static Weapon getWeapon() {
+		Weapon r = new Weapon();
+		
+		r.damage = die.getDice();
+		r.critRange = critRange.getValue();
+		r.critMultiplier = critMultiplier.getValue();
+		
+		r.attackModifiers = util.stringToList(attackModifiers.getText(), "\n");
+		r.damageModifiers = util.stringToList(damageModifiers.getText(), "\n");
+		
+		return r;
+	}
+	
+	private static class diceText extends Text {
+		
+		private Dice dice;
+		
+		public diceText() {
+			super();
+			super.setText("Damage: ");
+			super.setOnMouseClicked(e -> {
+				setDice(Dice.fxDice(dice));
+			});
+			dice = null;
+		}
+		
+		public Dice getDice() {
+			return dice;
+		}
+		
+		public void setDice(Dice d) {
+			dice = d;
+			super.setText("Damage: " + dice.toString());
+		}
 	}
 }

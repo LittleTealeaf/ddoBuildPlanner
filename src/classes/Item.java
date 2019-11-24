@@ -47,7 +47,6 @@ public class Item {
 	public static class Armor {
 		public String armorType;
 		public int armorBonus;
-		public int shieldBonus;
 		public int maxDexBonus;
 		public int armorCheckPenalty;
 		public int spellFailure;
@@ -66,7 +65,7 @@ public class Item {
 	}
 	
 	public static class Weapon {
-		public Dice attackRoll;
+		public Dice damage;
 		
 		public List<String> damageTypes;
 		
@@ -78,12 +77,16 @@ public class Item {
 		
 		
 		public Weapon() {
+			damage = new Dice();
 			critRange = 20;
 			critMultiplier = 2;
+			damageTypes = new ArrayList<String>();
+			attackModifiers = new ArrayList<String>();
+			damageModifiers = new ArrayList<String>();
 		}
 		
 		public Weapon(Dice attack, int CritRange, int CritMultiplier, List<String> DamageTypes, List<String> AttackModifiers, List<String> DamageModifiers) {
-			attackRoll = attack;
+			damage = attack;
 			critRange = CritRange;
 			critMultiplier = CritMultiplier;
 			damageTypes = DamageTypes;
@@ -94,10 +97,8 @@ public class Item {
 		
 		public double getBaseDamage() {
 			double critChance = (double) (21 - critRange) / 20;
-			System.out.println(critChance);
-			double critDamage = critChance * critMultiplier * attackRoll.getAverage();
-			System.out.println(attackRoll.getAverage());
-			return attackRoll.getAverage() + critDamage;
+			double critDamage = critChance * critMultiplier * damage.getAverage();
+			return damage.getAverage() + critDamage;
 		}
 		
 		public String getBaseDamageDisplay() {

@@ -40,7 +40,7 @@ public class Compendium {
 				case "weight": ret.weight = Double.parseDouble(i); break;
 				//TODO add icon/image fetchers, might require a separate HTML grabber?
 				//Weapon
-				case "damage": ret.weapon.attackRoll = new Dice(resUtil.parseTemplate(a[1], false)); break;
+				case "damage": ret.weapon.damage = new Dice(resUtil.parseTemplate(a[1], false)); break;
 				case "damagetype": ret.weapon.damageTypes = resUtil.parseTemplate(a[1],false); break;
 				case "critprofile":
 					List<String> temp = resUtil.parseTemplate(a[1],false);
@@ -56,7 +56,7 @@ public class Compendium {
 				case "armorbonus": ret.armor.armorBonus = Integer.parseInt(i); break;
 				case "attackpenalty": ret.armor.attackPenalty = Integer.parseInt(i); break;
 				case "dr": ret.armor.damageReduction = Integer.parseInt(i); break;
-				case "shiedbonus": ret.armor.shieldBonus = Integer.parseInt(i); break;
+				case "shiedbonus": ret.armor.armorBonus = Integer.parseInt(i); break;
 				//TODO add the rest of the variables
 				default: //System.out.println(a[0] + " is empty");
 				}
