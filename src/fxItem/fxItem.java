@@ -109,9 +109,11 @@ public class fxItem {
 	
 	private static void saveItem() {
 		tabGeneral.updateItem();
+		item.name = name.getText();
 		item.weapon = tabWeapon.getWeapon();
 		item.armor = tabArmor.getArmor();
 		item.enchantments = tabEnchantments.getEnchantments();
+		debug.debugTab.showClass(item);
 	}
 	
 	public static Tab getTab(String title) {

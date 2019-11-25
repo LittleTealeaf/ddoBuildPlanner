@@ -25,6 +25,7 @@ public class tabWeapon {
 	private static Spinner<Integer> critMultiplier;
 	private static Text attackModifiers;
 	private static Text damageModifiers;
+	private static TextArea damageTypes;
 	
 	public static Tab getTab() {
 		
@@ -66,16 +67,23 @@ public class tabWeapon {
 		leftGrid.add(tDamageModifiers, 0, 3);
 		leftGrid.add(damageModifiers,1,3);
 		
+		damageTypes = new TextArea();
+		damageTypes.setPrefWidth(150);
+		
 		GridPane grid = new GridPane();
 		grid.setHgap(10);
 		grid.setVgap(10);
 		grid.add(die, 0, 0);
 		grid.add(baseDamage, 1, 0);
 		grid.add(leftGrid, 0, 1);
-		
+		grid.add(damageTypes, 1, 1);
 		
 		if(fxItem.item.weapon != null) {
-			
+			die.setDice(fxItem.item.weapon.damage);
+			attackModifiers.setText(util.listToString(fxItem.item.weapon.attackModifiers));
+			damageModifiers.setText(util.listToString(fxItem.item.weapon.damageModifiers));
+			damageTypes.setText(util.listToString(fxItem.item.weapon.damageTypes));
+			updateBaseDamage();
 		}
 		
 		Tab r = new Tab("Weapon");
@@ -109,6 +117,8 @@ public class tabWeapon {
 		
 		r.attackModifiers = util.stringToList(attackModifiers.getText(), "\n");
 		r.damageModifiers = util.stringToList(damageModifiers.getText(), "\n");
+		
+		r.damageTypes = util.stringToList(damageTypes.getText(), "\n");
 		
 		return r;
 	}

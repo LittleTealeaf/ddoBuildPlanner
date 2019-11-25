@@ -33,4 +33,8 @@ public class debugTab {
 	public static void updateJSON() {
 		text.setText(new Gson().toJson(new Build()));
 	}
+	
+	public static void showClass(Object a) {
+		text.setText(new Gson().toJson(a));
+	}
 }
