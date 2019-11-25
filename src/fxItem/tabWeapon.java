@@ -98,6 +98,9 @@ public class tabWeapon {
 	}
 	
 	public static Weapon getWeapon() {
+		
+		if(fxItem.getTab("Weapon").isDisabled()) return null;
+		
 		Weapon r = new Weapon();
 		
 		r.damage = die.getDice();
@@ -119,6 +122,7 @@ public class tabWeapon {
 			super.setText("Damage: ");
 			super.setOnMouseClicked(e -> {
 				setDice(Dice.fxDice(dice));
+				updateBaseDamage();
 			});
 			dice = null;
 		}

@@ -80,9 +80,22 @@ public class fxItem {
 		tabs = new TabPane();
 		tabs.getTabs().setAll(getTabs());
 		
+		Button bClose = new Button("Close");
+		bClose.setOnAction(e -> sItem.close());
+		
+		Region rFooter = new Region();
+		HBox.setHgrow(rFooter, Priority.ALWAYS);
+		
+		Button bSave = new Button("Save");
+		bSave.setOnAction(e -> saveItem());
+		
+		HBox hFooter = new HBox(bClose,rFooter,bSave);
+		hFooter.setPadding(new Insets(5));
+		
 		BorderPane bp = new BorderPane();
 		bp.setTop(hHeader);
 		bp.setCenter(tabs);
+		bp.setBottom(hFooter);
 		
 		Scene sc = new Scene(bp);
 		sItem.setScene(sc);
@@ -92,6 +105,23 @@ public class fxItem {
 	
 	private static List<Tab> getTabs() {
 		return Arrays.asList(new Tab[] {tabGeneral.getTab(),tabEnchantments.getTab(),tabWeapon.getTab(),tabArmor.getTab()});
+	}
+	
+	private static void saveItem() {
+		tabGeneral.updateItem();
+		item.weapon = tabWeapon.getWeapon();
+		item.armor = tabArmor.getArmor();
+		item.enchantments = tabEnchantments.getEnchantments();
+	}
+	
+	public static Tab getTab(String title) {
+		switch(title) {
+		case "General": return tabs.getTabs().get(0);
+		case "Enchantments": return tabs.getTabs().get(1);
+		case "Weapon": return tabs.getTabs().get(2);
+		case "Armor": return tabs.getTabs().get(3);
+		default: return null;
+		}
 	}
 	
 	//Updates all fields

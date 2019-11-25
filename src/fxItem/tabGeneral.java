@@ -5,11 +5,7 @@ import javafx.scene.control.Tab;
 
 public class tabGeneral {
 	
-	private static Item item;
-	
 	public static Tab getTab() {
-		
-		item = fxItem.item;
 		
 		
 		
@@ -17,5 +13,12 @@ public class tabGeneral {
 		Tab r = new Tab("General");
 		r.setClosable(false);
 		return r;
+	}
+	
+	/**
+	 * Updates the item in the fxItem file
+	 */
+	public static void updateItem() {
+		
 	}
 }
