@@ -1,4 +1,4 @@
-package resource;
+package wiki;
 
 import java.util.ArrayList;
 import java.util.List;

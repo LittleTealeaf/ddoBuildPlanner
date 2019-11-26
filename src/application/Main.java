@@ -4,7 +4,7 @@ package application;
 
 import classes.Build;
 import classes.Build.Gear;
-import resource.Compendium;
+import wiki.Compendium;
 
 public class Main {
 	

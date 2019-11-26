@@ -144,7 +144,7 @@ public class fxItem {
 	private static void importCompendium() {
 		if(name.getText().contentEquals("")) return;
 		
-		Item res = resource.Compendium.getItem(name.getText());
+		Item res = wiki.Compendium.getItem(name.getText());
 		
 		if(res != null) {
 			

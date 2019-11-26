@@ -1,4 +1,4 @@
-package resource;
+package wiki;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
