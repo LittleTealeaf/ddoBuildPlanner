@@ -6,9 +6,11 @@ import classes.Item.Enchantment;
 import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
+import javafx.scene.control.Spinner;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -27,6 +29,8 @@ public class tabEnchantments {
 	public static Tab getTab() {
 		
 		enchantments = fxItem.item.enchantments;
+		
+		//TODO make "create" button
 		
 		table = getTableView();
 		updateEnchantmentTable();
@@ -80,6 +84,12 @@ public class tabEnchantments {
 		
 		private static TableView<Attribute> table;
 		
+		//Attribute Editor
+		private static TextField tAttributeName;
+		private static TextField tAttributeType;
+		private static TextField tAttributeStringValue;
+		private static Spinner<Integer> sAttributeValue;
+		
 		private static void editEnchantment(Enchantment ench) {
 			e = ench;
 			
@@ -106,13 +116,16 @@ public class tabEnchantments {
 		private static TableView<Attribute> attributeTable() {
 			TableView<Attribute> r = new TableView<Attribute>();
 			
-			TableColumn<Attribute,String> cName = new TableColumn<Attribute,String>();
-			cName.setCellValueFactory(new PropertyValueFactory<Attribute,String>("title"));
+			TableColumn<Attribute,String> cAttribute = new TableColumn<Attribute,String>();
+			cAttribute.setCellValueFactory(new PropertyValueFactory<Attribute,String>("attribute"));
 			
-			TableColumn<Attribute,String> cDescription = new TableColumn<Attribute,String>();
-			cDescription.setCellValueFactory(new PropertyValueFactory<Attribute,String>("description"));
+			TableColumn<Attribute,String> cType = new TableColumn<Attribute,String>();
+			cType.setCellValueFactory(new PropertyValueFactory<Attribute,String>("type"));
 			
-			r.getColumns().addAll(cName, cDescription);
+			TableColumn<Attribute,String> cValue = new TableColumn<Attribute,String>();
+			cValue.setCellValueFactory(new PropertyValueFactory<Attribute,String>("value"));
+			
+			r.getColumns().addAll(cAttribute, cType, cValue);
 			
 			return r;
 		}
@@ -123,6 +136,13 @@ public class tabEnchantments {
 		}
 		
 		private static GridPane editGrid() {
+			
+			tAttributeName = new TextField();
+			tAttributeType = new TextField();
+			tAttributeStringValue = new TextField();
+			
+			sAttributeValue = new Spinner<Integer>();
+			sAttributeValue.setEditable(true);
 			
 			
 			GridPane r = new GridPane();

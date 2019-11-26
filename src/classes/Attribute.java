@@ -46,4 +46,17 @@ public class Attribute {
 	public String toString() {
 		return getTitle() + ": " + getDescription();
 	}
+	
+	public String getAttribute() {
+		return attribute;
+	}
+	
+	public String getType() {
+		return type;
+	}
+	
+	public String getValue() {
+		if(value != 0) return value + "";
+		else return stringValue;
+	}
 }
