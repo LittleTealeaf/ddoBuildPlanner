@@ -89,6 +89,7 @@ public class tabEnchantments {
 			else sEdit.setTitle("Editing " + ench.name);
 			
 			table = attributeTable();
+			updateTable();
 			
 			HBox center = new HBox(table,editGrid());
 			
@@ -117,7 +118,8 @@ public class tabEnchantments {
 		}
 		
 		private static void updateTable() {
-			
+			table.getItems().clear();
+			table.getItems().addAll(e.attributes);
 		}
 		
 		private static GridPane editGrid() {
