@@ -1,7 +1,5 @@
 package application;
 
-
-
 import classes.Build;
 import classes.Build.Gear;
 import wiki.Compendium;
