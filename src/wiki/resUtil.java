@@ -1,4 +1,4 @@
-package resource;
+package wiki;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -6,7 +6,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class util {
+public class resUtil {
 	
 	/**
 	 * Strips the site contents from the URL
@@ -25,7 +25,6 @@ public class util {
 			}
 			return ret;
 		} catch (Exception e) {
-			e.printStackTrace();
 			return "";
 		}
 	}
@@ -37,6 +36,7 @@ public class util {
 		for(char c : template.toCharArray()) {
 			if(c != '{' && c != '}') {
 				if(c == '|') {
+					if(tmp.replace(" ", "").contentEquals("")) tmp = "";
 					ret.add(tmp);
 					tmp = "";
 				} else tmp+=c;
@@ -48,7 +48,7 @@ public class util {
 	}
 	
 	public static String getSign(double number) {
-		if(number < 0) return "-";
+		if(number < 0) return "";
 		return "+";
 	}
 	
@@ -67,5 +67,9 @@ public class util {
 		case "Potency": return "Each";
 		default: return a;
 		}
+	}
+	
+	public static String toURL(String in) {
+		return in.replace(' ', '_').replace("\'", "%27");
 	}
 }

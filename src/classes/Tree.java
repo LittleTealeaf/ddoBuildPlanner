@@ -1,5 +1,6 @@
 package classes;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.image.Image;
@@ -16,6 +17,7 @@ public class Tree {
   public static class Enhancement {
     public String name;
     public String description;
+    public URL icon;
     
     //x pos, y pos, or core position
     public int x;
@@ -26,8 +28,6 @@ public class Tree {
     public int reqPoints;
     public List<Enhancement> reqEnhancements;
     //public List<Requirement> preReqs;
-    
-    public Image icon;
     
     public List<Attribute> attributes;
     

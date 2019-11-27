@@ -1,4 +1,4 @@
-package resource;
+package wiki;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,12 +50,12 @@ public class utilComp {
 		//The great big switch case
 		switch(v[0]) {
 		case "SpellPower": case "SpellLore": 
-			att.attribute =  util.nameConversion(v[1]) + " Spell " + v[0].substring(5);
+			att.attribute =  resUtil.nameConversion(v[1]) + " Spell " + v[0].substring(5);
 			att.value = Integer.parseInt(v[2]);
 			if(v.length >= 4) att.type = v[3];
 			break;
 		case "SpellFocus":
-			att.attribute = util.nameConversion(v[1]) + " Focus";
+			att.attribute = resUtil.nameConversion(v[1]) + " Focus";
 			if(v[1].contentEquals("Mastery")) att.attribute = "Spell Focus";
 			att.value = Integer.parseInt(v[2]);
 			if(v.length >= 4) att.type = v[3];
@@ -113,14 +113,25 @@ public class utilComp {
 			r.attributes.add(new Attribute("Fortitude",Integer.parseInt(v[1]),"Insightful"));
 			r.attributes.add(new Attribute("Will",Integer.parseInt(v[1]),"Insightful"));
 			return r;
-		//TODO incite
+		case "Incite": case "Diversion":
+			double value = Integer.parseInt(v[1]);
+			if(v[0].contentEquals("Diversion")) value*=-1;
+			String attrType = "Competence";
+			String sep = "";
+			if(v.length > 2) sep = v[2];
+			if(v.length > 3) attrType = v[3];
+			if(sep.toLowerCase().contains("melee") || sep.toLowerCase().contentEquals("all") || sep.replace(" ", "").contentEquals("")) 
+				r.attributes.add(new Attribute("Melee Threat Generation",value,attrType));
+			if(sep.toLowerCase().contains("spell") || sep.toLowerCase().contentEquals("all")) 
+				r.attributes.add(new Attribute("Spell Threat Generation",value,attrType));
+			if(sep.toLowerCase().contains("ranged") || sep.toLowerCase().contentEquals("all")) 
+				r.attributes.add(new Attribute("Ranged Threat Generation",value,attrType));
+			r.name = attrType + " " + v[0] + " " + value + "%";
+			return r;
 		case "ShieldBash":
 			att.attribute = "Shield Bash " + v[1];
 			att.value = Integer.parseInt(v[2]);
 			if(v.length > 3) att.type = v[3];
-			break;
-		case "Speed":
-			//TODO make speed
 			break;
 		case "ElementalAbsorb":
 			att.attribute = v[1] + " Absorption";
@@ -154,10 +165,15 @@ public class utilComp {
 					att.attribute = getAttributeName(v[0]);
 					att.value = Integer.parseInt(v[1]);
 					if(v.length > 2) att.type = v[2];
-				} else if(isInt(v[2].replace(" ", ""))) {
-					att.attribute = v[1];
+				} else if(v.length > 2 && isInt(v[2].replace(" ", ""))) {
+					att.attribute = getAttributeName(v[1]);
 					att.value = Integer.parseInt(v[2]);
 					if(v.length > 3) att.type = v[3];
+				} else {
+					System.out.println(v[0] + " " + v[1]);
+					r.name = v[0];
+					r.description = v[1];
+					return r;
 				}
 			} catch (Exception e) {
 				
@@ -176,6 +192,7 @@ public class utilComp {
 	 */
 	private static String getAttributeName(String template) {
 		switch(template) {
+		case "Spellsight": return "Spellcraft";
 			default: 
 				String r = "";
 				for(char c : template.toCharArray()) {
@@ -183,7 +200,7 @@ public class utilComp {
 					r += c;
 				}
 				//Remove extra space
-				r = r.substring(1);
+				r = r.substring(1).replace("  ", " ");
 				return r;
 		}
 	}

@@ -1,12 +1,13 @@
 package classes;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.io.Serializable;
 import javafx.scene.image.Image;
 
-@SuppressWarnings("serial")
-public class Item implements Serializable {
+public class Item {
 	
 	public String name;
 	public int minLevel;
@@ -17,8 +18,8 @@ public class Item implements Serializable {
 	public double weight;
 	public String material;
 	
-	public Image icon;
-	public Image cosmetic;
+	public URL icon;
+	public URL cosmetic;
 	
 	public String description;
 	List<String> equipSlots;
@@ -43,10 +44,9 @@ public class Item implements Serializable {
 	
 	
 	//Sub Classes
-	public static class Armor implements Serializable {
+	public static class Armor {
 		public String armorType;
 		public int armorBonus;
-		public int shieldBonus;
 		public int maxDexBonus;
 		public int armorCheckPenalty;
 		public int spellFailure;
@@ -64,34 +64,49 @@ public class Item implements Serializable {
 		}
 	}
 	
-	public static class Weapon implements Serializable {
-		public Dice attackRoll;
+	public static class Weapon {
+		public Dice damage;
 		
 		public List<String> damageTypes;
 		
 		public int critRange;
 		public int critMultiplier;
 		
+		public List<String> attackModifiers;
+		public List<String> damageModifiers;
 		
-		public Weapon() {}
 		
-		public Weapon(Dice attack, int CritRange, int CritMultiplier, List<String> DamageTypes) {
-			attackRoll = attack;
+		public Weapon() {
+			damage = new Dice();
+			critRange = 20;
+			critMultiplier = 2;
+			damageTypes = new ArrayList<String>();
+			attackModifiers = new ArrayList<String>();
+			damageModifiers = new ArrayList<String>();
+		}
+		
+		public Weapon(Dice attack, int CritRange, int CritMultiplier, List<String> DamageTypes, List<String> AttackModifiers, List<String> DamageModifiers) {
+			damage = attack;
 			critRange = CritRange;
 			critMultiplier = CritMultiplier;
 			damageTypes = DamageTypes;
+			attackModifiers = AttackModifiers;
+			damageModifiers = DamageModifiers;
 		}
 		
 		
 		public double getBaseDamage() {
 			double critChance = (double) (21 - critRange) / 20;
-			double critDamage = critChance * critMultiplier * attackRoll.getAverage();
-			
-			return attackRoll.getAverage() + critDamage;
+			double critDamage = critChance * critMultiplier * damage.getAverage();
+			return damage.getAverage() + critDamage;
+		}
+		
+		public String getBaseDamageDisplay() {
+			return new DecimalFormat("#.00").format(getBaseDamage());
 		}
 	}
 	
-	public static class Enchantment implements Serializable {
+	public static class Enchantment {
 		public List<Attribute> attributes;
 		public String name;
 		public String description;
@@ -108,6 +123,7 @@ public class Item implements Serializable {
 			else if(attributes.size() == 1) return attributes.get(0).getDescription();
 			else return "No Description Set";
 		}
+		
 		public String getName() {
 			if(!name.contentEquals("")) return name;
 			else if(attributes.size() > 0) return attributes.get(0).getTitle();

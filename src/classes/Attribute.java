@@ -1,12 +1,9 @@
 package classes;
 
-import java.io.Serializable;
-
-@SuppressWarnings("serial")
-public class Attribute implements Serializable {
+public class Attribute {
 
 	public String attribute;
-	public int value;
+	public double value;
 	public String type;
 	public String stringValue;
 	
@@ -16,7 +13,7 @@ public class Attribute implements Serializable {
 		type = "";
 		stringValue = "";
 	}
-	public Attribute(String Attribute, int Value, String Type) {
+	public Attribute(String Attribute, double Value, String Type) {
 		attribute = Attribute;
 		value = Value;
 		type = Type;
@@ -26,14 +23,14 @@ public class Attribute implements Serializable {
 	public String getTitle() {
 		if((value == 0 && stringValue.contentEquals(""))|| attribute.contentEquals("")) return "";
 		else if(value == 0 && !stringValue.contentEquals("")) return attribute;
-		if(type.contentEquals("")) return attribute + " " + resource.util.getSign(value) + value;
-		return type + " " + attribute + " " + resource.util.getSign(value) + value;
+		if(type.contentEquals("")) return attribute + " " + getSign(value) + value;
+		return type + " " + attribute + " " + getSign(value) + value;
 	}
 	
 	public String getDescription() {
 		if((value == 0 && stringValue.contentEquals(""))|| attribute.contentEquals("")) return "";
 		else if(value == 0) return stringValue;
-		String sign = resource.util.getSign(value);
+		String sign = getSign(value);
 		String ret = "Passive: " + sign + value + " " + type + " ";
 		if(sign.contentEquals("+")) ret+= "bonus";
 		else if(sign.contentEquals("-")) ret+="penalty";
@@ -41,7 +38,25 @@ public class Attribute implements Serializable {
 		return ret + " to " + attribute;
 	}
 	
+	private static String getSign(double number) {
+		if(number < 0) return "";
+		return "+";
+	}
+	
 	public String toString() {
 		return getTitle() + ": " + getDescription();
+	}
+	
+	public String getAttribute() {
+		return attribute;
+	}
+	
+	public String getType() {
+		return type;
+	}
+	
+	public String getValue() {
+		if(value != 0) return value + "";
+		else return stringValue;
 	}
 }

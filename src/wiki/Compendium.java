@@ -1,7 +1,9 @@
-package resource;
+package wiki;
 
 import classes.*;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +18,7 @@ public class Compendium {
 		ret.name = name;
 		
 		//String displayHTML = util.getContents(SITE + "/w/" + name.replace(' ', '_'));
-		String editContents = getEditContents(util.getContents(SITE + "/index.php?title=" + name.replace(' ', '_') + "&action=edit"));
+		String editContents = getEditContents(resUtil.getContents(SITE + "/index.php?title=" + resUtil.toURL(name) + "&action=edit"));
 		
 		//Set up variables if needed
 		if(editContents.contains("Template:Armor") || editContents.contains("Template:Shield")) ret.armor = new Item.Armor();
@@ -27,6 +29,8 @@ public class Compendium {
 			String i = a[1].replace(" ", "");
 			try {
 				switch(a[0].toLowerCase()) { //TODO sort these cases
+				case "icon": ret.icon = getImageURL(resUtil.toURL(a[1]) + "_Icon.png"); break;
+				case "image": ret.cosmetic = getImageURL(resUtil.toURL(a[1]) + ".png"); break;
 				case "minlevel": ret.minLevel = Integer.parseInt(i); break;
 				case "hardness": ret.hardness = Integer.parseInt(i); break;
 				case "durability": ret.durability = Integer.parseInt(i); break;
@@ -36,8 +40,15 @@ public class Compendium {
 				case "weight": ret.weight = Double.parseDouble(i); break;
 				//TODO add icon/image fetchers, might require a separate HTML grabber?
 				//Weapon
-				case "damage": ret.weapon.attackRoll = new Dice(util.parseTemplate(a[1], false)); break;
-				case "damagetype": ret.weapon.damageTypes = util.parseTemplate(a[1],false); break;
+				case "damage": ret.weapon.damage = new Dice(resUtil.parseTemplate(a[1], false)); break;
+				case "damagetype": ret.weapon.damageTypes = resUtil.parseTemplate(a[1],false); break;
+				case "critprofile":
+					List<String> temp = resUtil.parseTemplate(a[1],false);
+					ret.weapon.critRange = Integer.parseInt(temp.get(0));
+					ret.weapon.critMultiplier = Integer.parseInt(temp.get(1));
+					break;
+				case "attackmod": ret.weapon.attackModifiers = clenseAbilities(resUtil.parseTemplate(a[1],false)); break;
+				case "damagemod": ret.weapon.damageModifiers = clenseAbilities(resUtil.parseTemplate(a[1],false)); break;
 				//Armor
 				case "armorcheckpenalty": ret.armor.armorCheckPenalty = Integer.parseInt(i); break;
 				case "spellfailure": ret.armor.spellFailure = Integer.parseInt(i.replace("%", "")); break;
@@ -45,27 +56,14 @@ public class Compendium {
 				case "armorbonus": ret.armor.armorBonus = Integer.parseInt(i); break;
 				case "attackpenalty": ret.armor.attackPenalty = Integer.parseInt(i); break;
 				case "dr": ret.armor.damageReduction = Integer.parseInt(i); break;
-				case "shiedbonus": ret.armor.shieldBonus = Integer.parseInt(i); break;
+				case "shiedbonus": ret.armor.armorBonus = Integer.parseInt(i); break;
 				//TODO add the rest of the variables
-				default: System.out.println(a[0] + " is empty");
+				default: //System.out.println(a[0] + " is empty");
 				}
 			} catch (Exception e) {}
 		}
-		
-		//Enhancement Bonus
-		//TODO re-implement
-//		Attribute b = null;
-//		for(Attribute a : ret.enchantment) {
-//			if(b == null && a.attribute.contentEquals("Enhancement Bonus")) b = a;
-//		}
-//		if(b!= null) {
-//			ret.attributes.remove(b);
-//			if(ret.armor != null) ret.attributes.add(new Attribute("Armor Class",b.value,"Enhancement"));
-//			if(ret.weapon != null) {
-//				ret.attributes.add(new Attribute("Attack",b.value,"Enhancement"));
-//				ret.attributes.add(new Attribute("Damage",b.value,"Enhancement"));
-//			}
-//		}
+		if(ret.icon == null) ret.icon = getImageURL(resUtil.toURL(name) + "_Icon.png");
+		if(ret.cosmetic == null) ret.cosmetic = getImageURL(resUtil.toURL(name) + ".png");
 		
 		return ret;
 	}
@@ -111,8 +109,10 @@ public class Compendium {
 			else if(c == '}') {
 				depth--;
 				if(depth == 1) {
-					ret.add(utilComp.parseEnchantment(temp));
-					temp = "";
+					try {
+						ret.add(utilComp.parseEnchantment(temp));
+						temp = "";
+					} catch(Exception e) {}
 				} else if(depth > 1) temp+=c;
 			} else if(depth >= 2) temp+=c;
 		}
@@ -120,11 +120,29 @@ public class Compendium {
 		return ret;
 	}
 	
+	private static URL getImageURL(String imageName) {
+		final String ind = "/images";
+		String html = resUtil.getContents(SITE + "/w/File:" + imageName);
+		if(html.contentEquals("")) return null;
+		html = html.substring(html.indexOf(ind) + 1);
+		html = html.substring(html.indexOf(ind));
+		try {
+			return new URL(SITE + html.substring(0,html.indexOf("\"")));
+		} catch(Exception e) {}
+		return null;
+	}
 	
-	
-	private static String inLineTemplates(String template) {
-		//TODO add in-line template writing
-		String ret = "";
+	private static List<String> clenseAbilities(List<String> mods) {
+		List<String> ret = new ArrayList<String>();
+		for(String s : mods) {
+			s = s.toLowerCase();
+			for(String a : classes.DDOUtil.abilities) {
+				s = s.replace(a.substring(0,3).toLowerCase(),a.toLowerCase());
+			}
+			s = s.substring(0, 1).toUpperCase() + s.substring(1);
+			ret.add(s);
+		}
+		
 		return ret;
 	}
 }
