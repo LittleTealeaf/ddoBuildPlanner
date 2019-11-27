@@ -9,7 +9,6 @@ public class Gearsets {
 
 	public static Tab getTab() {
 		
-		final Insets DEFAULTINSETS = new Insets(10,10,10,10);
 		tab = new Tab("Gearsets");
 		
 		return tab;
