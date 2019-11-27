@@ -43,7 +43,7 @@ public class Item {
 			super();
 
 			// TODO Correct shield slot with proper slot identifiers
-			equipSlots = Arrays.asList(new String[] { "Armor" });
+			equipSlots = Arrays.asList(new String[] {"Armor"});
 
 			maxDex = 10;
 		}
@@ -59,7 +59,7 @@ public class Item {
 			super();
 
 			// TODO Correct shield slot with proper slot identifiers
-			equipSlots = Arrays.asList(new String[] { "Main Hand", "Off Hand" });
+			equipSlots = Arrays.asList(new String[] {"Main Hand", "Off Hand"});
 
 			damage = new Dice();
 			damageTypes = new ArrayList<String>();
@@ -80,7 +80,7 @@ public class Item {
 			super();
 
 			// TODO Correct shield slot with proper slot identifiers
-			equipSlots = Arrays.asList(new String[] { "Off Hand" });
+			equipSlots = Arrays.asList(new String[] {"Off Hand"});
 
 			maxDex = 10;
 		}
