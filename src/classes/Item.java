@@ -123,6 +123,7 @@ public class Item {
 			else if(attributes.size() == 1) return attributes.get(0).getDescription();
 			else return "No Description Set";
 		}
+		
 		public String getName() {
 			if(!name.contentEquals("")) return name;
 			else if(attributes.size() > 0) return attributes.get(0).getTitle();

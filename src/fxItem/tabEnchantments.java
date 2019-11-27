@@ -33,8 +33,6 @@ public class tabEnchantments {
 		
 		enchantments = fxItem.item.enchantments;
 		
-		//TODO make "create" button
-		
 		table = getTableView();
 		updateEnchantmentTable();
 		
@@ -72,7 +70,13 @@ public class tabEnchantments {
 		
 		r.setOnMouseClicked(e -> {
 			if(e.getClickCount() == 2) {
-				Edit.editEnchantment(r.getSelectionModel().getSelectedItem());
+				Enchantment en = r.getSelectionModel().getSelectedItem();
+				if(en == null) {
+					Enchantment a = new Enchantment();
+					enchantments.add(a);
+					updateEnchantmentTable();
+					Edit.editEnchantment(a);
+				}
 			}
 		});
 		
@@ -96,16 +100,17 @@ public class tabEnchantments {
 		private static boolean doUpdate;
 		
 		private static void editEnchantment(Enchantment ench) {
-			e = ench;
 			
-			doUpdate = true;
+			System.out.println("hi");
 			
 			if(sEdit != null && sEdit.isShowing()) sEdit.close();
 			sEdit = new Stage();
 			if(ench == null) sEdit.setTitle("Creating Enchantment");
 			else sEdit.setTitle("Editing " + ench.name);
 			
-			Button bCreate = new Button("Add Attribute");
+			e = ench;
+			editAttribute = null;
+			doUpdate = true;
 			
 			table = attributeTable();
 			updateTable();
@@ -117,7 +122,6 @@ public class tabEnchantments {
 			
 			sEdit.setScene(new Scene(content));
 			sEdit.show();
-			
 		}
 		
 		@SuppressWarnings("unchecked")
@@ -146,12 +150,13 @@ public class tabEnchantments {
 		private static void updateTable() {
 			table.getItems().clear();
 			table.getItems().addAll(e.attributes);
+			updateEnchantmentTable();
 		}
 		
 		private static GridPane editGrid() {
 			
 			Text lName = new Text("Attribute: ");
-			Text lType = new Text("Bonus Type");
+			Text lType = new Text("Bonus Type: ");
 			Text lValue = new Text("Value: ");
 			
 			tAttributeName = new TextField();
@@ -160,6 +165,7 @@ public class tabEnchantments {
 			
 			for(TextField a : new TextField[] {tAttributeName, tAttributeType, tAttributeValue}) {
 				a.textProperty().addListener((obs,o,n) -> updateAttribute());
+				a.setDisable(true);
 			}
 			
 			Button bCreate = new Button("New");
@@ -201,6 +207,14 @@ public class tabEnchantments {
 				tAttributeType.setText(a.type);
 				if(a.value != 0) tAttributeValue.setText(a.value + "");
 				else tAttributeValue.setText(a.stringValue);
+
+				tAttributeName.setDisable(false);
+				tAttributeType.setDisable(false);
+				tAttributeValue.setDisable(false);
+			} else {
+				tAttributeName.setDisable(true);
+				tAttributeType.setDisable(true);
+				tAttributeValue.setDisable(true);
 			}
 			
 			doUpdate = true;
@@ -225,6 +239,9 @@ public class tabEnchantments {
 		}
 		
 		private static void createAttribute() {
+			tAttributeName.setDisable(false);
+			tAttributeType.setDisable(false);
+			tAttributeValue.setDisable(false);
 			Attribute a = new Attribute();
 			e.attributes.add(a);
 			loadAttribute(a);
