@@ -42,8 +42,7 @@ public class Enchantment {
 	}
 
 	public String getDescription() {
-		if (description.contentEquals(""))
-			description = EnchantConvert.getDescription(name);
+		if (description.contentEquals("")) description = EnchantConvert.getDescription(name);
 
 		return description;
 	}

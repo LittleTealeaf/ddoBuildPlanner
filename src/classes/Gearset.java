@@ -6,13 +6,11 @@ public class Gearset {
 	public Item goggles, helmet, necklace, trinket, armor, cloak, bracers, belt, ring1, ring2, boots, gloves;
 
 	public Gearset() {
-		for (Item a : getItems())
-			a = null;
+		for (Item a : getItems()) a = null;
 	}
 
 	public Gearset(String name) {
-		for (Item a : getItems())
-			a = null;
+		for (Item a : getItems()) a = null;
 		name = "";
 	}
 

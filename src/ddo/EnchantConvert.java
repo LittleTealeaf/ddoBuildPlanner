@@ -13,18 +13,15 @@ public class EnchantConvert {
 	public static String getDescription(String enchantment) {
 		updateMap();
 
-		for (String[] m : enchantMap)
-			try {
-				if (enchantment.contentEquals(m[0]))
-					return m[2];
-			} catch (Exception e) {}
+		for (String[] m : enchantMap) try {
+			if (enchantment.contentEquals(m[0])) return m[2];
+		} catch (Exception e) {}
 
 		return "";
 	}
 
 	private static void updateMap() {
-		if (enchantMap == null)
-			getMap();
+		if (enchantMap == null) getMap();
 	}
 
 	private static void getMap() {
@@ -33,8 +30,7 @@ public class EnchantConvert {
 			BufferedReader br = resource.getResource("enchantments");
 			String line = "";
 			while ((line = br.readLine()) != null) {
-				if (line.toCharArray()[0] != '#')
-					enchantMap.add(line.split("|"));
+				if (line.toCharArray()[0] != '#') enchantMap.add(line.split("|"));
 			}
 		} catch (Exception e) {}
 	}
