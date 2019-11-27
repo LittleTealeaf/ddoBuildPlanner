@@ -1,6 +1,7 @@
 package application;
 
 import classes.Gearset;
+import classes.Item;
 
 public class Main {
 

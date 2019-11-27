@@ -29,11 +29,6 @@ public class Item {
 		material = "";
 		iconURL = "";
 		imageURL = "";
-		minLevel = 0;
-		absoluteMinLevel = 0;
-		hardness = 0;
-		durability = 0;
-		weight = 0;
 		enchantments = new ArrayList<Enchantment>();
 	}
 
@@ -50,10 +45,7 @@ public class Item {
 			// TODO Correct shield slot with proper slot identifiers
 			equipSlots = Arrays.asList(new String[] { "Armor" });
 
-			armorBonus = 0;
 			maxDex = 10;
-			checkPenalty = 0;
-			spellFailure = 0;
 		}
 	}
 
@@ -90,10 +82,7 @@ public class Item {
 			// TODO Correct shield slot with proper slot identifiers
 			equipSlots = Arrays.asList(new String[] { "Off Hand" });
 
-			shieldBonus = 0;
 			maxDex = 10;
-			checkPenalty = 0;
-			spellFailure = 0;
 		}
 	}
 }

@@ -14,6 +14,5 @@ public class Attribute {
 	public Attribute() {
 		name = "";
 		type = "";
-		value = 0;
 	}
 }
