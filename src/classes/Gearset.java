@@ -15,7 +15,6 @@ public class Gearset {
 	}
 
 	public Item[] getItems() {
-		return new Item[] { goggles, helmet, necklace, trinket, armor, cloak, bracers, belt, ring1, ring2, boots,
-				gloves };
+		return new Item[] { goggles, helmet, necklace, trinket, armor, cloak, bracers, belt, ring1, ring2, boots, gloves };
 	}
 }
