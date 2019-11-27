@@ -10,7 +10,7 @@ public class Main {
 		// Build.setGearIndex(0);
 		// Launch fxMain
 		fxMain.open(args);
-		
+
 		Gearset a = new Gearset();
 	}
 }
