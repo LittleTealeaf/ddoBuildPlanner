@@ -48,15 +48,15 @@ public class Dice {
 	@Override
 	public String toString() {
 		String r = "";
-		if (coeff == 1) {
+		if(coeff == 1) {
 			double add = preAdd + postAdd;
 			r += dieCount + "d" + dieSides;
-			if (add != 0) r += " + " + add;
+			if(add != 0) r += " + " + add;
 		} else {
 			r += coeff + " [ " + dieCount + "d" + dieSides;
-			if (preAdd != 0) r += " + " + preAdd;
+			if(preAdd != 0) r += " + " + preAdd;
 			r += "]";
-			if (postAdd != 0) r += " + " + postAdd;
+			if(postAdd != 0) r += " + " + postAdd;
 		}
 		return r;
 	}

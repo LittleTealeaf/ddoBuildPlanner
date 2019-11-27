@@ -37,7 +37,7 @@ public class fxMain extends Application {
 		// Tome, Leveling, Enhancement Trees (sub tab in there), Gearsets
 		tabs.getTabs().addAll(fxTabs.Tabs.getMainTabs());
 
-		for (Tab t : tabs.getTabs()) {
+		for(Tab t : tabs.getTabs()) {
 			t.setClosable(false);
 		}
 
@@ -48,7 +48,7 @@ public class fxMain extends Application {
 		Scene scene = new Scene(root, 400, 400);
 		try {
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-		} catch (Exception e) {}
+		} catch(Exception e) {}
 
 		sMain.setScene(scene);
 		sMain.show();
