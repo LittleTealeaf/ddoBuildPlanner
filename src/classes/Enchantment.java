@@ -8,26 +8,43 @@ public class Enchantment {
 	public String type;
 	public String value;
 	
+	//Runtime Variables
+	private transient String title;
+	private transient String description;
+	
 	public Enchantment() {
 		name = "";
 		type = "";
 		value = "";
+		description = "";
+		title = "";
 	}
 	
 	public Enchantment(String n, String t, String v) {
 		name = n;
 		type = t;
 		value = v;
+		description = "";
+		title = "";
 	}
 	
 	public Enchantment(String n, String t, int v) {
 		name = n;
 		type = t;
 		value = v + "";
+		description = "";
+		title = "";
+	}
+	
+	public String getTitle() {
+		
+		return title;
 	}
 	
 	public String getDescription() {
-		return EnchantConvert.getDescription();
+		if(description.contentEquals("")) description = EnchantConvert.getDescription();
+		
+		return description;
 	}
 	
 	public String getName() {
