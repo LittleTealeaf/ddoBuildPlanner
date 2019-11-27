@@ -82,4 +82,8 @@ public class Enchantment {
 	public void setValue(String v) {
 		value = v;
 	}
+	
+	public static class CraftingEnchantment extends Enchantment {
+		
+	}
 }
