@@ -1,6 +1,5 @@
 package fxTabs;
 
-import javafx.geometry.Insets;
 import javafx.scene.control.Tab;
 
 public class Gearsets {
