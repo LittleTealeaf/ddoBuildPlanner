@@ -24,6 +24,8 @@ public class fxMain extends Application {
 	public void start(Stage sMain) {
 		sMainRef = sMain;
 
+		//TODO preferences! (including the display type of dice values)
+		
 		// Menu
 		MenuBar menu = new MenuBar();
 
