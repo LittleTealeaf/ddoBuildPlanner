@@ -32,4 +32,17 @@ public class Item {
 		weight = 0;
 		enchantments = new ArrayList<Enchantment>();
 	}
+	
+	public static class Armor extends Item {
+		
+		public String armorType;
+		public int armorBonus;
+		public int maxDex;
+		public int checkPenalty;
+		public double spellFailure;
+		
+		public Armor() {
+			super();
+		}
+	}
 }
