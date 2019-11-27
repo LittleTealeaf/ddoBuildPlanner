@@ -2,7 +2,7 @@ module buildPlanner {
 	exports application;
 	exports classes;
 	exports fxTabs;
-	
+
 	opens classes to com.google.gson;
 
 	requires javafx.base;
