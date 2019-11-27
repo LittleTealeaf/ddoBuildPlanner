@@ -1,5 +1,7 @@
 package classes;
 
+import ddo.EnchantConvert;
+
 public class Enchantment {
 
 	public String name;
@@ -22,6 +24,10 @@ public class Enchantment {
 		name = n;
 		type = t;
 		value = v + "";
+	}
+	
+	public String getDescription() {
+		return EnchantConvert.getDescription();
 	}
 	
 	public String getName() {
