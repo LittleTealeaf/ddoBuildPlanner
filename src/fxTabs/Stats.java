@@ -1,7 +1,5 @@
 package fxTabs;
 
-import classes.Build;
-import classes.Stat;
 import javafx.scene.control.Tab;
 import javafx.scene.text.Text;
 
@@ -15,17 +13,6 @@ public class Stats {
 		statText = new Text();
 		
 		ret.setContent(statText);
-		updateStats();
 		return ret;
-	}
-
-
-	public static void updateStats() {
-		String text = "";
-		
-		for(Stat s : statCalc.getStats(Build.getAllAttributes())) {
-			text+="\n" + s;
-		}
-		statText.setText(text);
 	}
 }

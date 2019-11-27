@@ -1,6 +1,5 @@
 package application;
 
-import fxItem.fxItem;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
@@ -32,13 +31,6 @@ public class fxMain extends Application {
 			MenuBar menu = new MenuBar();
 			
 			Menu file = new Menu("File");
-			
-			MenuItem item = new MenuItem("Item");
-			item.setOnAction(event -> {
-				fxItem.open();
-			});
-			
-			file.getItems().add(item);
 			
 			menu.getMenus().addAll(file);
 			
