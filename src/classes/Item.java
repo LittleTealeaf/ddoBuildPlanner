@@ -58,7 +58,6 @@ public class Item {
 	}
 
 	public static class Weapon extends Item {
-
 		public Dice damage;
 		public List<String> damageTypes;
 		public int lowCritRoll;
