@@ -1,8 +1,5 @@
 package application;
 
-import classes.Gearset;
-import classes.Item;
-
 public class Main {
 
 	public static void main(String[] args) {
@@ -11,7 +8,6 @@ public class Main {
 		// Build.setGearIndex(0);
 		// Launch fxMain
 		fxMain.open(args);
-
-		Gearset a = new Gearset();
+		
 	}
 }
