@@ -21,7 +21,7 @@ public class Item {
 	public double weight;
 	public List<Enchantment> enchantments;
 	public List<String> equipSlots;
-	
+
 	public Item() {
 		name = "";
 		description = "";
@@ -36,61 +36,61 @@ public class Item {
 		weight = 0;
 		enchantments = new ArrayList<Enchantment>();
 	}
-	
+
 	public static class Armor extends Item {
-		
+
 		public int armorBonus;
 		public int maxDex;
 		public int checkPenalty;
 		public double spellFailure;
-		
+
 		public Armor() {
 			super();
-			
-			//TODO Correct shield slot with proper slot identifiers
-			equipSlots = Arrays.asList(new String[] {"Armor"});
-			
+
+			// TODO Correct shield slot with proper slot identifiers
+			equipSlots = Arrays.asList(new String[] { "Armor" });
+
 			armorBonus = 0;
 			maxDex = 10;
 			checkPenalty = 0;
 			spellFailure = 0;
 		}
 	}
-	
+
 	public static class Weapon extends Item {
-		
+
 		public Dice damage;
 		public List<String> damageTypes;
 		public int lowCritRoll;
 		public double critMultiplier;
-		
+
 		public Weapon() {
 			super();
-			
-			//TODO Correct shield slot with proper slot identifiers
-			equipSlots = Arrays.asList(new String[] {"Main Hand","Off Hand"});
-			
+
+			// TODO Correct shield slot with proper slot identifiers
+			equipSlots = Arrays.asList(new String[] { "Main Hand", "Off Hand" });
+
 			damage = new Dice();
 			damageTypes = new ArrayList<String>();
 			lowCritRoll = 20;
 			critMultiplier = 1;
 		}
 	}
-	
-	//Includes Orbs
+
+	// Includes Orbs
 	public static class Shield extends Item {
-		
+
 		public int shieldBonus;
 		public int maxDex;
 		public int checkPenalty;
 		public double spellFailure;
-		
+
 		public Shield() {
 			super();
-			
-			//TODO Correct shield slot with proper slot identifiers
-			equipSlots = Arrays.asList(new String[] {"Off Hand"}); 
-			
+
+			// TODO Correct shield slot with proper slot identifiers
+			equipSlots = Arrays.asList(new String[] { "Off Hand" });
+
 			shieldBonus = 0;
 			maxDex = 10;
 			checkPenalty = 0;
