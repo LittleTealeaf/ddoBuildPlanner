@@ -13,6 +13,10 @@ public class EnchantConvert {
 	public static String getDescription(String enchantment) {
 		updateMap();
 		
+		for(String[] m : enchantMap) try {
+			if(enchantment.contentEquals(m[0])) return m[2];
+		} catch (Exception e) {}
+		
 		return "";
 	}
 	
