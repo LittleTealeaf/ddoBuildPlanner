@@ -58,6 +58,8 @@ public class Dice {
 			r += "]";
 			if(postAdd != 0) r += " + " + postAdd;
 		}
+		//Current option for settings
+		if(Settings.compactDice) r.replace(" ", "");
 		return r;
 	}
 
