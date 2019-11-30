@@ -41,8 +41,8 @@ public class Settings {
 				String jsonString = "";
 				for(String l : lines) jsonString += l;
 				
-				Settings s = Data.staticJSON.fromJson(jsonString, Settings.class);
-				
+				Data.staticJSON.fromJson(jsonString, Settings.class);
+
 			} catch(IOException e) {}
 			
 		} else {
