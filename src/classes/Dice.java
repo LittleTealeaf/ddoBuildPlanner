@@ -59,7 +59,7 @@ public class Dice {
 			if(postAdd != 0) r += " + " + postAdd;
 		}
 		//Current option for settings
-		if(Settings.compactDice) r.replace(" ", "");
+		if(Settings.compactDice) r = r.replace(" ", "");
 		return r;
 	}
 

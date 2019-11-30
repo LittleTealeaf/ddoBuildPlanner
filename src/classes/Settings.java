@@ -11,12 +11,13 @@ import java.util.Properties;
 import com.google.gson.GsonBuilder;
 
 import application.Data;
+import application.Main;
 import net.harawata.appdirs.AppDirs;
 import net.harawata.appdirs.AppDirsFactory;
 
 public class Settings {
 	
-	public static final String version = "0.0.1";
+	private static String version;
 	
 	//SETTINGS
 	
@@ -58,10 +59,12 @@ public class Settings {
 	}
 	
 	public static void saveSettings() {
+		version = Main.version;
 		try {
 			FileWriter writer = new FileWriter(Data.settings);
 			writer.write(Data.staticJSON.toJson(new Settings()));
 			writer.close();
+			System.out.println("Saved Settings to: " + Data.settings.getPath());
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
