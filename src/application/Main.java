@@ -7,7 +7,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		
-		UserData.loadPaths();
+		Data.loadData();
 		Settings.loadSettings();
 		
 		// Build.gearSets.add(testGear());
