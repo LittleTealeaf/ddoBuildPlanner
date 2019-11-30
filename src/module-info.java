@@ -10,4 +10,5 @@ module buildPlanner {
 	requires transitive javafx.graphics;
 	requires transitive javafx.controls;
 	requires com.google.gson;
+	requires net.harawata.appdirs;
 }
