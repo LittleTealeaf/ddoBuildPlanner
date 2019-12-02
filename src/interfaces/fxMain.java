@@ -25,16 +25,16 @@ public class fxMain extends Application {
 	public void start(Stage sMain) {
 		sMainRef = sMain;
 
-		//TODO preferences! (including the display type of dice values)
-		
+		// TODO preferences! (including the display type of dice values)
+
 		// Menu
 		MenuBar menu = new MenuBar();
 
 		Menu file = new Menu("File");
-		
+
 		MenuItem settings = new MenuItem("Settings");
 		settings.setOnAction(e -> fxSettings.open());
-		
+
 		file.getItems().add(settings);
 
 		menu.getMenus().addAll(file);

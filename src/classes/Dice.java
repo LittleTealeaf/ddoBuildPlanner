@@ -61,12 +61,12 @@ public class Dice {
 				r += "]";
 				if(postAdd != 0) r += " + " + postAdd;
 			}
-			//Current option for settings
+			// Current option for settings
 			if(Settings.display.dice.compactDice) r = r.replace(" ", "");
 		}
 		if(Settings.display.dice.showRange) {
-			if(!r.contentEquals("")) r+="\n";
-			r+="(" + getMinimum() + " - " + getMaximum() + ")";
+			if(!r.contentEquals("")) r += "\n";
+			r += "(" + getMinimum() + " - " + getMaximum() + ")";
 		}
 		return r;
 	}
