@@ -10,7 +10,7 @@ assignees: 'LittleTealeaf'
 What were you just doing when this happened?
 
 **Crash Report**
-Paste the crash log below
+Highlight the <LOG HERE> and press `CTRL + V` (If directed from the crash dialog, you'll have it on your clipboard)
 ```
 <LOG HERE>
 ```
