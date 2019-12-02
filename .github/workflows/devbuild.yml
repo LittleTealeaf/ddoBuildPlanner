@@ -2,10 +2,10 @@ on:
   push:
     branches:
       - dev-builds
-    paths-ignore:
-    - '**.jar'
-    - 'target/*'
-job:
+    paths:
+    - '!**.jar'
+    - '!target/*'
+jobs:
   build:
     runs-on: ubuntu-latest
     steps:
