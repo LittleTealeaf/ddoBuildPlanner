@@ -4,7 +4,6 @@ on:
       - dev-builds
     paths:
     - '!**.jar'
-    - '!target/*'
 jobs:
   build:
     runs-on: ubuntu-latest
