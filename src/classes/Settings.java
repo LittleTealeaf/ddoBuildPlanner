@@ -29,7 +29,7 @@ public class Settings {
 	}
 	
 	public static class display {
-		public static dice Dice;
+		private static dice Dice;
 		public display() {
 			Dice = new dice();
 		}
@@ -38,8 +38,9 @@ public class Settings {
 			public dice() {}
 			
 			public static boolean showDice;
-			public static boolean compactDice;
 			public static boolean showRange;
+			
+			public static boolean compactDice;
 		}
 	}
 

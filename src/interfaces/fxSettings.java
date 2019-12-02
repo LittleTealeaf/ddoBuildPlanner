@@ -2,6 +2,7 @@ package interfaces;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Function;
 
 import classes.Dice;
 import classes.Settings;
@@ -15,6 +16,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.Separator;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
@@ -76,15 +78,36 @@ public class fxSettings {
 		
 		//DICE FORMAT
 		Text diceDisplay = new Text(new Dice(3,4,5,6,7).toString());
+		Function<String, String> updateDisplay = a -> {
+			diceDisplay.setText(new Dice(3,4,5,6,7).toString());
+			return "";
+		};
+		
+		CheckBox cShowDice = new CheckBox("Show Dice");
+		cShowDice.setSelected(Settings.display.dice.showDice);
+		CheckBox cShowRange = new CheckBox("Show Range");
+		cShowRange.setSelected(Settings.display.dice.showRange);
+		
+		cShowDice.selectedProperty().addListener((obs,o,n) -> {
+			if(!n.booleanValue()) cShowRange.setSelected(true);
+			Settings.display.dice.showDice = n.booleanValue();
+			updateDisplay.apply("");
+		});
+		cShowRange.selectedProperty().addListener((obs,o,n) -> {
+			if(!n.booleanValue()) cShowDice.setSelected(true);
+			Settings.display.dice.showRange = n.booleanValue();
+			updateDisplay.apply("");
+		});
 		
 		CheckBox cCompactDice = new CheckBox("Compact Dice Format");
 		cCompactDice.setSelected(Settings.display.dice.compactDice);
+		cCompactDice.disableProperty().bind(cShowDice.selectedProperty().not());
 		cCompactDice.selectedProperty().addListener(o -> {
 			Settings.display.dice.compactDice = cCompactDice.isSelected();
-			diceDisplay.setText(new Dice(3,4,5,6,7).toString());
+			updateDisplay.apply("");
 		});
 		
-		content.getChildren().add(settingSection("Dice Format",Arrays.asList(cCompactDice),Arrays.asList(diceDisplay)));
+		content.getChildren().add(settingSection("Dice Format",Arrays.asList(cShowDice,cShowRange,new Separator(),cCompactDice),Arrays.asList(diceDisplay)));
 		
 		r.setContent(content);
 		return r;
