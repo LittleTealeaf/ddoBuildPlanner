@@ -50,18 +50,24 @@ public class Dice {
 	@Override
 	public String toString() {
 		String r = "";
-		if(coeff == 1) {
-			double add = preAdd + postAdd;
-			r += dieCount + "d" + dieSides;
-			if(add != 0) r += " + " + add;
-		} else {
-			r += coeff + " [ " + dieCount + "d" + dieSides;
-			if(preAdd != 0) r += " + " + preAdd;
-			r += "]";
-			if(postAdd != 0) r += " + " + postAdd;
+		if(Settings.display.dice.showDice) {
+			if(coeff == 1) {
+				double add = preAdd + postAdd;
+				r += dieCount + "d" + dieSides;
+				if(add != 0) r += " + " + add;
+			} else {
+				r += coeff + " [ " + dieCount + "d" + dieSides;
+				if(preAdd != 0) r += " + " + preAdd;
+				r += "]";
+				if(postAdd != 0) r += " + " + postAdd;
+			}
+			//Current option for settings
+			if(Settings.display.dice.compactDice) r = r.replace(" ", "");
 		}
-		//Current option for settings
-		if(Settings.display.dice.compactDice) r = r.replace(" ", "");
+		if(Settings.display.dice.showRange) {
+			if(!r.contentEquals("")) r+="\n";
+			r+="(" + getMinimum() + " - " + getMaximum() + ")";
+		}
 		return r;
 	}
 
