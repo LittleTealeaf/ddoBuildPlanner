@@ -26,6 +26,6 @@ public class Data {
 	}
 
 	public static File getDataFile(String name) {
-		return new File(appDirs.getUserDataDir("DDO Build Planner", Main.version, "Tealeaf", true) + "\\" + name);
+		return new File(appDirs.getUserDataDir("DDO Build Planner", "", "Tealeaf", true) + "\\" + name);
 	}
 }
