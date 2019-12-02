@@ -55,13 +55,8 @@ public class Settings {
 		defaultSettings();
 		if(Data.settings.exists()) {
 			try {
-				List<String> lines = Files.readAllLines(Data.settings.toPath());
 				
-				if(lines.size() == 0) return;
-				String jsonString = "";
-				for(String l : lines) jsonString += l;
-				
-				Data.staticJSON.fromJson(jsonString, Settings.class);
+				Data.staticJSON.fromJson(Files.newBufferedReader(Data.settings.toPath()), Settings.class);
 				
 				if(!version.contentEquals(Main.version)) saveSettings();
 				
