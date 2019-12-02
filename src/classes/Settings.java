@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import application.Data;
@@ -17,7 +18,7 @@ import net.harawata.appdirs.AppDirsFactory;
 
 public class Settings {
 	
-	private static String version;
+	private String version;
 	
 	//SETTINGS
 	
@@ -26,15 +27,17 @@ public class Settings {
 	
 	//SETTINGS METHODS
 	
-	public Settings() {}
+	public Settings() {
+		version = Main.version;
+	}
 	
 	public static void defaultSettings() {
 		compactDice = false;
 	}
 	
 	public static void loadSettings() {
+		defaultSettings();
 		if(Data.settings.exists()) {
-			
 			try {
 				List<String> lines = Files.readAllLines(Data.settings.toPath());
 				
@@ -43,11 +46,10 @@ public class Settings {
 				for(String l : lines) jsonString += l;
 				
 				Data.staticJSON.fromJson(jsonString, Settings.class);
-
+				
 			} catch(IOException e) {}
 			
 		} else {
-			defaultSettings();
 			Data.settings.getParentFile().mkdirs();
 			
 			try {
@@ -59,7 +61,6 @@ public class Settings {
 	}
 	
 	public static void saveSettings() {
-		version = Main.version;
 		try {
 			FileWriter writer = new FileWriter(Data.settings);
 			writer.write(Data.staticJSON.toJson(new Settings()));
