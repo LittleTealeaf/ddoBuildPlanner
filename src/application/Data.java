@@ -19,10 +19,8 @@ public class Data {
 	
 	public static void loadData() {
 		appDirs = AppDirsFactory.getInstance();
-		
-		GsonBuilder b = new GsonBuilder();
-		b.excludeFieldsWithModifiers(java.lang.reflect.Modifier.TRANSIENT);
-		staticJSON = b.create();
+
+		staticJSON = new GsonBuilder().excludeFieldsWithModifiers(java.lang.reflect.Modifier.TRANSIENT).setPrettyPrinting().create();
 		
 		settings = getDataFile("settings.json");
 	}
