@@ -59,7 +59,8 @@ public class fxSettings {
 		stage.setOnCloseRequest(e -> Settings.saveSettings());
 
 		ObservableList<settingsPage> pages = FXCollections.observableArrayList();
-		pages.addAll(pageDisplay(), pageSaving());
+		
+		pages.addAll(pageDisplay(), pageSaving(),pageAdvanced());
 
 		// http://www.java2s.com/Code/Java/JavaFX/ListViewselectionlistener.htm
 		ListView<settingsPage> pageSelection = new ListView<settingsPage>(pages);
@@ -107,35 +108,6 @@ public class fxSettings {
 
 		stage.setScene(scene);
 		stage.show();
-	}
-
-	private static VBox settingSection(String name, List<Node> options, List<Node> display) {
-		VBox r = new VBox();
-		r.setSpacing(10);
-
-		Text header = new Text(name);
-		header.setFont(new Font(20));
-
-		HBox row = new HBox();
-		row.setSpacing(10);
-
-		if(options != null) {
-			VBox lOptions = new VBox();
-			lOptions.setSpacing(10);
-			lOptions.getChildren().addAll(options);
-			row.getChildren().add(lOptions);
-		}
-
-		if(display != null) {
-			VBox lDisplay = new VBox();
-			lDisplay.setSpacing(10);
-			lDisplay.getChildren().addAll(display);
-			row.getChildren().add(lDisplay);
-		}
-
-		r.getChildren().addAll(header, row);
-
-		return r;
 	}
 
 	private static settingsPage pageDisplay() {
@@ -227,6 +199,53 @@ public class fxSettings {
 		content.getChildren().add(settingSection("Auto Saving", Arrays.asList(hInactive, hPeriod), null));
 
 		r.setContent(content);
+		return r;
+	}
+	
+	private static settingsPage pageAdvanced() {
+		settingsPage r = new settingsPage("Advanced");
+		
+		VBox content = new VBox();
+		content.setPadding(new Insets(10));
+		content.setSpacing(10);
+		
+		CheckBox cDebug = new CheckBox("Show Crash Reports");
+		cDebug.setSelected(Settings.advanced.debug.showCrashReports);
+		cDebug.selectedProperty().addListener(a -> Settings.advanced.debug.showCrashReports = cDebug.isSelected());
+		
+		content.getChildren().add(settingSection("Debug Mode",Arrays.asList(cDebug),null));
+		
+		r.setContent(content);
+		
+		return r;
+	}
+	
+	private static VBox settingSection(String name, List<Node> options, List<Node> display) {
+		VBox r = new VBox();
+		r.setSpacing(10);
+
+		Text header = new Text(name);
+		header.setFont(new Font(20));
+
+		HBox row = new HBox();
+		row.setSpacing(10);
+
+		if(options != null) {
+			VBox lOptions = new VBox();
+			lOptions.setSpacing(10);
+			lOptions.getChildren().addAll(options);
+			row.getChildren().add(lOptions);
+		}
+
+		if(display != null) {
+			VBox lDisplay = new VBox();
+			lDisplay.setSpacing(10);
+			lDisplay.getChildren().addAll(display);
+			row.getChildren().add(lDisplay);
+		}
+
+		r.getChildren().addAll(header, row);
+
 		return r;
 	}
 

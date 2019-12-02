@@ -25,6 +25,8 @@ public class Settings {
 		// Variable Names are what dictate what the JSON file reads
 		Display = new display();
 		Saving = new saving();
+		Advanced = new advanced();
+		
 		version = Main.version;
 	}
 
@@ -48,12 +50,27 @@ public class Settings {
 	}
 
 	private static saving Saving;
-
+	
 	public static class saving {
 		public saving() {}
 
 		public static double inactivityTime;
 		public static double periodicalTime;
+	}
+	
+	private static advanced Advanced;
+	
+	public static class advanced {
+		public advanced() {
+			Debug = new debug();
+		}
+		
+		public static debug Debug;
+		public static class debug {
+			public debug() {}
+			
+			public static boolean showCrashReports;
+		}
 	}
 
 	public static void defaultSettings() {
@@ -63,6 +80,8 @@ public class Settings {
 
 		saving.inactivityTime = 100;
 		saving.periodicalTime = 0;
+		
+		advanced.debug.showCrashReports = true; //TODO PRODUCTION: change to false
 	}
 
 	public static void loadSettings() {
