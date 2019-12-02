@@ -1,5 +1,7 @@
 package classes;
 
+import classes.Settings.display;
+
 public class Dice {
 
 	public double coeff;
@@ -59,7 +61,7 @@ public class Dice {
 			if(postAdd != 0) r += " + " + postAdd;
 		}
 		//Current option for settings
-		if(Settings.compactDice) r = r.replace(" ", "");
+		if(Settings.display.dice.compactDice) r = r.replace(" ", "");
 		return r;
 	}
 

@@ -18,21 +18,37 @@ import net.harawata.appdirs.AppDirsFactory;
 
 public class Settings {
 	
-	private String version;
+	private static String version;
 	
-	//SETTINGS
+	private static display Display;
 	
-	public static boolean compactDice;
-	
-	
-	//SETTINGS METHODS
 	
 	public Settings() {
+		Display = new display();
 		version = Main.version;
 	}
 	
+	public static class display {
+		public static dice Dice;
+		public display() {
+			Dice = new dice();
+		}
+		
+		public static class dice {
+			public dice() {}
+			
+			public static boolean showDice;
+			public static boolean compactDice;
+			public static boolean showRange;
+		}
+	}
+
+	
+	
 	public static void defaultSettings() {
-		compactDice = false;
+		display.dice.showDice = true;
+		display.dice.compactDice = false;
+		display.dice.showRange = false;
 	}
 	
 	public static void loadSettings() {
@@ -46,6 +62,8 @@ public class Settings {
 				for(String l : lines) jsonString += l;
 				
 				Data.staticJSON.fromJson(jsonString, Settings.class);
+				
+				if(!version.contentEquals(Main.version)) saveSettings();
 				
 			} catch(IOException e) {}
 			

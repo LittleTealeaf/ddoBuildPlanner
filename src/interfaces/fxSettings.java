@@ -5,6 +5,7 @@ import java.util.List;
 
 import classes.Dice;
 import classes.Settings;
+import classes.Settings.display;
 import javafx.geometry.Insets;
 import javafx.geometry.NodeOrientation;
 import javafx.geometry.Orientation;
@@ -77,9 +78,9 @@ public class fxSettings {
 		Text diceDisplay = new Text(new Dice(3,4,5,6,7).toString());
 		
 		CheckBox cCompactDice = new CheckBox("Compact Dice Format");
-		cCompactDice.setSelected(Settings.compactDice);
+		cCompactDice.setSelected(Settings.display.dice.compactDice);
 		cCompactDice.selectedProperty().addListener(o -> {
-			Settings.compactDice = cCompactDice.isSelected();
+			Settings.display.dice.compactDice = cCompactDice.isSelected();
 			diceDisplay.setText(new Dice(3,4,5,6,7).toString());
 		});
 		
