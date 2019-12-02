@@ -18,7 +18,9 @@ job:
       run: mvn -B clean install
     - name: Move to file
       run: mv -u target/*-Dev.jar ddoBuilder-Dev-Build.jar
-    - name: git commit
+    - name: git add
       run: git add *
+    - name: git commit
       run: git commit -m Auto-Generating File
+    - name: git push
       run: git push
