@@ -40,7 +40,7 @@ public class Debug {
 				stream.print(e.getMessage() + "\n");
 				e.printStackTrace(stream);
 				
-				if(Settings.advanced.debug) showPrompt(Files.readAllLines(file.toPath()));
+				if(Settings.advanced.debug.showCrashReports) showPrompt(Files.readAllLines(file.toPath()));
 
 			} catch(Exception e1) {
 				e1.printStackTrace();

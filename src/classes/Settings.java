@@ -61,9 +61,16 @@ public class Settings {
 	private static advanced Advanced;
 	
 	public static class advanced {
-		public advanced() {}
+		public advanced() {
+			Debug = new debug();
+		}
 		
-		public static boolean debug;
+		public static debug Debug;
+		public static class debug {
+			public debug() {}
+			
+			public static boolean showCrashReports;
+		}
 	}
 
 	public static void defaultSettings() {
@@ -74,7 +81,7 @@ public class Settings {
 		saving.inactivityTime = 100;
 		saving.periodicalTime = 0;
 		
-		advanced.debug = true; //TODO PRODUCTION: change to false
+		advanced.debug.showCrashReports = true; //TODO PRODUCTION: change to false
 	}
 
 	public static void loadSettings() {

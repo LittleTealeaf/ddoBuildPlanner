@@ -209,9 +209,9 @@ public class fxSettings {
 		content.setPadding(new Insets(10));
 		content.setSpacing(10);
 		
-		CheckBox cDebug = new CheckBox("Debug");
-		cDebug.setSelected(Settings.advanced.debug);
-		cDebug.selectedProperty().addListener(a -> Settings.advanced.debug = cDebug.isSelected());
+		CheckBox cDebug = new CheckBox("Show Crash Reports");
+		cDebug.setSelected(Settings.advanced.debug.showCrashReports);
+		cDebug.selectedProperty().addListener(a -> Settings.advanced.debug.showCrashReports = cDebug.isSelected());
 		
 		content.getChildren().add(settingSection("Debug Mode",Arrays.asList(cDebug),null));
 		
