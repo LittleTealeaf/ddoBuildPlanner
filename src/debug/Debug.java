@@ -15,6 +15,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import application.Data;
+import classes.Settings;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -39,7 +40,7 @@ public class Debug {
 				stream.print(e.getMessage() + "\n");
 				e.printStackTrace(stream);
 				
-				showPrompt(Files.readAllLines(file.toPath()));
+				if(Settings.advanced.debug) showPrompt(Files.readAllLines(file.toPath()));
 
 			} catch(Exception e1) {
 				e1.printStackTrace();
