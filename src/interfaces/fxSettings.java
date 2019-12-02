@@ -59,8 +59,8 @@ public class fxSettings {
 		stage.setOnCloseRequest(e -> Settings.saveSettings());
 
 		ObservableList<settingsPage> pages = FXCollections.observableArrayList();
-		
-		pages.addAll(pageDisplay(), pageSaving(),pageAdvanced());
+
+		pages.addAll(pageDisplay(), pageSaving(), pageAdvanced());
 
 		// http://www.java2s.com/Code/Java/JavaFX/ListViewselectionlistener.htm
 		ListView<settingsPage> pageSelection = new ListView<settingsPage>(pages);
@@ -201,25 +201,25 @@ public class fxSettings {
 		r.setContent(content);
 		return r;
 	}
-	
+
 	private static settingsPage pageAdvanced() {
 		settingsPage r = new settingsPage("Advanced");
-		
+
 		VBox content = new VBox();
 		content.setPadding(new Insets(10));
 		content.setSpacing(10);
-		
+
 		CheckBox cDebug = new CheckBox("Show Crash Reports");
 		cDebug.setSelected(Settings.advanced.debug.showCrashReports);
 		cDebug.selectedProperty().addListener(a -> Settings.advanced.debug.showCrashReports = cDebug.isSelected());
-		
-		content.getChildren().add(settingSection("Debug Mode",Arrays.asList(cDebug),null));
-		
+
+		content.getChildren().add(settingSection("Debug Mode", Arrays.asList(cDebug), null));
+
 		r.setContent(content);
-		
+
 		return r;
 	}
-	
+
 	private static VBox settingSection(String name, List<Node> options, List<Node> display) {
 		VBox r = new VBox();
 		r.setSpacing(10);

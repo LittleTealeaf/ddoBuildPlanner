@@ -17,11 +17,11 @@ public class Main {
 		Debug.setCrashReporting();
 		Data.loadData();
 		Settings.loadSettings();
-		
+
 		// Build.gearSets.add(testGear());
 		// Build.setGearIndex(0);
 		// Launch fxMain
-		
+
 		fxMain.open(args);
 
 	}

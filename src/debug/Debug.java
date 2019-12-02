@@ -39,7 +39,7 @@ public class Debug {
 				PrintStream stream = new PrintStream(file);
 				stream.print(e.getMessage() + "\n");
 				e.printStackTrace(stream);
-				
+
 				if(Settings.advanced.debug.showCrashReports) showPrompt(Files.readAllLines(file.toPath()));
 
 			} catch(Exception e1) {
@@ -48,7 +48,7 @@ public class Debug {
 
 		});
 	}
-	
+
 	private static void showPrompt(List<String> lines) {
 		Alert alert = new Alert(AlertType.ERROR);
 		alert.setTitle("Crash Dialog");
@@ -56,7 +56,7 @@ public class Debug {
 		alert.setContentText("You can either ignore this error, or report it!");
 
 		String exceptionText = "";
-		for(String s : lines) exceptionText+=s + "\n";
+		for(String s : lines) exceptionText += s + "\n";
 		final String exception = exceptionText;
 
 		Label label = new Label("The exception stacktrace was:");
@@ -64,7 +64,7 @@ public class Debug {
 		TextArea textArea = new TextArea(exceptionText);
 		textArea.setEditable(false);
 		textArea.setWrapText(true);
-		
+
 		Button reportLink = new Button("Report Issue");
 		reportLink.setOnAction(e -> {
 			StringSelection stringSelection = new StringSelection(exception);
@@ -74,7 +74,7 @@ public class Debug {
 				java.awt.Desktop.getDesktop().browse(new URI("https://github.com/LittleTealeaf/ddoBuildPlanner/issues/new?assignees=LittleTealeaf&labels=crash&template=crash_report.md&title=Crash+Report"));
 			} catch(Exception exce) {}
 		});
-		
+
 		Label warning = new Label("Warning: This will use your clipboard");
 
 		textArea.setMaxWidth(Double.MAX_VALUE);
