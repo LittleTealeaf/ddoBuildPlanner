@@ -13,6 +13,7 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.NodeOrientation;
 import javafx.geometry.Orientation;
+import javafx.geometry.Pos;
 import javafx.geometry.Side;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -23,6 +24,8 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Separator;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.Tooltip;
@@ -102,7 +105,7 @@ public class fxSettings {
 		
 		pageSelection.getSelectionModel().select(0);
 		
-		Scene scene = new Scene(content);
+		Scene scene = new Scene(content,500,400);
 		//scene.getStylesheets().add(ClassLoader.getSystemResource("listStyle.css").toExternalForm());
 		
 		stage.setScene(scene);
@@ -187,6 +190,47 @@ public class fxSettings {
 	private static settingsPage pageSaving() {
 		settingsPage r = new settingsPage("Saving");
 		
+		VBox content = new VBox();
+		content.setPadding(new Insets(10));
+		content.setSpacing(10);
+		
+		Spinner<Double> sInactive = new Spinner<Double>();
+		sInactive.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(0, 24*60,Settings.saving.inactivityTime));
+		sInactive.valueProperty().addListener(o -> Settings.saving.inactivityTime = sInactive.getValue());
+		sInactive.setEditable(true);
+		sInactive.setPrefWidth(75);
+		
+		CheckBox cInactive = new CheckBox("Save when Inactive (Minutes)");
+		cInactive.setSelected(Settings.saving.inactivityTime > 0);
+		cInactive.selectedProperty().addListener(o -> {
+			if(!cInactive.isSelected()) sInactive.getValueFactory().setValue((double) 0);
+		});
+		sInactive.disableProperty().bind(cInactive.selectedProperty().not());
+		
+		HBox hInactive = new HBox(cInactive,sInactive);
+		hInactive.setAlignment(Pos.CENTER_LEFT);
+		hInactive.setSpacing(5);
+		
+		Spinner<Double> sPeriod = new Spinner<Double>();
+		sPeriod.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(0, 200, Settings.saving.periodicalTime));
+		sPeriod.valueProperty().addListener(o -> Settings.saving.periodicalTime = sPeriod.getValue());
+		sPeriod.setEditable(true);
+		sPeriod.setPrefWidth(75);
+		
+		CheckBox cPeriod = new CheckBox("Save regularly (Minutes)");
+		cPeriod.setSelected(Settings.saving.periodicalTime > 0);
+		cPeriod.selectedProperty().addListener(o -> {
+			if(!cPeriod.isSelected()) sPeriod.getValueFactory().setValue((double) 0);
+		});
+		sPeriod.disableProperty().bind(cPeriod.selectedProperty().not());
+		
+		HBox hPeriod = new HBox(cPeriod,sPeriod);
+		hPeriod.setAlignment(Pos.CENTER_LEFT);
+		hPeriod.setSpacing(5);
+		
+		content.getChildren().add(settingSection("Auto Saving",Arrays.asList(hInactive,hPeriod),null));
+		
+		r.setContent(content);
 		return r;
 	}
 	
