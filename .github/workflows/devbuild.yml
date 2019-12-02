@@ -1,0 +1,24 @@
+on:
+  push:
+    branches:
+      - dev-builds
+    paths-ignore:
+    - '**.jar'
+    - 'target/*'
+job:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Set up JDK 13
+      uses: actions/setup-java@v1
+      with:
+        java-version: 13
+    - name: Build with Maven
+      run: mvn -B clean install
+    - name: Move to file
+      run: mv -u target/*-Dev.jar ddoBuilder-Dev-Build.jar
+    - name: git commit
+      run: git add *
+      run: git commit -m Auto-Generating File
+      run: git push
