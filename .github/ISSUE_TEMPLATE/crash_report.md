@@ -9,8 +9,10 @@ assignees: 'LittleTealeaf'
 **Background**
 What were you just doing when this happened?
 
+<Type here>
+
 **Crash Report**
-Highlight the <LOG HERE> and press `CTRL + V` (If directed from the crash dialog, you'll have it on your clipboard)
+
 ```
-<LOG HERE>
+<Highlight this line and press CTRL + V>
 ```
