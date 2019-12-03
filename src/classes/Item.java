@@ -69,7 +69,7 @@ public class Item {
 	}
 
 	// Includes Orbs
-	public static class Shield extends Item {
+	public static class Shield extends Weapon {
 
 		public int shieldBonus;
 		public int maxDex;
