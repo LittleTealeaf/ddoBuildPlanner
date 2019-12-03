@@ -216,6 +216,7 @@ public class fxSettings {
 		content.getChildren().add(settingSection("Debug Mode", Arrays.asList(cDebug), null));
 		
 		//TODO add button for debug test crash!
+		
 
 		r.setContent(content);
 
