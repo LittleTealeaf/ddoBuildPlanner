@@ -215,9 +215,8 @@ public class fxSettings {
 		cDebug.selectedProperty().addListener(a -> Settings.advanced.debug.showCrashReports = cDebug.isSelected());
 
 		content.getChildren().add(settingSection("Debug Mode", Arrays.asList(cDebug), null));
-		
-		//TODO add button for debug test crash!
-		
+
+		// TODO add button for debug test crash!
 
 		r.setContent(content);
 

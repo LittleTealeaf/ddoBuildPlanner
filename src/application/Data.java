@@ -5,7 +5,6 @@ import java.io.File;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import classes.Settings;
 import net.harawata.appdirs.AppDirs;
 import net.harawata.appdirs.AppDirsFactory;
 
@@ -14,6 +13,7 @@ public class Data {
 	private static AppDirs appDirs;
 
 	public static Gson staticJSON;
+	public static Gson objectJSON;
 
 	public static File settings;
 
@@ -21,6 +21,7 @@ public class Data {
 		appDirs = AppDirsFactory.getInstance();
 
 		staticJSON = new GsonBuilder().excludeFieldsWithModifiers(java.lang.reflect.Modifier.TRANSIENT).setPrettyPrinting().create();
+		objectJSON = new GsonBuilder().setPrettyPrinting().create();
 
 		settings = getDataFile("settings.json");
 	}

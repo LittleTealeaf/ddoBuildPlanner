@@ -1,9 +1,12 @@
 package application;
 
-import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.util.Arrays;
 
+import classes.Dice;
+import classes.Enchantment;
+import classes.Gearset;
+import classes.Item;
+import classes.Items;
 import classes.Settings;
 import debug.Debug;
 import interfaces.fxMain;
@@ -18,9 +21,12 @@ public class Main {
 		Data.loadData();
 		Settings.loadSettings();
 
-		// Build.gearSets.add(testGear());
-		// Build.setGearIndex(0);
-		// Launch fxMain
+		Item a = new Item("Duality, the Moral Compass");
+		a.setDamage(new Dice(7, 1, 6, 6, 15));
+		a.setEquipSlots(Arrays.asList("Main Hand"));
+		a.getEnchantments().add(new Enchantment("Enhancement Bonus Weapon","Enhancement","15"));
+
+		Items.saveItem(a);
 
 		fxMain.open(args);
 
