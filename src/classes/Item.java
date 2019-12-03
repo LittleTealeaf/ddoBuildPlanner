@@ -48,6 +48,11 @@ public class Item {
 		private double critMultiplier;
 	}
 
+	public Item() {
+		enchantments = new ArrayList<Enchantment>();
+		equipSlots = new ArrayList<String>();
+	}
+	
 	public Item(String name) {
 		this.name = name;
 		enchantments = new ArrayList<Enchantment>();
@@ -55,7 +60,7 @@ public class Item {
 	}
 
 	public void saveItem() {
-		Items.saveItem(this);
+		if(name != null && !name.contentEquals("")) Items.saveItem(this);
 	}
 
 	// GETTERS AND SETTERS
