@@ -1,7 +1,6 @@
 package classes;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Item {
@@ -47,10 +46,11 @@ public class Item {
 	private class Weapon {
 		public Weapon() {
 			damageTypes = new ArrayList<String>();
+			damage = new Dice();
 		}
 		
 		public boolean isEmpty() {
-			return damage == null && damageTypes.size() == 0 && lowCritRoll == 0 && critMultiplier == 0.0;
+			return damage.isDefault() && damageTypes.size() == 0 && lowCritRoll == 0 && critMultiplier == 0.0;
 		}
 
 		private Dice damage;
@@ -204,6 +204,19 @@ public class Item {
 		this.equipSlots = equipSlots;
 	}
 	
+	public void removeEquipSlot(String slot) {
+		while(equipSlots.contains(slot)) equipSlots.remove(slot);
+	}
+	
+	public void addEquipSlot(String slot) {
+		if(!equipSlots.contains(slot)) equipSlots.add(slot);
+	}
+	
+	public void setEquipSlot(String slot, boolean equipped) {
+		if(equipped) addEquipSlot(slot);
+		else removeEquipSlot(slot);
+	}
+	
 	public String getArmorType() {
 		if(armor == null) return "";
 		return armor.armorType;
@@ -255,7 +268,7 @@ public class Item {
 	}
 
 	public Dice getDamage() {
-		if(weapon == null) return null;
+		if(weapon == null) return new Dice();
 		return weapon.damage;
 	}
 
