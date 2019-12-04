@@ -5,13 +5,13 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.nio.file.Path;
 
-import application.Data;
+import util.system;
 
 public class Items {
 
 	public static Item grabItem(String name) {
 		try {
-			return Data.objectJSON.fromJson(new FileReader(getFile(name)), Item.class);
+			return system.objectJSON.fromJson(new FileReader(getFile(name)), Item.class);
 		} catch(Exception e) {
 			return null;
 		}
@@ -22,14 +22,13 @@ public class Items {
 			File file = getFile(i.getName());
 			file.getParentFile().mkdirs();
 			FileWriter writer = new FileWriter(file);
-			writer.write(Data.staticJSON.toJson(i));
+			writer.write(system.staticJSON.toJson(i));
 			writer.close();
 			System.out.println("Saved to: " + file.getPath());
 		} catch(Exception e) {}
 	}
 
 	private static File getFile(String name) {
-		return Data.getDataFile("items\\" + name + ".json");
-		//TODO fix this to work with linux
+		return system.getAppFile(new String[] {"items", name + ".json"});
 	}
 }

@@ -10,6 +10,7 @@ import classes.Items;
 import classes.Settings;
 import debug.Debug;
 import interfaces.fxMain;
+import util.system;
 
 public class Main {
 
@@ -18,7 +19,7 @@ public class Main {
 	public static void main(String[] args) {
 
 		Debug.setCrashReporting();
-		Data.loadData();
+		system.loadData();
 		Settings.loadSettings();
 
 		Item a = new Item("Duality, the Moral Compass");

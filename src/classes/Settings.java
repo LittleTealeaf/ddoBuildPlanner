@@ -11,10 +11,10 @@ import java.util.Properties;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import application.Data;
 import application.Main;
 import net.harawata.appdirs.AppDirs;
 import net.harawata.appdirs.AppDirsFactory;
+import util.system;
 
 @SuppressWarnings("unused")
 public class Settings {
@@ -87,9 +87,9 @@ public class Settings {
 
 	public static void loadSettings() {
 		defaultSettings();
-		if(Data.settings.exists()) {
+		if(system.settings.exists()) {
 			try {
-				Data.staticJSON.fromJson(Files.newBufferedReader(Data.settings.toPath()), Settings.class);
+				system.staticJSON.fromJson(Files.newBufferedReader(system.settings.toPath()), Settings.class);
 
 				if(!version.contentEquals(Main.version)) saveSettings();
 				trimSettings();
@@ -97,10 +97,10 @@ public class Settings {
 			} catch(IOException e) {}
 
 		} else {
-			Data.settings.getParentFile().mkdirs();
+			system.settings.getParentFile().mkdirs();
 
 			try {
-				Data.settings.createNewFile();
+				system.settings.createNewFile();
 			} catch(IOException e) {}
 
 			saveSettings();
@@ -109,10 +109,10 @@ public class Settings {
 
 	public static void saveSettings() {
 		try {
-			FileWriter writer = new FileWriter(Data.settings);
-			writer.write(Data.staticJSON.toJson(new Settings()));
+			FileWriter writer = new FileWriter(system.settings);
+			writer.write(system.staticJSON.toJson(new Settings()));
 			writer.close();
-			System.out.println("Saved Settings to: " + Data.settings.getPath());
+			System.out.println("Saved Settings to: " + system.settings.getPath());
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

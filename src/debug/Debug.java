@@ -14,7 +14,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
-import application.Data;
 import classes.Settings;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -23,6 +22,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
+import util.system;
 
 public class Debug {
 
@@ -31,7 +31,7 @@ public class Debug {
 			e.printStackTrace();
 			String filename = "crashlogs\\crash_log" + new SimpleDateFormat("yyyMMdd_HHmmss").format(Calendar.getInstance().getTime()) + ".txt";
 
-			File file = Data.getDataFile(filename);
+			File file = system.getAppFile(filename);
 			file.getParentFile().mkdirs();
 
 			try {

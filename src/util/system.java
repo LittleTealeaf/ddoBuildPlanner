@@ -1,6 +1,7 @@
-package application;
+package util;
 
 import java.io.File;
+import java.util.List;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -8,8 +9,7 @@ import com.google.gson.GsonBuilder;
 import net.harawata.appdirs.AppDirs;
 import net.harawata.appdirs.AppDirsFactory;
 
-public class Data {
-
+public class system {
 	private static AppDirs appDirs;
 
 	public static Gson staticJSON;
@@ -23,10 +23,19 @@ public class Data {
 		staticJSON = new GsonBuilder().excludeFieldsWithModifiers(java.lang.reflect.Modifier.TRANSIENT).setPrettyPrinting().create();
 		objectJSON = new GsonBuilder().setPrettyPrinting().create();
 
-		settings = getDataFile("settings.json");
+		settings = getAppFile("Settings.json");
+		
 	}
 
-	public static File getDataFile(String name) {
-		return new File(appDirs.getUserDataDir("DDO Build Planner", "", "Tealeaf", true) + "\\" + name);
+	public static File getAppFile(String name) {
+		return new File(java.nio.file.Paths.get(dataDir(),name).toString());
+	}
+	
+	public static File getAppFile(String[] path) {
+		return new File(java.nio.file.Paths.get(dataDir(),path).toString());
+	}
+	
+	private static String dataDir() {
+		return appDirs.getUserDataDir("DDO Build Planner", "", "Tealeaf",true);
 	}
 }
