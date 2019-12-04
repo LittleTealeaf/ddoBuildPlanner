@@ -159,7 +159,7 @@ public class fxEditItem {
 			armorBonus.getValueFactory().setValue(0);
 			maxDex.getValueFactory().setValue(0);
 			checkPenalty.getValueFactory().setValue(0);
-			spellFailure.getValueFactory().setValue(0);
+			spellFailure.getValueFactory().setValue(0.0);
 		});
 		
 		GridPane content = new GridPane();
