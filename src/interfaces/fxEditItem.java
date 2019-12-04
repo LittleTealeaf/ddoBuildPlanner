@@ -2,7 +2,6 @@ package interfaces;
 
 import classes.Iref;
 import classes.Item;
-import classes.Items;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -11,13 +10,13 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
-import javafx.scene.control.SpinnerValueFactory.IntegerSpinnerValueFactory;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -26,6 +25,9 @@ public class fxEditItem {
 	public static Stage stage;
 	
 	private static Item item;
+	
+	private static TextField itemName;
+	private static Label errorText;
 	
 	public static void open() {
 		open((Item) null);
@@ -64,7 +66,12 @@ public class fxEditItem {
 	}
 	
 	private static void saveItem() {
-		item.saveItem();
+		errorText.setText("");
+		if(!item.saveItem()) {
+			//If it didn't save
+			errorText.setText("Please include a name");
+			itemName.requestFocus();
+		}
 	}
 	
 	private static HBox contentHeader() {
@@ -74,10 +81,13 @@ public class fxEditItem {
 		
 		Label labelName = new Label("Item Name:");
 		
-		TextField itemName = new TextField(item.getName());
+		itemName = new TextField(item.getName());
 		itemName.textProperty().addListener((e,o,n) -> item.setName(n));
 		
-		r.getChildren().addAll(labelName,itemName);
+		errorText = new Label("");
+		errorText.setTextFill(Color.RED);
+		
+		r.getChildren().addAll(labelName,itemName,errorText);
 		
 		return r;
 	}
@@ -177,6 +187,7 @@ public class fxEditItem {
 		content.add(checkPenalty, 1, 3);
 		content.add(tSpellFailure, 0, 4);
 		content.add(spellFailure, 1, 4);
+		content.add(clearValues, 1, 5);
 		
 		r.setContent(content);
 		

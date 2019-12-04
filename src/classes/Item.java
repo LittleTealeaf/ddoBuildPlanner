@@ -70,9 +70,12 @@ public class Item {
 		equipSlots = new ArrayList<String>();
 	}
 
-	public void saveItem() {
+	public boolean saveItem() {
 		cleanItem();
-		if(name != null && !name.contentEquals("")) Items.saveItem(this);
+		if(!(name == null || name.contentEquals(""))) {
+			Items.saveItem(this);
+			return true;
+		} else return false;
 	}
 	
 	public void cleanItem() {
