@@ -3,6 +3,7 @@ package classes;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.nio.file.Path;
 
 import application.Data;
 
@@ -23,10 +24,12 @@ public class Items {
 			FileWriter writer = new FileWriter(file);
 			writer.write(Data.staticJSON.toJson(i));
 			writer.close();
+			System.out.println("Saved to: " + file.getPath());
 		} catch(Exception e) {}
 	}
 
 	private static File getFile(String name) {
-		return Data.getDataFile("items\\" + name + ".item");
+		return Data.getDataFile("items\\" + name + ".json");
+		//TODO fix this to work with linux
 	}
 }

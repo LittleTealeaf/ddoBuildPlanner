@@ -26,8 +26,15 @@ public class Item {
 	private Armor armor;
 
 	private class Armor {
-		public Armor() {}
+		public Armor() {
+			armorType = "";
+		}
+		
+		public boolean isEmpty() {
+			return armorType.contentEquals("") && armorBonus == 0 && maxDex == 0 && checkPenalty == 0 && spellFailure == 0;
+		}
 
+		public String armorType;
 		public int armorBonus;
 		public int maxDex;
 		public int checkPenalty;
@@ -40,6 +47,10 @@ public class Item {
 	private class Weapon {
 		public Weapon() {
 			damageTypes = new ArrayList<String>();
+		}
+		
+		public boolean isEmpty() {
+			return damage == null && damageTypes.size() == 0 && lowCritRoll == 0 && critMultiplier == 0.0;
 		}
 
 		private Dice damage;
@@ -60,7 +71,13 @@ public class Item {
 	}
 
 	public void saveItem() {
+		cleanItem();
 		if(name != null && !name.contentEquals("")) Items.saveItem(this);
+	}
+	
+	public void cleanItem() {
+		if(armor != null && armor.isEmpty()) armor = null;
+		if(weapon != null && weapon.isEmpty()) weapon = null;
 	}
 
 	// GETTERS AND SETTERS
@@ -182,6 +199,16 @@ public class Item {
 
 	public void setEquipSlots(List<String> equipSlots) {
 		this.equipSlots = equipSlots;
+	}
+	
+	public String getArmorType() {
+		if(armor == null) return "";
+		return armor.armorType;
+	}
+	
+	public void setArmorType(String armorType) {
+		if(armor == null) armor = new Armor();
+		this.armor.armorType = armorType;
 	}
 
 	public int getArmorBonus() {
