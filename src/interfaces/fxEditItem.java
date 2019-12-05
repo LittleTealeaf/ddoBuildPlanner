@@ -151,6 +151,7 @@ public class fxEditItem {
 		bindStatus.valueProperty().addListener((e, o, n) -> item.setBindStatus(n));
 		
 		Button bSetIcon = new Button("Set Icon");
+		bSetIcon.setOnAction(e -> item.setIconURL(fxImageSelector.imagePrompt("Set Icon")));
 		Button bSetImage = new Button("Set Image");
 		//TODO implement these
 		
