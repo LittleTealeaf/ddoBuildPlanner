@@ -1,6 +1,7 @@
 package interfaces;
 
 import java.awt.Event;
+import java.util.Arrays;
 
 import classes.Dice;
 import classes.Iref;
@@ -150,9 +151,9 @@ public class fxEditItem {
 		
 		Text tBindStatus = new Text("Bind Status:");
 		
-		TextField bindStatus = new TextField();
-		bindStatus.setText(item.getBindStatus());
-		bindStatus.textProperty().addListener((e,o,n) -> item.setBindStatus(n));
+		ChoiceBox<String> bindStatus = new ChoiceBox<String>(FXCollections.observableList(Arrays.asList("Unbound","Bound to Account on Acquire","Bound to Account on Equip","Bound to Character on Acquire","Bound to Character on Equip")));
+		bindStatus.setValue(item.getBindStatus());
+		bindStatus.valueProperty().addListener((e,o,n) -> item.setBindStatus(n));
 		
 		r.add(tType, 0, 0);
 		r.add(type, 1, 0);
