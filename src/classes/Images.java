@@ -68,6 +68,14 @@ public class Images {
 		
 		return null;
 	}
+	
+	public static void localizeImages() {
+		for(extImage i : externalImages) {
+			localizeImage(i);
+		}
+		externalImages.clear();
+		save();
+	}
 
 	public static void saveImage(String name, String url) {
 		if(Settings.advanced.images.storeLocal) localizeImage(new extImage(name, url));

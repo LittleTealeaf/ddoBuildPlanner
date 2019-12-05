@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.function.Function;
 
 import classes.Dice;
+import classes.Images;
 import classes.Settings;
 import classes.Settings.display;
 import javafx.collections.FXCollections;
@@ -227,7 +228,10 @@ public class fxSettings {
 		cStoreLocalImages.setSelected(Settings.advanced.images.storeLocal);
 		cStoreLocalImages.selectedProperty().addListener(a -> Settings.advanced.images.storeLocal = cStoreLocalImages.isSelected());
 		
-		content.getChildren().add(settingSection("Images",Arrays.asList(cStoreLocalImages),null));
+		Button bLocalizeImages = new Button("Localize Images");
+		bLocalizeImages.setOnAction(e -> Images.localizeImages());
+		
+		content.getChildren().add(settingSection("Images",Arrays.asList(cStoreLocalImages),Arrays.asList(bLocalizeImages)));
 
 		r.setContent(content);
 
