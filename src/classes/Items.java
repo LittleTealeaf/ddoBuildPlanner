@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 
 import util.system;
 
@@ -26,6 +28,19 @@ public class Items {
 			writer.close();
 			System.out.println("Saved to: " + file.getPath());
 		} catch(Exception e) {}
+	}
+	
+	public static List<Item> getAllItems() {
+		List<Item> r = new ArrayList<Item>();
+		
+		for(File f : system.getAppFile("items").listFiles()) {
+			try {
+				Item n = system.objectJSON.fromJson(new FileReader(f), Item.class);
+				if(n != null) r.add(n);
+			} catch (Exception e) {}
+		}
+		
+		return r;
 	}
 
 	private static File getFile(String name) {

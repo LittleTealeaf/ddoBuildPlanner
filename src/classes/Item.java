@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 public class Item {
 
@@ -154,6 +155,10 @@ public class Item {
 	public Image getIcon() {
 		return Images.getImage(getIconName());
 	}
+	
+	public ImageView getIconView() {
+		return new ImageView(getIcon());
+	}
 
 	public void setIcon(String iconURL) {
 		Images.saveImage(getIconName(), iconURL);
@@ -161,6 +166,10 @@ public class Item {
 	
 	public Image getImage() {
 		return Images.getImage(getImageName());
+	}
+	
+	public ImageView getImageView() {
+		return new ImageView(getImage());
 	}
 
 	public void setImage(String imageURL) {
