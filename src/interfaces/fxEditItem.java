@@ -3,6 +3,7 @@ package interfaces;
 import java.util.Arrays;
 
 import classes.Dice;
+import classes.Images;
 import classes.Iref;
 import classes.Item;
 import javafx.collections.FXCollections;
@@ -151,9 +152,9 @@ public class fxEditItem {
 		bindStatus.valueProperty().addListener((e, o, n) -> item.setBindStatus(n));
 
 		Button bSetIcon = new Button("Set Icon");
-		bSetIcon.setOnAction(e -> item.setIconURL(fxImageSelector.imagePrompt("Set Icon")));
+		bSetIcon.setOnAction(e -> item.setIconURL(Images.imagePrompt("Set Icon")));
 		Button bSetImage = new Button("Set Image");
-		bSetImage.setOnAction(e -> item.setImageURL(fxImageSelector.imagePrompt("Set Image")));
+		bSetImage.setOnAction(e -> item.setImageURL(Images.imagePrompt("Set Image")));
 		// TODO implement these
 
 		Text tMaterial = new Text("Material:");

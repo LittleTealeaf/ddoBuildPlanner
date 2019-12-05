@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javafx.scene.image.Image;
+
 public class Item {
 
 	private String name;
@@ -12,8 +14,6 @@ public class Item {
 	private String proficiency;
 	private String bindStatus;
 	private String material;
-	private String iconURL;
-	private String imageURL;
 	private int minLevel;
 	private int absoluteMinLevel;
 	private double hardness;
@@ -21,6 +21,9 @@ public class Item {
 	private double weight;
 	private List<Enchantment> enchantments;
 	private List<String> equipSlots;
+	
+	private transient String iconURL;
+	private transient String imageURL;
 
 	// Armor Values
 	private Armor armor;
@@ -75,6 +78,10 @@ public class Item {
 
 	public boolean saveItem() {
 		cleanItem();
+
+		Images.saveImage(getImageName(), imageURL);
+		Images.saveImage(getIconName(), iconURL);
+		
 		if(!(name == null || name.contentEquals(""))) {
 			Items.saveItem(this);
 			return true;
@@ -87,7 +94,15 @@ public class Item {
 		minLevel = Math.max(absoluteMinLevel, minLevel);
 		// TODO clear empty fields in damage types
 	}
-
+	
+	private String getImageName() {
+		return name + ".image";
+	}
+	
+	private String getIconName() {
+		return name + ".icon";
+	}
+	
 	// GETTERS AND SETTERS
 	public String getName() {
 		return name;
@@ -136,17 +151,17 @@ public class Item {
 	public void setMaterial(String material) {
 		this.material = material;
 	}
-
-	public String getIconURL() {
-		return iconURL;
+	
+	public Image getIcon() {
+		return Images.getImage(getIconName());
 	}
 
 	public void setIconURL(String iconURL) {
 		this.iconURL = iconURL;
 	}
-
-	public String getImageURL() {
-		return imageURL;
+	
+	public Image getImage() {
+		return Images.getImage(getImageName());
 	}
 
 	public void setImageURL(String imageURL) {

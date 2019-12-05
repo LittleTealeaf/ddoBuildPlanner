@@ -5,6 +5,7 @@ import java.util.Arrays;
 import classes.Dice;
 import classes.Enchantment;
 import classes.Gearset;
+import classes.Images;
 import classes.Item;
 import classes.Items;
 import classes.Settings;
@@ -21,6 +22,7 @@ public class Main {
 		Debug.setCrashReporting();
 		system.loadData();
 		Settings.loadSettings();
+		Images.load();
 
 		Item a = new Item("Duality, the Moral Compass");
 		a.setDamage(new Dice(7, 1, 6, 6, 15));

@@ -63,6 +63,7 @@ public class Settings {
 	public static class advanced {
 		public advanced() {
 			Debug = new debug();
+			Images = new images();
 		}
 
 		public static debug Debug;
@@ -71,6 +72,14 @@ public class Settings {
 			public debug() {}
 
 			public static boolean showCrashReports;
+		}
+		
+		public static images Images;
+		
+		public static class images {
+			public images() {}
+			
+			public static boolean storeLocal;
 		}
 	}
 
@@ -83,6 +92,7 @@ public class Settings {
 		saving.periodicalTime = 0;
 
 		advanced.debug.showCrashReports = true; // TODO PRODUCTION: change to false
+		advanced.images.storeLocal = true;
 	}
 
 	public static void loadSettings() {

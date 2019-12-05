@@ -223,7 +223,11 @@ public class fxSettings {
 
 		content.getChildren().add(settingSection("Debug Mode", Arrays.asList(cDebug), null));
 
-		// TODO add button for debug test crash!
+		CheckBox cStoreLocalImages = new CheckBox("Store Imported Images locally");
+		cStoreLocalImages.setSelected(Settings.advanced.images.storeLocal);
+		cStoreLocalImages.selectedProperty().addListener(a -> Settings.advanced.images.storeLocal = cStoreLocalImages.isSelected());
+		
+		content.getChildren().add(settingSection("Images",Arrays.asList(cStoreLocalImages),null));
 
 		r.setContent(content);
 
