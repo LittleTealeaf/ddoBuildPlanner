@@ -20,6 +20,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.Tooltip;
+import javafx.scene.control.SpinnerValueFactory.IntegerSpinnerValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -148,6 +149,40 @@ public class fxEditItem {
 		ChoiceBox<String> bindStatus = new ChoiceBox<String>(FXCollections.observableList(Arrays.asList("Unbound", "Bound to Account on Acquire", "Bound to Account on Equip", "Bound to Character on Acquire", "Bound to Character on Equip")));
 		bindStatus.setValue(item.getBindStatus());
 		bindStatus.valueProperty().addListener((e, o, n) -> item.setBindStatus(n));
+		
+		Button bSetIcon = new Button("Set Icon");
+		Button bSetImage = new Button("Set Image");
+		//TODO implement these
+		
+		Text tMaterial = new Text("Material:");
+		
+		TextField material = new TextField();
+		material.setText(item.getMaterial());
+		material.textProperty().addListener((e,o,n) -> item.setMaterial(n));
+		
+		Text tWeight = new Text("Weight (lbs):");
+		
+		Spinner<Double> weight = new Spinner<Double>();
+		weight.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(0,1000,item.getWeight()));
+		weight.valueProperty().addListener((e,o,n) -> item.setWeight(n));
+		weight.setPrefWidth(75);
+		weight.setEditable(true);
+		
+		Text tHardness = new Text("Hardness:");
+		
+		Spinner<Double> hardness = new Spinner<Double>();
+		hardness.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(0, 1000, item.getHardness()));
+		hardness.valueProperty().addListener((e,o,n) -> item.setHardness(n));
+		hardness.setPrefWidth(75);
+		hardness.setEditable(true);
+		
+		Text tDurability = new Text("Durability:");
+		
+		Spinner<Double> durability = new Spinner<Double>();
+		durability.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(0, 10000, item.getDurability()));
+		durability.valueProperty().addListener((e,o,n) -> item.setDurability(n));
+		durability.setPrefWidth(75);
+		durability.setEditable(true);
 
 		r.add(tType, 0, 0);
 		r.add(type, 1, 0);
@@ -161,6 +196,20 @@ public class fxEditItem {
 
 		r.add(tBindStatus, 0, 2);
 		r.add(bindStatus, 1, 2);
+		r.add(bSetIcon, 2, 2);
+		r.add(bSetImage, 3, 2);
+		
+		r.add(tMaterial, 0, 3);
+		r.add(material, 1, 3);
+		r.add(tWeight, 2, 3);
+		r.add(weight, 3, 3);
+		
+		r.add(tHardness, 0, 4);
+		r.add(hardness, 1, 4);
+		r.add(tDurability, 2, 4);
+		r.add(durability, 3,4);
+		
+		
 
 		return r;
 	}

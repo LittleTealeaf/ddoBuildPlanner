@@ -84,6 +84,7 @@ public class Item {
 	public void cleanItem() {
 		if(armor != null && armor.isEmpty()) armor = null;
 		if(weapon != null && weapon.isEmpty()) weapon = null;
+		minLevel = Math.max(absoluteMinLevel, minLevel);
 		//TODO clear empty fields in damage types
 	}
 
