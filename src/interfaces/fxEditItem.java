@@ -168,7 +168,7 @@ public class fxEditItem {
 	private static Accordion contentRight() {
 		Accordion r = new Accordion();
 
-		r.getPanes().addAll(contentEquipSlots(),contentWeapon(), contentArmor(), contentDescription());
+		r.getPanes().addAll(contentEquipSlots(),contentEnchantments(),contentWeapon(), contentArmor(), contentDescription());
 		r.setExpandedPane(null);
 
 		return r;
@@ -203,6 +203,13 @@ public class fxEditItem {
 
 		return r;
 	}
+	
+	private static TitledPane contentEnchantments() {
+		TitledPane r = new TitledPane();
+		r.setText("Enchantments");
+		
+		return r;
+	}
 
 	private static TitledPane contentWeapon() {
 
@@ -233,7 +240,7 @@ public class fxEditItem {
 		Text tLowRoll = new Text("Low Crit Roll:");
 		
 		Spinner<Integer> lowRoll = new Spinner<Integer>();
-		lowRoll.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 20, item.getLowCritRoll()));
+		lowRoll.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 20, item.getLowCritRoll()));
 		lowRoll.valueProperty().addListener((e,o,n) -> item.setLowCritRoll(n));
 		lowRoll.setPrefWidth(75);
 		lowRoll.setEditable(true);
@@ -241,7 +248,7 @@ public class fxEditItem {
 		Text tCritMultiplier = new Text("Crit Multiplier:");
 		
 		Spinner<Double> critMultiplier = new Spinner<Double>();
-		critMultiplier.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(1, 100, item.getCritMultiplier()));
+		critMultiplier.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(1, 1000, item.getCritMultiplier()));
 		critMultiplier.valueProperty().addListener((e,o,n) -> item.setCritMultiplier(n));
 		critMultiplier.setPrefWidth(75);
 		critMultiplier.setEditable(true);
@@ -304,7 +311,7 @@ public class fxEditItem {
 		Text tArmorBonus = new Text("Armor Bonus");
 
 		Spinner<Integer> armorBonus = new Spinner<Integer>();
-		armorBonus.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 100, item.getArmorBonus()));
+		armorBonus.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 1000, item.getArmorBonus()));
 		armorBonus.valueProperty().addListener((e, o, n) -> item.setArmorBonus(n));
 		armorBonus.setPrefWidth(75);
 		armorBonus.setEditable(true);
@@ -312,7 +319,7 @@ public class fxEditItem {
 		Text tMaxDex = new Text("Max Dex Bonus");
 
 		Spinner<Integer> maxDex = new Spinner<Integer>();
-		maxDex.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 100, item.getMaxDex()));
+		maxDex.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 1000, item.getMaxDex()));
 		maxDex.valueProperty().addListener((e, o, n) -> item.setMaxDex(n));
 		maxDex.setPrefWidth(75);
 		maxDex.setEditable(true);
@@ -320,7 +327,7 @@ public class fxEditItem {
 		Text tCheckPenalty = new Text("Armor Check Penalty");
 
 		Spinner<Integer> checkPenalty = new Spinner<Integer>();
-		checkPenalty.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 100, item.getCheckPenalty()));
+		checkPenalty.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 1000, item.getCheckPenalty()));
 		checkPenalty.valueProperty().addListener((e, o, n) -> item.setCheckPenalty(n));
 		checkPenalty.setPrefWidth(75);
 		checkPenalty.setEditable(true);
@@ -328,7 +335,7 @@ public class fxEditItem {
 		Text tSpellFailure = new Text("Spell Failure");
 
 		Spinner<Double> spellFailure = new Spinner<Double>();
-		spellFailure.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(0, 100, item.getSpellFailure()));
+		spellFailure.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(0, 1000, item.getSpellFailure()));
 		spellFailure.valueProperty().addListener((e, o, n) -> item.setSpellFailure(n));
 		spellFailure.setPrefWidth(75);
 		spellFailure.setEditable(true);
