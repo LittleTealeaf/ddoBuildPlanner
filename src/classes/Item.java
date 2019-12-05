@@ -85,7 +85,7 @@ public class Item {
 		if(armor != null && armor.isEmpty()) armor = null;
 		if(weapon != null && weapon.isEmpty()) weapon = null;
 		minLevel = Math.max(absoluteMinLevel, minLevel);
-		//TODO clear empty fields in damage types
+		// TODO clear empty fields in damage types
 	}
 
 	// GETTERS AND SETTERS
@@ -286,13 +286,13 @@ public class Item {
 		if(weapon == null) return null;
 		return weapon.damageTypes;
 	}
-	
+
 	public String getDamageTypeText() {
 		if(weapon == null) return "";
 		String r = "";
 		for(String l : getDamageTypes()) {
-			if(!r.contentEquals("")) r+="\n";
-			r+=l;
+			if(!r.contentEquals("")) r += "\n";
+			r += l;
 		}
 		return r;
 	}
@@ -301,7 +301,7 @@ public class Item {
 		if(weapon == null) weapon = new Weapon();
 		this.weapon.damageTypes = damageTypes;
 	}
-	
+
 	public void setDamageTypesText(String text) {
 		setDamageTypes(Arrays.asList(text.split("\n")));
 	}

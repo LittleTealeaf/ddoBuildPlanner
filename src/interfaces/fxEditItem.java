@@ -64,7 +64,7 @@ public class fxEditItem {
 		content.setCenter(new HBox(contentCenter(), contentRight()));
 		content.setBottom(contentFooter());
 
-		stage.setScene(new Scene(content,1000,500));
+		stage.setScene(new Scene(content, 1000, 500));
 		stage.show();
 	}
 
@@ -149,39 +149,39 @@ public class fxEditItem {
 		ChoiceBox<String> bindStatus = new ChoiceBox<String>(FXCollections.observableList(Arrays.asList("Unbound", "Bound to Account on Acquire", "Bound to Account on Equip", "Bound to Character on Acquire", "Bound to Character on Equip")));
 		bindStatus.setValue(item.getBindStatus());
 		bindStatus.valueProperty().addListener((e, o, n) -> item.setBindStatus(n));
-		
+
 		Button bSetIcon = new Button("Set Icon");
 		bSetIcon.setOnAction(e -> item.setIconURL(fxImageSelector.imagePrompt("Set Icon")));
 		Button bSetImage = new Button("Set Image");
-		//TODO implement these
-		
+		// TODO implement these
+
 		Text tMaterial = new Text("Material:");
-		
+
 		TextField material = new TextField();
 		material.setText(item.getMaterial());
-		material.textProperty().addListener((e,o,n) -> item.setMaterial(n));
-		
+		material.textProperty().addListener((e, o, n) -> item.setMaterial(n));
+
 		Text tWeight = new Text("Weight (lbs):");
-		
+
 		Spinner<Double> weight = new Spinner<Double>();
-		weight.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(0,1000,item.getWeight()));
-		weight.valueProperty().addListener((e,o,n) -> item.setWeight(n));
+		weight.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(0, 1000, item.getWeight()));
+		weight.valueProperty().addListener((e, o, n) -> item.setWeight(n));
 		weight.setPrefWidth(75);
 		weight.setEditable(true);
-		
+
 		Text tHardness = new Text("Hardness:");
-		
+
 		Spinner<Double> hardness = new Spinner<Double>();
 		hardness.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(0, 1000, item.getHardness()));
-		hardness.valueProperty().addListener((e,o,n) -> item.setHardness(n));
+		hardness.valueProperty().addListener((e, o, n) -> item.setHardness(n));
 		hardness.setPrefWidth(75);
 		hardness.setEditable(true);
-		
+
 		Text tDurability = new Text("Durability:");
-		
+
 		Spinner<Double> durability = new Spinner<Double>();
 		durability.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(0, 10000, item.getDurability()));
-		durability.valueProperty().addListener((e,o,n) -> item.setDurability(n));
+		durability.valueProperty().addListener((e, o, n) -> item.setDurability(n));
 		durability.setPrefWidth(75);
 		durability.setEditable(true);
 
@@ -199,18 +199,16 @@ public class fxEditItem {
 		r.add(bindStatus, 1, 2);
 		r.add(bSetIcon, 2, 2);
 		r.add(bSetImage, 3, 2);
-		
+
 		r.add(tMaterial, 0, 3);
 		r.add(material, 1, 3);
 		r.add(tWeight, 2, 3);
 		r.add(weight, 3, 3);
-		
+
 		r.add(tHardness, 0, 4);
 		r.add(hardness, 1, 4);
 		r.add(tDurability, 2, 4);
-		r.add(durability, 3,4);
-		
-		
+		r.add(durability, 3, 4);
 
 		return r;
 	}
@@ -218,7 +216,7 @@ public class fxEditItem {
 	private static Accordion contentRight() {
 		Accordion r = new Accordion();
 
-		r.getPanes().addAll(contentEquipSlots(),contentEnchantments(),contentWeapon(), contentArmor(), contentDescription());
+		r.getPanes().addAll(contentEquipSlots(), contentEnchantments(), contentWeapon(), contentArmor(), contentDescription());
 		r.setExpandedPane(null);
 
 		return r;
@@ -253,11 +251,11 @@ public class fxEditItem {
 
 		return r;
 	}
-	
+
 	private static TitledPane contentEnchantments() {
 		TitledPane r = new TitledPane();
 		r.setText("Enchantments");
-		
+
 		return r;
 	}
 
@@ -286,40 +284,40 @@ public class fxEditItem {
 				dice.setText(item.getDamage().toEditString());
 			}
 		});
-		
+
 		Text tLowRoll = new Text("Low Crit Roll:");
-		
+
 		Spinner<Integer> lowRoll = new Spinner<Integer>();
 		lowRoll.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 20, item.getLowCritRoll()));
-		lowRoll.valueProperty().addListener((e,o,n) -> item.setLowCritRoll(n));
+		lowRoll.valueProperty().addListener((e, o, n) -> item.setLowCritRoll(n));
 		lowRoll.setPrefWidth(75);
 		lowRoll.setEditable(true);
-		
+
 		Text tCritMultiplier = new Text("Crit Multiplier:");
-		
+
 		Spinner<Double> critMultiplier = new Spinner<Double>();
 		critMultiplier.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(1, 1000, item.getCritMultiplier()));
-		critMultiplier.valueProperty().addListener((e,o,n) -> item.setCritMultiplier(n));
+		critMultiplier.valueProperty().addListener((e, o, n) -> item.setCritMultiplier(n));
 		critMultiplier.setPrefWidth(75);
 		critMultiplier.setEditable(true);
-		
+
 		GridPane leftCont = new GridPane();
 		leftCont.setHgap(10);
 		leftCont.setVgap(10);
-		
+
 		leftCont.add(tLowRoll, 0, 0);
 		leftCont.add(lowRoll, 1, 0);
 		leftCont.add(tCritMultiplier, 0, 1);
 		leftCont.add(critMultiplier, 1, 1);
-		
+
 		Text tDamageTypes = new Text("Damage Types");
-		
+
 		TextArea damageTypes = new TextArea();
 		damageTypes.setText(item.getDamageTypeText());
-		damageTypes.textProperty().addListener((e,o,n) -> item.setDamageTypesText(n));
+		damageTypes.textProperty().addListener((e, o, n) -> item.setDamageTypesText(n));
 		damageTypes.setPrefWidth(150);
-		
-		VBox vTypes = new VBox(tDamageTypes,damageTypes);
+
+		VBox vTypes = new VBox(tDamageTypes, damageTypes);
 		vTypes.setSpacing(10);
 
 		GridPane content = new GridPane();
@@ -333,8 +331,8 @@ public class fxEditItem {
 		content.add(lowRoll, 1, 1);
 		content.add(tCritMultiplier, 0, 2);
 		content.add(critMultiplier, 1, 2);
-		
-		HBox contentMerge = new HBox(content,vTypes);
+
+		HBox contentMerge = new HBox(content, vTypes);
 		contentMerge.setSpacing(10);
 
 		r.setContent(contentMerge);
@@ -420,15 +418,15 @@ public class fxEditItem {
 
 		return r;
 	}
-	
+
 	private static TitledPane contentDescription() {
 		TitledPane r = new TitledPane();
 		r.setText("Description");
-		
+
 		TextArea content = new TextArea();
 		content.setText(item.getDescription());
-		content.textProperty().addListener((e,o,n) -> item.setDescription(n));
-		
+		content.textProperty().addListener((e, o, n) -> item.setDescription(n));
+
 		r.setContent(content);
 		return r;
 	}
