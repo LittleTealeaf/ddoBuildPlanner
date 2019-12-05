@@ -21,6 +21,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.Tooltip;
+import javafx.scene.image.ImageView;
 import javafx.scene.control.SpinnerValueFactory.IntegerSpinnerValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
@@ -54,7 +55,10 @@ public class fxEditItem {
 
 		if(stage != null && stage.isShowing()) stage.close();
 		stage = new Stage();
-		if(i != null) stage.setTitle("Editing " + i.getName());
+		if(i != null) {
+			stage.setTitle("Editing " + i.getName());
+			stage.getIcons().add(item.getIcon());
+		}
 		else {
 			stage.setTitle("Create Item");
 			item = new Item();
@@ -152,9 +156,15 @@ public class fxEditItem {
 		bindStatus.valueProperty().addListener((e, o, n) -> item.setBindStatus(n));
 
 		Button bSetIcon = new Button("Set Icon");
-		bSetIcon.setOnAction(e -> item.setIconURL(Images.imagePrompt("Set Icon")));
+		bSetIcon.setOnAction(e -> {
+			item.setIcon(Images.imagePrompt("Set Icon"));
+			stage.getIcons().add(item.getIcon());
+		});
 		Button bSetImage = new Button("Set Image");
-		bSetImage.setOnAction(e -> item.setImageURL(Images.imagePrompt("Set Image")));
+		bSetImage.setOnAction(e -> {
+			item.setImage(Images.imagePrompt("Set Image"));
+			iImage.setImage(item.getImage());
+		});
 		// TODO implement these
 
 		Text tMaterial = new Text("Material:");
@@ -218,7 +228,7 @@ public class fxEditItem {
 	private static Accordion contentRight() {
 		Accordion r = new Accordion();
 
-		r.getPanes().addAll(contentEquipSlots(), contentEnchantments(), contentWeapon(), contentArmor(), contentDescription());
+		r.getPanes().addAll(contentEquipSlots(), contentEnchantments(), contentWeapon(), contentArmor(), contentDescription(), contentImage());
 		r.setExpandedPane(null);
 
 		return r;
@@ -424,12 +434,31 @@ public class fxEditItem {
 	private static TitledPane contentDescription() {
 		TitledPane r = new TitledPane();
 		r.setText("Description");
+		r.setExpanded(false);
 
 		TextArea content = new TextArea();
 		content.setText(item.getDescription());
 		content.textProperty().addListener((e, o, n) -> item.setDescription(n));
 
 		r.setContent(content);
+		return r;
+	}
+	
+	private static ImageView iImage;
+	
+	private static TitledPane contentImage() {
+		TitledPane r=new TitledPane();
+		r.setText("Image");
+		r.setExpanded(true);
+		
+		iImage = new ImageView();
+		iImage.setImage(item.getImage());
+		iImage.setPreserveRatio(true);
+		iImage.fitHeightProperty().bind(r.heightProperty());
+		iImage.fitWidthProperty().bind(r.widthProperty());
+		
+		r.setContent(iImage);
+		
 		return r;
 	}
 }

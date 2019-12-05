@@ -21,9 +21,6 @@ public class Item {
 	private double weight;
 	private List<Enchantment> enchantments;
 	private List<String> equipSlots;
-	
-	private transient String iconURL;
-	private transient String imageURL;
 
 	// Armor Values
 	private Armor armor;
@@ -78,9 +75,6 @@ public class Item {
 
 	public boolean saveItem() {
 		cleanItem();
-
-		Images.saveImage(getImageName(), imageURL);
-		Images.saveImage(getIconName(), iconURL);
 		
 		if(!(name == null || name.contentEquals(""))) {
 			Items.saveItem(this);
@@ -109,7 +103,12 @@ public class Item {
 	}
 
 	public void setName(String name) {
+		String fromIcon = getIconName(), fromImage = getImageName();
+		
 		this.name = name;
+		
+		Images.renameImage(fromIcon, getIconName());
+		Images.renameImage(fromImage, getImageName());
 	}
 
 	public String getType() {
@@ -156,16 +155,16 @@ public class Item {
 		return Images.getImage(getIconName());
 	}
 
-	public void setIconURL(String iconURL) {
-		this.iconURL = iconURL;
+	public void setIcon(String iconURL) {
+		Images.saveImage(getIconName(), iconURL);
 	}
 	
 	public Image getImage() {
 		return Images.getImage(getImageName());
 	}
 
-	public void setImageURL(String imageURL) {
-		this.imageURL = imageURL;
+	public void setImage(String imageURL) {
+		Images.saveImage(getImageName(), imageURL);
 	}
 
 	public int getMinLevel() {

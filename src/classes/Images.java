@@ -60,13 +60,20 @@ public class Images {
 		//First try localized
 		File f = system.getAppFile(new String[] {"images",name});
 		
-		if(f.exists()) return new Image(f.getPath());
+		if(f.exists()) return getImageFromURL(f.getPath());
 		
 		for(extImage i : externalImages) {
 			if(name.contentEquals(i.name)) return getImageFromURL(i.url);
 		}
 		
 		return null;
+	}
+	
+	public static void renameImage(String from, String to) {
+		File f = system.getAppFile(new String[] {"images",from});
+		
+		if(f.exists()) f.renameTo(system.getAppFile(new String[] {"images",to}));
+		else for(extImage i : externalImages) if(from.contentEquals(i.getName())) i.setName(to);
 	}
 	
 	public static void localizeImages() {
@@ -80,7 +87,10 @@ public class Images {
 	public static void saveImage(String name, String url) {
 		if(Settings.advanced.images.storeLocal) localizeImage(new extImage(name, url));
 		else {
-			externalImages.add(new extImage(name, url));
+			List<extImage> images = new ArrayList<extImage>(); 
+			for(extImage i : externalImages) if(!name.contentEquals(i.getName())) images.add(i);
+			images.add(new extImage(name, url));
+			externalImages = images;
 		}
 		save();
 	}
@@ -128,8 +138,12 @@ public class Images {
 	public static String imagePrompt() {
 		return imagePrompt("Select Image");
 	}
-
+	
 	public static String imagePrompt(String title) {
+		return imagePrompt(title,"");
+	}
+
+	public static String imagePrompt(String title, String selImage) {
 
 		Dialog<String> dialog = new Dialog<String>();
 		dialog.setTitle(title);
