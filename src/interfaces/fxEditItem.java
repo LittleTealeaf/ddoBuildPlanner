@@ -19,10 +19,12 @@ import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
+import javafx.scene.control.Tooltip;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -61,7 +63,7 @@ public class fxEditItem {
 		content.setCenter(new HBox(contentCenter(), contentRight()));
 		content.setBottom(contentFooter());
 
-		stage.setScene(new Scene(content));
+		stage.setScene(new Scene(content,1000,500));
 		stage.show();
 	}
 
@@ -159,7 +161,6 @@ public class fxEditItem {
 
 		r.add(tBindStatus, 0, 2);
 		r.add(bindStatus, 1, 2);
-		r.add(getEquipSlots(), 3, 3);
 
 		return r;
 	}
@@ -167,19 +168,20 @@ public class fxEditItem {
 	private static Accordion contentRight() {
 		Accordion r = new Accordion();
 
-		r.getPanes().addAll(contentWeapon(), contentArmor(), contentDescription());
+		r.getPanes().addAll(contentEquipSlots(),contentWeapon(), contentArmor(), contentDescription());
 		r.setExpandedPane(null);
 
 		return r;
 	}
 
-	private static TitledPane getEquipSlots() {
+	private static TitledPane contentEquipSlots() {
 
 		TitledPane r = new TitledPane();
 		r.setExpanded(false);
 		r.setText("Equip Slots");
 
 		GridPane content = new GridPane();
+		content.setHgap(5);
 
 		int x = 0, y = 0;
 		for(String s : ItemSlot.allSlots()) {
@@ -191,7 +193,7 @@ public class fxEditItem {
 			content.add(check, x, y);
 
 			x++;
-			if(x == 2) {
+			if(x == 5) {
 				x = 0;
 				y++;
 			}
@@ -211,6 +213,7 @@ public class fxEditItem {
 		Text tDice = new Text("Damage:");
 
 		TextField dice = new TextField();
+		dice.setTooltip(new Tooltip("The damage of the weapon in terms of the damage dice:\nValid entries can include:\n1d5\n1d5+5\n1d5 + 5\n5[1d5+5]\n5 [1d5 + 5] + 5"));
 		dice.setText(item.getDamage().toEditString());
 		dice.setOnKeyPressed(key -> {
 			if(key.getCode() == KeyCode.ENTER) {
@@ -226,6 +229,41 @@ public class fxEditItem {
 				dice.setText(item.getDamage().toEditString());
 			}
 		});
+		
+		Text tLowRoll = new Text("Low Crit Roll:");
+		
+		Spinner<Integer> lowRoll = new Spinner<Integer>();
+		lowRoll.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 20, item.getLowCritRoll()));
+		lowRoll.valueProperty().addListener((e,o,n) -> item.setLowCritRoll(n));
+		lowRoll.setPrefWidth(75);
+		lowRoll.setEditable(true);
+		
+		Text tCritMultiplier = new Text("Crit Multiplier:");
+		
+		Spinner<Double> critMultiplier = new Spinner<Double>();
+		critMultiplier.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(1, 100, item.getCritMultiplier()));
+		critMultiplier.valueProperty().addListener((e,o,n) -> item.setCritMultiplier(n));
+		critMultiplier.setPrefWidth(75);
+		critMultiplier.setEditable(true);
+		
+		GridPane leftCont = new GridPane();
+		leftCont.setHgap(10);
+		leftCont.setVgap(10);
+		
+		leftCont.add(tLowRoll, 0, 0);
+		leftCont.add(lowRoll, 1, 0);
+		leftCont.add(tCritMultiplier, 0, 1);
+		leftCont.add(critMultiplier, 1, 1);
+		
+		Text tDamageTypes = new Text("Damage Types");
+		
+		TextArea damageTypes = new TextArea();
+		damageTypes.setText(item.getDamageTypeText());
+		damageTypes.textProperty().addListener((e,o,n) -> item.setDamageTypesText(n));
+		damageTypes.setPrefWidth(150);
+		
+		VBox vTypes = new VBox(tDamageTypes,damageTypes);
+		vTypes.setSpacing(10);
 
 		GridPane content = new GridPane();
 		content.setHgap(10);
@@ -234,8 +272,15 @@ public class fxEditItem {
 
 		content.add(tDice, 0, 0);
 		content.add(dice, 1, 0);
+		content.add(tLowRoll, 0, 1);
+		content.add(lowRoll, 1, 1);
+		content.add(tCritMultiplier, 0, 2);
+		content.add(critMultiplier, 1, 2);
+		
+		HBox contentMerge = new HBox(content,vTypes);
+		contentMerge.setSpacing(10);
 
-		r.setContent(content);
+		r.setContent(contentMerge);
 
 		return r;
 	}

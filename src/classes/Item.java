@@ -1,6 +1,7 @@
 package classes;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Item {
@@ -47,6 +48,8 @@ public class Item {
 		public Weapon() {
 			damageTypes = new ArrayList<String>();
 			damage = new Dice();
+			lowCritRoll = 20;
+			critMultiplier = 2;
 		}
 
 		public boolean isEmpty() {
@@ -81,6 +84,7 @@ public class Item {
 	public void cleanItem() {
 		if(armor != null && armor.isEmpty()) armor = null;
 		if(weapon != null && weapon.isEmpty()) weapon = null;
+		//TODO clear empty fields in damage types
 	}
 
 	// GETTERS AND SETTERS
@@ -281,14 +285,28 @@ public class Item {
 		if(weapon == null) return null;
 		return weapon.damageTypes;
 	}
+	
+	public String getDamageTypeText() {
+		if(weapon == null) return "";
+		String r = "";
+		for(String l : getDamageTypes()) {
+			if(!r.contentEquals("")) r+="\n";
+			r+=l;
+		}
+		return r;
+	}
 
 	public void setDamageTypes(List<String> damageTypes) {
 		if(weapon == null) weapon = new Weapon();
 		this.weapon.damageTypes = damageTypes;
 	}
+	
+	public void setDamageTypesText(String text) {
+		setDamageTypes(Arrays.asList(text.split("\n")));
+	}
 
 	public int getLowCritRoll() {
-		if(weapon == null) return 0;
+		if(weapon == null) return 20;
 		return weapon.lowCritRoll;
 	}
 
@@ -298,7 +316,7 @@ public class Item {
 	}
 
 	public double getCritMultiplier() {
-		if(weapon == null) return 0;
+		if(weapon == null) return 2;
 		return weapon.critMultiplier;
 	}
 
