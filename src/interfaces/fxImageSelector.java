@@ -1,6 +1,7 @@
 package interfaces;
 
 import java.io.File;
+import java.util.Optional;
 
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -73,8 +74,9 @@ public class fxImageSelector {
 		dialog.getDialogPane().setPrefHeight(800);
 		dialog.getDialogPane().setPrefWidth(800);
 
-		dialog.show();
 
+		//TODO add showandwait script
+		
 		return r;
 	}
 
