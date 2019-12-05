@@ -25,7 +25,7 @@ public class Main {
 		Item a = new Item("Duality, the Moral Compass");
 		a.setDamage(new Dice(7, 1, 6, 6, 15));
 		a.setEquipSlots(Arrays.asList("Main Hand"));
-		a.getEnchantments().add(new Enchantment("Enhancement Bonus Weapon","Enhancement","15"));
+		a.getEnchantments().add(new Enchantment("Enhancement Bonus Weapon", "Enhancement", "15"));
 
 		Items.saveItem(a);
 

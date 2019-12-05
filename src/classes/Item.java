@@ -28,7 +28,7 @@ public class Item {
 		public Armor() {
 			armorType = "";
 		}
-		
+
 		public boolean isEmpty() {
 			return armorType.contentEquals("") && armorBonus == 0 && maxDex == 0 && checkPenalty == 0 && spellFailure == 0;
 		}
@@ -48,7 +48,7 @@ public class Item {
 			damageTypes = new ArrayList<String>();
 			damage = new Dice();
 		}
-		
+
 		public boolean isEmpty() {
 			return damage.isDefault() && damageTypes.size() == 0 && lowCritRoll == 0 && critMultiplier == 0.0;
 		}
@@ -63,7 +63,7 @@ public class Item {
 		enchantments = new ArrayList<Enchantment>();
 		equipSlots = new ArrayList<String>();
 	}
-	
+
 	public Item(String name) {
 		this.name = name;
 		enchantments = new ArrayList<Enchantment>();
@@ -77,7 +77,7 @@ public class Item {
 			return true;
 		} else return false;
 	}
-	
+
 	public void cleanItem() {
 		if(armor != null && armor.isEmpty()) armor = null;
 		if(weapon != null && weapon.isEmpty()) weapon = null;
@@ -203,25 +203,25 @@ public class Item {
 	public void setEquipSlots(List<String> equipSlots) {
 		this.equipSlots = equipSlots;
 	}
-	
+
 	public void removeEquipSlot(String slot) {
 		while(equipSlots.contains(slot)) equipSlots.remove(slot);
 	}
-	
+
 	public void addEquipSlot(String slot) {
 		if(!equipSlots.contains(slot)) equipSlots.add(slot);
 	}
-	
+
 	public void setEquipSlot(String slot, boolean equipped) {
 		if(equipped) addEquipSlot(slot);
 		else removeEquipSlot(slot);
 	}
-	
+
 	public String getArmorType() {
 		if(armor == null) return "";
 		return armor.armorType;
 	}
-	
+
 	public void setArmorType(String armorType) {
 		if(armor == null) armor = new Armor();
 		this.armor.armorType = armorType;

@@ -13,7 +13,7 @@ public class ItemSlot {
 	public static final String Ring = "Ring";
 	public static final String MainHand = "Main Hand";
 	public static final String OffHand = "Off Hand";
-	
+
 	public static String[] allSlots() {
 		return new String[] {Helmet, Goggles, Necklace, Trinket, Armor, Cloak, Bracers, Belt, Ring, MainHand, OffHand};
 	}

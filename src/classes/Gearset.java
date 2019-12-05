@@ -144,7 +144,7 @@ public class Gearset {
 	}
 
 	public void setOffHand(String name) {
-		this.offHand =new Iref(name);
+		this.offHand = new Iref(name);
 		onEdit();
 	}
 

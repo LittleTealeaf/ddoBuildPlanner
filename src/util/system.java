@@ -24,18 +24,18 @@ public class system {
 		objectJSON = new GsonBuilder().setPrettyPrinting().create();
 
 		settings = getAppFile("Settings.json");
-		
+
 	}
 
 	public static File getAppFile(String name) {
-		return new File(java.nio.file.Paths.get(dataDir(),name).toString());
+		return new File(java.nio.file.Paths.get(dataDir(), name).toString());
 	}
-	
+
 	public static File getAppFile(String[] path) {
-		return new File(java.nio.file.Paths.get(dataDir(),path).toString());
+		return new File(java.nio.file.Paths.get(dataDir(), path).toString());
 	}
-	
+
 	private static String dataDir() {
-		return appDirs.getUserDataDir("DDO Build Planner", "", "Tealeaf",true);
+		return appDirs.getUserDataDir("DDO Build Planner", "", "Tealeaf", true);
 	}
 }

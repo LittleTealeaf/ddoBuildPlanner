@@ -35,24 +35,19 @@ public class Dice {
 		preAdd = PreAdd;
 		postAdd = PostAdd;
 	}
-	
+
 	public Dice(String str) {
 		coeff = 1;
 		dieCount = 0;
 		dieSides = 0;
-		
-		
-		
+
 		List<String> parsed = Arrays.asList(str.replace(" ", "").replace("[", "/").replace("d", "/").replace("]+", "/").replace("+", "/").split("/"));
 		/**
-		 * 1d4 -> 2
-		 * 1d3+5 -> 3
-		 * 5[1d4 + 5] -> 4
-		 * 5[1d4 + 5] + 5 -> 5
+		 * 1d4 -> 2 1d3+5 -> 3 5[1d4 + 5] -> 4 5[1d4 + 5] + 5 -> 5
 		 */
 		try {
 			System.out.println(parsed);
-			switch(parsed.size()) {
+			switch (parsed.size()) {
 			case 3:
 				preAdd = Double.parseDouble(parsed.get(2));
 			case 2:
@@ -71,11 +66,11 @@ public class Dice {
 				System.out.println("could not parse");
 				break;
 			}
-			
-		} catch (Exception e) {
-			
+
+		} catch(Exception e) {
+
 		}
-		
+
 	}
 
 	public double getMinimum() {
@@ -89,7 +84,7 @@ public class Dice {
 	public double getAverage() {
 		return coeff * (dieCount * ((dieSides - 1) / 2 + 1) + preAdd) + postAdd;
 	}
-	
+
 	public boolean isDefault() {
 		if(coeff != 1) return false;
 		if(dieCount != 0) return false;
@@ -122,13 +117,13 @@ public class Dice {
 		}
 		return r;
 	}
-	
+
 	public String toEditString() {
-		
+
 		if(isDefault()) return "";
-		
+
 		String r = "";
-		
+
 		if(coeff == 1) {
 			double add = preAdd + postAdd;
 			r += dieCount + "d" + dieSides;
@@ -139,9 +134,9 @@ public class Dice {
 			r += " ]";
 			if(postAdd != 0) r += " + " + postAdd;
 		}
-		
+
 		if(Settings.display.dice.compactDice) r = r.replace(" ", "");
-		
+
 		return r;
 	}
 
