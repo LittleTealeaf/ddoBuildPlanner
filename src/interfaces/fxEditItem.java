@@ -58,8 +58,7 @@ public class fxEditItem {
 		if(i != null) {
 			stage.setTitle("Editing " + i.getName());
 			stage.getIcons().add(item.getIcon());
-		}
-		else {
+		} else {
 			stage.setTitle("Create Item");
 			item = new Item();
 		}
@@ -443,22 +442,22 @@ public class fxEditItem {
 		r.setContent(content);
 		return r;
 	}
-	
+
 	private static ImageView iImage;
-	
+
 	private static TitledPane contentImage() {
-		TitledPane r=new TitledPane();
+		TitledPane r = new TitledPane();
 		r.setText("Image");
 		r.setExpanded(true);
-		
+
 		iImage = new ImageView();
 		iImage.setImage(item.getImage());
 		iImage.setPreserveRatio(true);
 		iImage.fitHeightProperty().bind(r.heightProperty());
 		iImage.fitWidthProperty().bind(r.widthProperty());
-		
+
 		r.setContent(iImage);
-		
+
 		return r;
 	}
 }

@@ -73,12 +73,12 @@ public class Settings {
 
 			public static boolean showCrashReports;
 		}
-		
+
 		public static images Images;
-		
+
 		public static class images {
 			public images() {}
-			
+
 			public static boolean storeLocal;
 		}
 	}

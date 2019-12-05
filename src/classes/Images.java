@@ -32,7 +32,7 @@ public class Images {
 
 	public static void load() {
 		File externals = system.getAppFile(new String[] {"images", "external.json"});
-		
+
 		externalImages = new ArrayList<extImage>();
 
 		if(externals.exists()) try {
@@ -57,25 +57,25 @@ public class Images {
 	}
 
 	public static Image getImage(String name) {
-		//First try localized
-		File f = system.getAppFile(new String[] {"images",name});
-		
+		// First try localized
+		File f = system.getAppFile(new String[] {"images", name});
+
 		if(f.exists()) return getImageFromURL(f.getPath());
-		
+
 		for(extImage i : externalImages) {
 			if(name.contentEquals(i.name)) return getImageFromURL(i.url);
 		}
-		
+
 		return null;
 	}
-	
+
 	public static void renameImage(String from, String to) {
-		File f = system.getAppFile(new String[] {"images",from});
-		
-		if(f.exists()) f.renameTo(system.getAppFile(new String[] {"images",to}));
+		File f = system.getAppFile(new String[] {"images", from});
+
+		if(f.exists()) f.renameTo(system.getAppFile(new String[] {"images", to}));
 		else for(extImage i : externalImages) if(from.contentEquals(i.getName())) i.setName(to);
 	}
-	
+
 	public static void localizeImages() {
 		for(extImage i : externalImages) {
 			localizeImage(i);
@@ -87,7 +87,7 @@ public class Images {
 	public static void saveImage(String name, String url) {
 		if(Settings.advanced.images.storeLocal) localizeImage(new extImage(name, url));
 		else {
-			List<extImage> images = new ArrayList<extImage>(); 
+			List<extImage> images = new ArrayList<extImage>();
 			for(extImage i : externalImages) if(!name.contentEquals(i.getName())) images.add(i);
 			images.add(new extImage(name, url));
 			externalImages = images;
@@ -116,16 +116,16 @@ public class Images {
 				byte[] b = new byte[2048];
 				int length;
 
-				while ((length = is.read(b)) != -1) {
+				while((length = is.read(b)) != -1) {
 					os.write(b, 0, length);
 				}
 
 				is.close();
 				os.close();
-			} catch (Exception f) {}
+			} catch(Exception f) {}
 		}
 	}
-	
+
 	private static Image getImageFromURL(String url) {
 		try {
 			return new Image(url);
@@ -134,13 +134,13 @@ public class Images {
 		} catch(Exception a) {}
 		return null;
 	}
-	
+
 	public static String imagePrompt() {
 		return imagePrompt("Select Image");
 	}
-	
+
 	public static String imagePrompt(String title) {
-		return imagePrompt(title,"");
+		return imagePrompt(title, "");
 	}
 
 	public static String imagePrompt(String title, String selImage) {
@@ -197,9 +197,8 @@ public class Images {
 		dialog.getDialogPane().setPrefWidth(800);
 		dialog.setResizable(true);
 
-
 		Optional<String> out = dialog.showAndWait();
-		
+
 		if(out.get() == null) return "";
 		else return out.get();
 	}

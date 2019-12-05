@@ -227,11 +227,11 @@ public class fxSettings {
 		CheckBox cStoreLocalImages = new CheckBox("Store Imported Images locally");
 		cStoreLocalImages.setSelected(Settings.advanced.images.storeLocal);
 		cStoreLocalImages.selectedProperty().addListener(a -> Settings.advanced.images.storeLocal = cStoreLocalImages.isSelected());
-		
+
 		Button bLocalizeImages = new Button("Localize Images");
 		bLocalizeImages.setOnAction(e -> Images.localizeImages());
-		
-		content.getChildren().add(settingSection("Images",Arrays.asList(cStoreLocalImages),Arrays.asList(bLocalizeImages)));
+
+		content.getChildren().add(settingSection("Images", Arrays.asList(cStoreLocalImages), Arrays.asList(bLocalizeImages)));
 
 		r.setContent(content);
 

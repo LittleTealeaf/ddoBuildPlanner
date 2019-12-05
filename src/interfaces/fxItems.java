@@ -15,39 +15,40 @@ import javafx.stage.Stage;
 public class fxItems {
 
 	public static Stage stage;
-	
+
 	public static void open() {
 		if(stage != null && stage.isShowing()) stage.close();
 		stage = new Stage();
 		stage.setTitle("Items");
-		
+
 		BorderPane content = new BorderPane();
-		
+
 		content.setCenter(itemTable());
-		
+
 		stage.setScene(new Scene(content));
-		
+
 		stage.show();
-				
+
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public static ScrollPane itemTable() {
 		ScrollPane r = new ScrollPane();
-		
+
 		TableView<Item> table = new TableView<Item>();
-		
-		TableColumn<Item,ImageView> cIcon = new TableColumn<Item,ImageView>();
-		//cTStart.setCellValueFactory(new PropertyValueFactory<Team, String>("startFXM"));
-		cIcon.setCellValueFactory(new PropertyValueFactory<Item,ImageView>("iconView"));
-		//TODO get image to be smaller
-		
+
+		TableColumn<Item, ImageView> cIcon = new TableColumn<Item, ImageView>();
+		// cTStart.setCellValueFactory(new PropertyValueFactory<Team,
+		// String>("startFXM"));
+		cIcon.setCellValueFactory(new PropertyValueFactory<Item, ImageView>("iconView"));
+		// TODO get image to be smaller
+
 		table.getColumns().addAll(cIcon);
-		
+
 		table.getItems().addAll(FXCollections.observableArrayList(Items.getAllItems()));
-		
+
 		r.setContent(table);
-		
+
 		return r;
 	}
 }

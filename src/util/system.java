@@ -35,7 +35,6 @@ public class system {
 		return new File(java.nio.file.Paths.get(dataDir(), path).toString());
 	}
 
-
 	private static String dataDir() {
 		return appDirs.getUserDataDir("DDO Build Planner", "", "Tealeaf", true);
 	}

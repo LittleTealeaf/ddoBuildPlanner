@@ -76,7 +76,7 @@ public class Item {
 
 	public boolean saveItem() {
 		cleanItem();
-		
+
 		if(!(name == null || name.contentEquals(""))) {
 			Items.saveItem(this);
 			return true;
@@ -89,15 +89,15 @@ public class Item {
 		minLevel = Math.max(absoluteMinLevel, minLevel);
 		// TODO clear empty fields in damage types
 	}
-	
+
 	private String getImageName() {
 		return name + ".image";
 	}
-	
+
 	private String getIconName() {
 		return name + ".icon";
 	}
-	
+
 	// GETTERS AND SETTERS
 	public String getName() {
 		return name;
@@ -105,9 +105,9 @@ public class Item {
 
 	public void setName(String name) {
 		String fromIcon = getIconName(), fromImage = getImageName();
-		
+
 		this.name = name;
-		
+
 		Images.renameImage(fromIcon, getIconName());
 		Images.renameImage(fromImage, getImageName());
 	}
@@ -151,11 +151,11 @@ public class Item {
 	public void setMaterial(String material) {
 		this.material = material;
 	}
-	
+
 	public Image getIcon() {
 		return Images.getImage(getIconName());
 	}
-	
+
 	public ImageView getIconView() {
 		return new ImageView(getIcon());
 	}
@@ -163,11 +163,11 @@ public class Item {
 	public void setIcon(String iconURL) {
 		Images.saveImage(getIconName(), iconURL);
 	}
-	
+
 	public Image getImage() {
 		return Images.getImage(getImageName());
 	}
-	
+
 	public ImageView getImageView() {
 		return new ImageView(getImage());
 	}

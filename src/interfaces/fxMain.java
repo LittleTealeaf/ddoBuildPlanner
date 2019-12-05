@@ -37,7 +37,7 @@ public class fxMain extends Application {
 
 		MenuItem itemEdit = new MenuItem("Item Edit");
 		itemEdit.setOnAction(e -> fxEditItem.open());
-		
+
 		MenuItem items = new MenuItem("Items");
 		items.setOnAction(e -> fxItems.open());
 
