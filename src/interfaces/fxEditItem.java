@@ -16,6 +16,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.input.KeyCode;
@@ -166,7 +167,7 @@ public class fxEditItem {
 	private static Accordion contentRight() {
 		Accordion r = new Accordion();
 
-		r.getPanes().addAll(contentWeapon(), contentArmor());
+		r.getPanes().addAll(contentWeapon(), contentArmor(), contentDescription());
 		r.setExpandedPane(null);
 
 		return r;
@@ -315,6 +316,18 @@ public class fxEditItem {
 
 		r.setContent(content);
 
+		return r;
+	}
+	
+	private static TitledPane contentDescription() {
+		TitledPane r = new TitledPane();
+		r.setText("Description");
+		
+		TextArea content = new TextArea();
+		content.setText(item.getDescription());
+		content.textProperty().addListener((e,o,n) -> item.setDescription(n));
+		
+		r.setContent(content);
 		return r;
 	}
 }
