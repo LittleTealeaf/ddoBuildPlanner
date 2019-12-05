@@ -153,6 +153,7 @@ public class fxEditItem {
 		Button bSetIcon = new Button("Set Icon");
 		bSetIcon.setOnAction(e -> item.setIconURL(fxImageSelector.imagePrompt("Set Icon")));
 		Button bSetImage = new Button("Set Image");
+		bSetImage.setOnAction(e -> item.setImageURL(fxImageSelector.imagePrompt("Set Image")));
 		// TODO implement these
 
 		Text tMaterial = new Text("Material:");

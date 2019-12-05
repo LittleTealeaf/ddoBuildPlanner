@@ -22,12 +22,14 @@ public class fxImageSelector {
 	}
 
 	public static String imagePrompt(String title) {
-		String r = "";
 
 		Dialog<String> dialog = new Dialog<String>();
 		dialog.setTitle(title);
 
 		ImageView image = new ImageView();
+		image.setPreserveRatio(true);
+		image.setFitWidth(800);
+		image.setFitHeight(800);
 
 		FileChooser imageChooser = new FileChooser();
 		imageChooser.setInitialDirectory(new File(System.getProperty("user.home")));
@@ -62,10 +64,8 @@ public class fxImageSelector {
 
 		dialog.setResultConverter(button -> {
 			if(button.getButtonData() == ButtonData.OK_DONE) {
-				try {
-					new Image(url.getText());
-					return url.getText();
-				} catch(Exception e) {}
+				if(image.getImage() != null) return url.getText();
+				return null;
 			}
 			return "";
 		});
@@ -73,11 +73,13 @@ public class fxImageSelector {
 		dialog.getDialogPane().setContent(content);
 		dialog.getDialogPane().setPrefHeight(800);
 		dialog.getDialogPane().setPrefWidth(800);
+		dialog.setResizable(true);
 
 
-		//TODO add showandwait script
+		Optional<String> out = dialog.showAndWait();
 		
-		return r;
+		if(out.get() == null) return "";
+		else return out.get();
 	}
 
 }
