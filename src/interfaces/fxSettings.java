@@ -49,13 +49,14 @@ public class fxSettings {
 
 		ObservableList<settingsPage> pages = FXCollections.observableArrayList();
 
-		pages.addAll(pageDisplay(), pageSaving(), pageImages(), pageItems(), pageAdvanced());
+		pages.addAll(pageAppearance(), pageSaving(), pageImages(), pageItems(), pageAdvanced());
 
 		// http://www.java2s.com/Code/Java/JavaFX/ListViewselectionlistener.htm
 		ListView<settingsPage> pageSelection = new ListView<settingsPage>(pages);
 		pageSelection.setPrefWidth(100);
 		pageSelection.getSelectionModel().selectedItemProperty().addListener((e, o, n) -> content.setCenter(n));
 		pageSelection.setCellFactory(new Callback<ListView<settingsPage>, ListCell<settingsPage>>() {
+			@Override
 			public ListCell<settingsPage> call(ListView<settingsPage> param) {
 				final Label leadLbl = new Label();
 				final Tooltip tooltip = new Tooltip();
@@ -87,19 +88,18 @@ public class fxSettings {
 
 		content = new BorderPane();
 		content.setLeft(pageSelection);
-		content.setCenter(pageDisplay());
+		content.setCenter(pageAppearance());
 		content.setBottom(bottom);
 
 		pageSelection.getSelectionModel().select(0);
 
 		Scene scene = new Scene(content, 500, 400);
-		// scene.getStylesheets().add(ClassLoader.getSystemResource("listStyle.css").toExternalForm());
 
 		stage.setScene(scene);
 		stage.show();
 	}
 
-	private static settingsPage pageDisplay() {
+	private static settingsPage pageAppearance() {
 		settingsPage r = new settingsPage("Appearance");
 
 		VBox content = new VBox();
@@ -114,29 +114,29 @@ public class fxSettings {
 		};
 
 		CheckBox cShowDice = new CheckBox("Show Dice");
-		cShowDice.setSelected(Settings.display.dice.showDice);
+		cShowDice.setSelected(Settings.appearance.dice.showDice);
 		cShowDice.setTooltip(new Tooltip("When checked, will display the D&D Dice format of the roll\n\nCannot be turned off at the same time as Show Range"));
 		CheckBox cShowRange = new CheckBox("Show Range");
 		cShowRange.setTooltip(new Tooltip("When checked, will display the range of the roll (min and max)\n\nCannot be turned off at the same time as Show Range"));
-		cShowRange.setSelected(Settings.display.dice.showRange);
+		cShowRange.setSelected(Settings.appearance.dice.showRange);
 
 		cShowDice.selectedProperty().addListener((obs, o, n) -> {
 			if(!n.booleanValue()) cShowRange.setSelected(true);
-			Settings.display.dice.showDice = n.booleanValue();
+			Settings.appearance.dice.showDice = n.booleanValue();
 			updateDisplay.apply("");
 		});
 		cShowRange.selectedProperty().addListener((obs, o, n) -> {
 			if(!n.booleanValue()) cShowDice.setSelected(true);
-			Settings.display.dice.showRange = n.booleanValue();
+			Settings.appearance.dice.showRange = n.booleanValue();
 			updateDisplay.apply("");
 		});
 
 		CheckBox cCompactDice = new CheckBox("Compact Dice Format");
 		cCompactDice.setTooltip(new Tooltip("Compact view of the D&D Dice format\nRemoves all spaces"));
-		cCompactDice.setSelected(Settings.display.dice.compactDice);
+		cCompactDice.setSelected(Settings.appearance.dice.compactDice);
 		cCompactDice.selectedProperty().addListener(o -> {
 			updateDisplay.apply("");
-			Settings.display.dice.compactDice = cCompactDice.isSelected();
+			Settings.appearance.dice.compactDice = cCompactDice.isSelected();
 		});
 
 		content.getChildren().add(settingSection("Dice Format", Arrays.asList(cShowDice, cShowRange, new Separator(), cCompactDice), Arrays.asList(diceDisplay)));

@@ -137,7 +137,6 @@ public class Item {
 		return name + ".icon";
 	}
 
-	// GETTERS AND SETTERS
 	public String getName() {
 		return name;
 	}
@@ -226,7 +225,9 @@ public class Item {
 			Images.deleteImage(getImageName());
 			return;
 		}
+		
 		if(imageURL.contentEquals(getImageName())) return;
+		
 		Images.saveImage(getImageName(), imageURL);
 	}
 

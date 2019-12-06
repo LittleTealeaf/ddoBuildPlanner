@@ -42,7 +42,6 @@ public class fxItems {
 		stage.setScene(new Scene(content, 500, 500));
 
 		stage.show();
-
 	}
 
 	@SuppressWarnings("unchecked")

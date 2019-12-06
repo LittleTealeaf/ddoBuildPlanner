@@ -41,6 +41,7 @@ public class fxEditItem {
 
 	private static TextField itemName;
 	private static Label errorText;
+	private static ImageView iImage;
 
 	public static void open() {
 		open((Item) null);
@@ -446,10 +447,9 @@ public class fxEditItem {
 		content.textProperty().addListener((e, o, n) -> item.setDescription(n));
 
 		r.setContent(content);
+		
 		return r;
 	}
-
-	private static ImageView iImage;
 
 	private static TitledPane contentImage() {
 		TitledPane r = new TitledPane();

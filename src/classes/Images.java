@@ -39,9 +39,7 @@ public class Images {
 
 		if(externals.exists()) try {
 			system.staticJSON.fromJson(Files.newBufferedReader(externals.toPath()), Images.class);
-		} catch(Exception e) {
-
-		}
+		} catch(Exception e) {}
 
 		deleteImage(".image");
 		deleteImage(".icon");
@@ -57,30 +55,33 @@ public class Images {
 	}
 
 	public static void save() {
+
 		File f = system.getAppFile("images", "external.json");
+
 		if(!f.exists()) f.getParentFile().mkdirs();
 		try {
+
 			FileWriter writer = new FileWriter(f);
 			writer.write(system.staticJSON.toJson(new Images()));
 			writer.close();
-		} catch(IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 
+		} catch(IOException e) {}
 	}
 
 	public static Image getImage(String name) {
+
 		File f = null;
 
 		try {
+
 			f = system.getAppFile("images", name);
+
 		} catch(Exception e) {
 			try {
-				f = new File(name);
-			} catch(Exception d) {
 
-			}
+				f = new File(name);
+
+			} catch(Exception d) {}
 		}
 
 		if(f.exists()) return getImageFromURL(f.getPath());
@@ -97,12 +98,15 @@ public class Images {
 
 		if(f.exists()) f.renameTo(system.getAppFile("images", to));
 		else for(extImage i : externalImages) if(from.contentEquals(i.getName())) i.setName(to);
+
 		save();
 	}
 
 	public static void deleteImage(String image) {
 		List<extImage> n = new ArrayList<extImage>();
+
 		for(extImage i : externalImages) if(!i.name.contentEquals(image)) n.add(i);
+
 		externalImages = n;
 
 		File f = system.getAppFile("images", image);
@@ -112,17 +116,16 @@ public class Images {
 	}
 
 	public static void localizeImages() {
-		for(extImage i : externalImages) {
-			localizeImage(i);
-		}
+		for(extImage i : externalImages) localizeImage(i);
 		externalImages.clear();
 		save();
 	}
 
 	public static void saveImage(String name, String url) {
 		deleteImage(name);
-		if(Settings.images.storeLocal) localizeImage(new extImage(name, url));
-		else {
+		if(Settings.images.storeLocal) {
+			localizeImage(new extImage(name, url));
+		} else {
 			List<extImage> images = new ArrayList<extImage>();
 			for(extImage i : externalImages) if(!name.contentEquals(i.getName())) images.add(i);
 			images.add(new extImage(name, url));
@@ -184,7 +187,7 @@ public class Images {
 		}
 
 		/**
-		 * 
+		 * Create a new Image Prompt
 		 * @param loadImage Name of the old image, which is found in the oldImage area
 		 */
 		public ImagePrompt(String loadImage) {
@@ -264,6 +267,14 @@ public class Images {
 
 		private void displayImage() {
 			image.setImage(getImage(urlField.getText()));
+		}
+		
+		public String getURL() {
+			return urlField.getText();
+		}
+		
+		public void setURL(String url) {
+			urlField.setText(url);
 		}
 	}
 

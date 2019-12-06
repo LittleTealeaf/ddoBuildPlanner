@@ -13,7 +13,7 @@ public class Items {
 	private static long lastModified;
 	private static List<Item> items;
 
-	public static Item grabItem(String name) {
+	public static Item readItem(String name) {
 		try {
 			return system.objectJSON.fromJson(new FileReader(getFile(name)), Item.class);
 		} catch(Exception e) {

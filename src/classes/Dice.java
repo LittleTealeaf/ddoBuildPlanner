@@ -12,41 +12,36 @@ public class Dice {
 	private double postAdd;
 
 	public Dice() {
-		coeff = 1;
-		dieCount = 0;
-		dieSides = 0;
+		this(0, 0);
 	}
 
-	public Dice(int Count, int Sides) {
-		dieCount = Count;
-		dieSides = Sides;
+	public Dice(int count, int sides) {
+		this(count, sides, 0);
 	}
 
-	public Dice(int Count, int Sides, double Bonus) {
-		dieCount = Count;
-		dieSides = Sides;
-		preAdd = Bonus;
+	public Dice(int count, int sides, double bonus) {
+		this(1, count, sides, bonus, 0);
 	}
 
-	public Dice(double Coefficient, int Count, int Sides, double PreAdd, double PostAdd) {
-		coeff = Coefficient;
-		dieCount = Count;
-		dieSides = Sides;
-		preAdd = PreAdd;
-		postAdd = PostAdd;
+	public Dice(double coefficient, int count, int sides, double preAdd, double postAdd) {
+		this.coeff = coefficient;
+		this.dieCount = count;
+		this.dieSides = sides;
+		this.preAdd = preAdd;
+		this.postAdd = postAdd;
 	}
 
 	public Dice(String str) {
-		coeff = 1;
-		dieCount = 0;
-		dieSides = 0;
+		this();
 
 		List<String> parsed = Arrays.asList(str.replace(" ", "").replace("[", "/").replace("d", "/").replace("]+", "/").replace("+", "/").split("/"));
 		/**
-		 * 1d4 -> 2 1d3+5 -> 3 5[1d4 + 5] -> 4 5[1d4 + 5] + 5 -> 5
+		 * 1d4 -> 2
+		 * 1d3+5 -> 3
+		 * 5[1d4 + 5] -> 4
+		 * 5[1d4 + 5] + 5 -> 5
 		 */
 		try {
-			System.out.println(parsed);
 			switch (parsed.size()) {
 			case 3:
 				preAdd = Double.parseDouble(parsed.get(2));
@@ -66,11 +61,7 @@ public class Dice {
 				System.out.println("could not parse");
 				break;
 			}
-
-		} catch(Exception e) {
-
-		}
-
+		} catch(Exception e) {}
 	}
 
 	public double getMinimum() {
@@ -97,7 +88,7 @@ public class Dice {
 	@Override
 	public String toString() {
 		String r = "";
-		if(Settings.display.dice.showDice) {
+		if(Settings.appearance.dice.showDice) {
 			if(coeff == 1) {
 				double add = preAdd + postAdd;
 				r += dieCount + "d" + dieSides;
@@ -109,9 +100,9 @@ public class Dice {
 				if(postAdd != 0) r += " + " + postAdd;
 			}
 
-			if(Settings.display.dice.compactDice) r = r.replace(" ", "");
+			if(Settings.appearance.dice.compactDice) r = r.replace(" ", "");
 		}
-		if(Settings.display.dice.showRange) {
+		if(Settings.appearance.dice.showRange) {
 			if(!r.contentEquals("")) r += "\n";
 			r += "(" + getMinimum() + " - " + getMaximum() + ")";
 		}
@@ -135,7 +126,7 @@ public class Dice {
 			if(postAdd != 0) r += " + " + postAdd;
 		}
 
-		if(Settings.display.dice.compactDice) r = r.replace(" ", "");
+		if(Settings.appearance.dice.compactDice) r = r.replace(" ", "");
 
 		return r;
 	}

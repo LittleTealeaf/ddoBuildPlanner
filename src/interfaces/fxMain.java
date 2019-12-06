@@ -18,7 +18,6 @@ public class fxMain extends Application {
 
 	public static void open(String[] args) {
 		launch(args);
-
 	}
 
 	@Override
@@ -43,7 +42,6 @@ public class fxMain extends Application {
 		// Center Area
 		tabs = new TabPane();
 
-		// Tome, Leveling, Enhancement Trees (sub tab in there), Gearsets
 		tabs.getTabs().addAll(fxTabs.Tabs.getMainTabs());
 
 		for(Tab t : tabs.getTabs()) {
