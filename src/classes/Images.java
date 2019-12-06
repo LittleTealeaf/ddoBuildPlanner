@@ -33,10 +33,6 @@ public class Images {
 	private static List<extImage> externalImages;
 
 	public static void load() {
-		// Clear Null
-		deleteImage(".image");
-		deleteImage(".icon");
-
 		File externals = system.getAppFile("images", "external.json");
 
 		externalImages = new ArrayList<extImage>();
@@ -46,6 +42,9 @@ public class Images {
 		} catch(Exception e) {
 
 		}
+		
+		deleteImage(".image");
+		deleteImage(".icon");
 	}
 
 	public static void save() {
