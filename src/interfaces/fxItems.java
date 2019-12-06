@@ -65,6 +65,7 @@ public class fxItems {
 	}
 
 	public static void updateTable() {
+		if(table == null) return;
 		table.getItems().clear();
 		table.getItems().addAll(FXCollections.observableArrayList(Items.getAllItems()));
 	}
