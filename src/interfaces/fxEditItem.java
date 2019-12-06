@@ -459,11 +459,12 @@ public class fxEditItem {
 		iImage.setPreserveRatio(true);
 		iImage.imageProperty().addListener(e -> {
 			if(iImage.getImage() != null) {
-				iImage.fitHeightProperty().bind(r.heightProperty().multiply(0.9));
-				iImage.fitWidthProperty().bind(r.widthProperty());
+				iImage.fitHeightProperty().bind(r.heightProperty().multiply(0.75));
+				iImage.fitWidthProperty().bind(r.widthProperty().multiply(0.75));
 			} else {
 				iImage.fitWidthProperty().unbind();
 				iImage.fitHeightProperty().unbind();
+				iImage.setFitWidth(10);
 			}
 		});
 		

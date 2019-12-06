@@ -206,8 +206,6 @@ public class Images {
 			image.setPreserveRatio(true);
 			image.setFitWidth(300);
 			image.setFitHeight(300);
-			image.fitWidthProperty().bind(this.getDialogPane().widthProperty().multiply(3/5));
-			image.fitHeightProperty().bind(this.getDialogPane().heightProperty().multiply(3/5));
 
 			urlField = new TextField();
 			urlField.setText(loadImage);
@@ -254,6 +252,9 @@ public class Images {
 			this.getDialogPane().setPrefWidth(500);
 			this.getDialogPane().setPrefHeight(500);
 
+			this.getDialogPane().widthProperty().addListener((e,o,n) -> image.setFitWidth(3 * (double) n / 5));
+			this.getDialogPane().heightProperty().addListener((e,o,n) -> image.setFitHeight(3 * (double) n / 5));
+			
 		}
 
 		public String prompt() {
