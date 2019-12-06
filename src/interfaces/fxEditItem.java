@@ -21,6 +21,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.Tooltip;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.SpinnerValueFactory.IntegerSpinnerValueFactory;
 import javafx.scene.input.KeyCode;
@@ -57,7 +58,8 @@ public class fxEditItem {
 		stage = new Stage();
 		if(i != null) {
 			stage.setTitle("Editing " + i.getName());
-			stage.getIcons().add(item.getIcon());
+			Image icon = item.getIcon();
+			if(icon != null) stage.getIcons().add(icon);
 		} else {
 			stage.setTitle("Create Item");
 			item = new Item();
@@ -157,14 +159,15 @@ public class fxEditItem {
 		Button bSetIcon = new Button("Set Icon");
 		bSetIcon.setOnAction(e -> {
 			item.setIcon(Images.imagePrompt("Set Icon"));
-			stage.getIcons().add(item.getIcon());
+			Image icon = item.getIcon();
+			if(icon != null) stage.getIcons().add(icon);
 		});
 		Button bSetImage = new Button("Set Image");
 		bSetImage.setOnAction(e -> {
 			item.setImage(Images.imagePrompt("Set Image"));
-			iImage.setImage(item.getImage());
+			Image image = item.getImage();
+			if(image != null) iImage.setImage(image);
 		});
-		// TODO implement these
 
 		Text tMaterial = new Text("Material:");
 
@@ -462,6 +465,14 @@ public class fxEditItem {
 				iImage.fitHeightProperty().unbind();
 			}
 		});
+		
+		if(iImage.getImage() != null) {
+			iImage.fitHeightProperty().bind(r.heightProperty().multiply(0.9));
+			iImage.fitWidthProperty().bind(r.widthProperty());
+		} else {
+			iImage.fitWidthProperty().unbind();
+			iImage.fitHeightProperty().unbind();
+		}
 
 		r.setContent(iImage);
 
