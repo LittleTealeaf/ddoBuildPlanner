@@ -188,6 +188,7 @@ public class Images {
 
 		/**
 		 * Create a new Image Prompt
+		 * 
 		 * @param loadImage Name of the old image, which is found in the oldImage area
 		 */
 		public ImagePrompt(String loadImage) {
@@ -268,11 +269,11 @@ public class Images {
 		private void displayImage() {
 			image.setImage(getImage(urlField.getText()));
 		}
-		
+
 		public String getURL() {
 			return urlField.getText();
 		}
-		
+
 		public void setURL(String url) {
 			urlField.setText(url);
 		}

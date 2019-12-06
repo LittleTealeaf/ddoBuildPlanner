@@ -447,7 +447,7 @@ public class fxEditItem {
 		content.textProperty().addListener((e, o, n) -> item.setDescription(n));
 
 		r.setContent(content);
-		
+
 		return r;
 	}
 

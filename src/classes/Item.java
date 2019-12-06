@@ -226,9 +226,9 @@ public class Item {
 			Images.deleteImage(getImageName());
 			return;
 		}
-		
+
 		if(imageURL.contentEquals(getImageName())) return;
-		
+
 		Images.saveImage(getImageName(), imageURL);
 	}
 
