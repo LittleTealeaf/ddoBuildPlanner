@@ -75,6 +75,8 @@ public class Images {
 
 		if(f.exists()) f.renameTo(system.getAppFile(new String[] {"images", to}));
 		else for(extImage i : externalImages) if(from.contentEquals(i.getName())) i.setName(to);
+		//save();
+		//TODO more effective way to save?
 	}
 
 	public static void localizeImages() {
@@ -202,6 +204,8 @@ public class Images {
 		else return out.get();
 	}
 
+	//TODO fix issue where it's not updating the name for items in extImage
+	
 	private static class extImage {
 		private String name;
 		private String url;
