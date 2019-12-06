@@ -206,6 +206,8 @@ public class Images {
 			image.setPreserveRatio(true);
 			image.setFitWidth(300);
 			image.setFitHeight(300);
+			image.fitWidthProperty().bind(this.getDialogPane().widthProperty().multiply(3/5));
+			image.fitHeightProperty().bind(this.getDialogPane().heightProperty().multiply(3/5));
 
 			urlField = new TextField();
 			urlField.setText(loadImage);
@@ -213,7 +215,9 @@ public class Images {
 
 			Button browse = new Button("Browse...");
 			browse.setOnAction(e -> {
-				String newURL = fileChooser.showOpenDialog(null).getPath();
+				File f = fileChooser.showOpenDialog(null);
+				if(f == null) return;
+				String newURL = f.getPath();
 				if(getImage(newURL) != null) urlField.setText(newURL);
 				displayImage();
 			});
