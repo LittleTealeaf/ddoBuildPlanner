@@ -68,8 +68,6 @@ public class fxMain extends Application {
 		sMain.setScene(scene);
 		sMain.show();
 		sMain.setMaximized(true);
-		
-		Main.mainPostOpen();
 	}
 
 }

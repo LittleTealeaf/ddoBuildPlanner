@@ -19,8 +19,4 @@ public class Main {
 
 		fxMain.open(args);
 	}
-	
-	public static void mainPostOpen() {
-		Images.verifyImages();
-	}
 }

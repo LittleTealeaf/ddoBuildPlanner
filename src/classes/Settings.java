@@ -18,6 +18,7 @@ public class Settings {
 		Saving = new saving();
 		Advanced = new advanced();
 		Items = new items();
+		Images = new images();
 
 		version = Main.version;
 	}
@@ -50,6 +51,14 @@ public class Settings {
 		public static double periodicalTime;
 	}
 	
+	public static images Images;
+
+	public static class images {
+		public images() {}
+
+		public static boolean storeLocal;
+	}
+	
 	public static items Items;
 	
 	public static class items {
@@ -64,7 +73,6 @@ public class Settings {
 	public static class advanced {
 		public advanced() {
 			Debug = new debug();
-			Images = new images();
 		}
 
 		public static debug Debug;
@@ -73,14 +81,6 @@ public class Settings {
 			public debug() {}
 
 			public static boolean showCrashReports;
-		}
-
-		public static images Images;
-
-		public static class images {
-			public images() {}
-
-			public static boolean storeLocal;
 		}
 	}
 
@@ -92,11 +92,12 @@ public class Settings {
 		saving.inactivityTime = 100;
 		saving.periodicalTime = 0;
 		
+		images.storeLocal = true;
+		
 		items.warnOnDelete = true;
 		items.deleteImages = true;
 
 		advanced.debug.showCrashReports = true; // TODO PRODUCTION: change to false
-		advanced.images.storeLocal = true;
 	}
 
 	public static void loadSettings() {

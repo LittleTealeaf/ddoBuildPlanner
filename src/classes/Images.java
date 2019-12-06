@@ -122,7 +122,7 @@ public class Images {
 
 	public static void saveImage(String name, String url) {
 		deleteImage(name);
-		if(Settings.advanced.images.storeLocal) localizeImage(new extImage(name, url));
+		if(Settings.images.storeLocal) localizeImage(new extImage(name, url));
 		else {
 			List<extImage> images = new ArrayList<extImage>();
 			for(extImage i : externalImages) if(!name.contentEquals(i.getName())) images.add(i);

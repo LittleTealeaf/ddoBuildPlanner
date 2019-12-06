@@ -49,7 +49,7 @@ public class fxSettings {
 
 		ObservableList<settingsPage> pages = FXCollections.observableArrayList();
 
-		pages.addAll(pageDisplay(), pageSaving(), pageItems(), pageAdvanced());
+		pages.addAll(pageDisplay(), pageSaving(),pageImages(), pageItems(), pageAdvanced());
 
 		// http://www.java2s.com/Code/Java/JavaFX/ListViewselectionlistener.htm
 		ListView<settingsPage> pageSelection = new ListView<settingsPage>(pages);
@@ -197,6 +197,30 @@ public class fxSettings {
 		return r;
 	}
 	
+	private static settingsPage pageImages() {
+		settingsPage r = new settingsPage("Images");
+		
+		VBox content = new VBox();
+		content.setPadding(new Insets(10));
+		content.setSpacing(10);
+		
+		CheckBox cStoreLocalImages = new CheckBox("Store Imported Images locally");
+		cStoreLocalImages.setSelected(Settings.images.storeLocal);
+		cStoreLocalImages.selectedProperty().addListener(a -> Settings.images.storeLocal = cStoreLocalImages.isSelected());
+
+		Button bLocalizeImages = new Button("Localize Images");
+		bLocalizeImages.setOnAction(e -> Images.localizeImages());
+		
+		Button clearNull = new Button("Clear broken references");
+		clearNull.setOnAction(e -> Images.verifyImages());
+
+		content.getChildren().add(settingSection("Images", Arrays.asList(cStoreLocalImages), Arrays.asList(bLocalizeImages,clearNull)));
+		
+		r.setContent(content);
+
+		return r;
+	}
+	
 	private static settingsPage pageItems() {
 		settingsPage r = new settingsPage("Items");
 		
@@ -233,15 +257,6 @@ public class fxSettings {
 		cDebug.selectedProperty().addListener(a -> Settings.advanced.debug.showCrashReports = cDebug.isSelected());
 
 		content.getChildren().add(settingSection("Debug Mode", Arrays.asList(cDebug), null));
-
-		CheckBox cStoreLocalImages = new CheckBox("Store Imported Images locally");
-		cStoreLocalImages.setSelected(Settings.advanced.images.storeLocal);
-		cStoreLocalImages.selectedProperty().addListener(a -> Settings.advanced.images.storeLocal = cStoreLocalImages.isSelected());
-
-		Button bLocalizeImages = new Button("Localize Images");
-		bLocalizeImages.setOnAction(e -> Images.localizeImages());
-
-		content.getChildren().add(settingSection("Images", Arrays.asList(cStoreLocalImages), Arrays.asList(bLocalizeImages)));
 
 		r.setContent(content);
 
