@@ -12,7 +12,7 @@ public class Iref {
 
 	public Item getItem() {
 		if(temp != null) return temp;
-		return Items.grabItem(name);
+		return Items.readItem(name);
 	}
 
 }

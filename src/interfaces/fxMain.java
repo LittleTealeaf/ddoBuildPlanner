@@ -18,14 +18,11 @@ public class fxMain extends Application {
 
 	public static void open(String[] args) {
 		launch(args);
-
 	}
 
 	@Override
 	public void start(Stage sMain) {
 		sMainRef = sMain;
-
-		// TODO preferences! (including the display type of dice values)
 
 		// Menu
 		MenuBar menu = new MenuBar();
@@ -35,20 +32,16 @@ public class fxMain extends Application {
 		MenuItem settings = new MenuItem("Settings");
 		settings.setOnAction(e -> fxSettings.open());
 
-		MenuItem itemEdit = new MenuItem("Item Edit");
-		itemEdit.setOnAction(e -> fxEditItem.open());
-
 		MenuItem items = new MenuItem("Items");
 		items.setOnAction(e -> fxItems.open());
 
-		file.getItems().addAll(settings, itemEdit, items);
+		file.getItems().addAll(settings, items);
 
 		menu.getMenus().addAll(file);
 
 		// Center Area
 		tabs = new TabPane();
 
-		// Tome, Leveling, Enhancement Trees (sub tab in there), Gearsets
 		tabs.getTabs().addAll(fxTabs.Tabs.getMainTabs());
 
 		for(Tab t : tabs.getTabs()) {

@@ -7,7 +7,7 @@ public class Gearset {
 	private Iref goggles, helmet, necklace, trinket, cloak, bracers, belt, ring1, ring2, gloves, armor, mainHand, offHand;
 
 	public Gearset() {
-		name = "";
+		this("");
 	}
 
 	public Gearset(String name) {

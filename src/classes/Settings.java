@@ -14,19 +14,21 @@ public class Settings {
 
 	public Settings() {
 		// Variable Names are what dictate what the JSON file reads
-		Display = new display();
+		Appearance = new appearance();
 		Saving = new saving();
 		Advanced = new advanced();
+		Items = new items();
+		Images = new images();
 
 		version = Main.version;
 	}
 
-	private static display Display;
+	private static appearance Appearance;
 
-	public static class display {
+	public static class appearance {
 		private static dice Dice;
 
-		public display() {
+		public appearance() {
 			Dice = new dice();
 		}
 
@@ -49,12 +51,28 @@ public class Settings {
 		public static double periodicalTime;
 	}
 
+	public static images Images;
+
+	public static class images {
+		public images() {}
+
+		public static boolean storeLocal;
+	}
+
+	public static items Items;
+
+	public static class items {
+		public items() {}
+
+		public static boolean warnOnDelete;
+		public static boolean deleteImages;
+	}
+
 	private static advanced Advanced;
 
 	public static class advanced {
 		public advanced() {
 			Debug = new debug();
-			Images = new images();
 		}
 
 		public static debug Debug;
@@ -64,26 +82,22 @@ public class Settings {
 
 			public static boolean showCrashReports;
 		}
-
-		public static images Images;
-
-		public static class images {
-			public images() {}
-
-			public static boolean storeLocal;
-		}
 	}
 
 	public static void defaultSettings() {
-		display.dice.showDice = true;
-		display.dice.compactDice = false;
-		display.dice.showRange = false;
+		appearance.dice.showDice = true;
+		appearance.dice.compactDice = false;
+		appearance.dice.showRange = false;
 
 		saving.inactivityTime = 100;
 		saving.periodicalTime = 0;
 
+		images.storeLocal = true;
+
+		items.warnOnDelete = true;
+		items.deleteImages = true;
+
 		advanced.debug.showCrashReports = true; // TODO PRODUCTION: change to false
-		advanced.images.storeLocal = true;
 	}
 
 	public static void loadSettings() {

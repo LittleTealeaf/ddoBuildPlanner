@@ -5,8 +5,12 @@ import java.util.Arrays;
 import java.util.List;
 
 import interfaces.fxItems;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import util.system;
 
 public class Item {
 
@@ -82,13 +86,32 @@ public class Item {
 		Images.renameImage(getImageName(oldName), getImageName());
 		Images.renameImage(getImageName(oldName), getImageName());
 
-		fxItems.updateTable();
-
 		if(!(name == null || name.contentEquals(""))) {
 			Items.saveItem(this);
 			oldName = name + "";
+			fxItems.updateTable();
 			return true;
 		} else return false;
+	}
+
+	public void deleteItem() {
+		if(Settings.items.warnOnDelete) {
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("Delete " + name + "?");
+			alert.setHeaderText("Delete Item?");
+			alert.setContentText("Do you really want to delete the following item? \n   " + name);
+
+			if(alert.showAndWait().get().getButtonData() != ButtonData.OK_DONE) return;
+		}
+
+		if(Settings.items.deleteImages) {
+			Images.deleteImage(getImageName());
+			Images.deleteImage(getIconName());
+		}
+
+		system.getAppFile("items", name + ".json").delete();
+
+		fxItems.updateTable();
 	}
 
 	public void cleanItem() {
@@ -114,7 +137,6 @@ public class Item {
 		return name + ".icon";
 	}
 
-	// GETTERS AND SETTERS
 	public String getName() {
 		return name;
 	}
@@ -203,7 +225,9 @@ public class Item {
 			Images.deleteImage(getImageName());
 			return;
 		}
+		
 		if(imageURL.contentEquals(getImageName())) return;
+		
 		Images.saveImage(getImageName(), imageURL);
 	}
 

@@ -41,6 +41,7 @@ public class fxEditItem {
 
 	private static TextField itemName;
 	private static Label errorText;
+	private static ImageView iImage;
 
 	public static void open() {
 		open((Item) null);
@@ -231,8 +232,10 @@ public class fxEditItem {
 	private static Accordion contentRight() {
 		Accordion r = new Accordion();
 
-		r.getPanes().addAll(contentEquipSlots(), contentEnchantments(), contentWeapon(), contentArmor(), contentDescription(), contentImage());
-		r.setExpandedPane(null);
+		TitledPane expandedPane = contentDescription();
+
+		r.getPanes().addAll(contentEquipSlots(), contentEnchantments(), contentWeapon(), contentArmor(), expandedPane, contentImage());
+		r.setExpandedPane(expandedPane);
 
 		return r;
 	}
@@ -444,36 +447,28 @@ public class fxEditItem {
 		content.textProperty().addListener((e, o, n) -> item.setDescription(n));
 
 		r.setContent(content);
+		
 		return r;
 	}
-
-	private static ImageView iImage;
 
 	private static TitledPane contentImage() {
 		TitledPane r = new TitledPane();
 		r.setText("Image");
-		r.setExpanded(true);
 
 		iImage = new ImageView();
-		iImage.setImage(item.getImage());
 		iImage.setPreserveRatio(true);
 		iImage.imageProperty().addListener(e -> {
 			if(iImage.getImage() != null) {
-				iImage.fitHeightProperty().bind(r.heightProperty().multiply(0.9));
-				iImage.fitWidthProperty().bind(r.widthProperty());
+				iImage.fitHeightProperty().bind(r.heightProperty().multiply(0.75));
+				iImage.fitWidthProperty().bind(r.widthProperty().multiply(0.75));
 			} else {
 				iImage.fitWidthProperty().unbind();
 				iImage.fitHeightProperty().unbind();
+				iImage.setFitWidth(10);
 			}
 		});
 
-		if(iImage.getImage() != null) {
-			iImage.fitHeightProperty().bind(r.heightProperty().multiply(0.9));
-			iImage.fitWidthProperty().bind(r.widthProperty());
-		} else {
-			iImage.fitWidthProperty().unbind();
-			iImage.fitHeightProperty().unbind();
-		}
+		iImage.setImage(item.getImage());
 
 		r.setContent(iImage);
 

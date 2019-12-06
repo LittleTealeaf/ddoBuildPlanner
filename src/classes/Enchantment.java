@@ -13,11 +13,11 @@ public class Enchantment {
 	private transient String description;
 
 	public Enchantment() {
-		name = "";
-		type = "";
-		value = "";
-		description = "";
-		title = "";
+		this("", "", "");
+	}
+
+	public Enchantment(String n, String t, int v) {
+		this(n, t, v + "");
 	}
 
 	public Enchantment(String n, String t, String v) {
@@ -28,22 +28,12 @@ public class Enchantment {
 		title = "";
 	}
 
-	public Enchantment(String n, String t, int v) {
-		name = n;
-		type = t;
-		value = v + "";
-		description = "";
-		title = "";
-	}
-
 	public String getTitle() {
-
 		return title;
 	}
 
 	public String getDescription() {
 		if(description.contentEquals("")) description = EnchantConvert.getDescription(name);
-
 		return description;
 	}
 

@@ -39,39 +39,49 @@ public class Images {
 
 		if(externals.exists()) try {
 			system.staticJSON.fromJson(Files.newBufferedReader(externals.toPath()), Images.class);
-		} catch(Exception e) {
+		} catch(Exception e) {}
 
-		}
-		
 		deleteImage(".image");
 		deleteImage(".icon");
 	}
 
+	public static void verifyImages() {
+		for(extImage img : externalImages) {
+			if(getImage(img.getURL()) == null) {
+				System.out.println("Deleting Void Image: " + img.getName());
+				deleteImage(img.getName());
+			}
+		}
+	}
+
 	public static void save() {
+
 		File f = system.getAppFile("images", "external.json");
+
 		if(!f.exists()) f.getParentFile().mkdirs();
 		try {
+
 			FileWriter writer = new FileWriter(f);
 			writer.write(system.staticJSON.toJson(new Images()));
 			writer.close();
-		} catch(IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 
+		} catch(IOException e) {}
 	}
 
 	public static Image getImage(String name) {
+
 		File f = null;
 
 		try {
+
 			f = system.getAppFile("images", name);
+
 		} catch(Exception e) {
 			try {
+
 				f = new File(name);
-			} catch(Exception d) {
-				return null;
-			}
+
+			} catch(Exception d) {}
 		}
 
 		if(f.exists()) return getImageFromURL(f.getPath());
@@ -80,7 +90,7 @@ public class Images {
 			if(name.contentEquals(i.name)) return getImageFromURL(i.url);
 		}
 
-		return null;
+		return getImageFromURL(name);
 	}
 
 	public static void renameImage(String from, String to) {
@@ -88,12 +98,15 @@ public class Images {
 
 		if(f.exists()) f.renameTo(system.getAppFile("images", to));
 		else for(extImage i : externalImages) if(from.contentEquals(i.getName())) i.setName(to);
+
 		save();
 	}
 
 	public static void deleteImage(String image) {
 		List<extImage> n = new ArrayList<extImage>();
+
 		for(extImage i : externalImages) if(!i.name.contentEquals(image)) n.add(i);
+
 		externalImages = n;
 
 		File f = system.getAppFile("images", image);
@@ -103,16 +116,16 @@ public class Images {
 	}
 
 	public static void localizeImages() {
-		for(extImage i : externalImages) {
-			localizeImage(i);
-		}
+		for(extImage i : externalImages) localizeImage(i);
 		externalImages.clear();
 		save();
 	}
 
 	public static void saveImage(String name, String url) {
-		if(Settings.advanced.images.storeLocal) localizeImage(new extImage(name, url));
-		else {
+		deleteImage(name);
+		if(Settings.images.storeLocal) {
+			localizeImage(new extImage(name, url));
+		} else {
 			List<extImage> images = new ArrayList<extImage>();
 			for(extImage i : externalImages) if(!name.contentEquals(i.getName())) images.add(i);
 			images.add(new extImage(name, url));
@@ -174,7 +187,7 @@ public class Images {
 		}
 
 		/**
-		 * 
+		 * Create a new Image Prompt
 		 * @param loadImage Name of the old image, which is found in the oldImage area
 		 */
 		public ImagePrompt(String loadImage) {
@@ -202,7 +215,9 @@ public class Images {
 
 			Button browse = new Button("Browse...");
 			browse.setOnAction(e -> {
-				String newURL = fileChooser.showOpenDialog(null).getPath();
+				File f = fileChooser.showOpenDialog(null);
+				if(f == null) return;
+				String newURL = f.getPath();
 				if(getImage(newURL) != null) urlField.setText(newURL);
 				displayImage();
 			});
@@ -239,6 +254,9 @@ public class Images {
 			this.getDialogPane().setPrefWidth(500);
 			this.getDialogPane().setPrefHeight(500);
 
+			this.getDialogPane().widthProperty().addListener((e, o, n) -> image.setFitWidth(3 * (double) n / 5));
+			this.getDialogPane().heightProperty().addListener((e, o, n) -> image.setFitHeight(3 * (double) n / 5));
+
 		}
 
 		public String prompt() {
@@ -250,9 +268,15 @@ public class Images {
 		private void displayImage() {
 			image.setImage(getImage(urlField.getText()));
 		}
+		
+		public String getURL() {
+			return urlField.getText();
+		}
+		
+		public void setURL(String url) {
+			urlField.setText(url);
+		}
 	}
-
-	// TODO fix issue where it's not updating the name for items in extImage
 
 	private static class extImage {
 		private String name;
@@ -269,6 +293,10 @@ public class Images {
 
 		public void setName(String name) {
 			this.name = name;
+		}
+
+		public String getURL() {
+			return url;
 		}
 	}
 }

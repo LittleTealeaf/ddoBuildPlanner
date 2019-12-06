@@ -23,7 +23,6 @@ public class system {
 		objectJSON = new GsonBuilder().setPrettyPrinting().create();
 
 		settings = getAppFile("Settings.json");
-
 	}
 
 	public static File getAppFile(String... path) {

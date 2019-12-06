@@ -18,6 +18,5 @@ public class Main {
 		Images.load();
 
 		fxMain.open(args);
-
 	}
 }
