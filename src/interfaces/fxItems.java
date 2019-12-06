@@ -11,6 +11,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
@@ -64,9 +65,10 @@ public class fxItems {
 		table.getItems().addAll(FXCollections.observableArrayList(Items.getAllItems()));
 
 		table.setOnMouseClicked(click -> {
-			if(click.getClickCount() == 2) {
-				fxEditItem.open(table.getSelectionModel().getSelectedItem());
-			}
+			if(click.getClickCount() == 2) openSelected();
+		});
+		table.setOnKeyPressed(key -> {
+			if(key.getCode() == KeyCode.ENTER) openSelected();
 		});
 
 		table.prefWidthProperty().bind(r.widthProperty());
@@ -76,6 +78,10 @@ public class fxItems {
 		r.setFitToHeight(true);
 
 		return r;
+	}
+	
+	private static void openSelected() {
+		fxEditItem.open(table.getSelectionModel().getSelectedItem());
 	}
 
 	public static void updateTable() {

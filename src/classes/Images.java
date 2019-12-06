@@ -267,8 +267,6 @@ public class Images {
 		}
 	}
 
-	// TODO fix issue where it's not updating the name for items in extImage
-
 	private static class extImage {
 		private String name;
 		private String url;
