@@ -23,6 +23,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
 import javafx.stage.FileChooser;
 import util.system;
 
@@ -150,8 +151,7 @@ public class Images {
 
 		ImageView image = new ImageView();
 		image.setPreserveRatio(true);
-		image.setFitWidth(800);
-		image.setFitHeight(800);
+		image.setFitHeight(500);
 
 		FileChooser imageChooser = new FileChooser();
 		imageChooser.setInitialDirectory(new File(System.getProperty("user.home")));
@@ -193,9 +193,8 @@ public class Images {
 		});
 
 		dialog.getDialogPane().setContent(content);
-		dialog.getDialogPane().setPrefHeight(800);
-		dialog.getDialogPane().setPrefWidth(800);
 		dialog.setResizable(true);
+		dialog.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
 
 		Optional<String> out = dialog.showAndWait();
 
