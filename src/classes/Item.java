@@ -86,11 +86,10 @@ public class Item {
 		Images.renameImage(getImageName(oldName), getImageName());
 		Images.renameImage(getImageName(oldName), getImageName());
 
-		fxItems.updateTable();
-
 		if(!(name == null || name.contentEquals(""))) {
 			Items.saveItem(this);
 			oldName = name + "";
+			fxItems.updateTable();
 			return true;
 		} else return false;
 	}
