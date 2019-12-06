@@ -40,8 +40,7 @@ public class fxItems {
 		TableColumn<Item, ImageView> cIcon = new TableColumn<Item, ImageView>();
 		// cTStart.setCellValueFactory(new PropertyValueFactory<Team,
 		// String>("startFXM"));
-		cIcon.setCellValueFactory(new PropertyValueFactory<Item, ImageView>("iconView"));
-		// TODO get image to be smaller
+		cIcon.setCellValueFactory(new PropertyValueFactory<Item, ImageView>("iconViewSmall"));
 
 		table.getColumns().addAll(cIcon);
 

@@ -159,6 +159,16 @@ public class Item {
 	public ImageView getIconView() {
 		return new ImageView(getIcon());
 	}
+	
+	public ImageView getIconViewSmall() {
+		ImageView r = new ImageView(getIcon());
+		double size = 80;
+		r.setFitHeight(size);
+		r.setFitWidth(size);
+		r.setPreserveRatio(true);
+		
+		return r;
+	}
 
 	public void setIcon(String iconURL) {
 		Images.saveImage(getIconName(), iconURL);
