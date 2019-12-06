@@ -46,6 +46,15 @@ public class Images {
 		deleteImage(".image");
 		deleteImage(".icon");
 	}
+	
+	public static void verifyImages() {
+		for(extImage img : externalImages) {
+			if(getImage(img.getURL()) == null) {
+				System.out.println("Deleting Void Image: " + img.getName());
+				deleteImage(img.getName());
+			}
+		}
+	}
 
 	public static void save() {
 		File f = system.getAppFile("images", "external.json");
@@ -70,7 +79,8 @@ public class Images {
 			try {
 				f = new File(name);
 			} catch(Exception d) {
-				return null;
+				
+				
 			}
 		}
 
@@ -79,8 +89,8 @@ public class Images {
 		for(extImage i : externalImages) {
 			if(name.contentEquals(i.name)) return getImageFromURL(i.url);
 		}
-
-		return null;
+		
+		return getImageFromURL(name);
 	}
 
 	public static void renameImage(String from, String to) {
@@ -270,6 +280,10 @@ public class Images {
 
 		public void setName(String name) {
 			this.name = name;
+		}
+		
+		public String getURL() {
+			return url;
 		}
 	}
 }

@@ -1,5 +1,6 @@
 package interfaces;
 
+import application.Main;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Menu;
@@ -67,6 +68,8 @@ public class fxMain extends Application {
 		sMain.setScene(scene);
 		sMain.show();
 		sMain.setMaximized(true);
+		
+		Main.mainPostOpen();
 	}
 
 }
