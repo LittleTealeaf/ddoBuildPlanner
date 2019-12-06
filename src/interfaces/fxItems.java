@@ -15,6 +15,8 @@ import javafx.stage.Stage;
 public class fxItems {
 
 	public static Stage stage;
+	
+	private static TableView<Item> table;
 
 	public static void open() {
 		if(stage != null && stage.isShowing()) stage.close();
@@ -25,7 +27,7 @@ public class fxItems {
 
 		content.setCenter(itemTable());
 
-		stage.setScene(new Scene(content));
+		stage.setScene(new Scene(content,500,500));
 
 		stage.show();
 
@@ -35,19 +37,34 @@ public class fxItems {
 	public static ScrollPane itemTable() {
 		ScrollPane r = new ScrollPane();
 
-		TableView<Item> table = new TableView<Item>();
+		table = new TableView<Item>();
 
-		TableColumn<Item, ImageView> cIcon = new TableColumn<Item, ImageView>();
-		// cTStart.setCellValueFactory(new PropertyValueFactory<Team,
-		// String>("startFXM"));
+		TableColumn<Item, ImageView> cIcon = new TableColumn<Item, ImageView>("Icon");
 		cIcon.setCellValueFactory(new PropertyValueFactory<Item, ImageView>("iconViewSmall"));
+		
+		TableColumn<Item,String> cName = new TableColumn<Item,String>("Name");
+		cName.setCellValueFactory(new PropertyValueFactory<Item,String>("name"));
 
-		table.getColumns().addAll(cIcon);
+		table.getColumns().addAll(cIcon,cName);
 
 		table.getItems().addAll(FXCollections.observableArrayList(Items.getAllItems()));
+		
+		table.setOnMouseClicked(click -> {
+			if(click.getClickCount() == 2) {
+				fxEditItem.open(table.getSelectionModel().getSelectedItem());
+			}
+		});
+		
+		table.prefWidthProperty().bind(r.widthProperty());
 
 		r.setContent(table);
+		r.setFitToWidth(true);
+		r.setFitToHeight(true);
 
 		return r;
+	}
+	
+	public static void updateTable() {
+		//SAV ETABLE
 	}
 }

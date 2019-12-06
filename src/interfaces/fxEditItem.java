@@ -455,7 +455,7 @@ public class fxEditItem {
 		iImage.setPreserveRatio(true);
 		iImage.imageProperty().addListener(e -> {
 			if(iImage.getImage() != null) {
-				iImage.fitHeightProperty().bind(r.heightProperty());
+				iImage.fitHeightProperty().bind(r.heightProperty().multiply(0.9));
 				iImage.fitWidthProperty().bind(r.widthProperty());
 			} else {
 				iImage.fitWidthProperty().unbind();

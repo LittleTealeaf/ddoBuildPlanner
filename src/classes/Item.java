@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import interfaces.fxItems;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -76,6 +77,7 @@ public class Item {
 
 	public boolean saveItem() {
 		cleanItem();
+		fxItems.updateTable();
 
 		if(!(name == null || name.contentEquals(""))) {
 			Items.saveItem(this);
@@ -162,7 +164,7 @@ public class Item {
 	
 	public ImageView getIconViewSmall() {
 		ImageView r = new ImageView(getIcon());
-		double size = 80;
+		double size = 40;
 		r.setFitHeight(size);
 		r.setFitWidth(size);
 		r.setPreserveRatio(true);

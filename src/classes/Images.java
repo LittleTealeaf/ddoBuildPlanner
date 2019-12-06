@@ -32,6 +32,10 @@ public class Images {
 	private static List<extImage> externalImages;
 
 	public static void load() {
+		//Clear Null
+		system.getAppFile(new String[] {"images","null.icon"}).delete();
+		system.getAppFile(new String[] {"images","null.image"}).delete();
+		
 		File externals = system.getAppFile(new String[] {"images", "external.json"});
 
 		externalImages = new ArrayList<extImage>();
@@ -43,7 +47,7 @@ public class Images {
 		}
 	}
 
-	private static void save() {
+	public static void save() {
 		File f = system.getAppFile(new String[] {"images", "external.json"});
 		if(!f.exists()) f.getParentFile().mkdirs();
 		try {
@@ -75,8 +79,7 @@ public class Images {
 
 		if(f.exists()) f.renameTo(system.getAppFile(new String[] {"images", to}));
 		else for(extImage i : externalImages) if(from.contentEquals(i.getName())) i.setName(to);
-		//save();
-		//TODO more effective way to save?
+		save();
 	}
 
 	public static void localizeImages() {
