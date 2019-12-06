@@ -231,9 +231,11 @@ public class fxEditItem {
 	private static Accordion contentRight() {
 		Accordion r = new Accordion();
 
-		r.getPanes().addAll(contentEquipSlots(), contentEnchantments(), contentWeapon(), contentArmor(), contentDescription(), contentImage());
-		r.setExpandedPane(null);
-
+		TitledPane iPane = contentImage();
+		
+		r.getPanes().addAll(contentEquipSlots(), contentEnchantments(), contentWeapon(), contentArmor(), contentDescription(), iPane);
+		r.setExpandedPane(iPane);
+		
 		return r;
 	}
 
@@ -452,10 +454,8 @@ public class fxEditItem {
 	private static TitledPane contentImage() {
 		TitledPane r = new TitledPane();
 		r.setText("Image");
-		r.setExpanded(true);
 
 		iImage = new ImageView();
-		iImage.setImage(item.getImage());
 		iImage.setPreserveRatio(true);
 		iImage.imageProperty().addListener(e -> {
 			if(iImage.getImage() != null) {
@@ -466,14 +466,8 @@ public class fxEditItem {
 				iImage.fitHeightProperty().unbind();
 			}
 		});
-
-		if(iImage.getImage() != null) {
-			iImage.fitHeightProperty().bind(r.heightProperty().multiply(0.9));
-			iImage.fitWidthProperty().bind(r.widthProperty());
-		} else {
-			iImage.fitWidthProperty().unbind();
-			iImage.fitHeightProperty().unbind();
-		}
+		
+		iImage.setImage(item.getImage());
 
 		r.setContent(iImage);
 
