@@ -158,13 +158,13 @@ public class fxEditItem {
 
 		Button bSetIcon = new Button("Set Icon");
 		bSetIcon.setOnAction(e -> {
-			item.setIcon(Images.imagePrompt("Set Icon"));
+			item.setIcon(Images.imagePrompt("Set Icon",item.getIconName()));
 			Image icon = item.getIcon();
 			if(icon != null) stage.getIcons().add(icon);
 		});
 		Button bSetImage = new Button("Set Image");
 		bSetImage.setOnAction(e -> {
-			item.setImage(Images.imagePrompt("Set Image"));
+			item.setImage(Images.imagePrompt("Set Image",item.getIconName()));
 			Image image = item.getImage();
 			if(image != null) iImage.setImage(image);
 		});

@@ -92,11 +92,11 @@ public class Item {
 		// TODO clear empty fields in damage types
 	}
 
-	private String getImageName() {
+	public String getImageName() {
 		return name + ".image";
 	}
 
-	private String getIconName() {
+	public String getIconName() {
 		return name + ".icon";
 	}
 
