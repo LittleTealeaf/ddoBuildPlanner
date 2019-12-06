@@ -28,14 +28,14 @@ public class fxItems {
 		stage.setTitle("Items");
 
 		BorderPane content = new BorderPane();
-		
+
 		Button create = new Button("Create Item");
 		create.setOnAction(e -> fxEditItem.open());
-		
+
 		HBox footer = new HBox(create);
 		footer.setPadding(new Insets(10));
 		footer.setSpacing(10);
-		
+
 		content.setCenter(itemTable());
 		content.setBottom(footer);
 
@@ -56,11 +56,11 @@ public class fxItems {
 
 		TableColumn<Item, String> cName = new TableColumn<Item, String>("Name");
 		cName.setCellValueFactory(new PropertyValueFactory<Item, String>("name"));
-		
-		TableColumn<Item,String> cDescription = new TableColumn<Item, String>("Description");
-		cDescription.setCellValueFactory(new PropertyValueFactory<Item,String>("description"));
 
-		table.getColumns().addAll(cIcon, cName,cDescription);
+		TableColumn<Item, String> cDescription = new TableColumn<Item, String>("Description");
+		cDescription.setCellValueFactory(new PropertyValueFactory<Item, String>("description"));
+
+		table.getColumns().addAll(cIcon, cName, cDescription);
 
 		table.getItems().addAll(FXCollections.observableArrayList(Items.getAllItems()));
 
@@ -73,14 +73,14 @@ public class fxItems {
 		});
 
 		table.prefWidthProperty().bind(r.widthProperty());
-		
+
 		r.setContent(table);
 		r.setFitToWidth(true);
 		r.setFitToHeight(true);
 
 		return r;
 	}
-	
+
 	private static void openSelected() {
 		fxEditItem.open(table.getSelectionModel().getSelectedItem());
 	}

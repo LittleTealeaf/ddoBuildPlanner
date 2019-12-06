@@ -50,7 +50,7 @@ public class Settings {
 		public static double inactivityTime;
 		public static double periodicalTime;
 	}
-	
+
 	public static images Images;
 
 	public static class images {
@@ -58,12 +58,12 @@ public class Settings {
 
 		public static boolean storeLocal;
 	}
-	
+
 	public static items Items;
-	
+
 	public static class items {
 		public items() {}
-		
+
 		public static boolean warnOnDelete;
 		public static boolean deleteImages;
 	}
@@ -91,9 +91,9 @@ public class Settings {
 
 		saving.inactivityTime = 100;
 		saving.periodicalTime = 0;
-		
+
 		images.storeLocal = true;
-		
+
 		items.warnOnDelete = true;
 		items.deleteImages = true;
 

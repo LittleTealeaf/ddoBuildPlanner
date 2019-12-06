@@ -93,24 +93,24 @@ public class Item {
 			return true;
 		} else return false;
 	}
-	
+
 	public void deleteItem() {
 		if(Settings.items.warnOnDelete) {
 			Alert alert = new Alert(AlertType.CONFIRMATION);
 			alert.setTitle("Delete " + name + "?");
 			alert.setHeaderText("Delete Item?");
 			alert.setContentText("Do you really want to delete the following item? \n   " + name);
-			
+
 			if(alert.showAndWait().get().getButtonData() != ButtonData.OK_DONE) return;
 		}
-		
+
 		if(Settings.items.deleteImages) {
 			Images.deleteImage(getImageName());
 			Images.deleteImage(getIconName());
 		}
-		
-		system.getAppFile("items",name + ".json").delete();
-		
+
+		system.getAppFile("items", name + ".json").delete();
+
 		fxItems.updateTable();
 	}
 

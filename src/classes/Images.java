@@ -46,7 +46,7 @@ public class Images {
 		deleteImage(".image");
 		deleteImage(".icon");
 	}
-	
+
 	public static void verifyImages() {
 		for(extImage img : externalImages) {
 			if(getImage(img.getURL()) == null) {
@@ -79,8 +79,7 @@ public class Images {
 			try {
 				f = new File(name);
 			} catch(Exception d) {
-				
-				
+
 			}
 		}
 
@@ -89,7 +88,7 @@ public class Images {
 		for(extImage i : externalImages) {
 			if(name.contentEquals(i.name)) return getImageFromURL(i.url);
 		}
-		
+
 		return getImageFromURL(name);
 	}
 
@@ -252,9 +251,9 @@ public class Images {
 			this.getDialogPane().setPrefWidth(500);
 			this.getDialogPane().setPrefHeight(500);
 
-			this.getDialogPane().widthProperty().addListener((e,o,n) -> image.setFitWidth(3 * (double) n / 5));
-			this.getDialogPane().heightProperty().addListener((e,o,n) -> image.setFitHeight(3 * (double) n / 5));
-			
+			this.getDialogPane().widthProperty().addListener((e, o, n) -> image.setFitWidth(3 * (double) n / 5));
+			this.getDialogPane().heightProperty().addListener((e, o, n) -> image.setFitHeight(3 * (double) n / 5));
+
 		}
 
 		public String prompt() {
@@ -284,7 +283,7 @@ public class Images {
 		public void setName(String name) {
 			this.name = name;
 		}
-		
+
 		public String getURL() {
 			return url;
 		}

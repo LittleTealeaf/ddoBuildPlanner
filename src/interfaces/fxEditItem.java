@@ -232,10 +232,10 @@ public class fxEditItem {
 		Accordion r = new Accordion();
 
 		TitledPane expandedPane = contentDescription();
-		
+
 		r.getPanes().addAll(contentEquipSlots(), contentEnchantments(), contentWeapon(), contentArmor(), expandedPane, contentImage());
 		r.setExpandedPane(expandedPane);
-		
+
 		return r;
 	}
 
@@ -467,7 +467,7 @@ public class fxEditItem {
 				iImage.setFitWidth(10);
 			}
 		});
-		
+
 		iImage.setImage(item.getImage());
 
 		r.setContent(iImage);

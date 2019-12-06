@@ -24,7 +24,7 @@ public class fxMain extends Application {
 	@Override
 	public void start(Stage sMain) {
 		sMainRef = sMain;
-		
+
 		// Menu
 		MenuBar menu = new MenuBar();
 
