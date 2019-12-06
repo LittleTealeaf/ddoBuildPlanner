@@ -23,7 +23,6 @@ import javafx.scene.control.TitledPane;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.control.SpinnerValueFactory.IntegerSpinnerValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -157,17 +156,8 @@ public class fxEditItem {
 		bindStatus.valueProperty().addListener((e, o, n) -> item.setBindStatus(n));
 
 		Button bSetIcon = new Button("Set Icon");
-		bSetIcon.setOnAction(e -> {
-			item.setIcon(Images.imagePrompt("Set Icon",item.getIconName()));
-			Image icon = item.getIcon();
-			if(icon != null) stage.getIcons().add(icon);
-		});
 		Button bSetImage = new Button("Set Image");
-		bSetImage.setOnAction(e -> {
-			item.setImage(Images.imagePrompt("Set Image",item.getIconName()));
-			Image image = item.getImage();
-			if(image != null) iImage.setImage(image);
-		});
+		bSetImage.setOnAction(e -> item.setImage(new Images.ImagePrompt(item.getImageName()).prompt()));
 
 		Text tMaterial = new Text("Material:");
 

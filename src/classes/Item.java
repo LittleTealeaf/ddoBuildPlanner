@@ -10,6 +10,8 @@ import javafx.scene.image.ImageView;
 
 public class Item {
 
+	
+	private transient String oldName;
 	private String name;
 	private String type;
 	private String description;
@@ -65,22 +67,27 @@ public class Item {
 	}
 
 	public Item() {
-		enchantments = new ArrayList<Enchantment>();
-		equipSlots = new ArrayList<String>();
+		this("");
 	}
 
 	public Item(String name) {
 		this.name = name;
+		oldName = name;
 		enchantments = new ArrayList<Enchantment>();
 		equipSlots = new ArrayList<String>();
 	}
 
 	public boolean saveItem() {
 		cleanItem();
+		
+		Images.renameImage(getImageName(oldName), getImageName());
+		Images.renameImage(getImageName(oldName), getImageName());
+		
 		fxItems.updateTable();
 
 		if(!(name == null || name.contentEquals(""))) {
 			Items.saveItem(this);
+			oldName = name + "";
 			return true;
 		} else return false;
 	}
@@ -93,10 +100,18 @@ public class Item {
 	}
 
 	public String getImageName() {
+		return getImageName(name);
+	}
+	
+	public String getImageName(String name) {
 		return name + ".image";
 	}
 
 	public String getIconName() {
+		return getIconName(name);
+	}
+	
+	public String getIconName(String name) {
 		return name + ".icon";
 	}
 
@@ -106,12 +121,7 @@ public class Item {
 	}
 
 	public void setName(String name) {
-		String fromIcon = getIconName(), fromImage = getImageName();
-
 		this.name = name;
-
-		Images.renameImage(fromIcon, getIconName());
-		Images.renameImage(fromImage, getImageName());
 	}
 
 	public String getType() {
