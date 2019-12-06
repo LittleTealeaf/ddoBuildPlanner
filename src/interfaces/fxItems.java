@@ -3,13 +3,16 @@ package interfaces;
 import classes.Item;
 import classes.Items;
 import javafx.collections.FXCollections;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 public class fxItems {
@@ -36,6 +39,8 @@ public class fxItems {
 	@SuppressWarnings("unchecked")
 	public static ScrollPane itemTable() {
 		ScrollPane r = new ScrollPane();
+		
+		BorderPane content = new BorderPane();
 
 		table = new TableView<Item>();
 
@@ -57,7 +62,18 @@ public class fxItems {
 
 		table.prefWidthProperty().bind(r.widthProperty());
 
-		r.setContent(table);
+		content.setCenter(table);
+		
+		Button create = new Button("Create Item");
+		create.setOnAction(e -> fxEditItem.open());
+		
+		HBox footer = new HBox(create);
+		footer.setPadding(new Insets(10));
+		footer.setSpacing(10);
+		
+		content.setBottom(footer);
+		
+		r.setContent(content);
 		r.setFitToWidth(true);
 		r.setFitToHeight(true);
 
