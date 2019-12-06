@@ -1,12 +1,10 @@
 package application;
 
-import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-
+import classes.Images;
 import classes.Settings;
 import debug.Debug;
 import interfaces.fxMain;
+import util.system;
 
 public class Main {
 
@@ -15,12 +13,9 @@ public class Main {
 	public static void main(String[] args) {
 
 		Debug.setCrashReporting();
-		Data.loadData();
+		system.loadData();
 		Settings.loadSettings();
-
-		// Build.gearSets.add(testGear());
-		// Build.setGearIndex(0);
-		// Launch fxMain
+		Images.load();
 
 		fxMain.open(args);
 

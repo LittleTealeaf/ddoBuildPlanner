@@ -35,7 +35,13 @@ public class fxMain extends Application {
 		MenuItem settings = new MenuItem("Settings");
 		settings.setOnAction(e -> fxSettings.open());
 
-		file.getItems().add(settings);
+		MenuItem itemEdit = new MenuItem("Item Edit");
+		itemEdit.setOnAction(e -> fxEditItem.open());
+
+		MenuItem items = new MenuItem("Items");
+		items.setOnAction(e -> fxItems.open());
+
+		file.getItems().addAll(settings, itemEdit, items);
 
 		menu.getMenus().addAll(file);
 
