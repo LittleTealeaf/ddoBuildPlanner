@@ -42,7 +42,7 @@ public class Images {
 		} catch(Exception e) {
 
 		}
-		
+
 		deleteImage(".image");
 		deleteImage(".icon");
 	}
