@@ -55,8 +55,11 @@ public class fxItems {
 
 		TableColumn<Item, String> cName = new TableColumn<Item, String>("Name");
 		cName.setCellValueFactory(new PropertyValueFactory<Item, String>("name"));
+		
+		TableColumn<Item,String> cDescription = new TableColumn<Item, String>("Description");
+		cDescription.setCellValueFactory(new PropertyValueFactory<Item,String>("description"));
 
-		table.getColumns().addAll(cIcon, cName);
+		table.getColumns().addAll(cIcon, cName,cDescription);
 
 		table.getItems().addAll(FXCollections.observableArrayList(Items.getAllItems()));
 
