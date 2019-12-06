@@ -80,6 +80,7 @@ public class fxEditItem {
 			errorText.setText("Please include a name");
 			itemName.requestFocus();
 		}
+		stage.close();
 	}
 
 	private static HBox contentHeader() {
