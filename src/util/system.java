@@ -27,11 +27,7 @@ public class system {
 
 	}
 
-	public static File getAppFile(String name) {
-		return new File(java.nio.file.Paths.get(dataDir(), name).toString());
-	}
-
-	public static File getAppFile(String[] path) {
+	public static File getAppFile(String... path) {
 		return new File(java.nio.file.Paths.get(dataDir(), path).toString());
 	}
 

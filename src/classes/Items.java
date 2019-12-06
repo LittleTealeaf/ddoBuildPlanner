@@ -44,6 +44,6 @@ public class Items {
 	}
 
 	private static File getFile(String name) {
-		return system.getAppFile(new String[] {"items", name + ".json"});
+		return system.getAppFile("items",name,".json");
 	}
 }
