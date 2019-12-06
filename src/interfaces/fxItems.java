@@ -27,8 +27,16 @@ public class fxItems {
 		stage.setTitle("Items");
 
 		BorderPane content = new BorderPane();
-
+		
+		Button create = new Button("Create Item");
+		create.setOnAction(e -> fxEditItem.open());
+		
+		HBox footer = new HBox(create);
+		footer.setPadding(new Insets(10));
+		footer.setSpacing(10);
+		
 		content.setCenter(itemTable());
+		content.setBottom(footer);
 
 		stage.setScene(new Scene(content, 500, 500));
 
@@ -39,8 +47,6 @@ public class fxItems {
 	@SuppressWarnings("unchecked")
 	public static ScrollPane itemTable() {
 		ScrollPane r = new ScrollPane();
-		
-		BorderPane content = new BorderPane();
 
 		table = new TableView<Item>();
 
@@ -61,19 +67,8 @@ public class fxItems {
 		});
 
 		table.prefWidthProperty().bind(r.widthProperty());
-
-		content.setCenter(table);
 		
-		Button create = new Button("Create Item");
-		create.setOnAction(e -> fxEditItem.open());
-		
-		HBox footer = new HBox(create);
-		footer.setPadding(new Insets(10));
-		footer.setSpacing(10);
-		
-		content.setBottom(footer);
-		
-		r.setContent(content);
+		r.setContent(table);
 		r.setFitToWidth(true);
 		r.setFitToHeight(true);
 
