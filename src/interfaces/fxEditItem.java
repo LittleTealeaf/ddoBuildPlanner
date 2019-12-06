@@ -231,10 +231,10 @@ public class fxEditItem {
 	private static Accordion contentRight() {
 		Accordion r = new Accordion();
 
-		TitledPane iPane = contentImage();
+		TitledPane expandedPane = contentDescription();
 		
-		r.getPanes().addAll(contentEquipSlots(), contentEnchantments(), contentWeapon(), contentArmor(), contentDescription(), iPane);
-		r.setExpandedPane(iPane);
+		r.getPanes().addAll(contentEquipSlots(), contentEnchantments(), contentWeapon(), contentArmor(), expandedPane, contentImage());
+		r.setExpandedPane(expandedPane);
 		
 		return r;
 	}
