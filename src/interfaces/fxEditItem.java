@@ -250,9 +250,9 @@ public class fxEditItem {
 		content.setHgap(5);
 
 		int x = 0, y = 0;
-		for(String s : ItemSlot.allSlots()) {
+		for(ItemSlot s : ItemSlot.values()) {
 
-			CheckBox check = new CheckBox(s);
+			CheckBox check = new CheckBox(s.toString());
 			check.setSelected(item.getEquipSlots().contains(s));
 			check.selectedProperty().addListener((e, o, n) -> item.setEquipSlot(s, n.booleanValue()));
 

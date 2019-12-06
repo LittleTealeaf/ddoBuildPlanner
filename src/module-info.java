@@ -3,6 +3,7 @@ module buildPlanner {
 	exports classes;
 	exports fxTabs;
 	exports interfaces;
+	exports vars;
 
 	opens classes to com.google.gson;
 

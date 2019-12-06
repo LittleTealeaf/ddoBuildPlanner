@@ -11,6 +11,7 @@ import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import util.system;
+import vars.ItemSlot;
 
 public class Item {
 
@@ -27,7 +28,7 @@ public class Item {
 	private double durability;
 	private double weight;
 	private List<Enchantment> enchantments;
-	private List<String> equipSlots;
+	private List<ItemSlot> equipSlots;
 
 	// Armor Values
 	private Armor armor;
@@ -77,7 +78,7 @@ public class Item {
 		this.name = name;
 		oldName = name;
 		enchantments = new ArrayList<Enchantment>();
-		equipSlots = new ArrayList<String>();
+		equipSlots = new ArrayList<ItemSlot>();
 	}
 
 	public boolean saveItem() {
@@ -279,23 +280,23 @@ public class Item {
 		this.enchantments = enchantments;
 	}
 
-	public List<String> getEquipSlots() {
+	public List<ItemSlot> getEquipSlots() {
 		return equipSlots;
 	}
 
-	public void setEquipSlots(List<String> equipSlots) {
+	public void setEquipSlots(List<ItemSlot> equipSlots) {
 		this.equipSlots = equipSlots;
 	}
 
-	public void removeEquipSlot(String slot) {
+	public void removeEquipSlot(ItemSlot slot) {
 		while(equipSlots.contains(slot)) equipSlots.remove(slot);
 	}
 
-	public void addEquipSlot(String slot) {
+	public void addEquipSlot(ItemSlot slot) {
 		if(!equipSlots.contains(slot)) equipSlots.add(slot);
 	}
 
-	public void setEquipSlot(String slot, boolean equipped) {
+	public void setEquipSlot(ItemSlot slot, boolean equipped) {
 		if(equipped) addEquipSlot(slot);
 		else removeEquipSlot(slot);
 	}
