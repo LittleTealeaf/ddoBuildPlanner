@@ -69,6 +69,7 @@ public class fxItems {
 		});
 		table.setOnKeyPressed(key -> {
 			if(key.getCode() == KeyCode.ENTER) openSelected();
+			else if(key.getCode() == KeyCode.DELETE) table.getSelectionModel().getSelectedItem().deleteItem();
 		});
 
 		table.prefWidthProperty().bind(r.widthProperty());

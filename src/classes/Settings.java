@@ -17,6 +17,7 @@ public class Settings {
 		Display = new display();
 		Saving = new saving();
 		Advanced = new advanced();
+		Items = new items();
 
 		version = Main.version;
 	}
@@ -47,6 +48,15 @@ public class Settings {
 
 		public static double inactivityTime;
 		public static double periodicalTime;
+	}
+	
+	public static items Items;
+	
+	public static class items {
+		public items() {}
+		
+		public static boolean warnOnDelete;
+		public static boolean deleteImages;
 	}
 
 	private static advanced Advanced;
@@ -81,6 +91,9 @@ public class Settings {
 
 		saving.inactivityTime = 100;
 		saving.periodicalTime = 0;
+		
+		items.warnOnDelete = true;
+		items.deleteImages = true;
 
 		advanced.debug.showCrashReports = true; // TODO PRODUCTION: change to false
 		advanced.images.storeLocal = true;

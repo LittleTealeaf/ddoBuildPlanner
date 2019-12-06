@@ -49,7 +49,7 @@ public class fxSettings {
 
 		ObservableList<settingsPage> pages = FXCollections.observableArrayList();
 
-		pages.addAll(pageDisplay(), pageSaving(), pageAdvanced());
+		pages.addAll(pageDisplay(), pageSaving(), pageItems(), pageAdvanced());
 
 		// http://www.java2s.com/Code/Java/JavaFX/ListViewselectionlistener.htm
 		ListView<settingsPage> pageSelection = new ListView<settingsPage>(pages);
@@ -194,6 +194,29 @@ public class fxSettings {
 		content.getChildren().add(settingSection("Auto Saving", Arrays.asList(hInactive, hPeriod), null));
 
 		r.setContent(content);
+		return r;
+	}
+	
+	private static settingsPage pageItems() {
+		settingsPage r = new settingsPage("Items");
+		
+		VBox content = new VBox();
+		content.setPadding(new Insets(10));
+		content.setSpacing(10);
+		
+		CheckBox warnOnDelete = new CheckBox("Warn on deleting an item");
+		warnOnDelete.setSelected(Settings.items.warnOnDelete);
+		warnOnDelete.selectedProperty().addListener((e,o,n) -> Settings.items.warnOnDelete = n);
+		
+		CheckBox deleteImages = new CheckBox("Delete Images with item");
+		deleteImages.setTooltip(new Tooltip("Will not delete any image that is part of your system\nonly item references and application-stored images"));
+		deleteImages.setSelected(Settings.items.deleteImages);
+		deleteImages.selectedProperty().addListener((e,o,n) -> Settings.items.deleteImages = n);
+		
+		content.getChildren().add(settingSection("Deleting",Arrays.asList(warnOnDelete,deleteImages),null));
+		
+		r.setContent(content);
+
 		return r;
 	}
 
