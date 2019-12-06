@@ -1,6 +1,5 @@
 package interfaces;
 
-import application.Main;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Menu;
@@ -25,9 +24,7 @@ public class fxMain extends Application {
 	@Override
 	public void start(Stage sMain) {
 		sMainRef = sMain;
-
-		// TODO preferences! (including the display type of dice values)
-
+		
 		// Menu
 		MenuBar menu = new MenuBar();
 
@@ -36,13 +33,10 @@ public class fxMain extends Application {
 		MenuItem settings = new MenuItem("Settings");
 		settings.setOnAction(e -> fxSettings.open());
 
-		MenuItem itemEdit = new MenuItem("Item Edit");
-		itemEdit.setOnAction(e -> fxEditItem.open());
-
 		MenuItem items = new MenuItem("Items");
 		items.setOnAction(e -> fxItems.open());
 
-		file.getItems().addAll(settings, itemEdit, items);
+		file.getItems().addAll(settings, items);
 
 		menu.getMenus().addAll(file);
 
