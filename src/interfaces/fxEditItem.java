@@ -466,7 +466,7 @@ public class fxEditItem {
 				iImage.fitHeightProperty().unbind();
 			}
 		});
-		
+
 		if(iImage.getImage() != null) {
 			iImage.fitHeightProperty().bind(r.heightProperty().multiply(0.9));
 			iImage.fitWidthProperty().bind(r.widthProperty());

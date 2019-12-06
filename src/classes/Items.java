@@ -3,7 +3,6 @@ package classes;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,6 +43,6 @@ public class Items {
 	}
 
 	private static File getFile(String name) {
-		return system.getAppFile("items",name,".json");
+		return system.getAppFile("items", name, ".json");
 	}
 }

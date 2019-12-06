@@ -15,7 +15,7 @@ import javafx.stage.Stage;
 public class fxItems {
 
 	public static Stage stage;
-	
+
 	private static TableView<Item> table;
 
 	public static void open() {
@@ -27,7 +27,7 @@ public class fxItems {
 
 		content.setCenter(itemTable());
 
-		stage.setScene(new Scene(content,500,500));
+		stage.setScene(new Scene(content, 500, 500));
 
 		stage.show();
 
@@ -41,20 +41,20 @@ public class fxItems {
 
 		TableColumn<Item, ImageView> cIcon = new TableColumn<Item, ImageView>("Icon");
 		cIcon.setCellValueFactory(new PropertyValueFactory<Item, ImageView>("iconViewSmall"));
-		
-		TableColumn<Item,String> cName = new TableColumn<Item,String>("Name");
-		cName.setCellValueFactory(new PropertyValueFactory<Item,String>("name"));
 
-		table.getColumns().addAll(cIcon,cName);
+		TableColumn<Item, String> cName = new TableColumn<Item, String>("Name");
+		cName.setCellValueFactory(new PropertyValueFactory<Item, String>("name"));
+
+		table.getColumns().addAll(cIcon, cName);
 
 		table.getItems().addAll(FXCollections.observableArrayList(Items.getAllItems()));
-		
+
 		table.setOnMouseClicked(click -> {
 			if(click.getClickCount() == 2) {
 				fxEditItem.open(table.getSelectionModel().getSelectedItem());
 			}
 		});
-		
+
 		table.prefWidthProperty().bind(r.widthProperty());
 
 		r.setContent(table);
@@ -63,8 +63,8 @@ public class fxItems {
 
 		return r;
 	}
-	
+
 	public static void updateTable() {
-		//SAV ETABLE
+		// SAV ETABLE
 	}
 }

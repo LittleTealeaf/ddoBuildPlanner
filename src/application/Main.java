@@ -1,13 +1,6 @@
 package application;
 
-import java.util.Arrays;
-
-import classes.Dice;
-import classes.Enchantment;
-import classes.Gearset;
 import classes.Images;
-import classes.Item;
-import classes.Items;
 import classes.Settings;
 import debug.Debug;
 import interfaces.fxMain;

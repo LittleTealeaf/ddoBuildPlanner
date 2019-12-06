@@ -10,7 +10,6 @@ import javafx.scene.image.ImageView;
 
 public class Item {
 
-	
 	private transient String oldName;
 	private String name;
 	private String type;
@@ -79,10 +78,10 @@ public class Item {
 
 	public boolean saveItem() {
 		cleanItem();
-		
+
 		Images.renameImage(getImageName(oldName), getImageName());
 		Images.renameImage(getImageName(oldName), getImageName());
-		
+
 		fxItems.updateTable();
 
 		if(!(name == null || name.contentEquals(""))) {
@@ -102,7 +101,7 @@ public class Item {
 	public String getImageName() {
 		return getImageName(name);
 	}
-	
+
 	public String getImageName(String name) {
 		return name + ".image";
 	}
@@ -110,7 +109,7 @@ public class Item {
 	public String getIconName() {
 		return getIconName(name);
 	}
-	
+
 	public String getIconName(String name) {
 		return name + ".icon";
 	}
@@ -171,14 +170,14 @@ public class Item {
 	public ImageView getIconView() {
 		return new ImageView(getIcon());
 	}
-	
+
 	public ImageView getIconViewSmall() {
 		ImageView r = new ImageView(getIcon());
 		double size = 40;
 		r.setFitHeight(size);
 		r.setFitWidth(size);
 		r.setPreserveRatio(true);
-		
+
 		return r;
 	}
 

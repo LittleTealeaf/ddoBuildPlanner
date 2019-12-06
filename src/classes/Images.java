@@ -13,19 +13,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import javafx.geometry.Insets;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import util.system;
@@ -35,11 +33,11 @@ public class Images {
 	private static List<extImage> externalImages;
 
 	public static void load() {
-		//Clear Null
+		// Clear Null
 		deleteImage(".image");
 		deleteImage(".icon");
-		
-		File externals = system.getAppFile("images","external.json");
+
+		File externals = system.getAppFile("images", "external.json");
 
 		externalImages = new ArrayList<extImage>();
 
@@ -51,7 +49,7 @@ public class Images {
 	}
 
 	public static void save() {
-		File f = system.getAppFile("images","external.json");
+		File f = system.getAppFile("images", "external.json");
 		if(!f.exists()) f.getParentFile().mkdirs();
 		try {
 			FileWriter writer = new FileWriter(f);
@@ -66,13 +64,15 @@ public class Images {
 
 	public static Image getImage(String name) {
 		File f = null;
-		
+
 		try {
-			f = system.getAppFile("images",name);
+			f = system.getAppFile("images", name);
 		} catch(Exception e) {
 			try {
 				f = new File(name);
-			} catch(Exception d) {return null;}
+			} catch(Exception d) {
+				return null;
+			}
 		}
 
 		if(f.exists()) return getImageFromURL(f.getPath());
@@ -85,21 +85,21 @@ public class Images {
 	}
 
 	public static void renameImage(String from, String to) {
-		File f = system.getAppFile("images",from);
+		File f = system.getAppFile("images", from);
 
-		if(f.exists()) f.renameTo(system.getAppFile("images",to));
+		if(f.exists()) f.renameTo(system.getAppFile("images", to));
 		else for(extImage i : externalImages) if(from.contentEquals(i.getName())) i.setName(to);
 		save();
 	}
-	
+
 	public static void deleteImage(String image) {
 		List<extImage> n = new ArrayList<extImage>();
 		for(extImage i : externalImages) if(!i.name.contentEquals(image)) n.add(i);
 		externalImages = n;
-		
-		File f = system.getAppFile("images",image);
+
+		File f = system.getAppFile("images", image);
 		if(f.exists()) f.delete();
-		
+
 		save();
 	}
 
@@ -123,7 +123,7 @@ public class Images {
 	}
 
 	private static void localizeImage(extImage img) {
-		File writeTo = system.getAppFile("images",img.name);
+		File writeTo = system.getAppFile("images", img.name);
 		writeTo.getParentFile().mkdirs();
 
 		try {
@@ -161,19 +161,19 @@ public class Images {
 		} catch(Exception a) {}
 		return null;
 	}
-	
+
 	public static class ImagePrompt extends Dialog<String> {
-		
+
 		private String oldImage;
 		private FileChooser fileChooser;
 		private Label errorLabel;
 		private ImageView image;
 		private TextField urlField;
-		
+
 		public ImagePrompt() {
 			this("");
 		}
-		
+
 		/**
 		 * 
 		 * @param loadImage Name of the old image, which is found in the oldImage area
@@ -181,80 +181,80 @@ public class Images {
 		public ImagePrompt(String loadImage) {
 			super();
 			this.setResizable(true);
-			
+
 			oldImage = loadImage;
-			
+
 			fileChooser = new FileChooser();
 			fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
 			fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("All Images", "*"), new FileChooser.ExtensionFilter("JPG", "*.jpg"), new FileChooser.ExtensionFilter("PNG", "*.png"));
-			
+
 			errorLabel = new Label();
 			errorLabel.setTextFill(Color.RED);
-			
+
 			image = new ImageView();
 			image.setImage(getImage(loadImage));
 			image.setPreserveRatio(true);
 			image.setFitWidth(300);
 			image.setFitHeight(300);
-			
+
 			urlField = new TextField();
 			urlField.setText(loadImage);
 			HBox.setHgrow(urlField, Priority.ALWAYS);
-			
+
 			Button browse = new Button("Browse...");
 			browse.setOnAction(e -> {
 				String newURL = fileChooser.showOpenDialog(null).getPath();
 				if(getImage(newURL) != null) urlField.setText(newURL);
 				displayImage();
 			});
-			
+
 			Button tryDisplay = new Button("Preview");
 			tryDisplay.setOnAction(e -> displayImage());
-			
+
 			Button clear = new Button("Clear Field");
 			clear.setOnAction(e -> {
 				urlField.setText("");
 				displayImage();
 			});
-			
-			HBox header = new HBox(urlField,errorLabel,browse,tryDisplay,clear);
+
+			HBox header = new HBox(urlField, errorLabel, browse, tryDisplay, clear);
 			header.setSpacing(10);
-			
+
 			BorderPane content = new BorderPane();
-			
+
 			content.setTop(header);
 			content.setCenter(image);
-			
+
 			this.getDialogPane().setContent(content);
 			this.setResultConverter(button -> {
 				if(button.getButtonData() == ButtonData.OK_DONE) {
 					if(getImage(urlField.getText()) != null) return urlField.getText();
 					else return "";
-				} else return oldImage;				
+				} else return oldImage;
 			});
-			
+
 			ButtonType bAccept = new ButtonType("Accept", ButtonData.OK_DONE);
 			ButtonType bCancel = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
-	
+
 			this.getDialogPane().getButtonTypes().addAll(bAccept, bCancel);
 			this.getDialogPane().setPrefWidth(500);
 			this.getDialogPane().setPrefHeight(500);
-			
+
 		}
-		
+
 		public String prompt() {
 			Optional<String> out = this.showAndWait();
 			if(out.get() == null) return "";
 			else return out.get();
 		}
-		
+
 		private void displayImage() {
 			image.setImage(getImage(urlField.getText()));
 		}
 	}
 
-	//TODO fix issue where it's not updating the name for items in extImage
-	
+	// TODO fix issue where it's not updating the name for items in extImage
+
 	private static class extImage {
 		private String name;
 		private String url;
