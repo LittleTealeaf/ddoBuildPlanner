@@ -91,6 +91,17 @@ public class Images {
 		else for(extImage i : externalImages) if(from.contentEquals(i.getName())) i.setName(to);
 		save();
 	}
+	
+	public static void deleteImage(String image) {
+		List<extImage> n = new ArrayList<extImage>();
+		for(extImage i : externalImages) if(!i.name.contentEquals(image)) n.add(i);
+		externalImages = n;
+		
+		File f = system.getAppFile(new String[] {"images",image});
+		if(f.exists()) f.delete();
+		
+		save();
+	}
 
 	public static void localizeImages() {
 		for(extImage i : externalImages) {
@@ -163,6 +174,10 @@ public class Images {
 			this("");
 		}
 		
+		/**
+		 * 
+		 * @param loadImage Name of the old image, which is found in the oldImage area
+		 */
 		public ImagePrompt(String loadImage) {
 			super();
 			this.setResizable(true);
@@ -183,11 +198,7 @@ public class Images {
 			image.setFitHeight(300);
 			
 			urlField = new TextField();
-			if(loadImage.contains(":")) urlField.setText(loadImage);
-			else {
-				File f = system.getAppFile(new String[] {"images",loadImage});
-				if(f.exists()) urlField.setText(f.getPath());
-			}
+			urlField.setText(loadImage);
 			HBox.setHgrow(urlField, Priority.ALWAYS);
 			
 			Button browse = new Button("Browse...");

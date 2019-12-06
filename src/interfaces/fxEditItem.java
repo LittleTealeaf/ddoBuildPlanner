@@ -156,8 +156,18 @@ public class fxEditItem {
 		bindStatus.valueProperty().addListener((e, o, n) -> item.setBindStatus(n));
 
 		Button bSetIcon = new Button("Set Icon");
+		bSetIcon.setOnAction(e -> {
+			item.setIcon(new Images.ImagePrompt(item.getIconName()).prompt());
+			Image icon = item.getIcon();
+			if(icon != null) stage.getIcons().add(icon);
+			else stage.getIcons().clear();
+		});
 		Button bSetImage = new Button("Set Image");
-		bSetImage.setOnAction(e -> item.setImage(new Images.ImagePrompt(item.getImageName()).prompt()));
+		bSetImage.setOnAction(e -> {
+			item.setImage(new Images.ImagePrompt(item.getImageName()).prompt());
+			Image image = item.getImage();
+			iImage.setImage(image);
+		});
 
 		Text tMaterial = new Text("Material:");
 

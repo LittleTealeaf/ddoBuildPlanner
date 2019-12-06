@@ -183,6 +183,11 @@ public class Item {
 	}
 
 	public void setIcon(String iconURL) {
+		if(iconURL.contentEquals("")) {
+			Images.deleteImage(getIconName());
+			return;
+		}
+		if(iconURL.contentEquals(getIconName())) return;
 		Images.saveImage(getIconName(), iconURL);
 	}
 
@@ -195,6 +200,11 @@ public class Item {
 	}
 
 	public void setImage(String imageURL) {
+		if(imageURL.contentEquals("")) {
+			Images.deleteImage(getImageName());
+			return;
+		}
+		if(imageURL.contentEquals(getImageName())) return;
 		Images.saveImage(getImageName(), imageURL);
 	}
 
