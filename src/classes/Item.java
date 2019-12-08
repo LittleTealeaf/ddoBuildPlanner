@@ -170,6 +170,7 @@ public class Item {
 	}
 
 	public String getDescriptionTrimmed() {
+		if(description.contentEquals("")) return "";
 		int maxLines = 5;
 		String[] array = description.split("\\n");
 		if(array.length <= maxLines) return description;

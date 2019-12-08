@@ -65,7 +65,9 @@ public class fxItems {
 		
 		//Adding the item and keybinds
 
-		table.getItems().addAll(FXCollections.observableArrayList(Items.getAllItems()));
+		try {
+			table.getItems().addAll(FXCollections.observableArrayList(Items.getAllItems()));
+		} catch(Exception e) {}
 
 		table.setOnMouseClicked(click -> {
 			if(click.getClickCount() == 2) openSelected();
