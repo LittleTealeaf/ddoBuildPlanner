@@ -36,6 +36,14 @@ public class Inventory {
 		}
 	}
 	
+	public static List<invItem> getItems() {
+		return items;
+	}
+	
+	public static void setItems(List<invItem> items) {
+		Inventory.items = items;
+	}
+	
 	public static class invItem extends Iref {
 		
 		private String location;
