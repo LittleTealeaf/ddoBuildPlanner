@@ -138,7 +138,7 @@ public class Item {
 	}
 
 	public String getImageName(String name) {
-		return name + ".image";
+		return name + ".itemimage";
 	}
 
 	public String getIconName() {
@@ -146,7 +146,7 @@ public class Item {
 	}
 
 	public String getIconName(String name) {
-		return name + ".icon";
+		return name + ".itemicon";
 	}
 
 	public String getName() {
