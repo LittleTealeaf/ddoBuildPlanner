@@ -223,7 +223,7 @@ public class Item {
 	 */
 	public ImageView getIconViewSmall() {
 		ImageView r = new ImageView(getIcon());
-		double size = 40;
+		double size = Settings.appearance.icon.size;
 		r.setFitHeight(size);
 		r.setFitWidth(size);
 		r.setPreserveRatio(true);
