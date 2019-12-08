@@ -310,6 +310,11 @@ public class Item {
 	public List<ItemSlot> getEquipSlots() {
 		return equipSlots;
 	}
+	
+	public boolean hasEquipSlot(ItemSlot... slots) {
+		for(ItemSlot s : slots) if(equipSlots.contains(s)) return true;
+		return false;
+	}
 
 	public void setEquipSlots(List<ItemSlot> equipSlots) {
 		this.equipSlots = equipSlots;
@@ -323,8 +328,8 @@ public class Item {
 		if(!equipSlots.contains(slot)) equipSlots.add(slot);
 	}
 
-	public void setEquipSlot(ItemSlot slot, boolean equipped) {
-		if(equipped) addEquipSlot(slot);
+	public void setEquipSlot(ItemSlot slot, boolean equippable) {
+		if(equippable) addEquipSlot(slot);
 		else removeEquipSlot(slot);
 	}
 

@@ -48,26 +48,7 @@ public class fxItems {
 	public static ScrollPane itemTable() {
 		ScrollPane r = new ScrollPane();
 
-		table = new TableView<Item>();
-
-		//Setting up the columns
-		
-		TableColumn<Item, ImageView> cIcon = new TableColumn<Item, ImageView>("Icon");
-		cIcon.setCellValueFactory(new PropertyValueFactory<Item, ImageView>("iconViewSmall"));
-
-		TableColumn<Item, String> cName = new TableColumn<Item, String>("Name");
-		cName.setCellValueFactory(new PropertyValueFactory<Item, String>("name"));
-
-		TableColumn<Item, String> cDescription = new TableColumn<Item, String>("Description");
-		cDescription.setCellValueFactory(new PropertyValueFactory<Item, String>("descriptionTrimmed"));
-
-		table.getColumns().addAll(cIcon, cName, cDescription);
-		
-		//Adding the item and keybinds
-
-		try {
-			table.getItems().addAll(FXCollections.observableArrayList(Items.getAllItems()));
-		} catch(Exception e) {}
+		table = Items.itemTable(Items.getAllItems());
 
 		table.setOnMouseClicked(click -> {
 			if(click.getClickCount() == 2) openSelected();
@@ -78,7 +59,6 @@ public class fxItems {
 		});
 
 		table.prefWidthProperty().bind(r.widthProperty());
-		table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
 		r.setContent(table);
 		r.setFitToWidth(true);

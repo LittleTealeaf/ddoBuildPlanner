@@ -70,6 +70,10 @@ public class Inventory {
 		public int getCount() {
 			return count;
 		}
+		
+		public String getCountString() {
+			return getCount() + "";
+		}
 
 		public void setCount(int count) {
 			this.count = count;
