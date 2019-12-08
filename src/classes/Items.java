@@ -138,6 +138,7 @@ public class Items {
 		
 		TableColumn<Item, ImageView> cIcon = new TableColumn<Item, ImageView>("Icon");
 		cIcon.setCellValueFactory(new PropertyValueFactory<Item, ImageView>("iconViewSmall"));
+		cIcon.setPrefWidth(Settings.appearance.icon.size);
 
 		TableColumn<Item, String> cName = new TableColumn<Item, String>("Name");
 		cName.setCellValueFactory(new PropertyValueFactory<Item, String>("name"));

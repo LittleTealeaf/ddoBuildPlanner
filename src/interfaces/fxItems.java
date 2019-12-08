@@ -51,7 +51,7 @@ public class fxItems {
 		table = Items.itemTable(Items.getAllItems());
 
 		table.setOnMouseClicked(click -> {
-			if(click.getClickCount() == 2) openSelected();
+			if(click.getClickCount() == 2 && table.getSelectionModel().getSelectedIndex() != -1) openSelected();
 		});
 		table.setOnKeyPressed(key -> {
 			if(key.getCode() == KeyCode.ENTER) openSelected();
