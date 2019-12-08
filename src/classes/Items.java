@@ -105,6 +105,9 @@ public class Items {
 		
 		//Table of all the items selected via slots
 		TableView<Item> table = itemTable((slots == null) ? getAllItems() : getItemsBySlot(slots));
+		table.setOnMouseClicked(click -> {
+			if(click.getClickCount() == 2) dialog.getResult();
+		});
 		
 		ButtonType bSelect = new ButtonType("Select",ButtonData.OK_DONE);
 		ButtonType bCancel = new ButtonType("Cancel",ButtonData.CANCEL_CLOSE);
@@ -143,6 +146,8 @@ public class Items {
 		cDescription.setCellValueFactory(new PropertyValueFactory<Item, String>("descriptionTrimmed"));
 
 		table.getColumns().addAll(cIcon, cName, cDescription);
+		
+		for(TableColumn<Item,?> col : table.getColumns()) col.setReorderable(false);
 
 		table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 		

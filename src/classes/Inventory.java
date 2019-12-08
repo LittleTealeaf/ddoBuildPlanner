@@ -1,11 +1,11 @@
 package classes;
 
-import java.io.File;
 import java.io.FileWriter;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.scene.image.ImageView;
 import util.system;
 
 public class Inventory {
@@ -44,6 +44,25 @@ public class Inventory {
 		Inventory.items = items;
 	}
 	
+	public static void addItem(String itemName) {
+		addItem(itemName,1);
+	}
+	
+	public static void addItem(String itemName, int count) {
+		items.add(new invItem(itemName,count));
+		save();
+	}
+	
+	public static void removeItem(String itemName) {
+		List<invItem> replace = new ArrayList<invItem>();
+		int count = 0;
+		for(invItem i : items) if(!i.getName().contentEquals(itemName) || count >= 1) {
+			replace.add(i);
+		} else count++;
+		items = replace;
+		save();
+	}
+	
 	public static class invItem extends Iref {
 		
 		private String location;
@@ -79,12 +98,24 @@ public class Inventory {
 			return count;
 		}
 		
-		public String getCountString() {
+		public String getCountView() {
 			return getCount() + "";
 		}
 
 		public void setCount(int count) {
 			this.count = count;
+		}
+		
+		public ImageView getIconViewSmall() {
+			return this.getItem().getIconViewSmall();
+		}
+		
+		public String getName() {
+			return this.getItem().getName();
+		}
+		
+		public String getDescription() {
+			return this.getItem().getDescriptionTrimmed();
 		}
 	}
 }
