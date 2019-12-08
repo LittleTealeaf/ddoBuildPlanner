@@ -10,7 +10,7 @@ public class Dice {
 	private int dieSides;
 	private double preAdd;
 	private double postAdd;
-	
+
 	private transient boolean isNewDice;
 
 	public Dice() {
@@ -70,6 +70,7 @@ public class Dice {
 
 	/**
 	 * Calculates the minimum value possible
+	 * 
 	 * @return Minimum Value
 	 */
 	public double getMinimum() {
@@ -78,6 +79,7 @@ public class Dice {
 
 	/**
 	 * Calculates the maximum value possible
+	 * 
 	 * @return Maximum Value
 	 */
 	public double getMaximum() {
@@ -86,7 +88,8 @@ public class Dice {
 
 	/**
 	 * Calculates the average roll
-	 * @return Average 
+	 * 
+	 * @return Average
 	 */
 	public double getAverage() {
 		return coeff * (dieCount * ((dieSides - 1) / 2 + 1) + preAdd) + postAdd;
@@ -94,6 +97,7 @@ public class Dice {
 
 	/**
 	 * Returns if the dice variables are set to default
+	 * 
 	 * @return
 	 */
 	public boolean isDefault() {
@@ -131,8 +135,9 @@ public class Dice {
 	}
 
 	/**
-	 * To a String that will always display only the dice, regardless of setting. 
+	 * To a String that will always display only the dice, regardless of setting.
 	 * Only settings that affect this are those that specify the dice format
+	 * 
 	 * @return Human Readable String
 	 */
 	public String toEditString() {

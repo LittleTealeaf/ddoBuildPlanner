@@ -9,13 +9,13 @@ import javafx.scene.image.ImageView;
 import util.system;
 
 public class Inventory {
-	
+
 	private static List<invItem> items;
-	
+
 	public Inventory() {}
-	
+
 	public static void load() {
-		
+
 		if(!system.inventory.exists()) {
 			items = new ArrayList<invItem>();
 			save();
@@ -25,7 +25,7 @@ public class Inventory {
 			} catch(Exception e) {}
 		}
 	}
-	
+
 	public static void save() {
 		try {
 			FileWriter writer = new FileWriter(system.inventory);
@@ -35,24 +35,24 @@ public class Inventory {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static List<invItem> getItems() {
 		return items;
 	}
-	
+
 	public static void setItems(List<invItem> items) {
 		Inventory.items = items;
 	}
-	
+
 	public static void addItem(String itemName) {
-		addItem(itemName,1);
+		addItem(itemName, 1);
 	}
-	
+
 	public static void addItem(String itemName, int count) {
-		items.add(new invItem(itemName,count));
+		items.add(new invItem(itemName, count));
 		save();
 	}
-	
+
 	public static void removeItem(String itemName) {
 		List<invItem> replace = new ArrayList<invItem>();
 		int count = 0;
@@ -62,24 +62,24 @@ public class Inventory {
 		items = replace;
 		save();
 	}
-	
+
 	public static class invItem extends Iref {
-		
+
 		private String location;
 		private int count;
-		
+
 		public invItem(String name) {
-			this(name,"");
+			this(name, "");
 		}
-		
+
 		public invItem(String name, int count) {
-			this(name,"",count);
+			this(name, "", count);
 		}
-		
+
 		public invItem(String name, String location) {
-			this(name,location,1);
+			this(name, location, 1);
 		}
-		
+
 		public invItem(String name, String location, int count) {
 			super(name);
 			this.setLocation(location);
@@ -97,7 +97,7 @@ public class Inventory {
 		public int getCount() {
 			return count;
 		}
-		
+
 		public String getCountView() {
 			return getCount() + "";
 		}
@@ -105,15 +105,15 @@ public class Inventory {
 		public void setCount(int count) {
 			this.count = count;
 		}
-		
+
 		public ImageView getIconViewSmall() {
 			return this.getItem().getIconViewSmall();
 		}
-		
+
 		public String getName() {
 			return this.getItem().getName();
 		}
-		
+
 		public String getDescription() {
 			return this.getItem().getDescriptionTrimmed();
 		}

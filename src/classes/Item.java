@@ -88,16 +88,16 @@ public class Item {
 	public boolean saveItem() {
 		System.out.println(oldName + " to " + name);
 		cleanItem();
-		
+
 		if(oldName != null && !oldName.contentEquals(name)) {
 			Images.renameImage(getImageName(oldName), getImageName(name));
 			Images.renameImage(getIconName(oldName), getIconName(name));
-			
+
 			Items.getFile(oldName).renameTo(Items.getFile(name));
-			
+
 			system.getAppFile("items", oldName + ".json").delete();
 		}
-		
+
 		if(!(name == null || name.contentEquals(""))) {
 			Items.saveItem(this);
 			oldName = name + "";
@@ -183,7 +183,7 @@ public class Item {
 		if(array.length <= maxLines) return description;
 		String ret = "";
 		for(int i = 0; i < maxLines; i++) ret += array[i] + "\n";
-		ret = ret.substring(0,ret.length() - 1);
+		ret = ret.substring(0, ret.length() - 1);
 		return ret;
 	}
 
@@ -317,7 +317,7 @@ public class Item {
 	public List<ItemSlot> getEquipSlots() {
 		return equipSlots;
 	}
-	
+
 	public boolean hasEquipSlot(ItemSlot... slots) {
 		for(ItemSlot s : slots) if(equipSlots.contains(s)) return true;
 		return false;

@@ -64,15 +64,15 @@ public class fxEditItem {
 			stage.setTitle("Create Item");
 			item = new Item();
 		}
-		
-		//Page Contents
+
+		// Page Contents
 
 		BorderPane content = new BorderPane();
 		content.setTop(contentHeader());
 		content.setCenter(new HBox(contentCenter(), contentRight()));
 		content.setBottom(contentFooter());
-		
-		//Setting up the stage
+
+		// Setting up the stage
 
 		stage.setScene(new Scene(content, 1000, 500));
 		stage.show();
@@ -90,6 +90,7 @@ public class fxEditItem {
 
 	/**
 	 * Content of the header
+	 * 
 	 * @return HBox of the header content
 	 */
 	private static HBox contentHeader() {
@@ -112,6 +113,7 @@ public class fxEditItem {
 
 	/**
 	 * Content of the footer
+	 * 
 	 * @return HBox of the footer content
 	 */
 	private static HBox contentFooter() {
@@ -129,6 +131,7 @@ public class fxEditItem {
 
 	/**
 	 * Content of the center
+	 * 
 	 * @return Grid Pane of the center content
 	 */
 	private static GridPane contentCenter() {
@@ -247,6 +250,7 @@ public class fxEditItem {
 
 	/**
 	 * Content of the accordion pane on the right of the image editing screen
+	 * 
 	 * @return
 	 */
 	private static Accordion contentRight() {

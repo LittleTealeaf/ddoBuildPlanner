@@ -7,7 +7,7 @@ public enum Ability {
 	INTELLIGENCE("Intelligence"),
 	WISDOM("Wisdom"),
 	CHARISMA("Charisma");
-	
+
 	private String displayName;
 
 	Ability(String displayName) {

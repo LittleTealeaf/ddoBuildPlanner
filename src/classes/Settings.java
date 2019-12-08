@@ -41,10 +41,10 @@ public class Settings {
 
 			public static boolean compactDice;
 		}
-		
+
 		public static class icon {
 			public icon() {}
-			
+
 			public static double size;
 		}
 	}
@@ -58,7 +58,7 @@ public class Settings {
 
 		public static double inactivityTime;
 		public static double periodicalTime;
-		
+
 		public static images Images;
 
 		public static class images {

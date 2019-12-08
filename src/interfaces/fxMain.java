@@ -34,11 +34,11 @@ public class fxMain extends Application {
 
 		MenuItem items = new MenuItem("Items");
 		items.setOnAction(e -> fxItems.open());
-		
+
 		MenuItem inventory = new MenuItem("Inventory");
 		inventory.setOnAction(e -> fxInventory.open());
 
-		file.getItems().addAll(settings, items,inventory);
+		file.getItems().addAll(settings, items, inventory);
 
 		menu.getMenus().addAll(file);
 

@@ -15,9 +15,9 @@ public class debugTab {
 		execFunction.setOnAction(e -> {
 			Items.selectItemPrompt();
 		});
-		
+
 		tab.setContent(execFunction);
-		
+
 		return tab;
 	}
 }

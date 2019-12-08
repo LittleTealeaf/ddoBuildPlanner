@@ -80,6 +80,7 @@ public class Images {
 
 	/**
 	 * Gets an image
+	 * 
 	 * @param name Either the URL, file path, or name of the image in the database
 	 * @return Image as an Image class
 	 */
@@ -110,8 +111,9 @@ public class Images {
 
 	/**
 	 * Renames an image in the database
+	 * 
 	 * @param from Name of the image to rename
-	 * @param to Name to rename to
+	 * @param to   Name to rename to
 	 */
 	public static void renameImage(String from, String to) {
 		File f = system.getAppFile("images", from);
@@ -124,6 +126,7 @@ public class Images {
 
 	/**
 	 * Deletes an image in the database
+	 * 
 	 * @param image Name of the image to delete
 	 */
 	public static void deleteImage(String image) {
@@ -140,7 +143,7 @@ public class Images {
 	}
 
 	/**
-	 * Copies any external-referenced-images, whether online or in the directory, to a local file 
+	 * Copies any external-referenced-images, whether online or in the directory, to a local file
 	 */
 	public static void localizeImages() {
 		for(extImage i : externalImages) localizeImage(i);
@@ -151,8 +154,9 @@ public class Images {
 	/**
 	 * Saves an image to the database
 	 * If set to in settings, saves a local copy, otherwise adds the reference to external.json
+	 * 
 	 * @param name Name to set it to
-	 * @param url URL of the image
+	 * @param url  URL of the image
 	 */
 	public static void saveImage(String name, String url) {
 		deleteImage(name);
@@ -169,6 +173,7 @@ public class Images {
 
 	/**
 	 * Copies an image in the external.json to the local database
+	 * 
 	 * @param img
 	 */
 	private static void localizeImage(extImage img) {
@@ -204,6 +209,7 @@ public class Images {
 
 	/**
 	 * Gets the image from a URL
+	 * 
 	 * @param url Either the system path to the file or a URL link
 	 * @return Image
 	 */
