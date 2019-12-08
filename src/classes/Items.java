@@ -85,7 +85,7 @@ public class Items {
 		return r;
 	}
 
-	private static File getFile(String name) {
+	public static File getFile(String name) {
 		return system.getAppFile("items", name + ".json");
 	}
 	

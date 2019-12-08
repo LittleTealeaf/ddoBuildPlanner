@@ -76,7 +76,6 @@ public class Item {
 
 	public Item(String name) {
 		this.name = name;
-		oldName = name;
 		enchantments = new ArrayList<Enchantment>();
 		equipSlots = new ArrayList<ItemSlot>();
 	}
@@ -87,11 +86,18 @@ public class Item {
 	 * @return Returns true if successful or false if unsuccessful
 	 */
 	public boolean saveItem() {
+		System.out.println(oldName + " to " + name);
 		cleanItem();
-
-		Images.renameImage(getImageName(oldName), getImageName());
-		Images.renameImage(getImageName(oldName), getImageName());
-
+		
+		if(oldName != null && !oldName.contentEquals(name)) {
+			Images.renameImage(getImageName(oldName), getImageName(name));
+			Images.renameImage(getIconName(oldName), getIconName(name));
+			
+			Items.getFile(oldName).renameTo(Items.getFile(name));
+			
+			system.getAppFile("items", oldName + ".json").delete();
+		}
+		
 		if(!(name == null || name.contentEquals(""))) {
 			Items.saveItem(this);
 			oldName = name + "";
@@ -137,7 +143,7 @@ public class Item {
 		return getImageName(name);
 	}
 
-	public String getImageName(String name) {
+	public static String getImageName(String name) {
 		return name + ".itemimage";
 	}
 
@@ -145,7 +151,7 @@ public class Item {
 		return getIconName(name);
 	}
 
-	public String getIconName(String name) {
+	public static String getIconName(String name) {
 		return name + ".itemicon";
 	}
 
@@ -154,6 +160,7 @@ public class Item {
 	}
 
 	public void setName(String name) {
+		if(this.oldName == null) this.oldName = this.name;
 		this.name = name;
 	}
 
