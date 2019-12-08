@@ -23,6 +23,7 @@ import javafx.scene.control.Separator;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.Tooltip;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -30,6 +31,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import util.resource;
 
 public class fxSettings {
 
@@ -49,7 +51,7 @@ public class fxSettings {
 
 		ObservableList<settingsPage> pages = FXCollections.observableArrayList();
 
-		pages.addAll(pageAppearance(), pageSaving(), pageImages(), pageItems(), pageAdvanced());
+		pages.addAll(pageAppearance(), pageSaving(), pageItems(), pageAdvanced());
 
 		// http://www.java2s.com/Code/Java/JavaFX/ListViewselectionlistener.htm
 		ListView<settingsPage> pageSelection = new ListView<settingsPage>(pages);
@@ -107,6 +109,7 @@ public class fxSettings {
 		content.setPadding(new Insets(10));
 
 		// DICE FORMAT
+
 		Text diceDisplay = new Text(new Dice(3, 4, 5, 6, 7).toString());
 		Function<String, String> updateDisplay = a -> {
 			diceDisplay.setText(new Dice(3, 4, 5, 6, 7).toString());
@@ -141,6 +144,27 @@ public class fxSettings {
 
 		content.getChildren().add(settingSection("Dice Format", Arrays.asList(cShowDice, cShowRange, new Separator(), cCompactDice), Arrays.asList(diceDisplay)));
 
+		// ICONS
+
+		ImageView image = new ImageView();
+		image.setImage(resource.getImage("sample_icon.png"));
+		Function<Double, Double> updateIcon = a -> {
+			image.setFitHeight(a);
+			image.setFitWidth(a);
+			return a;
+		};
+
+		Spinner<Double> sIconSize = new Spinner<Double>();
+		sIconSize.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(1, 300, Settings.appearance.icon.size));
+		sIconSize.valueProperty().addListener((e, o, n) -> {
+			Settings.appearance.icon.size = n;
+			updateIcon.apply(n);
+		});
+		sIconSize.setEditable(true);
+		sIconSize.setPrefWidth(75);
+
+		content.getChildren().add(settingSection("Icon", Arrays.asList(sIconSize), Arrays.asList(image)));
+
 		r.setContent(content);
 
 		return r;
@@ -152,6 +176,8 @@ public class fxSettings {
 		VBox content = new VBox();
 		content.setPadding(new Insets(10));
 		content.setSpacing(10);
+
+		// REGULAR SAVING
 
 		Spinner<Double> sInactive = new Spinner<Double>();
 		sInactive.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(0, 24 * 60, Settings.saving.inactivityTime));
@@ -193,20 +219,11 @@ public class fxSettings {
 
 		content.getChildren().add(settingSection("Auto Saving", Arrays.asList(hInactive, hPeriod), null));
 
-		r.setContent(content);
-		return r;
-	}
-
-	private static settingsPage pageImages() {
-		settingsPage r = new settingsPage("Images");
-
-		VBox content = new VBox();
-		content.setPadding(new Insets(10));
-		content.setSpacing(10);
+		// IMAGES
 
 		CheckBox cStoreLocalImages = new CheckBox("Store Imported Images locally");
-		cStoreLocalImages.setSelected(Settings.images.storeLocal);
-		cStoreLocalImages.selectedProperty().addListener(a -> Settings.images.storeLocal = cStoreLocalImages.isSelected());
+		cStoreLocalImages.setSelected(Settings.saving.images.storeLocal);
+		cStoreLocalImages.selectedProperty().addListener(a -> Settings.saving.images.storeLocal = cStoreLocalImages.isSelected());
 
 		Button bLocalizeImages = new Button("Localize Images");
 		bLocalizeImages.setOnAction(e -> Images.localizeImages());

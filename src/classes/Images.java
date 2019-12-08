@@ -156,7 +156,7 @@ public class Images {
 	 */
 	public static void saveImage(String name, String url) {
 		deleteImage(name);
-		if(Settings.images.storeLocal) {
+		if(Settings.saving.images.storeLocal) {
 			localizeImage(new extImage(name, url));
 		} else {
 			List<extImage> images = new ArrayList<extImage>();

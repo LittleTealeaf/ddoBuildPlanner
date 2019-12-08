@@ -27,7 +27,7 @@ public class EnchantConvert {
 	private static void getMap() {
 		enchantMap = new ArrayList<String[]>();
 		try {
-			BufferedReader br = resource.getResource("enchantments");
+			BufferedReader br = resource.getText("enchantments");
 			String line = "";
 			while((line = br.readLine()) != null) {
 				if(line.toCharArray()[0] != '#') enchantMap.add(line.split("|"));

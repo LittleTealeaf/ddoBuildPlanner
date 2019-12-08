@@ -18,7 +18,6 @@ public class Settings {
 		Saving = new saving();
 		Advanced = new advanced();
 		Items = new items();
-		Images = new images();
 
 		version = Main.version;
 	}
@@ -27,9 +26,11 @@ public class Settings {
 
 	public static class appearance {
 		private static dice Dice;
+		private static icon Icon;
 
 		public appearance() {
 			Dice = new dice();
+			Icon = new icon();
 		}
 
 		public static class dice {
@@ -40,23 +41,31 @@ public class Settings {
 
 			public static boolean compactDice;
 		}
+		
+		public static class icon {
+			public icon() {}
+			
+			public static double size;
+		}
 	}
 
 	private static saving Saving;
 
 	public static class saving {
-		public saving() {}
+		public saving() {
+			Images = new images();
+		}
 
 		public static double inactivityTime;
 		public static double periodicalTime;
-	}
+		
+		public static images Images;
 
-	public static images Images;
+		public static class images {
+			public images() {}
 
-	public static class images {
-		public images() {}
-
-		public static boolean storeLocal;
+			public static boolean storeLocal;
+		}
 	}
 
 	public static items Items;
@@ -88,11 +97,11 @@ public class Settings {
 		appearance.dice.showDice = true;
 		appearance.dice.compactDice = false;
 		appearance.dice.showRange = false;
+		appearance.icon.size = 40;
 
 		saving.inactivityTime = 100;
 		saving.periodicalTime = 0;
-
-		images.storeLocal = true;
+		saving.images.storeLocal = true;
 
 		items.warnOnDelete = true;
 		items.deleteImages = true;
