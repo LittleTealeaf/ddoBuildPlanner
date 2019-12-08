@@ -135,8 +135,8 @@ public class fxSettings {
 		cCompactDice.setTooltip(new Tooltip("Compact view of the D&D Dice format\nRemoves all spaces"));
 		cCompactDice.setSelected(Settings.appearance.dice.compactDice);
 		cCompactDice.selectedProperty().addListener(o -> {
-			updateDisplay.apply("");
 			Settings.appearance.dice.compactDice = cCompactDice.isSelected();
+			updateDisplay.apply("");
 		});
 
 		content.getChildren().add(settingSection("Dice Format", Arrays.asList(cShowDice, cShowRange, new Separator(), cCompactDice), Arrays.asList(diceDisplay)));
