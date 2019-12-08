@@ -83,6 +83,7 @@ public class Item {
 
 	/**
 	 * Saves the item to the local database
+	 * 
 	 * @return Returns true if successful or false if unsuccessful
 	 */
 	public boolean saveItem() {
@@ -168,6 +169,16 @@ public class Item {
 		return description;
 	}
 
+	public String getDescriptionTrimmed() {
+		int maxLines = 5;
+		String[] array = description.split("\\n");
+		if(array.length <= maxLines) return description;
+		String ret = "";
+		for(int i = 0; i < maxLines; i++) ret += array[i] + "\n";
+		ret = ret.substring(0,ret.length() - 1);
+		return ret;
+	}
+
 	public void setDescription(String description) {
 		this.description = description;
 	}
@@ -206,6 +217,7 @@ public class Item {
 
 	/**
 	 * Gets a 40px * 40px ImageView
+	 * 
 	 * @return Icon Image
 	 */
 	public ImageView getIconViewSmall() {
@@ -382,6 +394,7 @@ public class Item {
 
 	/**
 	 * Gets the damage type text, each type is specified on a new line
+	 * 
 	 * @return String of damage types separated by \n
 	 */
 	public String getDamageTypeText() {
@@ -393,18 +406,20 @@ public class Item {
 		}
 		return r;
 	}
-	
+
 	/**
 	 * Adds the damage type to the damage types
+	 * 
 	 * @param type Damage Type
 	 */
 	public void addDamageType(String type) {
 		if(weapon == null) weapon = new Weapon();
 		this.weapon.damageTypes.add(type);
 	}
-	
+
 	/**
 	 * Removes a damage type from the damage types
+	 * 
 	 * @param type Damage Type
 	 */
 	public void removeDamageType(String type) {
@@ -418,6 +433,7 @@ public class Item {
 
 	/**
 	 * Sets the damage types from a single String
+	 * 
 	 * @param text Text, damage types should be separated by \n
 	 */
 	public void setDamageTypesText(String text) {

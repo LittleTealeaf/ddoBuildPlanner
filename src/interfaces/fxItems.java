@@ -59,7 +59,7 @@ public class fxItems {
 		cName.setCellValueFactory(new PropertyValueFactory<Item, String>("name"));
 
 		TableColumn<Item, String> cDescription = new TableColumn<Item, String>("Description");
-		cDescription.setCellValueFactory(new PropertyValueFactory<Item, String>("description"));
+		cDescription.setCellValueFactory(new PropertyValueFactory<Item, String>("descriptionTrimmed"));
 
 		table.getColumns().addAll(cIcon, cName, cDescription);
 		
