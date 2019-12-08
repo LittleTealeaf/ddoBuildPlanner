@@ -1,6 +1,7 @@
 package application;
 
 import classes.Images;
+import classes.Inventory;
 import classes.Settings;
 import debug.Debug;
 import interfaces.fxMain;
@@ -16,6 +17,7 @@ public class Main {
 		system.loadData();
 		Settings.loadSettings();
 		Images.load();
+		Inventory.load();
 
 		fxMain.open(args);
 	}

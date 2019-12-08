@@ -3,6 +3,8 @@ package classes;
 public class Iref {
 
 	public String name;
+	
+	//TODO crafting variables
 
 	private transient Item temp;
 

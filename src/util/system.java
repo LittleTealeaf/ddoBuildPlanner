@@ -15,6 +15,7 @@ public class system {
 	public static Gson objectJSON;
 
 	public static File settings;
+	public static File inventory;
 
 	public static void loadData() {
 		appDirs = AppDirsFactory.getInstance();
@@ -23,6 +24,7 @@ public class system {
 		objectJSON = new GsonBuilder().setPrettyPrinting().create();
 
 		settings = getAppFile("Settings.json");
+		inventory = getAppFile("Inventory.json");
 	}
 
 	public static File getAppFile(String... path) {
