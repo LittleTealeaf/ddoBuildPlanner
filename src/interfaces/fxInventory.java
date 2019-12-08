@@ -38,6 +38,7 @@ public class fxInventory {
 		
 		BorderPane content = new BorderPane();
 		
+		content.setTop(new Text("Note that this feature is currently in it's early days. It's just a mock-up and \nprobably has a bunch of bugs that I'll have to work out. Don't complain if things don't work"));
 		content.setCenter(items);
 		content.setBottom(bottom);
 		
