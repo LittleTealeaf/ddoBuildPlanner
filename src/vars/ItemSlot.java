@@ -1,6 +1,7 @@
 package vars;
 
 public enum ItemSlot {
+
 	GOGGLES("Goggles"),
 	HELMET("Helmet"),
 	NECKLACE("Necklace"),

@@ -56,6 +56,7 @@ public class fxMain extends Application {
 		root.setCenter(tabs);
 
 		Scene scene = new Scene(root, 400, 400);
+
 		try {
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 		} catch(Exception e) {}
@@ -64,5 +65,4 @@ public class fxMain extends Application {
 		sMain.show();
 		sMain.setMaximized(true);
 	}
-
 }

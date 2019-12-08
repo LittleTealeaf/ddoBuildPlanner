@@ -20,6 +20,7 @@ public class Inventory {
 			items = new ArrayList<invItem>();
 			save();
 		} else {
+
 			try {
 				system.staticJSON.fromJson(Files.newBufferedReader(system.inventory.toPath()), Inventory.class);
 			} catch(Exception e) {}
@@ -27,6 +28,7 @@ public class Inventory {
 	}
 
 	public static void save() {
+
 		try {
 			FileWriter writer = new FileWriter(system.inventory);
 			writer.write(system.staticJSON.toJson(new Inventory()));

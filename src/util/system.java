@@ -9,6 +9,7 @@ import net.harawata.appdirs.AppDirs;
 import net.harawata.appdirs.AppDirsFactory;
 
 public class system {
+
 	private static AppDirs appDirs;
 
 	public static Gson staticJSON;

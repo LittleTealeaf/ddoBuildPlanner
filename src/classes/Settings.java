@@ -25,6 +25,7 @@ public class Settings {
 	private static appearance Appearance;
 
 	public static class appearance {
+
 		private static dice Dice;
 		private static icon Icon;
 
@@ -34,6 +35,7 @@ public class Settings {
 		}
 
 		public static class dice {
+
 			public dice() {}
 
 			public static boolean showDice;
@@ -43,6 +45,7 @@ public class Settings {
 		}
 
 		public static class icon {
+
 			public icon() {}
 
 			public static double size;
@@ -52,6 +55,7 @@ public class Settings {
 	private static saving Saving;
 
 	public static class saving {
+
 		public saving() {
 			Images = new images();
 		}
@@ -62,6 +66,7 @@ public class Settings {
 		public static images Images;
 
 		public static class images {
+
 			public images() {}
 
 			public static boolean storeLocal;
@@ -71,6 +76,7 @@ public class Settings {
 	public static items Items;
 
 	public static class items {
+
 		public items() {}
 
 		public static boolean warnOnDelete;
@@ -80,6 +86,7 @@ public class Settings {
 	private static advanced Advanced;
 
 	public static class advanced {
+
 		public advanced() {
 			Debug = new debug();
 		}
@@ -87,6 +94,7 @@ public class Settings {
 		public static debug Debug;
 
 		public static class debug {
+
 			public debug() {}
 
 			public static boolean showCrashReports;
@@ -111,15 +119,15 @@ public class Settings {
 
 	public static void loadSettings() {
 		defaultSettings();
+
 		if(system.settings.exists()) {
+
 			try {
 				system.staticJSON.fromJson(Files.newBufferedReader(system.settings.toPath()), Settings.class);
 
 				if(!version.contentEquals(Main.version)) saveSettings();
 				trimSettings();
-
 			} catch(IOException e) {}
-
 		} else {
 			system.settings.getParentFile().mkdirs();
 
@@ -132,6 +140,7 @@ public class Settings {
 	}
 
 	public static void saveSettings() {
+
 		try {
 			FileWriter writer = new FileWriter(system.settings);
 			writer.write(system.staticJSON.toJson(new Settings()));

@@ -16,5 +16,4 @@ public class Iref {
 		if(temp == null) temp = Items.readItem(name);
 		return temp;
 	}
-
 }

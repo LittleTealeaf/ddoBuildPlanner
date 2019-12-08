@@ -15,7 +15,6 @@ public class Gearset {
 	}
 
 	private void onEdit() {
-
 	}
 
 	/**
@@ -150,5 +149,4 @@ public class Gearset {
 		this.offHand = new Iref(name);
 		onEdit();
 	}
-
 }

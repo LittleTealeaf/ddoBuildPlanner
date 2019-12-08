@@ -58,6 +58,7 @@ public class Enchantment {
 	}
 
 	public int getValueAsInt() {
+
 		try {
 			return Integer.parseInt(value);
 		} catch(Exception e) {

@@ -40,6 +40,7 @@ public class fxSettings {
 	private static BorderPane content;
 
 	public static void open() {
+
 		if(stage != null && stage.isShowing()) {
 			stage.requestFocus();
 			return;
@@ -58,14 +59,17 @@ public class fxSettings {
 		pageSelection.setPrefWidth(100);
 		pageSelection.getSelectionModel().selectedItemProperty().addListener((e, o, n) -> content.setCenter(n));
 		pageSelection.setCellFactory(new Callback<ListView<settingsPage>, ListCell<settingsPage>>() {
+
 			@Override
 			public ListCell<settingsPage> call(ListView<settingsPage> param) {
 				final Label leadLbl = new Label();
 				final Tooltip tooltip = new Tooltip();
 				final ListCell<settingsPage> cell = new ListCell<settingsPage>() {
+
 					@Override
 					public void updateItem(settingsPage item, boolean empty) {
 						super.updateItem(item, empty);
+
 						if(item != null) {
 							leadLbl.setText(item.getName());
 							setText(item.getName());
@@ -310,6 +314,7 @@ public class fxSettings {
 	}
 
 	public static class settingsPage extends ScrollPane {
+
 		private String name;
 
 		public settingsPage(String Name) {

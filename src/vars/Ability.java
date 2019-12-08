@@ -1,6 +1,7 @@
 package vars;
 
 public enum Ability {
+
 	STRENGTH("Strength"),
 	DEXTERITY("Dexterity"),
 	CONSTITUTION("Constitution"),

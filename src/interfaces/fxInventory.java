@@ -68,6 +68,7 @@ public class fxInventory {
 		for(TableColumn<invItem, ?> col : items.getColumns()) col.setReorderable(false);
 
 		items.setOnKeyPressed(key -> {
+
 			if(key.getCode() == KeyCode.DELETE) {
 				Inventory.removeItem(items.getSelectionModel().getSelectedItem().getName());
 				updateTable();

@@ -34,6 +34,7 @@ public class Item {
 	private Armor armor;
 
 	private class Armor {
+
 		public Armor() {
 			armorType = "";
 		}
@@ -53,6 +54,7 @@ public class Item {
 	private Weapon weapon;
 
 	private class Weapon {
+
 		public Weapon() {
 			damageTypes = new ArrayList<String>();
 			damage = new Dice();
@@ -110,6 +112,7 @@ public class Item {
 	 * Deletes the item from the database. Asks for confirmation if specified to do so in settings
 	 */
 	public void deleteItem() {
+
 		if(Settings.items.warnOnDelete) {
 			Alert alert = new Alert(AlertType.CONFIRMATION);
 			alert.setTitle("Delete " + name + "?");
@@ -136,6 +139,7 @@ public class Item {
 		if(armor != null && armor.isEmpty()) armor = null;
 		if(weapon != null && weapon.isEmpty()) weapon = null;
 		minLevel = Math.max(absoluteMinLevel, minLevel);
+
 		// TODO clear empty fields in damage types
 	}
 
@@ -239,10 +243,12 @@ public class Item {
 	}
 
 	public void setIcon(String iconURL) {
+
 		if(iconURL.contentEquals("")) {
 			Images.deleteImage(getIconName());
 			return;
 		}
+
 		if(iconURL.contentEquals(getIconName())) return;
 		Images.saveImage(getIconName(), iconURL);
 	}
@@ -256,6 +262,7 @@ public class Item {
 	}
 
 	public void setImage(String imageURL) {
+
 		if(imageURL.contentEquals("")) {
 			Images.deleteImage(getImageName());
 			return;
@@ -413,10 +420,12 @@ public class Item {
 	public String getDamageTypeText() {
 		if(weapon == null) return "";
 		String r = "";
+
 		for(String l : getDamageTypes()) {
 			if(!r.contentEquals("")) r += "\n";
 			r += l;
 		}
+
 		return r;
 	}
 
@@ -472,5 +481,4 @@ public class Item {
 		if(weapon == null) weapon = new Weapon();
 		this.weapon.critMultiplier = critMultiplier;
 	}
-
 }

@@ -53,7 +53,9 @@ public class Images {
 	 * Verifies that all the images actually exist, otherwise deletes their references.
 	 */
 	public static void verifyImages() {
+
 		for(extImage img : externalImages) {
+
 			if(getImage(img.getURL()) == null) {
 				System.out.println("Deleting Void Image: " + img.getName());
 				deleteImage(img.getName());
@@ -65,16 +67,14 @@ public class Images {
 	 * Saves the currently loaded external image references to a file.
 	 */
 	public static void save() {
-
 		File f = system.getAppFile("images", "external.json");
 
 		if(!f.exists()) f.getParentFile().mkdirs();
-		try {
 
+		try {
 			FileWriter writer = new FileWriter(f);
 			writer.write(system.staticJSON.toJson(new Images()));
 			writer.close();
-
 		} catch(IOException e) {}
 	}
 
@@ -85,18 +85,14 @@ public class Images {
 	 * @return Image as an Image class
 	 */
 	public static Image getImage(String name) {
-
 		File f = null;
 
 		try {
-
 			f = system.getAppFile("images", name);
-
 		} catch(Exception e) {
+
 			try {
-
 				f = new File(name);
-
 			} catch(Exception d) {}
 		}
 
@@ -160,6 +156,7 @@ public class Images {
 	 */
 	public static void saveImage(String name, String url) {
 		deleteImage(name);
+
 		if(Settings.saving.images.storeLocal) {
 			localizeImage(new extImage(name, url));
 		} else {
@@ -168,6 +165,7 @@ public class Images {
 			images.add(new extImage(name, url));
 			externalImages = images;
 		}
+
 		save();
 	}
 
@@ -181,14 +179,15 @@ public class Images {
 		writeTo.getParentFile().mkdirs();
 
 		try {
-			try(var fis = new FileInputStream(img.url); var fos = new FileOutputStream(writeTo)) {
 
+			try(var fis = new FileInputStream(img.url); var fos = new FileOutputStream(writeTo)) {
 				byte[] buffer = new byte[1024];
 				int length;
 
 				while((length = fis.read(buffer)) > 0) fos.write(buffer, 0, length);
 			}
 		} catch(Exception e) {
+
 			try {
 				URL url = new URL(img.url);
 				InputStream is = url.openStream();
@@ -214,11 +213,13 @@ public class Images {
 	 * @return Image
 	 */
 	private static Image getImageFromURL(String url) {
+
 		try {
 			return new Image(url);
 		} catch(IllegalArgumentException a) {
 			return new Image(new File(url).toURI().toString());
 		} catch(Exception a) {}
+
 		return null;
 	}
 
@@ -290,6 +291,7 @@ public class Images {
 
 			this.getDialogPane().setContent(content);
 			this.setResultConverter(button -> {
+
 				if(button.getButtonData() == ButtonData.OK_DONE) {
 					if(getImage(urlField.getText()) != null) return urlField.getText();
 					else return "";
@@ -305,7 +307,6 @@ public class Images {
 
 			this.getDialogPane().widthProperty().addListener((e, o, n) -> image.setFitWidth(3 * (double) n / 5));
 			this.getDialogPane().heightProperty().addListener((e, o, n) -> image.setFitHeight(3 * (double) n / 5));
-
 		}
 
 		public String prompt() {
@@ -328,6 +329,7 @@ public class Images {
 	}
 
 	private static class extImage {
+
 		private String name;
 		private String url;
 

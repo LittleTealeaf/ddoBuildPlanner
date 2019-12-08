@@ -31,6 +31,7 @@ public class Items {
 	 *         state
 	 */
 	public static Item readItem(String name) {
+
 		try {
 			return system.objectJSON.fromJson(new FileReader(getFile(name)), Item.class);
 		} catch(Exception e) {
@@ -44,6 +45,7 @@ public class Items {
 	 * @param i Item to save
 	 */
 	public static void saveItem(Item i) {
+
 		try {
 			File file = getFile(i.getName());
 			file.getParentFile().mkdirs();
@@ -69,6 +71,7 @@ public class Items {
 		System.out.println("Directory updated, loading new");
 
 		for(File f : dir.listFiles()) {
+
 			try {
 				Item n = system.objectJSON.fromJson(new FileReader(f), Item.class);
 				if(n != null) r.add(n);
@@ -102,7 +105,6 @@ public class Items {
 	}
 
 	public static Item selectItemPrompt(Item selItem, ItemSlot... slots) {
-
 		Dialog<Item> dialog = new Dialog<Item>();
 		dialog.setTitle("Select Item");
 		dialog.setHeaderText("Select an item");
@@ -122,6 +124,7 @@ public class Items {
 		dialog.getDialogPane().setPrefHeight(500);
 
 		dialog.setResultConverter(b -> {
+
 			if(b.getButtonData() == ButtonData.OK_DONE) {
 				return table.getSelectionModel().getSelectedItem();
 			} else return null;

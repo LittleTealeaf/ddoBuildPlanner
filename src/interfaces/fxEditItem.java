@@ -56,6 +56,7 @@ public class fxEditItem {
 
 		if(stage != null && stage.isShowing()) stage.close();
 		stage = new Stage();
+
 		if(i != null) {
 			stage.setTitle("Editing " + i.getName());
 			Image icon = item.getIcon();
@@ -80,11 +81,13 @@ public class fxEditItem {
 
 	private static void saveItem() {
 		errorText.setText("");
+
 		if(!item.saveItem()) {
 			// If it didn't save
 			errorText.setText("Please include a name");
 			itemName.requestFocus();
 		}
+
 		stage.close();
 	}
 
@@ -135,7 +138,6 @@ public class fxEditItem {
 	 * @return Grid Pane of the center content
 	 */
 	private static GridPane contentCenter() {
-
 		GridPane r = new GridPane();
 		r.setHgap(10);
 		r.setVgap(10);
@@ -265,7 +267,6 @@ public class fxEditItem {
 	}
 
 	private static TitledPane contentEquipSlots() {
-
 		TitledPane r = new TitledPane();
 		r.setExpanded(false);
 		r.setText("Equip Slots");
@@ -274,8 +275,8 @@ public class fxEditItem {
 		content.setHgap(5);
 
 		int x = 0, y = 0;
-		for(ItemSlot s : ItemSlot.values()) {
 
+		for(ItemSlot s : ItemSlot.values()) {
 			CheckBox check = new CheckBox(s.toString());
 			check.setSelected(item.getEquipSlots().contains(s));
 			check.selectedProperty().addListener((e, o, n) -> item.setEquipSlot(s, n.booleanValue()));
@@ -283,6 +284,7 @@ public class fxEditItem {
 			content.add(check, x, y);
 
 			x++;
+
 			if(x == 5) {
 				x = 0;
 				y++;
@@ -302,7 +304,6 @@ public class fxEditItem {
 	}
 
 	private static TitledPane contentWeapon() {
-
 		TitledPane r = new TitledPane();
 		r.setText("Weapon Stats");
 		r.setCollapsible(true);
@@ -313,6 +314,7 @@ public class fxEditItem {
 		dice.setTooltip(new Tooltip("The damage of the weapon in terms of the damage dice:\nValid entries can include:\n1d5\n1d5+5\n1d5 + 5\n5[1d5+5]\n5 [1d5 + 5] + 5"));
 		dice.setText(item.getDamage().toEditString());
 		dice.setOnKeyPressed(key -> {
+
 			if(key.getCode() == KeyCode.ENTER) {
 				Dice d = new Dice(dice.getText());
 				if(!d.isDefault()) item.setDamage(d);
@@ -320,6 +322,7 @@ public class fxEditItem {
 			}
 		});
 		dice.focusedProperty().addListener((e, o, n) -> {
+
 			if(!n.booleanValue()) {
 				Dice d = new Dice(dice.getText());
 				if(!d.isDefault()) item.setDamage(d);
@@ -383,7 +386,6 @@ public class fxEditItem {
 	}
 
 	private static TitledPane contentArmor() {
-
 		TitledPane r = new TitledPane();
 		r.setText("Armor Stats");
 
@@ -482,6 +484,7 @@ public class fxEditItem {
 		iImage = new ImageView();
 		iImage.setPreserveRatio(true);
 		iImage.imageProperty().addListener(e -> {
+
 			if(iImage.getImage() != null) {
 				iImage.fitHeightProperty().bind(r.heightProperty().multiply(0.75));
 				iImage.fitWidthProperty().bind(r.widthProperty().multiply(0.75));

@@ -14,5 +14,4 @@ public class resource {
 	public static Image getImage(String name) {
 		return new Image(ClassLoader.getSystemResourceAsStream(name));
 	}
-
 }

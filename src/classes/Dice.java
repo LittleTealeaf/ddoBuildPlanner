@@ -39,6 +39,7 @@ public class Dice {
 		this();
 
 		List<String> parsed = Arrays.asList(str.replace(" ", "").replace("[", "/").replace("d", "/").replace("]+", "/").replace("+", "/").split("/"));
+
 		/*
 		 * 1d4 -> 2
 		 * 1d3+5 -> 3
@@ -46,6 +47,7 @@ public class Dice {
 		 * 5[1d4 + 5] + 5 -> 5
 		 */
 		try {
+
 			switch (parsed.size()) {
 			case 3:
 				preAdd = Double.parseDouble(parsed.get(2));
@@ -113,7 +115,9 @@ public class Dice {
 	@Override
 	public String toString() {
 		String r = "";
+
 		if(Settings.appearance.dice.showDice) {
+
 			if(coeff == 1) {
 				double add = preAdd + postAdd;
 				r += dieCount + "d" + dieSides;
@@ -127,10 +131,12 @@ public class Dice {
 
 			if(Settings.appearance.dice.compactDice) r = r.replace(" ", "");
 		}
+
 		if(Settings.appearance.dice.showRange) {
 			if(!r.contentEquals("")) r += "\n";
 			r += "(" + getMinimum() + " - " + getMaximum() + ")";
 		}
+
 		return r;
 	}
 
@@ -141,7 +147,6 @@ public class Dice {
 	 * @return Human Readable String
 	 */
 	public String toEditString() {
-
 		if(isDefault()) return "";
 
 		String r = "";
@@ -206,5 +211,4 @@ public class Dice {
 		this.postAdd = postAdd;
 		isNewDice = false;
 	}
-
 }
