@@ -13,8 +13,8 @@ public class Iref {
 	}
 
 	public Item getItem() {
-		if(temp != null) return temp;
-		return Items.readItem(name);
+		if(temp == null) temp = Items.readItem(name);
+		return temp;
 	}
 
 }
