@@ -13,6 +13,11 @@ public class Items {
 	private static long lastModified;
 	private static List<Item> items;
 
+	/**
+	 * Gets an item from the database
+	 * @param name Name of the item
+	 * @return Item in the Item class. Returns null if the item doens't exist or is in an unreadable state
+	 */
 	public static Item readItem(String name) {
 		try {
 			return system.objectJSON.fromJson(new FileReader(getFile(name)), Item.class);
@@ -21,6 +26,10 @@ public class Items {
 		}
 	}
 
+	/**
+	 * Saves an item to the database
+	 * @param i Item to save
+	 */
 	public static void saveItem(Item i) {
 		try {
 			File file = getFile(i.getName());
@@ -32,6 +41,10 @@ public class Items {
 		} catch(Exception e) {}
 	}
 
+	/**
+	 * Gets a list of all the items in the database
+	 * @return List of all items
+	 */
 	public static List<Item> getAllItems() {
 		List<Item> r = new ArrayList<Item>();
 

@@ -18,6 +18,10 @@ public class Gearset {
 
 	}
 
+	/**
+	 * 
+	 * @return All items currently stored in the gearset, includes null variables
+	 */
 	public Item[] getItems() {
 		return new Item[] {goggles.getItem(), helmet.getItem(), necklace.getItem(), trinket.getItem(), cloak.getItem(), bracers.getItem(), belt.getItem(), ring1.getItem(), ring2.getItem(), gloves.getItem(), armor.getItem(), mainHand.getItem(), offHand.getItem()};
 	}

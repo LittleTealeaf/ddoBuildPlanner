@@ -81,6 +81,10 @@ public class Item {
 		equipSlots = new ArrayList<ItemSlot>();
 	}
 
+	/**
+	 * Saves the item to the local database
+	 * @return Returns true if successful or false if unsuccessful
+	 */
 	public boolean saveItem() {
 		cleanItem();
 
@@ -95,6 +99,9 @@ public class Item {
 		} else return false;
 	}
 
+	/**
+	 * Deletes the item from the database. Asks for confirmation if specified to do so in settings
+	 */
 	public void deleteItem() {
 		if(Settings.items.warnOnDelete) {
 			Alert alert = new Alert(AlertType.CONFIRMATION);
@@ -115,6 +122,9 @@ public class Item {
 		fxItems.updateTable();
 	}
 
+	/**
+	 * Cleans the item, removing any unnecessary classes
+	 */
 	public void cleanItem() {
 		if(armor != null && armor.isEmpty()) armor = null;
 		if(weapon != null && weapon.isEmpty()) weapon = null;
@@ -194,6 +204,10 @@ public class Item {
 		return new ImageView(getIcon());
 	}
 
+	/**
+	 * Gets a 40px * 40px ImageView
+	 * @return Icon Image
+	 */
 	public ImageView getIconViewSmall() {
 		ImageView r = new ImageView(getIcon());
 		double size = 40;
@@ -366,6 +380,10 @@ public class Item {
 		return weapon.damageTypes;
 	}
 
+	/**
+	 * Gets the damage type text, each type is specified on a new line
+	 * @return String of damage types separated by \n
+	 */
 	public String getDamageTypeText() {
 		if(weapon == null) return "";
 		String r = "";
@@ -375,12 +393,33 @@ public class Item {
 		}
 		return r;
 	}
+	
+	/**
+	 * Adds the damage type to the damage types
+	 * @param type Damage Type
+	 */
+	public void addDamageType(String type) {
+		if(weapon == null) weapon = new Weapon();
+		this.weapon.damageTypes.add(type);
+	}
+	
+	/**
+	 * Removes a damage type from the damage types
+	 * @param type Damage Type
+	 */
+	public void removeDamageType(String type) {
+		if(weapon != null) this.weapon.damageTypes.remove(type);
+	}
 
 	public void setDamageTypes(List<String> damageTypes) {
 		if(weapon == null) weapon = new Weapon();
 		this.weapon.damageTypes = damageTypes;
 	}
 
+	/**
+	 * Sets the damage types from a single String
+	 * @param text Text, damage types should be separated by \n
+	 */
 	public void setDamageTypesText(String text) {
 		setDamageTypes(Arrays.asList(text.split("\n")));
 	}

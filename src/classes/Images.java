@@ -32,6 +32,9 @@ public class Images {
 
 	private static List<extImage> externalImages;
 
+	/**
+	 * Initially Load the Images class
+	 */
 	public static void load() {
 		File externals = system.getAppFile("images", "external.json");
 
@@ -43,8 +46,12 @@ public class Images {
 
 		deleteImage(".image");
 		deleteImage(".icon");
+		save();
 	}
 
+	/**
+	 * Verifies that all the images actually exist, otherwise deletes their references.
+	 */
 	public static void verifyImages() {
 		for(extImage img : externalImages) {
 			if(getImage(img.getURL()) == null) {
@@ -54,6 +61,9 @@ public class Images {
 		}
 	}
 
+	/**
+	 * Saves the currently loaded external image references to a file.
+	 */
 	public static void save() {
 
 		File f = system.getAppFile("images", "external.json");
@@ -68,6 +78,11 @@ public class Images {
 		} catch(IOException e) {}
 	}
 
+	/**
+	 * Gets an image
+	 * @param name Either the URL, file path, or name of the image in the database
+	 * @return Image as an Image class
+	 */
 	public static Image getImage(String name) {
 
 		File f = null;
@@ -93,6 +108,11 @@ public class Images {
 		return getImageFromURL(name);
 	}
 
+	/**
+	 * Renames an image in the database
+	 * @param from Name of the image to rename
+	 * @param to Name to rename to
+	 */
 	public static void renameImage(String from, String to) {
 		File f = system.getAppFile("images", from);
 
@@ -102,6 +122,10 @@ public class Images {
 		save();
 	}
 
+	/**
+	 * Deletes an image in the database
+	 * @param image Name of the image to delete
+	 */
 	public static void deleteImage(String image) {
 		List<extImage> n = new ArrayList<extImage>();
 
@@ -115,12 +139,21 @@ public class Images {
 		save();
 	}
 
+	/**
+	 * Copies any external-referenced-images, whether online or in the directory, to a local file 
+	 */
 	public static void localizeImages() {
 		for(extImage i : externalImages) localizeImage(i);
 		externalImages.clear();
 		save();
 	}
 
+	/**
+	 * Saves an image to the database
+	 * If set to in settings, saves a local copy, otherwise adds the reference to external.json
+	 * @param name Name to set it to
+	 * @param url URL of the image
+	 */
 	public static void saveImage(String name, String url) {
 		deleteImage(name);
 		if(Settings.images.storeLocal) {
@@ -134,6 +167,10 @@ public class Images {
 		save();
 	}
 
+	/**
+	 * Copies an image in the external.json to the local database
+	 * @param img
+	 */
 	private static void localizeImage(extImage img) {
 		File writeTo = system.getAppFile("images", img.name);
 		writeTo.getParentFile().mkdirs();
@@ -165,6 +202,11 @@ public class Images {
 		}
 	}
 
+	/**
+	 * Gets the image from a URL
+	 * @param url Either the system path to the file or a URL link
+	 * @return Image
+	 */
 	private static Image getImageFromURL(String url) {
 		try {
 			return new Image(url);

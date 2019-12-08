@@ -10,9 +10,12 @@ public class Dice {
 	private int dieSides;
 	private double preAdd;
 	private double postAdd;
+	
+	private transient boolean isNewDice;
 
 	public Dice() {
 		this(0, 0);
+		isNewDice = true;
 	}
 
 	public Dice(int count, int sides) {
@@ -29,13 +32,14 @@ public class Dice {
 		this.dieSides = sides;
 		this.preAdd = preAdd;
 		this.postAdd = postAdd;
+		isNewDice = false;
 	}
 
 	public Dice(String str) {
 		this();
 
 		List<String> parsed = Arrays.asList(str.replace(" ", "").replace("[", "/").replace("d", "/").replace("]+", "/").replace("+", "/").split("/"));
-		/**
+		/*
 		 * 1d4 -> 2
 		 * 1d3+5 -> 3
 		 * 5[1d4 + 5] -> 4
@@ -64,25 +68,42 @@ public class Dice {
 		} catch(Exception e) {}
 	}
 
+	/**
+	 * Calculates the minimum value possible
+	 * @return Minimum Value
+	 */
 	public double getMinimum() {
 		return coeff * (dieCount + preAdd) + postAdd;
 	}
 
+	/**
+	 * Calculates the maximum value possible
+	 * @return Maximum Value
+	 */
 	public double getMaximum() {
 		return coeff * (dieCount * dieSides + preAdd) + postAdd;
 	}
 
+	/**
+	 * Calculates the average roll
+	 * @return Average 
+	 */
 	public double getAverage() {
 		return coeff * (dieCount * ((dieSides - 1) / 2 + 1) + preAdd) + postAdd;
 	}
 
+	/**
+	 * Returns if the dice variables are set to default
+	 * @return
+	 */
 	public boolean isDefault() {
-		if(coeff != 1) return false;
-		if(dieCount != 0) return false;
-		if(dieSides != 0) return false;
-		if(preAdd != 0) return false;
-		if(postAdd != 0) return false;
-		return true;
+//		if(coeff != 1) return false;
+//		if(dieCount != 0) return false;
+//		if(dieSides != 0) return false;
+//		if(preAdd != 0) return false;
+//		if(postAdd != 0) return false;
+//		return true;
+		return isNewDice;
 	}
 
 	@Override
@@ -109,6 +130,11 @@ public class Dice {
 		return r;
 	}
 
+	/**
+	 * To a String that will always display only the dice, regardless of setting. 
+	 * Only settings that affect this are those that specify the dice format
+	 * @return Human Readable String
+	 */
 	public String toEditString() {
 
 		if(isDefault()) return "";
@@ -137,6 +163,7 @@ public class Dice {
 
 	public void setCoeff(double coeff) {
 		this.coeff = coeff;
+		isNewDice = false;
 	}
 
 	public int getDieCount() {
@@ -145,6 +172,7 @@ public class Dice {
 
 	public void setDieCount(int dieCount) {
 		this.dieCount = dieCount;
+		isNewDice = false;
 	}
 
 	public int getDieSides() {
@@ -153,6 +181,7 @@ public class Dice {
 
 	public void setDieSides(int dieSides) {
 		this.dieSides = dieSides;
+		isNewDice = false;
 	}
 
 	public double getPreAdd() {
@@ -161,6 +190,7 @@ public class Dice {
 
 	public void setPreAdd(double preAdd) {
 		this.preAdd = preAdd;
+		isNewDice = false;
 	}
 
 	public double getPostAdd() {
@@ -169,6 +199,7 @@ public class Dice {
 
 	public void setPostAdd(double postAdd) {
 		this.postAdd = postAdd;
+		isNewDice = false;
 	}
 
 }

@@ -50,6 +50,8 @@ public class fxItems {
 
 		table = new TableView<Item>();
 
+		//Setting up the columns
+		
 		TableColumn<Item, ImageView> cIcon = new TableColumn<Item, ImageView>("Icon");
 		cIcon.setCellValueFactory(new PropertyValueFactory<Item, ImageView>("iconViewSmall"));
 
@@ -60,6 +62,8 @@ public class fxItems {
 		cDescription.setCellValueFactory(new PropertyValueFactory<Item, String>("description"));
 
 		table.getColumns().addAll(cIcon, cName, cDescription);
+		
+		//Adding the item and keybinds
 
 		table.getItems().addAll(FXCollections.observableArrayList(Items.getAllItems()));
 
@@ -72,6 +76,7 @@ public class fxItems {
 		});
 
 		table.prefWidthProperty().bind(r.widthProperty());
+		table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
 		r.setContent(table);
 		r.setFitToWidth(true);
