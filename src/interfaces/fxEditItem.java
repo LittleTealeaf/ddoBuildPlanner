@@ -27,6 +27,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -105,6 +106,7 @@ public class fxEditItem {
 
 		itemName = new TextField(item.getName());
 		itemName.textProperty().addListener((e, o, n) -> item.setName(n));
+		HBox.setHgrow(itemName, Priority.ALWAYS);
 
 		errorText = new Label("");
 		errorText.setTextFill(Color.RED);
