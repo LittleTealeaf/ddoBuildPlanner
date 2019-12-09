@@ -59,7 +59,7 @@ public class fxItems {
 				openSelected();
 				break;
 			case DELETE:
-				table.getSelectionModel().getSelectedItem().deleteItem();
+				deleteSelected();
 				break;
 			default:
 				break;
@@ -77,6 +77,10 @@ public class fxItems {
 
 	private static void openSelected() {
 		fxEditItem.open(table.getSelectionModel().getSelectedItem());
+	}
+	
+	private static void deleteSelected() {
+		table.getSelectionModel().getSelectedItem().deleteItem();
 	}
 
 	public static void updateTable() {
