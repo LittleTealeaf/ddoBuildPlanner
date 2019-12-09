@@ -26,9 +26,9 @@ public class Debug {
 	public static void setCrashReporting() {
 		Thread.setDefaultUncaughtExceptionHandler((t, e) -> {
 			e.printStackTrace();
-			String filename = "crashlogs\\crash_log" + new SimpleDateFormat("yyyMMdd_HHmmss").format(Calendar.getInstance().getTime()) + ".txt";
+			String filename = "crash_log" + new SimpleDateFormat("yyyMMdd_HHmmss").format(Calendar.getInstance().getTime()) + ".txt";
 
-			File file = system.getAppFile(filename);
+			File file = system.getAppFile("crashlogs",filename);
 			file.getParentFile().mkdirs();
 
 			try {
