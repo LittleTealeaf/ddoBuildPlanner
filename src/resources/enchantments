@@ -1,3 +1,4 @@
 # ID \ name \ description \ value converters
 #
 # Value Converters: "<name>:<multiplier>" "<other name>:<other multiplier>"
+spellpower\<bonus> <type> Spell Power\Passive: <value> <bonus> bonus to your <type> Spell Power\"<type> Spell Power:1"

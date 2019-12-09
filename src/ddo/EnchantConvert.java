@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import classes.Enchantment;
 import util.resource;
 import util.system;
 
@@ -21,13 +22,30 @@ public class EnchantConvert {
 		String line;
 
 		try {
-
 			while((line = reader.readLine()) != null) {
 				if(line.toCharArray()[0] != '#') data.add(new converter(line));
 			}
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public static String getName(Enchantment ench) {
+		for(converter c : data) {
+			if(c.getId().contentEquals(ench.getId())) return repPlaceHolders(ench,c.getName());
+		}	
+		return "";
+	}
+	
+	public static String getDescription(Enchantment ench) {
+		for(converter c : data) {
+			if(c.getId().contentEquals(ench.getId())) return repPlaceHolders(ench,c.getDescription());
+		}	
+		return "";
+	}
+	
+	private static String repPlaceHolders(Enchantment ench, String text) {
+		return text.replace("<type>", ench.getType()).replace("<value>", ench.getValue()).replace("<bonus>", ench.getBonus());
 	}
 
 	public static class converter {
@@ -71,6 +89,10 @@ public class EnchantConvert {
 				}
 			}
 		}
+		
+		public String getId() {return id;}
+		public String getName() {return name;}
+		public String getDescription() {return description;}
 
 		private static class conAttribute {
 
