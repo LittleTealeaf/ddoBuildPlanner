@@ -44,7 +44,6 @@ public class fxItems {
 		stage.show();
 	}
 
-	@SuppressWarnings("unchecked")
 	public static ScrollPane itemTable() {
 		ScrollPane r = new ScrollPane();
 
@@ -54,8 +53,17 @@ public class fxItems {
 			if(click.getClickCount() == 2 && table.getSelectionModel().getSelectedIndex() != -1) openSelected();
 		});
 		table.setOnKeyPressed(key -> {
-			if(key.getCode() == KeyCode.ENTER) openSelected();
-			else if(key.getCode() == KeyCode.DELETE) table.getSelectionModel().getSelectedItem().deleteItem();
+
+			switch (key.getCode()) {
+			case ENTER:
+				openSelected();
+				break;
+			case DELETE:
+				table.getSelectionModel().getSelectedItem().deleteItem();
+				break;
+			default:
+				break;
+			}
 		});
 
 		table.prefWidthProperty().bind(r.widthProperty());
