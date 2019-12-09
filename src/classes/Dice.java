@@ -37,9 +37,11 @@ public class Dice {
 
 	public Dice(String str) {
 		this();
-
+		
 		List<String> parsed = Arrays.asList(str.replace(" ", "").replace("[", "/").replace("d", "/").replace("]+", "/").replace("+", "/").split("/"));
 
+		System.out.println(parsed);
+		System.out.println(parsed.size());
 		/*
 		 * 1d4 -> 2
 		 * 1d3+5 -> 3
@@ -68,6 +70,8 @@ public class Dice {
 				break;
 			}
 		} catch(Exception e) {}
+		
+		isNewDice = false;
 	}
 
 	/**
@@ -103,12 +107,13 @@ public class Dice {
 	 * @return
 	 */
 	public boolean isDefault() {
-//		if(coeff != 1) return false;
-//		if(dieCount != 0) return false;
-//		if(dieSides != 0) return false;
-//		if(preAdd != 0) return false;
-//		if(postAdd != 0) return false;
-//		return true;
+		if(isNewDice = true) {
+			if(coeff != 1) isNewDice = false;
+			if(dieCount != 0) isNewDice = false;
+			if(dieSides != 0) isNewDice = false;
+			if(preAdd != 0) isNewDice = false;
+			if(postAdd != 0) isNewDice = false;
+		}
 		return isNewDice;
 	}
 
