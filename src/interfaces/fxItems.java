@@ -56,6 +56,7 @@ public class fxItems {
 
 			switch (key.getCode()) {
 			case ENTER:
+			case SPACE:
 				openSelected();
 				break;
 			case DELETE:
