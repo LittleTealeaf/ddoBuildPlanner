@@ -5,16 +5,28 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import classes.Attribute;
 import classes.Enchantment;
 import util.resource;
-import util.system;
+
+/*
+ * NOTICE TO ANY REVIEWERS OR FUTURE DEVELOPERS
+ * THIS IS ANCIENT CODE AND I DONT' KNOW WHAT I WAS DOING
+ * wise words:
+ * 
+ * if it still works
+ * don't touch it
+ * I don't know how it works
+ * but if you're lucky you won't see this soon
+ * cause this probably needs a complete makeover
+ */
 
 public class EnchantConvert {
 
 	public static List<converter> data;
 
 	public static void load() {
-		//TODO converter reads from a system file that copies the enchantment file if it's needed
+		// TODO converter reads from a system file that copies the enchantment file if it's needed
 		data = new ArrayList<converter>();
 
 		BufferedReader reader = resource.getText("enchantments.txt");
@@ -22,6 +34,7 @@ public class EnchantConvert {
 		String line;
 
 		try {
+
 			while((line = reader.readLine()) != null) {
 				if(line.toCharArray()[0] != '#') data.add(new converter(line));
 			}
@@ -29,21 +42,33 @@ public class EnchantConvert {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static String getName(Enchantment ench) {
-		for(converter c : data) {
-			if(c.getId().contentEquals(ench.getId())) return repPlaceHolders(ench,c.getName());
-		}	
-		return "";
+		converter conv = getConverter(ench);
+		return (conv != null) ? repPlaceHolders(ench, conv.getName()) : "";
 	}
-	
+
 	public static String getDescription(Enchantment ench) {
-		for(converter c : data) {
-			if(c.getId().contentEquals(ench.getId())) return repPlaceHolders(ench,c.getDescription());
-		}	
-		return "";
+		converter conv = getConverter(ench);
+		return (conv != null) ? repPlaceHolders(ench, conv.getDescription()) : "";
+	}
+
+	public static List<Attribute> getAttributes(Enchantment ench) {
+		converter conv = getConverter(ench);
+		return (conv != null) ? conv.getAttributes(ench) : null;
+	}
+
+	private static converter getConverter(Enchantment ench) {
+		for(converter c : data) if(c.getId().contentEquals(ench.getId())) return c;
+		return null;
 	}
 	
+	private static List<String> repPlaceHolders(Enchantment ench, List<String> texts) {
+		List<String> r = new ArrayList<String>();
+		for(String s : texts) r.add(repPlaceHolders(ench,s));
+		return r;
+	}
+
 	private static String repPlaceHolders(Enchantment ench, String text) {
 		return text.replace("<type>", ench.getType()).replace("<value>", ench.getValue()).replace("<bonus>", ench.getBonus());
 	}
@@ -82,34 +107,71 @@ public class EnchantConvert {
 					if(c == '\"') {
 						pos = 0;
 						String[] parsed = temp.split(":");
-						attrBonuses.add(new conAttribute(parsed[0],parsed[1]));
+						conAttribute add = new conAttribute(parsed[0], parsed[1]);
+						add.setType((parsed.length > 2) ? parsed[2] : "<type>");
+						
+						// Get the checks
+						for(int i = 3; i < parsed.length; i++) {
+							add.addCheck(parsed[i]);
+						}
+						attrBonuses.add(add);
 						temp = "";
 					} else temp += c;
 					break;
 				}
 			}
 		}
-		
-		public String getId() {return id;}
-		public String getName() {return name;}
-		public String getDescription() {return description;}
+
+		public String getId() {
+			return id;
+		}
+
+		public String getName() {
+			return name;
+		}
+
+		public String getDescription() {
+			return description;
+		}
+
+		public List<Attribute> getAttributes(Enchantment ench) {
+			List<Attribute> r = new ArrayList<Attribute>();
+
+			for(conAttribute c : attrBonuses) r.add(c.toAttribute(ench));
+
+			return r;
+		}
 
 		private static class conAttribute {
 
 			private String attribute;
 			private double multiplier;
+			public String type;
+			public List<String> checks;
 
 			public conAttribute(String attribute, String multiplier) {
 				this.attribute = attribute;
 				this.multiplier = Double.parseDouble(multiplier);
+				this.checks = new ArrayList<String>();
 			}
 
-			public String getAttribute() {
-				return attribute;
+			public void setType(String type) {
+				this.type = type;
 			}
 
-			public double getMultiplier() {
-				return multiplier;
+			public void addCheck(String check) {
+				checks.add(check);
+			}
+
+			public Attribute toAttribute(Enchantment ench) {
+				Attribute r = new Attribute();
+				
+				r.setName(repPlaceHolders(ench,attribute));
+				r.setType(repPlaceHolders(ench,type));
+				r.setChecks(repPlaceHolders(ench,checks));
+				r.setValue(ench.getNumericValue() * multiplier);
+				
+				return r;
 			}
 		}
 	}

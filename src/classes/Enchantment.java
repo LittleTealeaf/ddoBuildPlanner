@@ -1,5 +1,9 @@
 package classes;
 
+import java.util.List;
+
+import ddo.EnchantConvert;
+
 public class Enchantment {
 	
 	private String id;
@@ -9,6 +13,7 @@ public class Enchantment {
 	
 	private String name;
 	private String description;
+	private List<Attribute> attributes;
 	
 	public Enchantment(String id) {
 		this.id = id;
@@ -55,7 +60,7 @@ public class Enchantment {
 	}
 	
 	public String getName() {
-		return name;
+		return (name == null) ? EnchantConvert.getName(this) : name;
 	}
 	
 	public void setName(String name) {
@@ -67,7 +72,7 @@ public class Enchantment {
 	}
 	
 	public String getDescription() {
-		return description;
+		return (name == null) ? EnchantConvert.getDescription(this) : description;
 	}
 	
 	public void setDescription(String description) {
@@ -76,5 +81,25 @@ public class Enchantment {
 	
 	public void clearDescription() {
 		this.description = null;
+	}
+	
+	public List<Attribute> getAttributes() {
+		return (attributes == null) ? EnchantConvert.getAttributes(this) : attributes;
+	}
+	
+	public void setAttributes(List<Attribute> attributes) {
+		this.attributes = attributes;
+	}
+	
+	public void addAttribute(Attribute attribute) {
+		this.attributes.add(attribute);
+	}
+	
+	public void removeAttribute(Attribute attribute) {
+		this.attributes.remove(attribute);
+	}
+	
+	public void clearAttributes() {
+		this.attributes = null;
 	}
 }
