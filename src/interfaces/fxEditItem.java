@@ -145,20 +145,20 @@ public class fxEditItem {
 		r.setVgap(10);
 		r.setPadding(new Insets(10));
 		r.setAlignment(Pos.TOP_CENTER);
-		
-		//Item Type
+
+		// Item Type
 		Text tType = new Text("Type:");
 		TextField type = new TextField();
 		type.setText(item.getType());
 		type.textProperty().addListener((e, o, n) -> item.setType(n));
 
-		//Item Proficiency
+		// Item Proficiency
 		Text tProficiency = new Text("Proficiency:");
 		TextField proficiency = new TextField();
 		proficiency.setText(item.getProficiency());
 		proficiency.textProperty().addListener((e, o, n) -> item.setProficiency(n));
 
-		//Item Minimum Level
+		// Item Minimum Level
 		Text tMinLevel = new Text("Minimum Level:");
 		Spinner<Integer> minLevel = new Spinner<Integer>();
 		minLevel.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 30, item.getMinLevel()));
@@ -166,7 +166,7 @@ public class fxEditItem {
 		minLevel.setEditable(true);
 		minLevel.setPrefWidth(75);
 
-		//Item Absolute Minimum Level
+		// Item Absolute Minimum Level
 		Text tAbsMinLevel = new Text("Absolute Minimum Level:");
 		Spinner<Integer> absMinLevel = new Spinner<Integer>();
 		absMinLevel.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 30, item.getAbsoluteMinLevel()));
@@ -174,13 +174,13 @@ public class fxEditItem {
 		absMinLevel.setEditable(true);
 		absMinLevel.setPrefWidth(75);
 
-		//Item Bind Status
+		// Item Bind Status
 		Text tBindStatus = new Text("Bind Status:");
 		ChoiceBox<String> bindStatus = new ChoiceBox<String>(FXCollections.observableList(Arrays.asList("Unbound", "Bound to Account on Acquire", "Bound to Account on Equip", "Bound to Character on Acquire", "Bound to Character on Equip")));
 		bindStatus.setValue(item.getBindStatus());
 		bindStatus.valueProperty().addListener((e, o, n) -> item.setBindStatus(n));
 
-		//Set Icon button
+		// Set Icon button
 		Button bSetIcon = new Button("Set Icon");
 		bSetIcon.setOnAction(e -> {
 			item.setIcon(new Images.ImagePrompt(item.getIconName()).prompt());
@@ -188,8 +188,8 @@ public class fxEditItem {
 			if(icon != null) stage.getIcons().add(icon);
 			else stage.getIcons().clear();
 		});
-		
-		//Set Image Button
+
+		// Set Image Button
 		Button bSetImage = new Button("Set Image");
 		bSetImage.setOnAction(e -> {
 			item.setImage(new Images.ImagePrompt(item.getImageName()).prompt());
@@ -197,13 +197,13 @@ public class fxEditItem {
 			iImage.setImage(image);
 		});
 
-		//Item Material 
+		// Item Material
 		Text tMaterial = new Text("Material:");
 		TextField material = new TextField();
 		material.setText(item.getMaterial());
 		material.textProperty().addListener((e, o, n) -> item.setMaterial(n));
 
-		//Item Weight
+		// Item Weight
 		Text tWeight = new Text("Weight (lbs):");
 		Spinner<Double> weight = new Spinner<Double>();
 		weight.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(0, 1000, item.getWeight()));
@@ -211,7 +211,7 @@ public class fxEditItem {
 		weight.setPrefWidth(75);
 		weight.setEditable(true);
 
-		//Item Hardness
+		// Item Hardness
 		Text tHardness = new Text("Hardness:");
 		Spinner<Double> hardness = new Spinner<Double>();
 		hardness.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(0, 1000, item.getHardness()));
@@ -219,7 +219,7 @@ public class fxEditItem {
 		hardness.setPrefWidth(75);
 		hardness.setEditable(true);
 
-		//Item Durability
+		// Item Durability
 		Text tDurability = new Text("Durability:");
 		Spinner<Double> durability = new Spinner<Double>();
 		durability.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(0, 10000, item.getDurability()));
@@ -319,7 +319,7 @@ public class fxEditItem {
 		dice.setTooltip(new Tooltip("The damage of the weapon in terms of the damage dice:\nValid entries can include:\n1d5\n1d5+5\n1d5 + 5\n5[1d5+5]\n5 [1d5 + 5] + 5"));
 		dice.setText(item.getDamage().toEditString());
 		dice.setOnKeyPressed(key -> {
-
+//TODO edit the format to not include this?!
 			if(key.getCode() == KeyCode.ENTER) {
 				Dice d = new Dice(dice.getText());
 				if(!d.isDefault()) item.setDamage(d);
