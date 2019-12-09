@@ -246,23 +246,28 @@ public class Images {
 
 			oldImage = loadImage;
 
+			//File Chooser for the browse function
 			fileChooser = new FileChooser();
 			fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
 			fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("All Images", "*"), new FileChooser.ExtensionFilter("JPG", "*.jpg"), new FileChooser.ExtensionFilter("PNG", "*.png"));
 
+			//Error Label
 			errorLabel = new Label();
 			errorLabel.setTextFill(Color.RED);
 
+			//Preview Image View
 			image = new ImageView();
 			image.setImage(getImage(loadImage));
 			image.setPreserveRatio(true);
 			image.setFitWidth(300);
 			image.setFitHeight(300);
 
+			//URL field / image name field
 			urlField = new TextField();
 			urlField.setText(loadImage);
 			HBox.setHgrow(urlField, Priority.ALWAYS);
 
+			//Browse button
 			Button browse = new Button("Browse...");
 			browse.setOnAction(e -> {
 				File f = fileChooser.showOpenDialog(null);
@@ -272,15 +277,18 @@ public class Images {
 				displayImage();
 			});
 
+			//Preview button
 			Button tryDisplay = new Button("Preview");
 			tryDisplay.setOnAction(e -> displayImage());
 
+			//Clear URL button
 			Button clear = new Button("Clear Field");
 			clear.setOnAction(e -> {
 				urlField.setText("");
 				displayImage();
 			});
 
+			//Header area
 			HBox header = new HBox(urlField, errorLabel, browse, tryDisplay, clear);
 			header.setSpacing(10);
 
@@ -291,7 +299,6 @@ public class Images {
 
 			this.getDialogPane().setContent(content);
 			this.setResultConverter(button -> {
-
 				if(button.getButtonData() == ButtonData.OK_DONE) {
 					if(getImage(urlField.getText()) != null) return urlField.getText();
 					else return "";
