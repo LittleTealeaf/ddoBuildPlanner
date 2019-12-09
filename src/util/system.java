@@ -27,6 +27,11 @@ public class system {
 		settings = getAppFile("Settings.json");
 		inventory = getAppFile("Inventory.json");
 	}
+	
+	public static void createFileDirs(String...path) {
+		File f = getAppFile(path);
+		f.getParentFile().mkdirs();
+	}
 
 	public static File getAppFile(String... path) {
 		return new File(java.nio.file.Paths.get(dataDir(), path).toString());

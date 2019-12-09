@@ -1,80 +1,80 @@
 package classes;
 
-import ddo.EnchantConvert;
-
 public class Enchantment {
-
-	public String name;
-	public String type;
-	public String value;
-
-	// Runtime Variables
-	private transient String title;
-	private transient String description;
-
-	public Enchantment() {
-		this("", "", "");
+	
+	private String id;
+	private String type;
+	private String bonus;
+	private String value;
+	
+	private String name;
+	private String description;
+	
+	public Enchantment(String id) {
+		this.id = id;
 	}
-
-	public Enchantment(String n, String t, int v) {
-		this(n, t, v + "");
+	
+	public String getId() {
+		return id;
 	}
-
-	public Enchantment(String n, String t, String v) {
-		name = n;
-		type = t;
-		value = v;
-		description = "";
-		title = "";
+	
+	public void setId(String id) {
+		this.id = id;
 	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public String getDescription() {
-		if(description.contentEquals("")) description = EnchantConvert.getDescription(name);
-		return description;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String n) {
-		name = n;
-	}
-
+	
 	public String getType() {
 		return type;
 	}
-
-	public void setType(String t) {
-		type = t;
+	
+	public void setType(String type) {
+		this.type = type;
 	}
-
+	
+	public String getBonus() {
+		return bonus;
+	}
+	
+	public void setBonus(String bonus) {
+		this.bonus = bonus;
+	}
+	
 	public String getValue() {
 		return value;
 	}
-
-	public int getValueAsInt() {
-
-		try {
-			return Integer.parseInt(value);
-		} catch(Exception e) {
-			return 0;
-		}
+	
+	public double getNumericValue() {
+		return Double.parseDouble(value);
 	}
-
-	public void setValue(int v) {
-		value = v + "";
+	
+	public void setValue(String value) {
+		this.value = value;
 	}
-
-	public void setValue(String v) {
-		value = v;
+	
+	public void setValue(double value) {
+		this.value = value + "";
 	}
-
-	public static class CraftingEnchantment extends Enchantment {
-
+	
+	public String getName() {
+		return name;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public void clearName() {
+		this.name = null;
+	}
+	
+	public String getDescription() {
+		return description;
+	}
+	
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	
+	public void clearDescription() {
+		this.description = null;
 	}
 }

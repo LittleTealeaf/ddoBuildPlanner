@@ -1,7 +1,3 @@
-# Format:
-# <Enchantment>|<Name>|<Description>
+# ID \ name \ description \ value converters
 #
-# Variables:
-# '<type>' - Type
-# '<value>' - Value
-
+# Value Converters: "<name>:<multiplier>" "<other name>:<other multiplier>"
