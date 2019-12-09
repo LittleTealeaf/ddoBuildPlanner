@@ -25,6 +25,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -275,25 +276,16 @@ public class fxEditItem {
 		TitledPane r = new TitledPane();
 		r.setExpanded(false);
 		r.setText("Equip Slots");
-
-		GridPane content = new GridPane();
-		content.setHgap(5);
-
-		int x = 0, y = 0;
-
+		
+		FlowPane content = new FlowPane();
+		content.setHgap(10);
+		content.setVgap(10);
+		
 		for(ItemSlot s : ItemSlot.values()) {
-			CheckBox check = new CheckBox(s.toString());
-			check.setSelected(item.getEquipSlots().contains(s));
-			check.selectedProperty().addListener((e, o, n) -> item.setEquipSlot(s, n.booleanValue()));
-
-			content.add(check, x, y);
-
-			x++;
-
-			if(x == 5) {
-				x = 0;
-				y++;
-			}
+			CheckBox checkBox = new CheckBox(s.toString());
+			checkBox.setSelected(item.hasEquipSlot(s));
+			checkBox.selectedProperty().addListener((e,o,n) -> item.setEquipSlot(s, n.booleanValue()));
+			content.getChildren().add(checkBox);
 		}
 
 		r.setContent(content);
