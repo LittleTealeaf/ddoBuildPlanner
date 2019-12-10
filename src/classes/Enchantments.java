@@ -39,11 +39,38 @@ public class Enchantments {
 		return enchantments;
 	}
 	
+	public static Enchantment getEnchantment(int id) {
+		for(Enchantment e : enchantments) if(e.getId() == id) return e;
+		return null;
+	}
+	
 	public static void addEnchantment(Enchantment enchantment) {
 		if(!enchantments.contains(enchantment)) enchantments.add(enchantment);
 	}
 	
+	public static void removeEnchantment(int id) {
+		removeEnchantment(getEnchantment(id));
+	}
+	
 	public static void removeEnchantment(Enchantment enchantment) {
 		if(enchantments.contains(enchantment)) enchantments.remove(enchantment);
+	}
+	
+	public static void updateEnchantment(Enchantment enchantment) {
+		for(Enchantment e : enchantments) if(e.getId() == enchantment.getId()) {
+			e = enchantment;
+			return;
+		}
+	}
+	
+	public static int getNewID() {
+		List<Integer> takenID = new ArrayList<Integer>();
+		
+		for(Enchantment e : enchantments) takenID.add(e.getId());
+		
+		int i = 0;
+		while(takenID.contains(i)) i++;
+		
+		return i;
 	}
 }

@@ -5,65 +5,42 @@ import java.util.List;
 
 public class Enchantment {
 
-	private String id; // Universal Identifier (spellpower)
+	private int id; // static identifier
 	private String name; // Initial Name (aka. Spell Power)
-	private String type; // Sub Type (aka. Fire for "Fire Spell Power")
 	private String description; // Description
-	private String bonus; // Bonus Type
-	private double value; // Value
 	private List<AttributeBonus> attributes;
 
-	public Enchantment(String id) {
-		this.id = id;
+	public Enchantment() {
+		id = Enchantments.getNewID();
 		attributes = new ArrayList<AttributeBonus>();
 	}
 
-	public String getId() {
+	public int getId() {
 		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
 	}
 
 	public String getName() {
 		return name;
+	}
+	
+	public String getName(Enchref ref) {
+		return parseVars(ref,name);
 	}
 
 	public void setName(String name) {
 		this.name = name;
 	}
 
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
-
 	public String getDescription() {
 		return description;
+	}
+	
+	public String getDescription(Enchref ref) {
+		return parseVars(ref,description);
 	}
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	public String getBonus() {
-		return bonus;
-	}
-
-	public void setBonus(String bonus) {
-		this.bonus = bonus;
-	}
-
-	public double getValue() {
-		return value;
-	}
-
-	public void setValue(double value) {
-		this.value = value;
 	}
 	
 	public List<AttributeBonus> getAttributeBonuses() {
@@ -78,9 +55,17 @@ public class Enchantment {
 		if(attributes.contains(attribute)) attributes.remove(attribute);
 	}
 	
-	public List<Attribute> getAttributes() {
+	public List<Attribute> getAttributes(String bonus, double value) {
 		List<Attribute> r = new ArrayList<Attribute>();
-		for(AttributeBonus b : attributes) r.add(b.toAttribute(this));
+		for(AttributeBonus b : attributes) r.add(b.toAttribute(bonus,value));
+		return r;
+	}
+	
+	public String parseVars(Enchref reference, String string) {
+		String r = string;
+		r = r.replace("<type>",reference.getType());
+		r = r.replace("<bonus>", reference.getBonus());
+		r = r.replace("<value>", reference.getValue() + "");
 		return r;
 	}
 
@@ -124,8 +109,8 @@ public class Enchantment {
 			this.multiplier = multiplier;
 		}
 		
-		public Attribute toAttribute(Enchantment ench) {
-			return new Attribute(attribute,bonus.contentEquals("") ? ench.getBonus() : bonus,ench.getValue() * multiplier);
+		public Attribute toAttribute(String bonus, double value) {
+			return new Attribute(attribute,this.bonus.contentEquals("") ? bonus : this.bonus,value * multiplier);
 		}
 	}
 }

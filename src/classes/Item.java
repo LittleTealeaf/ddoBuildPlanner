@@ -27,7 +27,7 @@ public class Item {
 	private double hardness;
 	private double durability;
 	private double weight;
-	private List<Enchantment> enchantments;
+	private List<Enchref> enchantments;
 	private List<ItemSlot> equipSlots;
 
 	// Armor Values
@@ -78,7 +78,7 @@ public class Item {
 
 	public Item(String name) {
 		this.name = name;
-		enchantments = new ArrayList<Enchantment>();
+		enchantments = new ArrayList<Enchref>();
 		equipSlots = new ArrayList<ItemSlot>();
 	}
 
@@ -313,11 +313,11 @@ public class Item {
 		this.weight = weight;
 	}
 
-	public List<Enchantment> getEnchantments() {
+	public List<Enchref> getEnchantments() {
 		return enchantments;
 	}
 
-	public void setEnchantments(List<Enchantment> enchantments) {
+	public void setEnchantments(List<Enchref> enchantments) {
 		this.enchantments = enchantments;
 	}
 
