@@ -207,7 +207,7 @@ public class fxEditItem {
 		// Item Weight
 		Text tWeight = new Text("Weight (lbs):");
 		Spinner<Double> weight = new Spinner<Double>();
-		weight.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(0, 1000, item.getWeight()));
+		weight.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(0, 100000, item.getWeight()));
 		weight.valueProperty().addListener((e, o, n) -> item.setWeight(n));
 		weight.setPrefWidth(75);
 		weight.setEditable(true);
