@@ -24,8 +24,6 @@ import util.system;
  */
 
 public class EnchantConvert {
-
-	
 	
 	public static void load() {
 		
@@ -45,6 +43,74 @@ public class EnchantConvert {
 	
 	public static List<Attribute> getAttributes(Enchantment ench) {
 		return null;
+	}
+	
+	
+	
+	public static class converter {
+		
+		
+		public static class attr {
+			private String attribute;
+			private String type;
+			
+			private String value;
+			private double multiplier;
+			
+			public attr(String attribute) {
+				this(attribute,null,"");
+			}
+			
+			public attr(String attribute, String type, String value) {
+				this.attribute = attribute;
+				this.type = (type != null && !type.contentEquals("")) ? type : "<type>";
+				if(value != null) this.value = value;
+			}
+
+			public attr(String attribute, String type, double multiplier) {
+				this(attribute,type,(String) null);
+				this.multiplier = multiplier;
+			}
+			
+			public String getAttribute() {
+				return attribute;
+			}
+
+			
+			public void setAttribute(String attribute) {
+				this.attribute = attribute;
+			}
+
+			
+			public String getType() {
+				return type;
+			}
+
+			
+			public void setType(String type) {
+				this.type = type;
+			}
+
+			
+			public String getValue() {
+				return value;
+			}
+
+			
+			public void setValue(String value) {
+				this.value = value;
+			}
+
+			
+			public double getMultiplier() {
+				return multiplier;
+			}
+
+			
+			public void setMultiplier(double multiplier) {
+				this.multiplier = multiplier;
+			}
+		}
 	}
 	
 //	public static List<converter> data;
