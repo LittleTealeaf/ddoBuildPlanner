@@ -17,6 +17,7 @@ public class system {
 
 	public static File settings;
 	public static File inventory;
+	public static File enchantments;
 
 	public static void loadData() {
 		appDirs = AppDirsFactory.getInstance();
@@ -26,6 +27,7 @@ public class system {
 
 		settings = getAppFile("Settings.json");
 		inventory = getAppFile("Inventory.json");
+		enchantments = getAppFile("data","Enchantments.json");
 	}
 	
 	public static void createFileDirs(String...path) {
