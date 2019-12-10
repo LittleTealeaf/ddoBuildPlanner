@@ -3,6 +3,7 @@ package interfaces;
 import java.util.Arrays;
 
 import classes.Dice;
+import classes.Enchantments;
 import classes.Images;
 import classes.Iref;
 import classes.Item;
@@ -296,6 +297,11 @@ public class fxEditItem {
 	private static TitledPane contentEnchantments() {
 		TitledPane r = new TitledPane();
 		r.setText("Enchantments");
+		
+		Button bAddEnchantment = new Button("Add Enchantment");
+		bAddEnchantment.setOnAction(e -> Enchantments.enchrefDialog());
+		
+		r.setContent(bAddEnchantment);
 
 		return r;
 	}

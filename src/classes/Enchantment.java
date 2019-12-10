@@ -6,17 +6,31 @@ import java.util.List;
 public class Enchantment {
 
 	private int id; // static identifier
+	private String displayName; // display / selection name
 	private String name; // Initial Name (aka. Spell Power)
 	private String description; // Description
 	private List<AttributeBonus> attributes;
 
 	public Enchantment() {
+		this("");
+	}
+	
+	public Enchantment(String displayName) {
+		this.displayName = displayName;
 		id = Enchantments.getNewID();
 		attributes = new ArrayList<AttributeBonus>();
 	}
 
 	public int getId() {
 		return id;
+	}
+	
+	public String getDisplayName() {
+		return displayName;
+	}
+	
+	public void setDisplayName(String displayName) {
+		this.displayName = displayName;
 	}
 
 	public String getName() {

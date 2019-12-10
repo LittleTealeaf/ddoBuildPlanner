@@ -1,5 +1,6 @@
 package application;
 
+import classes.Enchantment;
 import classes.Enchantments;
 import classes.Images;
 import classes.Inventory;
@@ -19,6 +20,8 @@ public class Main {
 		Images.load();
 		Inventory.load();
 		Enchantments.load();
+		
+		Enchantments.addEnchantment(new Enchantment("TEST A"));
 
 		fxMain.open(args);
 	}
