@@ -1,5 +1,0 @@
-# ID \ name \ description \ value converters
-#
-# Any fields in the following syntax without <> around it is optional
-# Value Converters: "<name>:<multiplier>:type:check1:check2:check3:check4" "<other name>:<other multiplier>"
-spellpower\<bonus> <type> Spell Power\Passive: <value> <bonus> bonus to your <type> Spell Power\"<type> Spell Power:1"

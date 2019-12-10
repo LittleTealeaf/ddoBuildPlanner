@@ -2,8 +2,6 @@ package classes;
 
 import java.util.List;
 
-import ddo.EnchantConvert;
-
 public class Enchantment {
 	
 	private String id;
