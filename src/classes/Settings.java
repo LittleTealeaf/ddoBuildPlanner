@@ -134,9 +134,8 @@ public class Settings {
 			try {
 				system.settings.createNewFile();
 			} catch(IOException e) {}
-
-			saveSettings();
 		}
+		saveSettings();
 	}
 
 	public static void saveSettings() {

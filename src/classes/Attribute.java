@@ -15,6 +15,12 @@ public class Attribute {
 		name = "";
 		type = "";
 	}
+	
+	public Attribute(String name, String type, double value) {
+		this.name = name;
+		this.type = type;
+		this.value = value;
+	}
 
 	
 	public String getName() {
