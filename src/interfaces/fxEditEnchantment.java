@@ -103,8 +103,8 @@ public class fxEditEnchantment {
 
 		attributes = new GridPane();
 		attributes.setPadding(new Insets(10));
-		attributes.setHgap(10);
-		attributes.setVgap(10);
+		attributes.setHgap(5);
+		attributes.setVgap(5);
 
 		r.setContent(attributes);
 

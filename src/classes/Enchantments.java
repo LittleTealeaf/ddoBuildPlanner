@@ -6,10 +6,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javafx.collections.FXCollections;
-import javafx.collections.transformation.FilteredList;
-import javafx.scene.Node;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Dialog;
+import javafx.scene.control.ListView;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
+import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import util.resource;
 import util.system;
 
@@ -46,6 +51,11 @@ public class Enchantments {
 	
 	public static Enchantment getEnchantment(int id) {
 		for(Enchantment e : enchantments) if(e.getId() == id) return e;
+		return null;
+	}
+	
+	public static Enchantment getEnchantment(String name) {
+		for(Enchantment e : enchantments) if(e.getName().toLowerCase().contentEquals(name.toLowerCase())) return e;
 		return null;
 	}
 	
@@ -91,11 +101,80 @@ public class Enchantments {
 	public static Enchref enchrefDialog(Enchref ench) {
 		Dialog<Enchref> dialog = new Dialog<>();
 		dialog.setTitle((ench == null) ? "Add Enchantment" : "Edit Enchantment");
+		dialog.setResizable(true);
 		
-		//TODO enchantment selection
+		TextField choice = new TextField();
+		choice.setText((ench != null) ? ench.getEnchantment().getName() : "");
+		
+		ListView<String> suggestedInputs = new ListView<String>();
+		suggestedInputs.setItems(FXCollections.observableArrayList(getNames()));
+		suggestedInputs.setPrefHeight(100);
+		suggestedInputs.setOnMouseClicked(click -> {
+			if(click.getClickCount() == 2) choice.setText(suggestedInputs.getSelectionModel().getSelectedItem());
+		});
+		suggestedInputs.visibleProperty().bind(choice.focusedProperty());
+		
+		
+		choice.textProperty().addListener((e,o,n) -> {
+			suggestedInputs.setItems(FXCollections.observableArrayList(getNames(n)));
+			suggestedInputs.getSelectionModel().clearAndSelect(0);
+		});
+		choice.setOnKeyPressed(key -> {
+			switch(key.getCode()) {
+			case DOWN:
+				suggestedInputs.getSelectionModel().selectNext();				
+				break;
+			case UP:
+				suggestedInputs.getSelectionModel().selectPrevious();
+				choice.selectEnd();
+				break;
+			case ENTER:
+				if(suggestedInputs.getSelectionModel().getSelectedItem() != null) choice.setText(suggestedInputs.getSelectionModel().getSelectedItem());
+				break;
+			default: break;
+			}
+		});
+		
+		VBox choiceBox = new VBox(choice,suggestedInputs);
+
+		TextField bonus = new TextField();
+		bonus.setText((ench != null) ? ench.getBonus() : "");
+		
+		Spinner<Double> value = new Spinner<Double>();
+		value.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(-1000, 1000, (ench != null) ? ench.getValue() : 0));
+		
+		GridPane otherFields = new GridPane();
+		otherFields.setHgap(10);
+		otherFields.setVgap(10);
+		otherFields.add(new Text("Bonus Type"), 0, 0);
+		otherFields.add(new Text("Value"), 0, 1);
+		otherFields.add(bonus, 1, 0);
+		otherFields.add(value, 1, 1);
+		
+		
+		
+		GridPane content = new GridPane();
+		content.setHgap(10);
+		content.add(choiceBox, 0, 0);
+		content.add(otherFields, 1, 0);
+		
+		
+		dialog.getDialogPane().setContent(content);
 		
 		dialog.show();
 		
 		return null;
+	}
+	
+	public static List<String> getNames() {
+		return getNames("");
+	}
+	
+	public static List<String> getNames(String in) {
+		List<String> r = new ArrayList<String>();
+		for(Enchantment e : getEnchantments()) {
+			if(in.contentEquals("") || e.getName().toLowerCase().contains(in.toLowerCase())) r.add(e.getName());
+		}
+		return r;
 	}
 }
