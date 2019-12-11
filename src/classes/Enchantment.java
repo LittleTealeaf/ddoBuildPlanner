@@ -29,16 +29,16 @@ public class Enchantment {
 		return displayName;
 	}
 	
+	public String getDisplayName(Enchref ench) {
+		return parseVars(ench,displayName);
+	}
+	
 	public void setDisplayName(String displayName) {
 		this.displayName = displayName;
 	}
 
 	public String getName() {
 		return name;
-	}
-	
-	public String getName(Enchref ref) {
-		return parseVars(ref,name);
 	}
 
 	public void setName(String name) {
@@ -97,6 +97,12 @@ public class Enchantment {
 			this.attribute = attribute;
 			this.bonus = bonus;
 			this.multiplier = multiplier;
+		}
+
+		public AttributeBonus() {
+			this.attribute = "";
+			this.bonus = "";
+			this.multiplier = 1;
 		}
 
 		public String getAttribute() {
