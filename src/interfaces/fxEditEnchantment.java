@@ -1,14 +1,13 @@
 package interfaces;
 
 import classes.Enchantment;
+import classes.Enchantment.AttributeBonus;
 import classes.Enchantments;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ComboBox;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.BorderPane;
@@ -20,9 +19,11 @@ import javafx.stage.Stage;
 
 public class fxEditEnchantment {
 	
-	public static Enchantment ench;
+	private static Enchantment ench;
 	
 	public static Stage stage;
+	
+	private static GridPane attributes; 
 	
 	public static void open() {
 		open(null);
@@ -35,33 +36,24 @@ public class fxEditEnchantment {
 		stage = new Stage();
 		stage.setTitle((enchantment == null) ? "Create Enchantment" : "Edit Enchantment " + ench.getName());
 		
-		
-		VBox content = new VBox();
-		content.setPadding(new Insets(10));
-		content.setSpacing(10);
-		
-		Text lName = new Text("Name");
-		
+		Text lName = new Text("Name:");
 		TextField name = new TextField();
 		name.setText(ench.getName());
 		name.textProperty().addListener((e,o,n) -> ench.setName(n));
 		
-		HBox hName = new HBox(lName,name);
-		hName.setSpacing(10);
-		content.getChildren().add(hName);
+		Text lDisplay = new Text("Display:");
+		TextField display = new TextField();
+		display.setText(ench.getDisplayName());
+		display.textProperty().addListener((e,o,n) -> ench.setDisplayName(n));
 		
-		content.getChildren().add(variablePane());
 		
-		Text lDisplayName = new Text("Display Name");
 		
-		TextField displayName = new TextField();
-		displayName.setText(ench.getDisplayName());
-		displayName.textProperty().addListener((e,o,n) -> ench.setDisplayName(n));
+		GridPane top = new GridPane();
 		
-		HBox hDisplay = new HBox(lDisplayName,displayName);
-		hDisplay.setSpacing(10);
-		content.getChildren().add(hDisplay);
-		
+		BorderPane content = new BorderPane();
+		content.setTop(top);
+		content.setCenter(getAttribute());
+		content.setPadding(new Insets(10));
 		
 		Button bSave = new Button("Save");
 		bSave.setOnAction(e -> save());
@@ -75,24 +67,37 @@ public class fxEditEnchantment {
 		Enchantments.updateEnchantment(ench);
 	}
 	
-	private static TitledPane variablePane() {
-		TitledPane r= new TitledPane();
-		r.setText("Variable Names");
-		r.setExpanded(false);
+	private static BorderPane getAttribute() {
+		BorderPane r = new BorderPane();
 		
-		Text text = new Text();
+		attributes = new GridPane();
+		attributes.setPadding(new Insets(10));
+		attributes.setHgap(10);
+		attributes.setVgap(10);
 		
-		String cont = "";
-		cont+="The following variables can be used:";
-		cont+="\nEnchantment Sub-Type: \"[type]\"";
-		cont+="\nBonus Type (Insightful, Quality, etc): \"[bonus]\"";
-		cont+="\nValue: \"[value]\"";
-		
-		text.setText(cont);
-		
-		r.setContent(text);
-		r.setPadding(new Insets(10));
+		updateAttributes();
 		
 		return r;
+	}
+	
+	private static void updateAttributes() {
+		attributes.getChildren().clear();
+		
+		attributes.add(new Text("Attribute"), 0, 0);
+		attributes.add(new Text("Bonus"), 1, 0);
+		attributes.add(new Text("Multiplier"), 2, 0);
+		
+		int row = 1;
+		for(AttributeBonus a : ench.getAttributeBonuses()) {
+			//STUFFZ
+			
+			TextField attrName = new TextField();
+			attrName.setText(a.getAttribute());
+			attrName.textProperty().addListener((e,o,n) -> a.setAttribute(n));
+			
+			
+			
+			row++;
+		}
 	}
 }
