@@ -37,6 +37,8 @@ public class fxEditEnchantment {
 		
 		
 		VBox content = new VBox();
+		content.setPadding(new Insets(10));
+		content.setSpacing(10);
 		
 		Text lName = new Text("Name");
 		
@@ -46,17 +48,26 @@ public class fxEditEnchantment {
 		
 		HBox hName = new HBox(lName,name);
 		hName.setSpacing(10);
-		content.getChildren().add(content);
+		content.getChildren().add(hName);
 		
 		content.getChildren().add(variablePane());
 		
+		Text lDisplayName = new Text("Display Name");
+		
+		TextField displayName = new TextField();
+		displayName.setText(ench.getDisplayName());
+		displayName.textProperty().addListener((e,o,n) -> ench.setDisplayName(n));
+		
+		HBox hDisplay = new HBox(lDisplayName,displayName);
+		hDisplay.setSpacing(10);
+		content.getChildren().add(hDisplay);
 		
 		
 		Button bSave = new Button("Save");
 		bSave.setOnAction(e -> save());
 
 		
-		stage.setScene(new Scene(content));
+		stage.setScene(new Scene(content,500,500));
 		stage.show();
 	}
 	
@@ -66,8 +77,18 @@ public class fxEditEnchantment {
 	
 	private static TitledPane variablePane() {
 		TitledPane r= new TitledPane();
+		r.setText("Variable Names");
+		r.setExpanded(false);
 		
 		Text text = new Text();
+		
+		String cont = "";
+		cont+="The following variables can be used:";
+		cont+="\nEnchantment Sub-Type: \"[type]\"";
+		cont+="\nBonus Type (Insightful, Quality, etc): \"[bonus]\"";
+		cont+="\nValue: \"[value]\"";
+		
+		text.setText(cont);
 		
 		r.setContent(text);
 		r.setPadding(new Insets(10));

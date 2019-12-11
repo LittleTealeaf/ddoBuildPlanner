@@ -77,9 +77,9 @@ public class Enchantment {
 	
 	public String parseVars(Enchref reference, String string) {
 		String r = string;
-		r = r.replace("<type>",reference.getType());
-		r = r.replace("<bonus>", reference.getBonus());
-		r = r.replace("<value>", reference.getValue() + "");
+		r = r.replace("[type]",reference.getType());
+		r = r.replace("[bonus]", reference.getBonus());
+		r = r.replace("[value]", reference.getValue() + "");
 		return r;
 	}
 
