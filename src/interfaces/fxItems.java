@@ -75,7 +75,7 @@ public class fxItems {
 	private static void openSelected() {
 		fxEditItem.open(table.getSelectionModel().getSelectedItem());
 	}
-	
+
 	private static void deleteSelected() {
 		table.getSelectionModel().getSelectedItem().deleteItem();
 	}

@@ -15,57 +15,49 @@ public class Attribute {
 		name = "";
 		type = "";
 	}
-	
+
 	public Attribute(String name, String type, double value) {
 		this.name = name;
 		this.type = type;
 		this.value = value;
 	}
 
-	
 	public String getName() {
 		return name;
 	}
 
-	
 	public void setName(String name) {
 		this.name = name;
 	}
 
-	
 	public String getType() {
 		return type;
 	}
 
-	
 	public void setType(String type) {
 		this.type = type;
 	}
 
-	
 	public double getValue() {
 		return value;
 	}
 
-	
 	public void setValue(double value) {
 		this.value = value;
 	}
 
-	
 	public List<String> getChecks() {
 		return checks;
 	}
 
-	
 	public void setChecks(List<String> checks) {
 		this.checks = checks;
 	}
-	
+
 	public void addCheck(String check) {
 		if(!this.checks.contains(check)) this.checks.add(check);
 	}
-	
+
 	public void removeCheck(String check) {
 		if(this.checks.contains(check)) this.checks.remove(check);
 	}

@@ -28,7 +28,7 @@ public class Debug {
 			e.printStackTrace();
 			String filename = "crash_log" + new SimpleDateFormat("yyyMMdd_HHmmss").format(Calendar.getInstance().getTime()) + ".txt";
 
-			File file = system.getAppFile("crashlogs",filename);
+			File file = system.getAppFile("crashlogs", filename);
 			file.getParentFile().mkdirs();
 
 			try {

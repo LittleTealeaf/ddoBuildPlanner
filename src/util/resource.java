@@ -7,7 +7,7 @@ import java.io.InputStreamReader;
 import javafx.scene.image.Image;
 
 public class resource {
-	
+
 	public static InputStream getInputStream(String name) {
 		return ClassLoader.getSystemResourceAsStream(name);
 	}
@@ -15,7 +15,7 @@ public class resource {
 	public static BufferedReader getBufferedReader(String name) {
 		return new BufferedReader(getInputStreamReader(name));
 	}
-	
+
 	public static InputStreamReader getInputStreamReader(String name) {
 		return new InputStreamReader(getInputStream(name));
 	}

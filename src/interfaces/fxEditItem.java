@@ -271,7 +271,7 @@ public class fxEditItem {
 
 		TitledPane expandedPane = contentDescription();
 
-		r.getPanes().addAll(contentEquipSlots(), contentEnchantments(), contentWeapon(), contentArmor(), expandedPane, contentImage());
+		r.getPanes().addAll(contentEquipSlots(), contentEnchantments(), contentCrafting(), contentWeapon(), contentArmor(), expandedPane, contentImage());
 		r.setExpandedPane(expandedPane);
 
 		return r;
@@ -281,15 +281,15 @@ public class fxEditItem {
 		TitledPane r = new TitledPane();
 		r.setExpanded(false);
 		r.setText("Equip Slots");
-		
+
 		FlowPane content = new FlowPane();
 		content.setHgap(10);
 		content.setVgap(10);
-		
+
 		for(ItemSlot s : ItemSlot.values()) {
 			CheckBox checkBox = new CheckBox(s.toString());
 			checkBox.setSelected(item.hasEquipSlot(s));
-			checkBox.selectedProperty().addListener((e,o,n) -> item.setEquipSlot(s, n.booleanValue()));
+			checkBox.selectedProperty().addListener((e, o, n) -> item.setEquipSlot(s, n.booleanValue()));
 			content.getChildren().add(checkBox);
 		}
 
@@ -301,10 +301,11 @@ public class fxEditItem {
 	private static TitledPane contentEnchantments() {
 		TitledPane r = new TitledPane();
 		r.setText("Enchantments");
-		
+
 		enchantmentView = new ListView<Enchref>();
 		enchantmentView.setItems(FXCollections.observableArrayList(item.getEnchantments()));
 		enchantmentView.setOnMouseClicked(click -> {
+
 			if(click.getClickCount() == 2) {
 				Enchref i = enchantmentView.getSelectionModel().getSelectedItem();
 				item.updateEnchantment(i, Enchantments.enchrefDialog(i));
@@ -312,34 +313,42 @@ public class fxEditItem {
 			}
 		});
 		enchantmentView.setCellFactory(param -> new ListCell<Enchref>() {
+
 			protected void updateItem(Enchref item, boolean empty) {
-				super.updateItem(item,empty);
+				super.updateItem(item, empty);
 				if(empty || item == null || item.getDisplayName() == null) setText(null);
 				else setText(item.getDisplayName());
 			}
 		});
-		
+
 		Button bCreate = new Button("Create");
 		bCreate.setOnAction(e -> {
 			item.addEnchantment(Enchantments.enchrefDialog());
 			enchantmentView.setItems(FXCollections.observableArrayList(item.getEnchantments()));
 		});
-		
+
 		Button bDelete = new Button("Delete");
 		bDelete.disableProperty().bind(enchantmentView.selectionModelProperty().isNull());
 		bDelete.setOnAction(e -> {
 			item.removeEnchantment(enchantmentView.getSelectionModel().getSelectedItem());
 			enchantmentView.setItems(FXCollections.observableArrayList(item.getEnchantments()));
 		});
-		
-		HBox buttons = new HBox(bCreate,bDelete);
+
+		HBox buttons = new HBox(bCreate, bDelete);
 		buttons.setSpacing(10);
-		
+
 		BorderPane content = new BorderPane();
 		content.setCenter(enchantmentView);
 		content.setBottom(buttons);
-		
+
 		r.setContent(content);
+
+		return r;
+	}
+
+	private static TitledPane contentCrafting() {
+		TitledPane r = new TitledPane();
+		r.setText("Crafting");
 
 		return r;
 	}
@@ -355,6 +364,7 @@ public class fxEditItem {
 		dice.setTooltip(new Tooltip("The damage of the weapon in terms of the damage dice:\nValid entries can include:\n1d5\n1d5+5\n1d5 + 5\n5[1d5+5]\n5 [1d5 + 5] + 5"));
 		dice.setText(item.getDamage().toEditString());
 		dice.setOnKeyPressed(key -> {
+
 //TODO edit the format to not include this?!
 			if(key.getCode() == KeyCode.ENTER) {
 				Dice d = new Dice(dice.getText());

@@ -18,8 +18,8 @@ public class system {
 	public static File settings;
 	public static File inventory;
 	public static File enchantments;
-	
-	//TODO add save/load file methods
+
+	// TODO add save/load file methods
 
 	public static void loadData() {
 		appDirs = AppDirsFactory.getInstance();
@@ -29,18 +29,18 @@ public class system {
 
 		settings = getAppFile("Settings.json");
 		inventory = getAppFile("Inventory.json");
-		enchantments = getAppFile(true,"data","Enchantments.json");
+		enchantments = getAppFile(true, "data", "Enchantments.json");
 	}
-	
-	public static void createFileDirs(String...path) {
+
+	public static void createFileDirs(String... path) {
 		File f = getAppFile(path);
 		f.getParentFile().mkdirs();
 	}
 
 	public static File getAppFile(String... path) {
-		return getAppFile(false,path);
+		return getAppFile(false, path);
 	}
-	
+
 	public static File getAppFile(boolean create, String... path) {
 		File f = new File(java.nio.file.Paths.get(dataDir(), path).toString());
 		f.getParentFile().mkdirs();

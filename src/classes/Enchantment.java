@@ -14,7 +14,7 @@ public class Enchantment {
 	public Enchantment() {
 		this("");
 	}
-	
+
 	public Enchantment(String name) {
 		this.name = name;
 		id = Enchantments.getNewID();
@@ -24,15 +24,15 @@ public class Enchantment {
 	public int getId() {
 		return id;
 	}
-	
+
 	public String getDisplayName() {
 		return displayName;
 	}
-	
+
 	public String getDisplayName(Enchref ench) {
-		return parseVars(ench,displayName);
+		return parseVars(ench, displayName);
 	}
-	
+
 	public void setDisplayName(String displayName) {
 		this.displayName = displayName;
 	}
@@ -48,37 +48,37 @@ public class Enchantment {
 	public String getDescription() {
 		return description;
 	}
-	
+
 	public String getDescription(Enchref ref) {
-		return parseVars(ref,description);
+		return parseVars(ref, description);
 	}
 
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
+
 	public List<AttributeBonus> getAttributeBonuses() {
 		return attributes;
 	}
-	
+
 	public void addAttributeBonus(AttributeBonus attribute) {
 		if(!attributes.contains(attribute)) attributes.add(attribute);
 	}
-	
+
 	public void removeAttributeBonus(AttributeBonus attribute) {
 		if(attributes.contains(attribute)) attributes.remove(attribute);
 	}
-	
+
 	public List<Attribute> getAttributes(String bonus, double value) {
 		List<Attribute> r = new ArrayList<Attribute>();
-		for(AttributeBonus b : attributes) r.add(b.toAttribute(bonus,value));
+		for(AttributeBonus b : attributes) r.add(b.toAttribute(bonus, value));
 		return r;
 	}
-	
+
 	public String parseVars(Enchref reference, String string) {
 		if(string == null || string.contentEquals("")) return "";
 		String r = string;
-		r = r.replace("[type]",reference.getType());
+		r = r.replace("[type]", reference.getType());
 		r = r.replace("[bonus]", reference.getBonus());
 		r = r.replace("[value]", reference.getValue() + "");
 		return r;
@@ -129,9 +129,9 @@ public class Enchantment {
 		public void setValue(double multiplier) {
 			this.multiplier = multiplier;
 		}
-		
+
 		public Attribute toAttribute(String bonus, double value) {
-			return new Attribute(attribute,this.bonus.contentEquals("") ? bonus : this.bonus,value * multiplier);
+			return new Attribute(attribute, this.bonus.contentEquals("") ? bonus : this.bonus, value * multiplier);
 		}
 	}
 }

@@ -32,7 +32,7 @@ public class fxEditEnchantment {
 	public static void open() {
 		open(null);
 	}
-	
+
 	public static void openAndWait(Enchantment enchantment) {
 		openScript(enchantment);
 		stage.showAndWait();
@@ -42,7 +42,7 @@ public class fxEditEnchantment {
 		openScript(enchantment);
 		stage.show();
 	}
-	
+
 	private static void openScript(Enchantment enchantment) {
 		ench = (enchantment != null) ? enchantment : new Enchantment();
 
@@ -52,12 +52,12 @@ public class fxEditEnchantment {
 
 		Text variables = new Text();
 		variables.wrappingWidthProperty().bind(stage.widthProperty().multiply(0.75));
-		
+
 		String contText = "The following variables can be used in any field except for the Name";
-		contText+="\n[type] - Type (sub-enchantment)";
-		contText+="\n[bonus] - Bonus Type (Insightful, etc)";
-		contText+="\n[value] - value";
-				
+		contText += "\n[type] - Type (sub-enchantment)";
+		contText += "\n[bonus] - Bonus Type (Insightful, etc)";
+		contText += "\n[value] - value";
+
 		variables.setText(contText);
 
 		VBox content = new VBox(getTopSection(), getAttribute(), variables);

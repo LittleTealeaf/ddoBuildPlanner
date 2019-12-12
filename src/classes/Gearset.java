@@ -14,8 +14,7 @@ public class Gearset {
 		this.name = name;
 	}
 
-	private void onEdit() {
-	}
+	private void onEdit() {}
 
 	/**
 	 * @return All items currently stored in the gear set, includes null variables

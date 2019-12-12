@@ -15,7 +15,7 @@ public class Enchref {
 	public Enchref(int id) {
 		this.id = id;
 	}
-	
+
 	public Enchref(int id, String type, String bonus, double value) {
 		this.id = id;
 		this.type = type;
@@ -30,19 +30,19 @@ public class Enchref {
 	public String getType() {
 		return type;
 	}
-	
+
 	public void setType(String type) {
 		this.type = type;
 	}
-	
+
 	public String getBonus() {
 		return bonus;
 	}
-	
+
 	public void setBonus(String bonus) {
 		this.bonus = bonus;
 	}
-	
+
 	public double getValue() {
 		return value;
 	}
@@ -50,11 +50,11 @@ public class Enchref {
 	public void setValue(double value) {
 		this.value = value;
 	}
-	
+
 	public String getDisplayName() {
 		return getEnchantment().getDisplayName(this);
 	}
-	
+
 	public List<Attribute> getAttributes() {
 		return getEnchantment().getAttributes(bonus, value);
 	}

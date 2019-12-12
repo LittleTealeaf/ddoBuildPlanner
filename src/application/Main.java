@@ -20,8 +20,8 @@ public class Main {
 		Images.load();
 		Inventory.load();
 		Enchantments.load();
-		
-		//Enchantments.addEnchantment(new Enchantment("TEST A"));
+
+		// Enchantments.addEnchantment(new Enchantment("TEST A"));
 
 		fxMain.open(args);
 	}
