@@ -511,6 +511,7 @@ public class fxEditItem {
 
 		TextArea content = new TextArea();
 		content.setText(item.getDescription());
+		content.setWrapText(true);
 		content.textProperty().addListener((e, o, n) -> item.setDescription(n));
 
 		r.setContent(content);
