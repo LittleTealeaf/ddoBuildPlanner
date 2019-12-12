@@ -320,6 +320,18 @@ public class Item {
 	public void setEnchantments(List<Enchref> enchantments) {
 		this.enchantments = enchantments;
 	}
+	
+	public void addEnchantment(Enchref enchantment) {
+		this.enchantments.add(enchantment);
+	}
+	
+	public void removeEnchantment(Enchref enchantment) {
+		if(this.enchantments.contains(enchantment)) enchantments.remove(enchantment);
+	}
+	
+	public void updateEnchantment(Enchref previous, Enchref post) {
+		if(this.enchantments.contains(previous)) this.enchantments.set(enchantments.indexOf(previous), post);
+	}
 
 	public List<ItemSlot> getEquipSlots() {
 		return equipSlots;

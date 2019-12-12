@@ -51,6 +51,10 @@ public class Enchref {
 		this.value = value;
 	}
 	
+	public String getDisplayName() {
+		return getEnchantment().getDisplayName(this);
+	}
+	
 	public List<Attribute> getAttributes() {
 		return getEnchantment().getAttributes(bonus, value);
 	}

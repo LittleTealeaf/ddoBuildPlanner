@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import classes.Dice;
 import classes.Enchantments;
+import classes.Enchref;
 import classes.Images;
 import classes.Iref;
 import classes.Item;
@@ -16,6 +17,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextArea;
@@ -45,6 +48,7 @@ public class fxEditItem {
 	private static TextField itemName;
 	private static Label errorText;
 	private static ImageView iImage;
+	private static ListView<Enchref> enchantmentView;
 
 	public static void open() {
 		open((Item) null);
@@ -298,10 +302,44 @@ public class fxEditItem {
 		TitledPane r = new TitledPane();
 		r.setText("Enchantments");
 		
-		Button bAddEnchantment = new Button("Add Enchantment");
-		bAddEnchantment.setOnAction(e -> Enchantments.enchrefDialog());
+		enchantmentView = new ListView<Enchref>();
+		enchantmentView.setItems(FXCollections.observableArrayList(item.getEnchantments()));
+		enchantmentView.setOnMouseClicked(click -> {
+			if(click.getClickCount() == 2) {
+				Enchref i = enchantmentView.getSelectionModel().getSelectedItem();
+				item.updateEnchantment(i, Enchantments.enchrefDialog(i));
+				enchantmentView.setItems(FXCollections.observableArrayList(item.getEnchantments()));
+			}
+		});
+		enchantmentView.setCellFactory(param -> new ListCell<Enchref>() {
+			protected void updateItem(Enchref item, boolean empty) {
+				super.updateItem(item,empty);
+				if(empty || item == null || item.getDisplayName() == null) setText(null);
+				else setText(item.getDisplayName());
+			}
+		});
 		
-		r.setContent(bAddEnchantment);
+		Button bCreate = new Button("Create");
+		bCreate.setOnAction(e -> {
+			item.addEnchantment(Enchantments.enchrefDialog());
+			enchantmentView.setItems(FXCollections.observableArrayList(item.getEnchantments()));
+		});
+		
+		Button bDelete = new Button("Delete");
+		bDelete.disableProperty().bind(enchantmentView.selectionModelProperty().isNull());
+		bDelete.setOnAction(e -> {
+			item.removeEnchantment(enchantmentView.getSelectionModel().getSelectedItem());
+			enchantmentView.setItems(FXCollections.observableArrayList(item.getEnchantments()));
+		});
+		
+		HBox buttons = new HBox(bCreate,bDelete);
+		buttons.setSpacing(10);
+		
+		BorderPane content = new BorderPane();
+		content.setCenter(enchantmentView);
+		content.setBottom(buttons);
+		
+		r.setContent(content);
 
 		return r;
 	}
