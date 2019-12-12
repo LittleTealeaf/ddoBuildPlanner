@@ -82,7 +82,7 @@ public class fxEditItem {
 
 		// Setting up the stage
 
-		stage.setScene(new Scene(content, 1000, 500));
+		stage.setScene(new Scene(content, 1200, 500));
 		stage.show();
 	}
 
@@ -170,7 +170,8 @@ public class fxEditItem {
 		minLevel.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 30, item.getMinLevel()));
 		minLevel.valueProperty().addListener((e, o, n) -> item.setMinLevel(n));
 		minLevel.setEditable(true);
-		minLevel.setPrefWidth(75);
+		minLevel.setPrefWidth(100);
+		minLevel.setMinWidth(75);
 
 		// Item Absolute Minimum Level
 		Text tAbsMinLevel = new Text("Absolute Minimum Level:");
@@ -178,7 +179,8 @@ public class fxEditItem {
 		absMinLevel.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 30, item.getAbsoluteMinLevel()));
 		absMinLevel.valueProperty().addListener((e, o, n) -> item.setAbsoluteMinLevel(n));
 		absMinLevel.setEditable(true);
-		absMinLevel.setPrefWidth(75);
+		absMinLevel.setPrefWidth(100);
+		absMinLevel.setMinWidth(75);
 
 		// Item Bind Status
 		Text tBindStatus = new Text("Bind Status:");
@@ -214,7 +216,8 @@ public class fxEditItem {
 		Spinner<Double> weight = new Spinner<Double>();
 		weight.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(0, 100000, item.getWeight()));
 		weight.valueProperty().addListener((e, o, n) -> item.setWeight(n));
-		weight.setPrefWidth(75);
+		weight.setPrefWidth(100);
+		weight.setMinWidth(75);
 		weight.setEditable(true);
 
 		// Item Hardness
@@ -222,7 +225,8 @@ public class fxEditItem {
 		Spinner<Double> hardness = new Spinner<Double>();
 		hardness.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(0, 1000, item.getHardness()));
 		hardness.valueProperty().addListener((e, o, n) -> item.setHardness(n));
-		hardness.setPrefWidth(75);
+		hardness.setPrefWidth(100);
+		hardness.setMinWidth(75);
 		hardness.setEditable(true);
 
 		// Item Durability
@@ -230,18 +234,20 @@ public class fxEditItem {
 		Spinner<Double> durability = new Spinner<Double>();
 		durability.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(0, 10000, item.getDurability()));
 		durability.valueProperty().addListener((e, o, n) -> item.setDurability(n));
-		durability.setPrefWidth(75);
+		durability.setPrefWidth(100);
+		durability.setMinWidth(75);
 		durability.setEditable(true);
 
 		r.add(tType, 0, 0);
 		r.add(type, 1, 0);
-		r.add(tProficiency, 2, 0);
-		r.add(proficiency, 3, 0);
+		r.add(tMinLevel, 2, 0);
+		r.add(minLevel, 3, 0);
 
-		r.add(tMinLevel, 0, 1);
-		r.add(minLevel, 1, 1);
+		r.add(tProficiency, 0, 1);
+		r.add(proficiency, 1, 1);
 		r.add(tAbsMinLevel, 2, 1);
 		r.add(absMinLevel, 3, 1);
+		
 
 		r.add(tBindStatus, 0, 2);
 		r.add(bindStatus, 1, 2);
