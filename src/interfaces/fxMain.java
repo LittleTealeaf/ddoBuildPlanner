@@ -40,8 +40,11 @@ public class fxMain extends Application {
 
 		MenuItem editEnchantment = new MenuItem("Enchantment");
 		editEnchantment.setOnAction(e -> fxEditEnchantment.open());
+		
+		MenuItem enchantments = new MenuItem("Enchantments");
+		enchantments.setOnAction(e -> fxEnchantments.open());
 
-		file.getItems().addAll(settings, items, inventory, editEnchantment);
+		file.getItems().addAll(settings, items, inventory, editEnchantment, enchantments);
 
 		menu.getMenus().addAll(file);
 
