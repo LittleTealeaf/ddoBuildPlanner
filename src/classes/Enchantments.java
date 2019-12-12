@@ -4,13 +4,17 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+import interfaces.fxEditEnchantment;
 import javafx.collections.FXCollections;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -55,7 +59,7 @@ public class Enchantments {
 	}
 	
 	public static Enchantment getEnchantment(String name) {
-		for(Enchantment e : enchantments) if(e.getName().toLowerCase().contentEquals(name.toLowerCase())) return e;
+		for(Enchantment e : enchantments) if(e.getName() != null && e.getName().toLowerCase().contentEquals(name.toLowerCase())) return e;
 		return null;
 	}
 	
@@ -99,7 +103,7 @@ public class Enchantments {
 	}
 	
 	public static Enchref enchrefDialog(Enchref ench) {
-		Dialog<Enchref> dialog = new Dialog<>();
+		Dialog<Enchref> dialog = new Dialog<Enchref>();
 		dialog.setTitle((ench == null) ? "Add Enchantment" : "Edit Enchantment");
 		dialog.setResizable(true);
 		
@@ -136,20 +140,27 @@ public class Enchantments {
 		});
 		
 		VBox choiceBox = new VBox(choice,suggestedInputs);
+		
+		TextField type = new TextField();
+		type.setText((ench != null) ? ench.getType() : "");
 
 		TextField bonus = new TextField();
 		bonus.setText((ench != null) ? ench.getBonus() : "");
 		
 		Spinner<Double> value = new Spinner<Double>();
 		value.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(-1000, 1000, (ench != null) ? ench.getValue() : 0));
+		value.setPrefWidth(75);
+		value.setEditable(true);
 		
 		GridPane otherFields = new GridPane();
 		otherFields.setHgap(10);
 		otherFields.setVgap(10);
-		otherFields.add(new Text("Bonus Type"), 0, 0);
-		otherFields.add(new Text("Value"), 0, 1);
-		otherFields.add(bonus, 1, 0);
-		otherFields.add(value, 1, 1);
+		otherFields.add(new Text("Enchantment Type"), 0, 0);
+		otherFields.add(new Text("Bonus Type"), 0, 1);
+		otherFields.add(new Text("Value"), 0, 2);
+		otherFields.add(type, 1, 0);
+		otherFields.add(bonus, 1, 1);
+		otherFields.add(value, 1, 2);
 		
 		
 		
@@ -161,9 +172,25 @@ public class Enchantments {
 		
 		dialog.getDialogPane().setContent(content);
 		
-		dialog.show();
+		ButtonType bAccept = new ButtonType("Accept", ButtonData.OK_DONE);
+		ButtonType bCancel = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
 		
-		return null;
+		dialog.getDialogPane().getButtonTypes().addAll(bAccept,bCancel);
+		
+		dialog.setResultConverter(e -> {
+			if(e.getButtonData() == ButtonData.OK_DONE) {
+				if(getEnchantment(choice.getText()) == null) {
+					Enchantment create = new Enchantment(choice.getText());
+					addEnchantment(create);
+					fxEditEnchantment.openAndWait(create);
+				}
+				return new Enchref(getEnchantment(choice.getText()).getId(),type.getText(),bonus.getText(),value.getValue());
+			}
+			return null;
+		});
+		
+		Optional<Enchref> res = dialog.showAndWait();
+		return (res.isEmpty()) ? null : res.get();
 	}
 	
 	public static List<String> getNames() {
@@ -173,7 +200,7 @@ public class Enchantments {
 	public static List<String> getNames(String in) {
 		List<String> r = new ArrayList<String>();
 		for(Enchantment e : getEnchantments()) {
-			if(in.contentEquals("") || e.getName().toLowerCase().contains(in.toLowerCase())) r.add(e.getName());
+			if(in.contentEquals("") || (e.getName() != null && e.getName().toLowerCase().contains(in.toLowerCase()))) r.add(e.getName());
 		}
 		return r;
 	}

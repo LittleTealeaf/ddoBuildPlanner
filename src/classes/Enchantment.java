@@ -15,8 +15,8 @@ public class Enchantment {
 		this("");
 	}
 	
-	public Enchantment(String displayName) {
-		this.displayName = displayName;
+	public Enchantment(String name) {
+		this.name = name;
 		id = Enchantments.getNewID();
 		attributes = new ArrayList<AttributeBonus>();
 	}

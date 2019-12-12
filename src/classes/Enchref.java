@@ -15,6 +15,13 @@ public class Enchref {
 	public Enchref(int id) {
 		this.id = id;
 	}
+	
+	public Enchref(int id, String type, String bonus, double value) {
+		this.id = id;
+		this.type = type;
+		this.bonus = bonus;
+		this.value = value;
+	}
 
 	public Enchantment getEnchantment() {
 		return (enchantment == null) ? (enchantment = Enchantments.getEnchantment(id)) : enchantment;

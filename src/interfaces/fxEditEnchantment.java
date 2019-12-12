@@ -32,8 +32,18 @@ public class fxEditEnchantment {
 	public static void open() {
 		open(null);
 	}
+	
+	public static void openAndWait(Enchantment enchantment) {
+		openScript(enchantment);
+		stage.showAndWait();
+	}
 
 	public static void open(Enchantment enchantment) {
+		openScript(enchantment);
+		stage.show();
+	}
+	
+	private static void openScript(Enchantment enchantment) {
 		ench = (enchantment != null) ? enchantment : new Enchantment();
 
 		if(stage != null && stage.isShowing()) stage.close();
@@ -55,7 +65,10 @@ public class fxEditEnchantment {
 		content.setSpacing(10);
 
 		Button bSave = new Button("Save");
-		bSave.setOnAction(e -> save());
+		bSave.setOnAction(e -> {
+			save();
+			stage.close();
+		});
 
 		BorderPane pane = new BorderPane();
 		pane.setCenter(content);
@@ -63,7 +76,6 @@ public class fxEditEnchantment {
 		pane.setPadding(new Insets(10));
 
 		stage.setScene(new Scene(pane, 520, 500));
-		stage.show();
 	}
 
 	private static void save() {
