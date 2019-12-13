@@ -232,10 +232,7 @@ public class fxSettings {
 		Button bLocalizeImages = new Button("Localize Images");
 		bLocalizeImages.setOnAction(e -> Images.localizeImages());
 
-		Button clearNull = new Button("Clear broken references");
-		clearNull.setOnAction(e -> Images.verifyImages());
-
-		content.getChildren().add(settingSection("Images", Arrays.asList(cStoreLocalImages), Arrays.asList(bLocalizeImages, clearNull)));
+		content.getChildren().add(settingSection("Images", Arrays.asList(cStoreLocalImages), Arrays.asList(bLocalizeImages)));
 
 		r.setContent(content);
 

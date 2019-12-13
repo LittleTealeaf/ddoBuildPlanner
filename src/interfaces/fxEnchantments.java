@@ -3,9 +3,13 @@ package interfaces;
 import classes.Enchantment;
 import classes.Enchantments;
 import javafx.collections.FXCollections;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 public class fxEnchantments {
@@ -19,7 +23,17 @@ public class fxEnchantments {
 		stage = new Stage();
 		stage.setTitle("Enchantments");
 		
-		stage.setScene(new Scene(getEnchantmentTable()));
+		Button bCreate = new Button("Create");
+		bCreate.setOnAction(e -> fxEditEnchantment.open());
+		
+		HBox hbottom = new HBox(bCreate);
+		
+		BorderPane content = new BorderPane();
+		content.setPadding(new Insets(10));
+		content.setCenter(getEnchantmentTable());
+		content.setBottom(hbottom);
+		
+		stage.setScene(new Scene(content));
 
 		stage.show();
 	}

@@ -18,17 +18,20 @@ import util.system;
 import vars.ItemSlot;
 
 public class Items {
+	
+	/*
+	 * Requires Functions:
+	 * getItem -- gets the item
+	 * saveItem -- saves the item
+	 * getAllItems -- gets all items
+	 * getItemsBySlot -- gets items by slot
+	 * prompt -- select item prompt
+	 * item table -- item table
+	 */
 
 	private static long lastModified;
 	private static List<Item> items;
 
-	/**
-	 * Gets an item from the database
-	 * 
-	 * @param name Name of the item
-	 * @return Item in the Item class. Returns null if the item doens't exist or is in an unreadable
-	 *         state
-	 */
 	public static Item readItem(String name) {
 
 		try {
@@ -38,11 +41,6 @@ public class Items {
 		}
 	}
 
-	/**
-	 * Saves an item to the database
-	 * 
-	 * @param i Item to save
-	 */
 	public static void saveItem(Item i) {
 
 		try {
@@ -55,11 +53,6 @@ public class Items {
 		} catch(Exception e) {}
 	}
 
-	/**
-	 * Gets a list of all the items in the database
-	 * 
-	 * @return List of all items
-	 */
 	public static List<Item> getAllItems() {
 		List<Item> r = new ArrayList<Item>();
 
@@ -94,6 +87,7 @@ public class Items {
 	public static File getFile(String name) {
 		return system.getAppFile("items", name + ".json");
 	}
+
 
 	public static Item selectItemPrompt() {
 		return selectItemPrompt(null, (ItemSlot[]) null);

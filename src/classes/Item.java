@@ -29,6 +29,8 @@ public class Item {
 	private double weight;
 	private List<Enchref> enchantments;
 	private List<ItemSlot> equipSlots;
+	private int imageID;
+	private int itemID;
 
 	// Armor Values
 	private Armor armor;

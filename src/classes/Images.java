@@ -50,20 +50,6 @@ public class Images {
 	}
 
 	/**
-	 * Verifies that all the images actually exist, otherwise deletes their references.
-	 */
-	public static void verifyImages() {
-
-		for(extImage img : externalImages) {
-
-			if(getImage(img.getURL()) == null) {
-				System.out.println("Deleting Void Image: " + img.getName());
-				deleteImage(img.getName());
-			}
-		}
-	}
-
-	/**
 	 * Saves the currently loaded external image references to a file.
 	 */
 	public static void save() {
