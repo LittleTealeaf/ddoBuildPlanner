@@ -314,7 +314,8 @@ public class fxEditItem {
 
 			if(click.getClickCount() == 2) {
 				Enchref i = enchantmentView.getSelectionModel().getSelectedItem();
-				item.updateEnchantment(i, Enchantments.enchrefDialog(i));
+				Enchref n = Enchantments.enchrefDialog(i);
+				if(n != null) item.updateEnchantment(i, n);
 				enchantmentView.setItems(FXCollections.observableArrayList(item.getEnchantments()));
 			}
 		});
