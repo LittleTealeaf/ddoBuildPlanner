@@ -15,24 +15,24 @@ import javafx.stage.Stage;
 public class fxEnchantments {
 
 	public static Stage stage;
-	
+
 	private static ListView<Enchantment> table;
 
 	public static void open() {
 		if(stage != null && stage.isShowing()) stage.close();
 		stage = new Stage();
 		stage.setTitle("Enchantments");
-		
+
 		Button bCreate = new Button("Create");
 		bCreate.setOnAction(e -> fxEditEnchantment.open());
-		
+
 		HBox hbottom = new HBox(bCreate);
-		
+
 		BorderPane content = new BorderPane();
 		content.setPadding(new Insets(10));
 		content.setCenter(getEnchantmentTable());
 		content.setBottom(hbottom);
-		
+
 		stage.setScene(new Scene(content));
 
 		stage.show();
@@ -49,18 +49,19 @@ public class fxEnchantments {
 				else setText(item.getName());
 			}
 		});
-		
+
 		table.setOnMouseClicked(click -> {
+
 			if(click.getClickCount() == 2) {
 				fxEditEnchantment.open(table.getSelectionModel().getSelectedItem());
 			}
 		});
-		
+
 		updateTable();
 
 		return table;
 	}
-	
+
 	public static void updateTable() {
 		table.setItems(FXCollections.observableArrayList(Enchantments.getEnchantments()));
 	}

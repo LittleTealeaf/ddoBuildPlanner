@@ -37,7 +37,7 @@ public class fxMain extends Application {
 
 		MenuItem inventory = new MenuItem("Inventory");
 		inventory.setOnAction(e -> fxInventory.open());
-		
+
 		MenuItem enchantments = new MenuItem("Enchantments");
 		enchantments.setOnAction(e -> fxEnchantments.open());
 

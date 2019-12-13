@@ -18,7 +18,7 @@ import util.system;
 import vars.ItemSlot;
 
 public class Items {
-	
+
 	/*
 	 * Requires Functions:
 	 * getItem -- gets the item
@@ -87,7 +87,6 @@ public class Items {
 	public static File getFile(String name) {
 		return system.getAppFile("items", name + ".json");
 	}
-
 
 	public static Item selectItemPrompt() {
 		return selectItemPrompt(null, (ItemSlot[]) null);

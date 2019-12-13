@@ -29,6 +29,7 @@ public class Item {
 	private double weight;
 	private List<Enchref> enchantments;
 	private List<ItemSlot> equipSlots;
+	private List<Craftable> crafting;
 	private int imageID;
 	private int itemID;
 
@@ -333,6 +334,22 @@ public class Item {
 
 	public void updateEnchantment(Enchref previous, Enchref post) {
 		if(this.enchantments.contains(previous)) this.enchantments.set(enchantments.indexOf(previous), post);
+	}
+
+	public List<Craftable> getCrafting() {
+		return crafting;
+	}
+
+	public void setCrafting(List<Craftable> crafting) {
+		this.crafting = crafting;
+	}
+
+	public void addCraftable(Craftable craftable) {
+		this.crafting.add(craftable);
+	}
+
+	public void removeCraftable(Craftable craftable) {
+		this.crafting.remove(craftable);
 	}
 
 	public List<ItemSlot> getEquipSlots() {

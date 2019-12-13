@@ -247,7 +247,6 @@ public class fxEditItem {
 		r.add(proficiency, 1, 1);
 		r.add(tAbsMinLevel, 2, 1);
 		r.add(absMinLevel, 3, 1);
-		
 
 		r.add(tBindStatus, 0, 2);
 		r.add(bindStatus, 1, 2);
