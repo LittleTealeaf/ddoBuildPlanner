@@ -36,6 +36,12 @@ public class fxEnchantments {
 			}
 		});
 		
+		table.setOnMouseClicked(click -> {
+			if(click.getClickCount() == 2) {
+				fxEditEnchantment.open(table.getSelectionModel().getSelectedItem());
+			}
+		});
+		
 		updateTable();
 
 		return table;
