@@ -2,6 +2,7 @@ package interfaces;
 
 import java.util.Arrays;
 
+import classes.Craftable;
 import classes.Dice;
 import classes.Enchantments;
 import classes.Enchref;
@@ -355,6 +356,8 @@ public class fxEditItem {
 	private static TitledPane contentCrafting() {
 		TitledPane r = new TitledPane();
 		r.setText("Crafting");
+		
+		ListView<Craftable> crafting = new ListView<Craftable>();
 
 		return r;
 	}
