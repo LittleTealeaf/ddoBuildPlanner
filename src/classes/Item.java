@@ -15,6 +15,8 @@ import vars.ItemSlot;
 
 public class Item {
 
+	//TODO add item IDs
+	
 	private transient String oldName;
 	private String name;
 	private String type;
@@ -30,8 +32,6 @@ public class Item {
 	private List<Enchref> enchantments;
 	private List<ItemSlot> equipSlots;
 	private List<Craftable> crafting;
-	private int imageID;
-	private int itemID;
 
 	// Armor Values
 	private Armor armor;
@@ -315,6 +315,8 @@ public class Item {
 	public void setWeight(double weight) {
 		this.weight = weight;
 	}
+	
+	//Enchantments
 
 	public List<Enchref> getEnchantments() {
 		return enchantments;
@@ -336,21 +338,38 @@ public class Item {
 		if(this.enchantments.contains(previous)) this.enchantments.set(enchantments.indexOf(previous), post);
 	}
 
+	//Crafting
+	
+	private int getNewID() {
+		List<Integer> existing = new ArrayList<Integer>();
+		for(Craftable c : crafting) existing.add(c.getID());
+		
+		int r = 0;
+		while(existing.contains((r++))) {}
+		return r;
+	}
+	
 	public List<Craftable> getCrafting() {
 		return crafting;
 	}
 
 	public void setCrafting(List<Craftable> crafting) {
+		
+		for(int i = 0; i < crafting.size(); i++) crafting.get(i).setID(i);
+		
 		this.crafting = crafting;
 	}
 
 	public void addCraftable(Craftable craftable) {
+		craftable.setID(getNewID());
 		this.crafting.add(craftable);
 	}
 
 	public void removeCraftable(Craftable craftable) {
 		this.crafting.remove(craftable);
 	}
+	
+	//Equip Slots
 
 	public List<ItemSlot> getEquipSlots() {
 		return equipSlots;
@@ -377,6 +396,8 @@ public class Item {
 		if(equippable) addEquipSlot(slot);
 		else removeEquipSlot(slot);
 	}
+	
+	//Armor Types
 
 	public String getArmorType() {
 		if(armor == null) return "";
@@ -387,6 +408,8 @@ public class Item {
 		if(armor == null) armor = new Armor();
 		this.armor.armorType = armorType;
 	}
+	
+	//Armor Bonus
 
 	public int getArmorBonus() {
 		if(armor == null) return 0;
@@ -397,6 +420,8 @@ public class Item {
 		if(armor == null) armor = new Armor();
 		this.armor.armorBonus = armorBonus;
 	}
+	
+	//Max Dex
 
 	public int getMaxDex() {
 		if(armor == null) return 0;
@@ -407,6 +432,8 @@ public class Item {
 		if(armor == null) armor = new Armor();
 		this.armor.maxDex = maxDex;
 	}
+	
+	//Check Penalty
 
 	public int getCheckPenalty() {
 		if(armor == null) return 0;
@@ -417,6 +444,8 @@ public class Item {
 		if(armor == null) armor = new Armor();
 		this.armor.checkPenalty = checkPenalty;
 	}
+	
+	//Spell Failure
 
 	public double getSpellFailure() {
 		if(armor == null) return 0;

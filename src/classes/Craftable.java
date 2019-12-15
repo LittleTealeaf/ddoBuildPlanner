@@ -7,10 +7,26 @@ public class Craftable {
 
 	private String name;
 	
-	private List<Attribute> choices;
-
+	private int ID;
+	
+	private List<Enchantment> choices;
+	
 	public Craftable() {
-		choices = new ArrayList<Attribute>();
+		this(0);
+	}
+	
+	public Craftable(int id) {
+		this("",id);
+	}
+
+	public Craftable(String name, int id) {
+		this(name,id,new ArrayList<Enchantment>());
+	}
+	
+	public Craftable(String name, int id, List<Enchantment> choices) {
+		this.name = name;
+		this.ID = id;
+		this.choices = choices;
 	}
 	
 	public String getName() {
@@ -20,25 +36,33 @@ public class Craftable {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	public int getID() {
+		return ID;
+	}
+	
+	public void setID(int id) {
+		this.ID = id;
+	}
 
-	public List<Attribute> getChoices() {
+	public List<Enchantment> getChoices() {
 		return choices;
 	}
 
-	public Attribute getChoice(int index) {
+	public Enchantment getChoice(int index) {
 		if(index < choices.size()) return choices.get(index);
 		else return null;
 	}
 
-	public void setChoices(List<Attribute> choices) {
+	public void setChoices(List<Enchantment> choices) {
 		this.choices = choices;
 	}
 
-	public void addChoice(Attribute choice) {
+	public void addChoice(Enchantment choice) {
 		this.choices.add(choice);
 	}
 
-	public void removeChoice(Attribute choice) {
+	public void removeChoice(Enchantment choice) {
 		this.choices.remove(choice);
 	}
 }

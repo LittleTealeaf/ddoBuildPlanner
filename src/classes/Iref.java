@@ -6,10 +6,8 @@ import java.util.List;
 public class Iref {
 
 	public String name;
-
-	private List<Integer> craftingChoices;
 	
-	private transient List<Craftref> crafting;
+	private List<Craftref> crafting;
 
 	private transient Item temp;
 
@@ -22,13 +20,5 @@ public class Iref {
 		return temp;
 	}
 	
-	public List<Craftref> getCrafting() {
-		crafting = new ArrayList<Craftref>();
-		int index = 0;
-		for(Craftable c : getItem().getCrafting()) {
-			crafting.add(new Craftref(c,craftingChoices.get(index)));
-			index++;
-		}
-		return crafting;
-	}
+	
 }

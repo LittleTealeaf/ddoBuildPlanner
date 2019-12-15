@@ -13,6 +13,8 @@ public class fxEditCraftable {
 		
 		Dialog<Craftable> editor = new Dialog<Craftable>();
 		
+		
+		
 		return null;
 	}
 }
