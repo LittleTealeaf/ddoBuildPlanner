@@ -15,8 +15,6 @@ import util.system;
 import vars.ItemSlot;
 
 public class Item {
-
-	//TODO add item IDs
 	
 	private String ID;
 	private String name;
@@ -114,8 +112,8 @@ public class Item {
 		}
 
 		if(Settings.items.deleteImages) {
-			Images.deleteImage(getImageName());
-			Images.deleteImage(getIconName());
+			Images.deleteImage(imageUUID);
+			Images.deleteImage(iconUUID);
 		}
 
 		system.getAppFile("items", name + ".json").delete();
@@ -132,22 +130,6 @@ public class Item {
 		minLevel = Math.max(absoluteMinLevel, minLevel);
 
 		// TODO clear empty fields in damage types
-	}
-
-	public String getImageName() {
-		return getImageName(name);
-	}
-
-	public static String getImageName(String name) {
-		return name + ".itemimage";
-	}
-
-	public String getIconName() {
-		return getIconName(name);
-	}
-
-	public static String getIconName(String name) {
-		return name + ".itemicon";
 	}
 	
 	public String getID() {
@@ -191,6 +173,38 @@ public class Item {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	
+	public Image getIcon() {
+		return Images.getImage(iconUUID);
+	}
+	
+	public ImageView getIconViewSmall() {
+		ImageView r = new ImageView(Images.getImage(iconUUID));
+		r.setPreserveRatio(true);
+		r.setFitWidth(Settings.appearance.icon.size);
+		r.setFitHeight(Settings.appearance.icon.size);
+		return r;
+	}
+	
+	public String getIconUUID() {
+		return iconUUID;
+	}
+	
+	public void setIconUUID(String iconUUID) {
+		this.iconUUID = iconUUID;
+	}
+	
+	public Image getImage() {
+		return Images.getImage(imageUUID);
+	}
+	
+	public String getImageUUID() {
+		return imageUUID;
+	}
+	
+	public void setImageUUID(String imageUUID) {
+		this.imageUUID = imageUUID;
 	}
 
 	public String getProficiency() {

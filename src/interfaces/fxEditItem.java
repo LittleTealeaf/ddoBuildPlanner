@@ -67,9 +67,8 @@ public class fxEditItem {
 
 		if(i != null) {
 			stage.setTitle("Editing " + i.getName());
-			//Image icon = item.getIcon();
-			//if(icon != null) stage.getIcons().add(icon);
-			//TODO 0.0.1r2 fix
+			Image icon = item.getIcon();
+			if(icon != null) stage.getIcons().add(icon);
 		} else {
 			stage.setTitle("Create Item");
 			item = new Item();
@@ -195,23 +194,18 @@ public class fxEditItem {
 
 		// Set Icon button
 		Button bSetIcon = new Button("Set Icon");
-//		bSetIcon.setOnAction(e -> {
-//			item.setIcon(new Images.ImagePrompt(item.getIconName()).prompt());
-//			Image icon = item.getIcon();
-//			if(icon != null) stage.getIcons().add(icon);
-//			else stage.getIcons().clear();
-//		});
-		//TODO 0.0.1r2 fix
+		bSetIcon.setOnAction(e -> {
+			item.setIconUUID(new Images.ImagePrompt(item.getIconUUID()).showPrompt());
+			if(item.getIcon() != null) stage.getIcons().add(item.getIcon());
+			else stage.getIcons().clear();
+		});
 
 		// Set Image Button
 		Button bSetImage = new Button("Set Image");
-//		bSetImage.setOnAction(e -> {
-//			item.setImage(new Images.ImagePrompt(item.getImageName()).prompt());
-//			Image image = item.getImage();
-//			iImage.setImage(image);
-//		});
-		//TODO 0.0.1r2 fix
-
+		bSetImage.setOnAction(e -> {
+			item.setImageUUID(new Images.ImagePrompt(item.getImageUUID()).showPrompt());
+		});
+		
 		// Item Material
 		Text tMaterial = new Text("Material:");
 		TextField material = new TextField();
@@ -562,8 +556,7 @@ public class fxEditItem {
 			}
 		});
 
-		//iImage.setImage(item.getImage());
-		//TODO 0.0.1r2 fix
+		iImage.setImage(item.getImage());
 		
 		r.setContent(iImage);
 

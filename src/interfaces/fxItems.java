@@ -15,7 +15,7 @@ import javafx.stage.Stage;
 public class fxItems {
 	
 	/*
-	 * TODO 0.0.1r2 plans
+	 * TODO 0.0.1 plans
 	 * Button / Feature to open the specific .json file of the item (for debug / fixing purposes)
 	 */
 

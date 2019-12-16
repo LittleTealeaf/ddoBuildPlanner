@@ -23,6 +23,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
@@ -34,18 +35,7 @@ public class Images {
 
 	private static List<extImage> externalImages;
 	
-	/*
-	 * TODO 0.0.1r2 plans
-	 * Whenever you save an image, you save that image with a UUID (local storage name is UUID)
-	 * Saving an image has a return value of the UUID string for future use
-	 * When an image is requested, it does pretty much the same thing as it does, where
-	 * 	it looks to see if the specific file exists, and then looks to see if it's in the
-	 * 	external images list
-	 * For the image prompt, it doesn't display the UUID as the loaded
-	 * 	This will need to be a complete rework of the entire prompt, including
-	 * 	buttons for loading the previous image, clearing, and separate files
-	 * 	for "load from URL", "load from file". 
-	 */
+	private static transient final String imageType = ".png";
 
 	/**
 	 * Initially Load the Images class
@@ -112,7 +102,7 @@ public class Images {
 		File f = null;
 
 		try {
-			f = system.getAppFile("images", uuid);
+			f = system.getAppFile("images", uuid + imageType);
 		} catch(Exception e) {
 
 			try {
@@ -141,7 +131,7 @@ public class Images {
 
 		externalImages = n;
 
-		File f = system.getAppFile("images", uuid + ".image");
+		File f = system.getAppFile("images", uuid + imageType);
 		if(f.exists()) f.delete();
 
 		save();
@@ -162,7 +152,7 @@ public class Images {
 	 * @param img
 	 */
 	private static void localizeImage(extImage img) {
-		File writeTo = system.getAppFile("images", img.getUUID());
+		File writeTo = system.getAppFile("images", img.getUUID() + imageType);
 		writeTo.getParentFile().mkdirs();
 
 		try {
@@ -217,13 +207,17 @@ public class Images {
 		private Label errorLabel;
 		private ImageView iView;
 		private TextField urlField;
+		
+		private String url;
 
 		public ImagePrompt() {
 			this(null);
 		}
 		
 		public ImagePrompt(String oldUUID) {
-			this.oldUUID = (oldUUID != null) ? oldUUID : null;
+			super();
+			
+			this.oldUUID = (oldUUID != null && !oldUUID.contentEquals("")) ? oldUUID : null;
 			
 			// File Chooser for the browse function
 			fileChooser = new FileChooser();
@@ -237,6 +231,7 @@ public class Images {
 			//Image View
 			iView = new ImageView();
 			iView.setImage((oldUUID != null) ? Images.getImage(oldUUID) : null);
+			iView.setPreserveRatio(true);
 			
 			//URL field
 			urlField = new TextField();
@@ -244,22 +239,75 @@ public class Images {
 
 		private void loadLayout() {
 			
-			Button loadURL = new Button("From URL:");
+			this.setResizable(true);
 			
-			HBox headerTop = new HBox(loadURL, urlField);
+			Button loadURL = new Button("Load");
+			loadURL.setOnAction(e -> {
+				
+			});
+			
+			
+			Button browseFile = new Button("From file...");
+			browseFile.setOnAction(e -> {
+				String image = fileChooser.showOpenDialog(getOwner()).getPath();
+				if(displayImage(image)) url = image;
+			});
+			
+			HBox headerTop = new HBox(urlField,browseFile,loadURL);
 			headerTop.setSpacing(10);
 			
-			Button loadFile = new Button("From file...");
 			
 			Button clearImage = new Button("Clear");
+			clearImage.setOnAction(e -> {
+				url = "";
+				displayImage();
+			});
 			
 			Button revertImage = new Button("Revert");
+			revertImage.setOnAction(e -> {
+				url = oldUUID;
+				displayImage();
+			});
 			
-			HBox headerBottom = new HBox(loadFile,clearImage,revertImage);
+			HBox headerBottom = new HBox(clearImage,revertImage);
 			headerBottom.setSpacing(10);
 			
 			VBox header = new VBox(headerTop, headerBottom);
 			header.setSpacing(10);
+			
+			BorderPane content = new BorderPane();
+			content.setTop(header);
+			content.setCenter(iView);
+			
+			this.getDialogPane().setContent(content);
+			
+			this.getDialogPane().setPrefWidth(500);
+			this.getDialogPane().setPrefHeight(500);
+			this.getDialogPane().widthProperty().addListener((e, o, n) -> iView.setFitWidth(3 * (double) n / 5));
+			this.getDialogPane().heightProperty().addListener((e, o, n) -> iView.setFitHeight(3 * (double) n / 5));
+			
+			ButtonType bAccept = new ButtonType("Accept", ButtonData.OK_DONE);
+			ButtonType bCancel = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
+
+			this.getDialogPane().getButtonTypes().addAll(bAccept, bCancel);
+			
+			this.setResultConverter(e -> {
+				if(e.getButtonData() == ButtonData.OK_DONE && url != null && getImageFromURL(url) != null) {
+					//If user clicked the ok button, and the url exists and works, save it and send the uuid over
+					return saveImage(url);
+				//if not, then try to return the oldUUID, otherwise return null 
+				} else return (oldUUID != null) ? oldUUID : null;
+			});
+		}
+		
+		public boolean displayImage() {
+			return displayImage("");
+		}
+		
+		public boolean displayImage(String iURL) {
+			Image i = getImageFromURL((iURL != null && !iURL.contentEquals("")) ? iURL : url);
+			iView.setImage((i != null) ? i : null);
+			return i != null;
 		}
 		
 		public String showPrompt() {

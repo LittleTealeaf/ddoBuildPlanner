@@ -19,13 +19,6 @@ import util.system;
 import vars.ItemSlot;
 
 public class Items {
-
-	//TODO Change to using IDs:
-	
-	/*
-	* Plan: use IDs for file names, maybe a random ID generator. Names being separate
-	* Will need to edit the references / etc. May need to completely rewrite the entire item saving / etc.
-	*/
 	
 	/*
 	 * Requires Functions:

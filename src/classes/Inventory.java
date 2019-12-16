@@ -109,9 +109,7 @@ public class Inventory {
 		}
 
 		public ImageView getIconViewSmall() {
-			return null;
-			//TODO 0.0.1r2 FIX
-			//return this.getItem().getIconViewSmall();
+			return this.getItem().getIconViewSmall();
 		}
 
 		public String getName() {
