@@ -24,7 +24,7 @@ public class Enchref {
 	}
 
 	public Enchantment getEnchantment() {
-		return (enchantment == null) ? (enchantment = Enchantments.getEnchantment(uuid)) : enchantment;
+		return (enchantment == null) ? (enchantment = Enchantments.getEnchantmentUUID(uuid)) : enchantment;
 	}
 
 	public String getType() {

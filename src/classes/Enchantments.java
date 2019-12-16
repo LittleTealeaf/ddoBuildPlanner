@@ -57,12 +57,12 @@ public class Enchantments {
 		return enchantments;
 	}
 
-	public static Enchantment getEnchantment(String uuid) {
+	public static Enchantment getEnchantmentUUID(String uuid) {
 		for(Enchantment e : enchantments) if(e.getUUID() == uuid) return e;
 		return null;
 	}
 
-	public static Enchantment getEnchantment(String name) {
+	public static Enchantment getEnchantmentName(String name) {
 		for(Enchantment e : enchantments) if(e.getName() != null && e.getName().toLowerCase().contentEquals(name.toLowerCase())) return e;
 		return null;
 	}
@@ -72,8 +72,8 @@ public class Enchantments {
 		save();
 	}
 
-	public static void removeEnchantment(int id) {
-		removeEnchantment(getEnchantment(id));
+	public static void removeEnchantment(String uuid) {
+		removeEnchantment(getEnchantmentUUID(uuid));
 		save();
 	}
 
