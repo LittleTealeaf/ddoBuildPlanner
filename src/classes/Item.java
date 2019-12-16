@@ -333,28 +333,18 @@ public class Item {
 
 	//Crafting
 	
-	private int getNewID() {
-		List<Integer> existing = new ArrayList<Integer>();
-		for(Craftable c : crafting) existing.add(c.getID());
-		
-		int r = 0;
-		while(existing.contains((r++))) {}
-		return r;
-	}
-	
 	public List<Craftable> getCrafting() {
 		return crafting;
 	}
 
 	public void setCrafting(List<Craftable> crafting) {
 		
-		for(int i = 0; i < crafting.size(); i++) crafting.get(i).setID(i);
+		for(Craftable c : crafting) c.newUUID();
 		
 		this.crafting = crafting;
 	}
 
 	public void addCraftable(Craftable craftable) {
-		craftable.setID(getNewID());
 		this.crafting.add(craftable);
 	}
 

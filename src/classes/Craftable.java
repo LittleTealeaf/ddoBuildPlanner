@@ -45,6 +45,10 @@ public class Craftable {
 	public void setUUID(String uuid) {
 		this.uuid = uuid;
 	}
+	
+	public void newUUID() {
+		this.uuid = UUID.randomUUID().toString();
+	}
 
 	public List<Enchantment> getChoices() {
 		return choices;
