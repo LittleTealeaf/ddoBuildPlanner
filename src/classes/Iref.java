@@ -8,7 +8,7 @@ import java.util.List;
 public class Iref {
 
 	public String name;
-	
+
 	private List<Craftref> crafting;
 
 	private transient Item temp;
@@ -21,6 +21,4 @@ public class Iref {
 		if(temp == null) temp = Items.readItem(name);
 		return temp;
 	}
-	
-	
 }

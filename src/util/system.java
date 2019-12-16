@@ -1,10 +1,13 @@
 package util;
 
+import java.awt.Desktop;
 import java.io.File;
+import java.io.IOException;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import classes.Items;
 import net.harawata.appdirs.AppDirs;
 import net.harawata.appdirs.AppDirsFactory;
 
@@ -49,5 +52,12 @@ public class system {
 
 	private static String dataDir() {
 		return appDirs.getUserDataDir("DDO Build Planner", "", "Tealeaf", true);
+	}
+
+	public static void openExtFile(File file) {
+
+		try {
+			Desktop.getDesktop().open(file);
+		} catch(Exception e) {}
 	}
 }

@@ -15,7 +15,7 @@ import util.system;
 import vars.ItemSlot;
 
 public class Item {
-	
+
 	private String ID;
 	private String name;
 	private String type;
@@ -131,11 +131,11 @@ public class Item {
 
 		// TODO clear empty fields in damage types
 	}
-	
+
 	public String getID() {
 		return ID;
 	}
-	
+
 	public void setID(String id) {
 		this.ID = id;
 	}
@@ -174,11 +174,11 @@ public class Item {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
+
 	public Image getIcon() {
 		return Images.getImage(iconUUID);
 	}
-	
+
 	public ImageView getIconViewSmall() {
 		ImageView r = new ImageView(Images.getImage(iconUUID));
 		r.setPreserveRatio(true);
@@ -186,23 +186,23 @@ public class Item {
 		r.setFitHeight(Settings.appearance.icon.size);
 		return r;
 	}
-	
+
 	public String getIconUUID() {
 		return iconUUID;
 	}
-	
+
 	public void setIconUUID(String iconUUID) {
 		this.iconUUID = iconUUID;
 	}
-	
+
 	public Image getImage() {
 		return Images.getImage(imageUUID);
 	}
-	
+
 	public String getImageUUID() {
 		return imageUUID;
 	}
-	
+
 	public void setImageUUID(String imageUUID) {
 		this.imageUUID = imageUUID;
 	}
@@ -270,8 +270,8 @@ public class Item {
 	public void setWeight(double weight) {
 		this.weight = weight;
 	}
-	
-	//Enchantments
+
+	// Enchantments
 
 	public List<Enchref> getEnchantments() {
 		return enchantments;
@@ -293,16 +293,15 @@ public class Item {
 		if(this.enchantments.contains(previous)) this.enchantments.set(enchantments.indexOf(previous), post);
 	}
 
-	//Crafting
-	
+	// Crafting
+
 	public List<Craftable> getCrafting() {
 		return crafting;
 	}
 
 	public void setCrafting(List<Craftable> crafting) {
-		
 		for(Craftable c : crafting) c.newUUID();
-		
+
 		this.crafting = crafting;
 	}
 
@@ -313,8 +312,8 @@ public class Item {
 	public void removeCraftable(Craftable craftable) {
 		this.crafting.remove(craftable);
 	}
-	
-	//Equip Slots
+
+	// Equip Slots
 
 	public List<ItemSlot> getEquipSlots() {
 		return equipSlots;
@@ -341,8 +340,8 @@ public class Item {
 		if(equippable) addEquipSlot(slot);
 		else removeEquipSlot(slot);
 	}
-	
-	//Armor Types
+
+	// Armor Types
 
 	public String getArmorType() {
 		if(armor == null) return "";
@@ -353,8 +352,8 @@ public class Item {
 		if(armor == null) armor = new Armor();
 		this.armor.armorType = armorType;
 	}
-	
-	//Armor Bonus
+
+	// Armor Bonus
 
 	public int getArmorBonus() {
 		if(armor == null) return 0;
@@ -365,8 +364,8 @@ public class Item {
 		if(armor == null) armor = new Armor();
 		this.armor.armorBonus = armorBonus;
 	}
-	
-	//Max Dex
+
+	// Max Dex
 
 	public int getMaxDex() {
 		if(armor == null) return 0;
@@ -377,8 +376,8 @@ public class Item {
 		if(armor == null) armor = new Armor();
 		this.armor.maxDex = maxDex;
 	}
-	
-	//Check Penalty
+
+	// Check Penalty
 
 	public int getCheckPenalty() {
 		if(armor == null) return 0;
@@ -389,8 +388,8 @@ public class Item {
 		if(armor == null) armor = new Armor();
 		this.armor.checkPenalty = checkPenalty;
 	}
-	
-	//Spell Failure
+
+	// Spell Failure
 
 	public double getSpellFailure() {
 		if(armor == null) return 0;

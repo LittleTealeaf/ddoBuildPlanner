@@ -34,7 +34,7 @@ import util.system;
 public class Images {
 
 	private static List<extImage> externalImages;
-	
+
 	private static transient final String imageType = ".png";
 
 	/**
@@ -207,109 +207,106 @@ public class Images {
 		private Label errorLabel;
 		private ImageView iView;
 		private TextField urlField;
-		
+
 		private String url;
 
 		public ImagePrompt() {
 			this(null);
 		}
-		
+
 		public ImagePrompt(String oldUUID) {
 			super();
-			
+
 			this.oldUUID = (oldUUID != null && !oldUUID.contentEquals("")) ? oldUUID : null;
-			
+
 			// File Chooser for the browse function
 			fileChooser = new FileChooser();
-			fileChooser.setInitialDirectory(new File(System.getProperty("user.home"))); //TODO find the one for image default!
+			fileChooser.setInitialDirectory(new File(System.getProperty("user.home"))); // TODO find the one for image default!
 			fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("All Images", "*"), new FileChooser.ExtensionFilter("JPG", "*.jpg"), new FileChooser.ExtensionFilter("PNG", "*.png"));
 
 			// Error Label
 			errorLabel = new Label();
 			errorLabel.setTextFill(Color.RED);
-			
-			//Image View
+
+			// Image View
 			iView = new ImageView();
 			iView.setImage((oldUUID != null) ? Images.getImage(oldUUID) : null);
 			iView.setPreserveRatio(true);
-			
-			//URL field
+
+			// URL field
 			urlField = new TextField();
 		}
 
 		private void loadLayout() {
-			
 			this.setResizable(true);
-			
+
 			Button loadURL = new Button("Load");
 			loadURL.setOnAction(e -> {
-				
 			});
-			
-			
+
 			Button browseFile = new Button("From file...");
 			browseFile.setOnAction(e -> {
 				String image = fileChooser.showOpenDialog(getOwner()).getPath();
 				if(displayImage(image)) url = image;
 			});
-			
-			HBox headerTop = new HBox(urlField,browseFile,loadURL);
+
+			HBox headerTop = new HBox(urlField, browseFile, loadURL);
 			headerTop.setSpacing(10);
-			
-			
+
 			Button clearImage = new Button("Clear");
 			clearImage.setOnAction(e -> {
 				url = "";
 				displayImage();
 			});
-			
+
 			Button revertImage = new Button("Revert");
 			revertImage.setOnAction(e -> {
 				url = oldUUID;
 				displayImage();
 			});
-			
-			HBox headerBottom = new HBox(clearImage,revertImage);
+
+			HBox headerBottom = new HBox(clearImage, revertImage);
 			headerBottom.setSpacing(10);
-			
+
 			VBox header = new VBox(headerTop, headerBottom);
 			header.setSpacing(10);
-			
+
 			BorderPane content = new BorderPane();
 			content.setTop(header);
 			content.setCenter(iView);
-			
+
 			this.getDialogPane().setContent(content);
-			
+
 			this.getDialogPane().setPrefWidth(500);
 			this.getDialogPane().setPrefHeight(500);
 			this.getDialogPane().widthProperty().addListener((e, o, n) -> iView.setFitWidth(3 * (double) n / 5));
 			this.getDialogPane().heightProperty().addListener((e, o, n) -> iView.setFitHeight(3 * (double) n / 5));
-			
+
 			ButtonType bAccept = new ButtonType("Accept", ButtonData.OK_DONE);
 			ButtonType bCancel = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
 
 			this.getDialogPane().getButtonTypes().addAll(bAccept, bCancel);
-			
+
 			this.setResultConverter(e -> {
+
 				if(e.getButtonData() == ButtonData.OK_DONE && url != null && getImageFromURL(url) != null) {
-					//If user clicked the ok button, and the url exists and works, save it and send the uuid over
+					// If user clicked the ok button, and the url exists and works, save it and send the uuid over
 					return saveImage(url);
-				//if not, then try to return the oldUUID, otherwise return null 
+					// if not, then try to return the oldUUID, otherwise return null
 				} else return (oldUUID != null) ? oldUUID : null;
 			});
 		}
-		
+
 		public boolean displayImage() {
 			return displayImage("");
 		}
-		
+
 		public boolean displayImage(String iURL) {
 			Image i = getImageFromURL((iURL != null && !iURL.contentEquals("")) ? iURL : url);
 			iView.setImage((i != null) ? i : null);
 			return i != null;
 		}
-		
+
 		public String showPrompt() {
 			loadLayout();
 			Optional<String> out = this.showAndWait();
@@ -331,7 +328,7 @@ public class Images {
 		public String getUUID() {
 			return uuid;
 		}
-		
+
 		public String getURL() {
 			return url;
 		}

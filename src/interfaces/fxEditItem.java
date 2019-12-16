@@ -9,6 +9,7 @@ import classes.Enchref;
 import classes.Images;
 import classes.Iref;
 import classes.Item;
+import classes.Items;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -38,6 +39,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import util.system;
 import vars.ItemSlot;
 
 public class fxEditItem {
@@ -121,7 +123,12 @@ public class fxEditItem {
 		errorText = new Label("");
 		errorText.setTextFill(Color.RED);
 
-		r.getChildren().addAll(labelName, itemName, errorText);
+		Button openJSON = new Button("Open .JSON");
+		openJSON.setOnAction(e -> {
+			system.openExtFile(Items.getFile(item.getID()));
+		});
+
+		r.getChildren().addAll(labelName, itemName, errorText, openJSON);
 
 		return r;
 	}
@@ -205,7 +212,7 @@ public class fxEditItem {
 		bSetImage.setOnAction(e -> {
 			item.setImageUUID(new Images.ImagePrompt(item.getImageUUID()).showPrompt());
 		});
-		
+
 		// Item Material
 		Text tMaterial = new Text("Material:");
 		TextField material = new TextField();
@@ -356,7 +363,7 @@ public class fxEditItem {
 	private static TitledPane contentCrafting() {
 		TitledPane r = new TitledPane();
 		r.setText("Crafting");
-		
+
 		ListView<Craftable> crafting = new ListView<Craftable>();
 
 		return r;
@@ -557,7 +564,7 @@ public class fxEditItem {
 		});
 
 		iImage.setImage(item.getImage());
-		
+
 		r.setContent(iImage);
 
 		return r;

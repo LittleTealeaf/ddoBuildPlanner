@@ -16,6 +16,5 @@ public class ItemExport {
 		return null;
 	}
 
-	public void exportItem() {
-	}
+	public void exportItem() {}
 }
