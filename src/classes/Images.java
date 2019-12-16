@@ -322,6 +322,8 @@ public class Images {
 			else return out.get();
 		}
 	}
+	
+	//TODO image selection prompt
 
 	private static class extImage {
 
