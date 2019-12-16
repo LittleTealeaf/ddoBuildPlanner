@@ -25,6 +25,8 @@ public class Item {
 	private String proficiency;
 	private String bindStatus;
 	private String material;
+	private String iconUUID;
+	private String imageUUID;
 	private int minLevel;
 	private int absoluteMinLevel;
 	private double hardness;
@@ -213,60 +215,6 @@ public class Item {
 
 	public void setMaterial(String material) {
 		this.material = material;
-	}
-
-	public Image getIcon() {
-		return Images.getImage(getIconName());
-	}
-
-	public ImageView getIconView() {
-		return new ImageView(getIcon());
-	}
-
-	/**
-	 * Gets a 40px * 40px ImageView
-	 * 
-	 * @return Icon Image
-	 */
-	public ImageView getIconViewSmall() {
-		ImageView r = new ImageView(getIcon());
-		double size = Settings.appearance.icon.size;
-		r.setFitHeight(size);
-		r.setFitWidth(size);
-		r.setPreserveRatio(true);
-
-		return r;
-	}
-
-	public void setIcon(String iconURL) {
-
-		if(iconURL.contentEquals("")) {
-			Images.deleteImage(getIconName());
-			return;
-		}
-
-		if(iconURL.contentEquals(getIconName())) return;
-		Images.saveImage(getIconName(), iconURL);
-	}
-
-	public Image getImage() {
-		return Images.getImage(getImageName());
-	}
-
-	public ImageView getImageView() {
-		return new ImageView(getImage());
-	}
-
-	public void setImage(String imageURL) {
-
-		if(imageURL.contentEquals("")) {
-			Images.deleteImage(getImageName());
-			return;
-		}
-
-		if(imageURL.contentEquals(getImageName())) return;
-
-		Images.saveImage(getImageName(), imageURL);
 	}
 
 	public int getMinLevel() {
