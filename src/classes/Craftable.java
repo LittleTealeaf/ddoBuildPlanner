@@ -2,30 +2,31 @@ package classes;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class Craftable {
 
 	private String name;
 	
-	private int ID;
+	private String uuid;
 	
 	private List<Enchantment> choices;
 	
 	public Craftable() {
-		this(0);
+		this(UUID.randomUUID().toString());
 	}
 	
-	public Craftable(int id) {
-		this("",id);
+	public Craftable(String uuid) {
+		this("",uuid);
 	}
 
-	public Craftable(String name, int id) {
-		this(name,id,new ArrayList<Enchantment>());
+	public Craftable(String name, String uuid) {
+		this(name,uuid,new ArrayList<Enchantment>());
 	}
 	
-	public Craftable(String name, int id, List<Enchantment> choices) {
+	public Craftable(String name, String uuid, List<Enchantment> choices) {
 		this.name = name;
-		this.ID = id;
+		this.uuid = uuid;
 		this.choices = choices;
 	}
 	
@@ -37,12 +38,12 @@ public class Craftable {
 		this.name = name;
 	}
 	
-	public int getID() {
-		return ID;
+	public String getUUID() {
+		return uuid;
 	}
 	
-	public void setID(int id) {
-		this.ID = id;
+	public void setUUID(String uuid) {
+		this.uuid = uuid;
 	}
 
 	public List<Enchantment> getChoices() {
