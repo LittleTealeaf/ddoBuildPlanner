@@ -33,7 +33,7 @@ public class Images {
 	private static List<extImage> externalImages;
 	
 	/*
-	 * 0.0.1r2 plans
+	 * TODO 0.0.1r2 plans
 	 * Whenever you save an image, you save that image with a UUID (local storage name is UUID)
 	 * Saving an image has a return value of the UUID string for future use
 	 * When an image is requested, it does pretty much the same thing as it does, where
