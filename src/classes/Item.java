@@ -17,7 +17,7 @@ public class Item {
 
 	//TODO add item IDs
 	
-	private transient String oldName;
+	private String ID;
 	private String name;
 	private String type;
 	private String description;
@@ -90,25 +90,9 @@ public class Item {
 	 * 
 	 * @return Returns true if successful or false if unsuccessful
 	 */
-	public boolean saveItem() {
-		System.out.println(oldName + " to " + name);
-		cleanItem();
-
-		if(oldName != null && !oldName.contentEquals(name)) {
-			Images.renameImage(getImageName(oldName), getImageName(name));
-			Images.renameImage(getIconName(oldName), getIconName(name));
-
-			Items.getFile(oldName).renameTo(Items.getFile(name));
-
-			system.getAppFile("items", oldName + ".json").delete();
-		}
-
-		if(!(name == null || name.contentEquals(""))) {
-			Items.saveItem(this);
-			oldName = name + "";
-			fxItems.updateTable();
-			return true;
-		} else return false;
+	public void saveItem() {
+		Items.saveItem(this);
+		fxItems.updateTable();
 	}
 
 	/**
@@ -161,13 +145,20 @@ public class Item {
 	public static String getIconName(String name) {
 		return name + ".itemicon";
 	}
+	
+	public String getID() {
+		return ID;
+	}
+	
+	public void setID(String id) {
+		this.ID = id;
+	}
 
 	public String getName() {
 		return name;
 	}
 
 	public void setName(String name) {
-		if(this.oldName == null) this.oldName = this.name;
 		this.name = name;
 	}
 

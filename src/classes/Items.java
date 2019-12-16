@@ -32,10 +32,10 @@ public class Items {
 	private static long lastModified;
 	private static List<Item> items;
 
-	public static Item readItem(String name) {
+	public static Item readItem(String ID) {
 
 		try {
-			return system.objectJSON.fromJson(new FileReader(getFile(name)), Item.class);
+			return system.objectJSON.fromJson(new FileReader(getFile(ID)), Item.class);
 		} catch(Exception e) {
 			return null;
 		}
