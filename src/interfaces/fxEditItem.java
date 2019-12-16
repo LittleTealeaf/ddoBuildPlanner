@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import classes.Craftable;
 import classes.Dice;
+import classes.Enchantment;
 import classes.Enchantments;
 import classes.Enchref;
 import classes.Images;
@@ -337,7 +338,8 @@ public class fxEditItem {
 
 		Button bCreate = new Button("Create");
 		bCreate.setOnAction(e -> {
-			item.addEnchantment(Enchantments.enchrefDialog());
+			Enchref ench = Enchantments.enchrefDialog();
+			if(ench != null) item.addEnchantment(ench);
 			enchantmentView.setItems(FXCollections.observableArrayList(item.getEnchantments()));
 		});
 
