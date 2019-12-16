@@ -31,6 +31,19 @@ import util.system;
 public class Images {
 
 	private static List<extImage> externalImages;
+	
+	/*
+	 * 0.0.1r2 plans
+	 * Whenever you save an image, you save that image with a UUID (local storage name is UUID)
+	 * Saving an image has a return value of the UUID string for future use
+	 * When an image is requested, it does pretty much the same thing as it does, where
+	 * 	it looks to see if the specific file exists, and then looks to see if it's in the
+	 * 	external images list
+	 * For the image prompt, it doesn't display the UUID as the loaded
+	 * 	This will need to be a complete rework of the entire prompt, including
+	 * 	buttons for loading the previous image, clearing, and separate files
+	 * 	for "load from URL", "load from file". 
+	 */
 
 	/**
 	 * Initially Load the Images class
@@ -338,10 +351,6 @@ public class Images {
 
 		public void setName(String name) {
 			this.name = name;
-		}
-
-		public String getURL() {
-			return url;
 		}
 	}
 }
