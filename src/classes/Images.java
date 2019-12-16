@@ -242,12 +242,20 @@ public class Images {
 
 			Button loadURL = new Button("Load");
 			loadURL.setOnAction(e -> {
+
+				if(displayImage(urlField.getText())) {
+					url = urlField.getText();
+				}
 			});
 
 			Button browseFile = new Button("From file...");
 			browseFile.setOnAction(e -> {
 				String image = fileChooser.showOpenDialog(getOwner()).getPath();
-				if(displayImage(image)) url = image;
+
+				if(displayImage(image)) {
+					url = image;
+					urlField.setText(url);
+				}
 			});
 
 			HBox headerTop = new HBox(urlField, browseFile, loadURL);
