@@ -212,6 +212,7 @@ public class fxEditItem {
 		Button bSetImage = new Button("Set Image");
 		bSetImage.setOnAction(e -> {
 			item.setImageUUID(new Images.ImagePrompt(item.getImageUUID()).showPrompt());
+			iImage.setImage(item.getImage());
 		});
 
 		// Item Material
