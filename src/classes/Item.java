@@ -91,6 +91,7 @@ public class Item {
 	 * @return Returns true if successful or false if unsuccessful
 	 */
 	public void saveItem() {
+		if(ID == null || ID.contentEquals("")) ID = Items.getNewID();
 		Items.saveItem(this);
 		fxItems.updateTable();
 	}

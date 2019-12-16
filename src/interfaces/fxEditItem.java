@@ -90,10 +90,13 @@ public class fxEditItem {
 	private static void saveItem() {
 		errorText.setText("");
 
-		if(!item.saveItem()) {
+		if(itemName.getText().contentEquals("")) {
 			// If it didn't save
 			errorText.setText("Please include a name");
 			itemName.requestFocus();
+			return;
+		} else {
+			item.saveItem();
 		}
 
 		stage.close();

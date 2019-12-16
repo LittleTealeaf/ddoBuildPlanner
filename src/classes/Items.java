@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import javafx.collections.FXCollections;
 import javafx.scene.control.Dialog;
@@ -38,6 +39,10 @@ public class Items {
 
 	private static long lastModified;
 	private static List<Item> items;
+	
+	public static String getNewID() {
+		return UUID.randomUUID().toString();
+	}
 
 	public static Item readItem(String ID) {
 
