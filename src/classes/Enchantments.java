@@ -58,7 +58,7 @@ public class Enchantments {
 	}
 
 	public static Enchantment getEnchantment(int id) {
-		for(Enchantment e : enchantments) if(e.getId() == id) return e;
+		for(Enchantment e : enchantments) if(e.getUUID() == id) return e;
 		return null;
 	}
 
