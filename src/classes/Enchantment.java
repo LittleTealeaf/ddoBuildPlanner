@@ -2,10 +2,11 @@ package classes;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class Enchantment {
 
-	private int id; // static identifier
+	private String uuid; // static identifier
 	private String displayName; // display / selection name
 	private String name; // Initial Name (aka. Spell Power)
 	private String description; // Description
@@ -17,12 +18,12 @@ public class Enchantment {
 
 	public Enchantment(String name) {
 		this.name = name;
-		id = Enchantments.getNewID();
+		uuid = UUID.randomUUID().toString();
 		attributes = new ArrayList<AttributeBonus>();
 	}
 
-	public int getId() {
-		return id;
+	public String getUUID() {
+		return uuid;
 	}
 
 	public String getDisplayName() {

@@ -39,10 +39,6 @@ public class Items {
 
 	private static long lastModified;
 	private static List<Item> items;
-	
-	public static String getNewID() {
-		return UUID.randomUUID().toString();
-	}
 
 	public static Item readItem(String ID) {
 
@@ -56,7 +52,7 @@ public class Items {
 	public static void saveItem(Item i) {
 
 		try {
-			File file = getFile(i.getName());
+			File file = getFile(i.getID());
 			file.getParentFile().mkdirs();
 			FileWriter writer = new FileWriter(file);
 			writer.write(system.staticJSON.toJson(i));

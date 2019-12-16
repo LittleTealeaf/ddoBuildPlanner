@@ -83,23 +83,12 @@ public class Enchantments {
 	}
 
 	public static void updateEnchantment(Enchantment enchantment) {
-		for(Enchantment e : enchantments) if(e.getId() == enchantment.getId()) {
+		for(Enchantment e : enchantments) if(e.getUUID() == enchantment.getUUID()) {
 			e = enchantment;
 			save();
 			return;
 		}
 		addEnchantment(enchantment);
-	}
-
-	public static int getNewID() {
-		List<Integer> takenID = new ArrayList<Integer>();
-
-		for(Enchantment e : enchantments) takenID.add(e.getId());
-
-		int i = 0;
-		while(takenID.contains(i)) i++;
-
-		return i;
 	}
 
 	public static Enchref enchrefDialog() {
@@ -188,7 +177,7 @@ public class Enchantments {
 					addEnchantment(create);
 					fxEditEnchantment.openAndWait(create);
 				}
-				return new Enchref(getEnchantment(choice.getText()).getId(), type.getText(), bonus.getText(), value.getValue());
+				return new Enchref(getEnchantment(choice.getText()).getUUID(), type.getText(), bonus.getText(), value.getValue());
 			}
 			return null;
 		});

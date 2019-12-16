@@ -3,6 +3,7 @@ package classes;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 import interfaces.fxItems;
 import javafx.scene.control.Alert;
@@ -91,7 +92,7 @@ public class Item {
 	 * @return Returns true if successful or false if unsuccessful
 	 */
 	public void saveItem() {
-		if(ID == null || ID.contentEquals("")) ID = Items.getNewID();
+		if(ID == null || ID.contentEquals("")) ID = UUID.randomUUID().toString();
 		Items.saveItem(this);
 		fxItems.updateTable();
 	}
