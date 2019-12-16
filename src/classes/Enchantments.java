@@ -172,12 +172,12 @@ public class Enchantments {
 
 			if(e.getButtonData() == ButtonData.OK_DONE) {
 
-				if(getEnchantment(choice.getText()) == null) {
+				if(getEnchantmentName(choice.getText()) == null) {
 					Enchantment create = new Enchantment(choice.getText());
 					addEnchantment(create);
 					fxEditEnchantment.openAndWait(create);
 				}
-				return new Enchref(getEnchantment(choice.getText()).getUUID(), type.getText(), bonus.getText(), value.getValue());
+				return new Enchref(getEnchantmentName(choice.getText()).getUUID(), type.getText(), bonus.getText(), value.getValue());
 			}
 			return null;
 		});
