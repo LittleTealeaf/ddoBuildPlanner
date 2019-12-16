@@ -3,6 +3,7 @@ package classes;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 import interfaces.fxItems;
 import javafx.scene.control.Alert;
@@ -14,16 +15,16 @@ import util.system;
 import vars.ItemSlot;
 
 public class Item {
-
-	//TODO add item IDs
 	
-	private transient String oldName;
+	private String ID;
 	private String name;
 	private String type;
 	private String description;
 	private String proficiency;
 	private String bindStatus;
 	private String material;
+	private String iconUUID;
+	private String imageUUID;
 	private int minLevel;
 	private int absoluteMinLevel;
 	private double hardness;
@@ -90,25 +91,10 @@ public class Item {
 	 * 
 	 * @return Returns true if successful or false if unsuccessful
 	 */
-	public boolean saveItem() {
-		System.out.println(oldName + " to " + name);
-		cleanItem();
-
-		if(oldName != null && !oldName.contentEquals(name)) {
-			Images.renameImage(getImageName(oldName), getImageName(name));
-			Images.renameImage(getIconName(oldName), getIconName(name));
-
-			Items.getFile(oldName).renameTo(Items.getFile(name));
-
-			system.getAppFile("items", oldName + ".json").delete();
-		}
-
-		if(!(name == null || name.contentEquals(""))) {
-			Items.saveItem(this);
-			oldName = name + "";
-			fxItems.updateTable();
-			return true;
-		} else return false;
+	public void saveItem() {
+		if(ID == null || ID.contentEquals("")) ID = UUID.randomUUID().toString();
+		Items.saveItem(this);
+		fxItems.updateTable();
 	}
 
 	/**
@@ -126,8 +112,8 @@ public class Item {
 		}
 
 		if(Settings.items.deleteImages) {
-			Images.deleteImage(getImageName());
-			Images.deleteImage(getIconName());
+			Images.deleteImage(imageUUID);
+			Images.deleteImage(iconUUID);
 		}
 
 		system.getAppFile("items", name + ".json").delete();
@@ -145,21 +131,13 @@ public class Item {
 
 		// TODO clear empty fields in damage types
 	}
-
-	public String getImageName() {
-		return getImageName(name);
+	
+	public String getID() {
+		return ID;
 	}
-
-	public static String getImageName(String name) {
-		return name + ".itemimage";
-	}
-
-	public String getIconName() {
-		return getIconName(name);
-	}
-
-	public static String getIconName(String name) {
-		return name + ".itemicon";
+	
+	public void setID(String id) {
+		this.ID = id;
 	}
 
 	public String getName() {
@@ -167,7 +145,6 @@ public class Item {
 	}
 
 	public void setName(String name) {
-		if(this.oldName == null) this.oldName = this.name;
 		this.name = name;
 	}
 
@@ -197,6 +174,38 @@ public class Item {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	
+	public Image getIcon() {
+		return Images.getImage(iconUUID);
+	}
+	
+	public ImageView getIconViewSmall() {
+		ImageView r = new ImageView(Images.getImage(iconUUID));
+		r.setPreserveRatio(true);
+		r.setFitWidth(Settings.appearance.icon.size);
+		r.setFitHeight(Settings.appearance.icon.size);
+		return r;
+	}
+	
+	public String getIconUUID() {
+		return iconUUID;
+	}
+	
+	public void setIconUUID(String iconUUID) {
+		this.iconUUID = iconUUID;
+	}
+	
+	public Image getImage() {
+		return Images.getImage(imageUUID);
+	}
+	
+	public String getImageUUID() {
+		return imageUUID;
+	}
+	
+	public void setImageUUID(String imageUUID) {
+		this.imageUUID = imageUUID;
+	}
 
 	public String getProficiency() {
 		return proficiency;
@@ -220,60 +229,6 @@ public class Item {
 
 	public void setMaterial(String material) {
 		this.material = material;
-	}
-
-	public Image getIcon() {
-		return Images.getImage(getIconName());
-	}
-
-	public ImageView getIconView() {
-		return new ImageView(getIcon());
-	}
-
-	/**
-	 * Gets a 40px * 40px ImageView
-	 * 
-	 * @return Icon Image
-	 */
-	public ImageView getIconViewSmall() {
-		ImageView r = new ImageView(getIcon());
-		double size = Settings.appearance.icon.size;
-		r.setFitHeight(size);
-		r.setFitWidth(size);
-		r.setPreserveRatio(true);
-
-		return r;
-	}
-
-	public void setIcon(String iconURL) {
-
-		if(iconURL.contentEquals("")) {
-			Images.deleteImage(getIconName());
-			return;
-		}
-
-		if(iconURL.contentEquals(getIconName())) return;
-		Images.saveImage(getIconName(), iconURL);
-	}
-
-	public Image getImage() {
-		return Images.getImage(getImageName());
-	}
-
-	public ImageView getImageView() {
-		return new ImageView(getImage());
-	}
-
-	public void setImage(String imageURL) {
-
-		if(imageURL.contentEquals("")) {
-			Images.deleteImage(getImageName());
-			return;
-		}
-
-		if(imageURL.contentEquals(getImageName())) return;
-
-		Images.saveImage(getImageName(), imageURL);
 	}
 
 	public int getMinLevel() {
@@ -340,28 +295,18 @@ public class Item {
 
 	//Crafting
 	
-	private int getNewID() {
-		List<Integer> existing = new ArrayList<Integer>();
-		for(Craftable c : crafting) existing.add(c.getID());
-		
-		int r = 0;
-		while(existing.contains((r++))) {}
-		return r;
-	}
-	
 	public List<Craftable> getCrafting() {
 		return crafting;
 	}
 
 	public void setCrafting(List<Craftable> crafting) {
 		
-		for(int i = 0; i < crafting.size(); i++) crafting.get(i).setID(i);
+		for(Craftable c : crafting) c.newUUID();
 		
 		this.crafting = crafting;
 	}
 
 	public void addCraftable(Craftable craftable) {
-		craftable.setID(getNewID());
 		this.crafting.add(craftable);
 	}
 

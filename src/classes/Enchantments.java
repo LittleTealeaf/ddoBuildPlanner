@@ -57,12 +57,12 @@ public class Enchantments {
 		return enchantments;
 	}
 
-	public static Enchantment getEnchantment(int id) {
-		for(Enchantment e : enchantments) if(e.getId() == id) return e;
+	public static Enchantment getEnchantmentUUID(String uuid) {
+		for(Enchantment e : enchantments) if(e.getUUID() == uuid) return e;
 		return null;
 	}
 
-	public static Enchantment getEnchantment(String name) {
+	public static Enchantment getEnchantmentName(String name) {
 		for(Enchantment e : enchantments) if(e.getName() != null && e.getName().toLowerCase().contentEquals(name.toLowerCase())) return e;
 		return null;
 	}
@@ -72,8 +72,8 @@ public class Enchantments {
 		save();
 	}
 
-	public static void removeEnchantment(int id) {
-		removeEnchantment(getEnchantment(id));
+	public static void removeEnchantment(String uuid) {
+		removeEnchantment(getEnchantmentUUID(uuid));
 		save();
 	}
 
@@ -83,23 +83,12 @@ public class Enchantments {
 	}
 
 	public static void updateEnchantment(Enchantment enchantment) {
-		for(Enchantment e : enchantments) if(e.getId() == enchantment.getId()) {
+		for(Enchantment e : enchantments) if(e.getUUID() == enchantment.getUUID()) {
 			e = enchantment;
 			save();
 			return;
 		}
 		addEnchantment(enchantment);
-	}
-
-	public static int getNewID() {
-		List<Integer> takenID = new ArrayList<Integer>();
-
-		for(Enchantment e : enchantments) takenID.add(e.getId());
-
-		int i = 0;
-		while(takenID.contains(i)) i++;
-
-		return i;
 	}
 
 	public static Enchref enchrefDialog() {
@@ -183,12 +172,12 @@ public class Enchantments {
 
 			if(e.getButtonData() == ButtonData.OK_DONE) {
 
-				if(getEnchantment(choice.getText()) == null) {
+				if(getEnchantmentName(choice.getText()) == null) {
 					Enchantment create = new Enchantment(choice.getText());
 					addEnchantment(create);
 					fxEditEnchantment.openAndWait(create);
 				}
-				return new Enchref(getEnchantment(choice.getText()).getId(), type.getText(), bonus.getText(), value.getValue());
+				return new Enchref(getEnchantmentName(choice.getText()).getUUID(), type.getText(), bonus.getText(), value.getValue());
 			}
 			return null;
 		});

@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Enchref {
 
-	private int id;
+	private String uuid;
 
 	private String type;
 	private String bonus;
@@ -12,19 +12,19 @@ public class Enchref {
 
 	private transient Enchantment enchantment;
 
-	public Enchref(int id) {
-		this.id = id;
+	public Enchref(String uuid) {
+		this.uuid = uuid;
 	}
 
-	public Enchref(int id, String type, String bonus, double value) {
-		this.id = id;
+	public Enchref(String uuid, String type, String bonus, double value) {
+		this.uuid = uuid;
 		this.type = type;
 		this.bonus = bonus;
 		this.value = value;
 	}
 
 	public Enchantment getEnchantment() {
-		return (enchantment == null) ? (enchantment = Enchantments.getEnchantment(id)) : enchantment;
+		return (enchantment == null) ? (enchantment = Enchantments.getEnchantmentUUID(uuid)) : enchantment;
 	}
 
 	public String getType() {

@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import javafx.collections.FXCollections;
 import javafx.scene.control.Dialog;
@@ -18,7 +19,7 @@ import util.system;
 import vars.ItemSlot;
 
 public class Items {
-
+	
 	/*
 	 * Requires Functions:
 	 * getItem -- gets the item
@@ -32,10 +33,10 @@ public class Items {
 	private static long lastModified;
 	private static List<Item> items;
 
-	public static Item readItem(String name) {
+	public static Item readItem(String ID) {
 
 		try {
-			return system.objectJSON.fromJson(new FileReader(getFile(name)), Item.class);
+			return system.objectJSON.fromJson(new FileReader(getFile(ID)), Item.class);
 		} catch(Exception e) {
 			return null;
 		}
@@ -44,7 +45,7 @@ public class Items {
 	public static void saveItem(Item i) {
 
 		try {
-			File file = getFile(i.getName());
+			File file = getFile(i.getID());
 			file.getParentFile().mkdirs();
 			FileWriter writer = new FileWriter(file);
 			writer.write(system.staticJSON.toJson(i));
