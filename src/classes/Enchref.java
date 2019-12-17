@@ -52,7 +52,7 @@ public class Enchref {
 	}
 
 	public String getDisplayName() {
-		return getEnchantment().getDisplayName(this);
+		return (getEnchantment() != null) ? getEnchantment().getDisplayName(this) : "";
 	}
 
 	public List<Attribute> getAttributes() {

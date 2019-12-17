@@ -10,7 +10,7 @@ public class Craftable {
 
 	private String uuid;
 
-	private List<Enchantment> choices;
+	private List<Enchref> choices;
 
 	public Craftable() {
 		this(UUID.randomUUID().toString());
@@ -21,10 +21,10 @@ public class Craftable {
 	}
 
 	public Craftable(String name, String uuid) {
-		this(name, uuid, new ArrayList<Enchantment>());
+		this(name, uuid, new ArrayList<Enchref>());
 	}
 
-	public Craftable(String name, String uuid, List<Enchantment> choices) {
+	public Craftable(String name, String uuid, List<Enchref> choices) {
 		this.name = name;
 		this.uuid = uuid;
 		this.choices = choices;
@@ -50,24 +50,29 @@ public class Craftable {
 		this.uuid = UUID.randomUUID().toString();
 	}
 
-	public List<Enchantment> getChoices() {
+	public List<Enchref> getChoices() {
 		return choices;
 	}
 
-	public Enchantment getChoice(int index) {
+	public Enchref getChoice(int index) {
 		if(index < choices.size()) return choices.get(index);
 		else return null;
 	}
 
-	public void setChoices(List<Enchantment> choices) {
+	public void setChoices(List<Enchref> choices) {
 		this.choices = choices;
 	}
 
-	public void addChoice(Enchantment choice) {
+	public void addChoice(Enchref choice) {
 		this.choices.add(choice);
 	}
 
-	public void removeChoice(Enchantment choice) {
+	public void removeChoice(Enchref choice) {
 		this.choices.remove(choice);
+	}
+	
+	public void updateChoice(Enchref from, Enchref to) {
+		if(choices.contains(from)) choices.set(choices.indexOf(from), to);
+		else choices.add(to);
 	}
 }

@@ -221,7 +221,7 @@ public class Images {
 
 			// File Chooser for the browse function
 			fileChooser = new FileChooser();
-			fileChooser.setInitialDirectory(new File(System.getProperty("user.home"))); // TODO find the one for image default!
+			fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
 			fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("All Images", "*"), new FileChooser.ExtensionFilter("JPG", "*.jpg"), new FileChooser.ExtensionFilter("PNG", "*.png"));
 
 			// Error Label

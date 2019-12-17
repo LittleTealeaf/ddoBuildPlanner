@@ -84,6 +84,7 @@ public class Item {
 		this.name = name;
 		enchantments = new ArrayList<Enchref>();
 		equipSlots = new ArrayList<ItemSlot>();
+		crafting = new ArrayList<Craftable>();
 	}
 
 	/**
@@ -116,7 +117,7 @@ public class Item {
 			Images.deleteImage(iconUUID);
 		}
 
-		system.getAppFile("items", name + ".json").delete();
+		system.getAppFile("items", ID + ".json").delete();
 
 		fxItems.updateTable();
 	}
@@ -299,14 +300,28 @@ public class Item {
 		return crafting;
 	}
 
+	public Craftable getCraft(String uuid) {
+		for(Craftable c : crafting) if(uuid.contentEquals(c.getUUID())) return c;
+		return null;
+	}
+
 	public void setCrafting(List<Craftable> crafting) {
-		for(Craftable c : crafting) c.newUUID();
+		for(Craftable c : crafting) if(c.getUUID().contentEquals("")) c.newUUID();
 
 		this.crafting = crafting;
 	}
 
 	public void addCraftable(Craftable craftable) {
-		this.crafting.add(craftable);
+		if(craftable != null) this.crafting.add(craftable);
+	}
+	
+	public void updateCraftable(Craftable previous, Craftable updated) {
+		if(updated == null) {
+			removeCraftable(previous);
+		} else {
+			if(crafting.contains(previous)) crafting.set(crafting.indexOf(previous), updated);
+			else addCraftable(updated);
+		}
 	}
 
 	public void removeCraftable(Craftable craftable) {

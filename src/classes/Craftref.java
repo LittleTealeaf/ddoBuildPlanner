@@ -3,11 +3,16 @@ package classes;
 public class Craftref {
 
 	private int index;
-	private transient Craftable craftable;
+	private String uuid;
 
 	public Craftref(Craftable craftable, int index) {
 		this.index = index;
-		this.craftable = craftable;
+		this.uuid = craftable.getUUID();
+	}
+	
+	public Craftref(String uuid, int index) {
+		this.index = index;
+		this.uuid = uuid;
 	}
 
 	public int getIndex() {
@@ -17,8 +22,8 @@ public class Craftref {
 	public void setIndex(int index) {
 		this.index = index;
 	}
-
-	public Craftable getCraftable() {
-		return craftable;
+	
+	public String getUUID() {
+		return uuid;
 	}
 }

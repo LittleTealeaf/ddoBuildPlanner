@@ -53,6 +53,7 @@ public class fxEditItem {
 	private static Label errorText;
 	private static ImageView iImage;
 	private static ListView<Enchref> enchantmentView;
+	private static ListView<Craftable> crafting;
 
 	public static void open() {
 		open((Item) null);
@@ -367,8 +368,47 @@ public class fxEditItem {
 		TitledPane r = new TitledPane();
 		r.setText("Crafting");
 
-		ListView<Craftable> crafting = new ListView<Craftable>();
+		crafting = new ListView<Craftable>();
+		
+		crafting.setOnMouseClicked(e -> {
+			if(e.getClickCount() == 2) {
+				item.updateCraftable(crafting.getSelectionModel().getSelectedItem(), fxEditCraftable.openEditor(crafting.getSelectionModel().getSelectedItem()));
+				crafting.setItems(FXCollections.observableArrayList(item.getCrafting()));
+			}
+		});
 
+		crafting.setCellFactory(param -> new ListCell<Craftable>() {
+
+			protected void updateItem(Craftable item, boolean empty) {
+				super.updateItem(item, empty);
+				if(empty || item == null || item.getName() == null) setText(null);
+				else setText(item.getName());
+			}
+		});
+		
+		crafting.setItems(FXCollections.observableArrayList(item.getCrafting()));
+
+		Button create = new Button("Create");
+		create.setOnAction(e -> {
+			item.addCraftable(fxEditCraftable.openEditor());
+			crafting.setItems(FXCollections.observableArrayList(item.getCrafting()));
+		});
+		
+		Button delete = new Button("Delete");
+		delete.setOnAction(e ->{
+			 item.removeCraftable(crafting.getSelectionModel().getSelectedItem());
+			 crafting.setItems(FXCollections.observableArrayList(item.getCrafting()));
+		});
+		
+		HBox buttons = new HBox(create,delete);
+		buttons.setSpacing(10);
+		
+		BorderPane con = new BorderPane();
+		con.setCenter(crafting);
+		con.setBottom(buttons);
+		
+		r.setContent(con);
+		
 		return r;
 	}
 
