@@ -1,0 +1,52 @@
+{
+  "enchantments": [
+    {
+      "id": 0,
+      "displayName": "[value] [bonus] [type] Spell Power",
+      "name": "Spell Power",
+      "attributes": [
+        {
+          "attribute": "[type] Spell Power",
+          "bonus": "[bonus]",
+          "multiplier": 1.0
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "displayName": "[value] [bonus] [type] Spell Lore",
+      "name": "Spell Lore",
+      "attributes": [
+        {
+          "attribute": "[type] Spell Lore",
+          "bonus": "[bonus]",
+          "multiplier": 1.0
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "displayName": "[value] [bonus] [type] Spell Focus",
+      "name": "Spell Focus",
+      "attributes": [
+        {
+          "attribute": "[type] Spell Focus",
+          "bonus": "[bonus]",
+          "multiplier": 1.0
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "displayName": "[value] [bonus] [type]",
+      "name": "Standard",
+      "attributes": [
+        {
+          "attribute": "[type]",
+          "bonus": "[bonus]",
+          "multiplier": 1.0
+        }
+      ]
+    }
+  ]
+}

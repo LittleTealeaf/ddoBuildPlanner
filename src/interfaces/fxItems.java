@@ -7,11 +7,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
@@ -44,31 +40,27 @@ public class fxItems {
 		stage.show();
 	}
 
-	@SuppressWarnings("unchecked")
 	public static ScrollPane itemTable() {
 		ScrollPane r = new ScrollPane();
 
-		table = new TableView<Item>();
-
-		TableColumn<Item, ImageView> cIcon = new TableColumn<Item, ImageView>("Icon");
-		cIcon.setCellValueFactory(new PropertyValueFactory<Item, ImageView>("iconViewSmall"));
-
-		TableColumn<Item, String> cName = new TableColumn<Item, String>("Name");
-		cName.setCellValueFactory(new PropertyValueFactory<Item, String>("name"));
-
-		TableColumn<Item, String> cDescription = new TableColumn<Item, String>("Description");
-		cDescription.setCellValueFactory(new PropertyValueFactory<Item, String>("description"));
-
-		table.getColumns().addAll(cIcon, cName, cDescription);
-
-		table.getItems().addAll(FXCollections.observableArrayList(Items.getAllItems()));
+		table = Items.itemTable(Items.getAllItems());
 
 		table.setOnMouseClicked(click -> {
-			if(click.getClickCount() == 2) openSelected();
+			if(click.getClickCount() == 2 && table.getSelectionModel().getSelectedIndex() != -1) openSelected();
 		});
 		table.setOnKeyPressed(key -> {
-			if(key.getCode() == KeyCode.ENTER) openSelected();
-			else if(key.getCode() == KeyCode.DELETE) table.getSelectionModel().getSelectedItem().deleteItem();
+
+			switch (key.getCode()) {
+			case ENTER:
+			case SPACE:
+				openSelected();
+				break;
+			case DELETE:
+				deleteSelected();
+				break;
+			default:
+				break;
+			}
 		});
 
 		table.prefWidthProperty().bind(r.widthProperty());
@@ -82,6 +74,10 @@ public class fxItems {
 
 	private static void openSelected() {
 		fxEditItem.open(table.getSelectionModel().getSelectedItem());
+	}
+
+	private static void deleteSelected() {
+		table.getSelectionModel().getSelectedItem().deleteItem();
 	}
 
 	public static void updateTable() {

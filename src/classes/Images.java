@@ -12,6 +12,7 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar.ButtonData;
@@ -23,15 +24,25 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import util.system;
 
 public class Images {
+	
+	/*
+	 * TODO error:
+	 * has errors when trying to get external images
+	 */
 
 	private static List<extImage> externalImages;
 
+	private static transient final String imageType = ".png";
+
+	/**
+	 * Initially Load the Images class
+	 */
 	public static void load() {
 		File externals = system.getAppFile("images", "external.json");
 
@@ -43,110 +54,120 @@ public class Images {
 
 		deleteImage(".image");
 		deleteImage(".icon");
+		save();
 	}
 
-	public static void verifyImages() {
-		for(extImage img : externalImages) {
-			if(getImage(img.getURL()) == null) {
-				System.out.println("Deleting Void Image: " + img.getName());
-				deleteImage(img.getName());
-			}
-		}
-	}
-
+	/**
+	 * Saves the currently loaded external image references to a file.
+	 */
 	public static void save() {
-
 		File f = system.getAppFile("images", "external.json");
 
 		if(!f.exists()) f.getParentFile().mkdirs();
-		try {
 
+		try {
 			FileWriter writer = new FileWriter(f);
 			writer.write(system.staticJSON.toJson(new Images()));
 			writer.close();
-
 		} catch(IOException e) {}
 	}
 
-	public static Image getImage(String name) {
+	/**
+	 * Saves an image to the database
+	 * If set to in settings, saves a local copy, otherwise adds the reference to external.json
+	 * 
+	 * @param name Name to set it to
+	 * @param url  URL of the image
+	 */
+	public static String saveImage(String url) {
+		String uuid = UUID.randomUUID().toString();
 
+		if(Settings.saving.images.storeLocal) {
+			localizeImage(new extImage(uuid, url));
+		} else {
+			List<extImage> images = new ArrayList<extImage>();
+			for(extImage i : externalImages) if(!uuid.contentEquals(i.getUUID())) images.add(i);
+			images.add(new extImage(uuid, url));
+			externalImages = images;
+		}
+
+		save();
+		return uuid;
+	}
+
+	/**
+	 * Gets an image
+	 * 
+	 * @param name Either the URL, file path, or name of the image in the database
+	 * @return Image as an Image class
+	 */
+	public static Image getImage(String uuid) {
 		File f = null;
 
 		try {
-
-			f = system.getAppFile("images", name);
-
+			f = system.getAppFile("images", uuid + imageType);
 		} catch(Exception e) {
+
 			try {
-
-				f = new File(name);
-
+				f = new File(uuid);
 			} catch(Exception d) {}
 		}
 
 		if(f.exists()) return getImageFromURL(f.getPath());
-
+		
 		for(extImage i : externalImages) {
-			if(name.contentEquals(i.name)) return getImageFromURL(i.url);
+			if(uuid.contentEquals(i.getUUID())) return getImageFromURL(i.getURL());
 		}
 
-		return getImageFromURL(name);
+		return getImageFromURL(uuid);
 	}
 
-	public static void renameImage(String from, String to) {
-		File f = system.getAppFile("images", from);
-
-		if(f.exists()) f.renameTo(system.getAppFile("images", to));
-		else for(extImage i : externalImages) if(from.contentEquals(i.getName())) i.setName(to);
-
-		save();
-	}
-
-	public static void deleteImage(String image) {
+	/**
+	 * Deletes an image in the database
+	 * 
+	 * @param image Name of the image to delete
+	 */
+	public static void deleteImage(String uuid) {
 		List<extImage> n = new ArrayList<extImage>();
 
-		for(extImage i : externalImages) if(!i.name.contentEquals(image)) n.add(i);
+		for(extImage i : externalImages) if(!i.getUUID().contentEquals(uuid)) n.add(i);
 
 		externalImages = n;
 
-		File f = system.getAppFile("images", image);
+		File f = system.getAppFile("images", uuid + imageType);
 		if(f.exists()) f.delete();
 
 		save();
 	}
 
+	/**
+	 * Copies any external-referenced-images, whether online or in the directory, to a local file
+	 */
 	public static void localizeImages() {
 		for(extImage i : externalImages) localizeImage(i);
 		externalImages.clear();
 		save();
 	}
 
-	public static void saveImage(String name, String url) {
-		deleteImage(name);
-		if(Settings.images.storeLocal) {
-			localizeImage(new extImage(name, url));
-		} else {
-			List<extImage> images = new ArrayList<extImage>();
-			for(extImage i : externalImages) if(!name.contentEquals(i.getName())) images.add(i);
-			images.add(new extImage(name, url));
-			externalImages = images;
-		}
-		save();
-	}
-
+	/**
+	 * Copies an image in the external.json to the local database
+	 * 
+	 * @param img
+	 */
 	private static void localizeImage(extImage img) {
-		File writeTo = system.getAppFile("images", img.name);
+		File writeTo = system.getAppFile("images", img.getUUID() + imageType);
 		writeTo.getParentFile().mkdirs();
 
 		try {
-			try(var fis = new FileInputStream(img.url); var fos = new FileOutputStream(writeTo)) {
 
+			try(var fis = new FileInputStream(img.getURL()); var fos = new FileOutputStream(writeTo)) {
 				byte[] buffer = new byte[1024];
 				int length;
 
 				while((length = fis.read(buffer)) > 0) fos.write(buffer, 0, length);
 			}
 		} catch(Exception e) {
+
 			try {
 				URL url = new URL(img.url);
 				InputStream is = url.openStream();
@@ -165,134 +186,160 @@ public class Images {
 		}
 	}
 
+	/**
+	 * Gets the image from a URL
+	 * 
+	 * @param url Either the system path to the file or a URL link
+	 * @return Image
+	 */
 	private static Image getImageFromURL(String url) {
+
 		try {
 			return new Image(url);
 		} catch(IllegalArgumentException a) {
 			return new Image(new File(url).toURI().toString());
 		} catch(Exception a) {}
+
 		return null;
 	}
 
 	public static class ImagePrompt extends Dialog<String> {
 
-		private String oldImage;
+		private String oldUUID;
 		private FileChooser fileChooser;
 		private Label errorLabel;
-		private ImageView image;
+		private ImageView iView;
 		private TextField urlField;
 
+		private String url;
+
 		public ImagePrompt() {
-			this("");
+			this(null);
 		}
 
-		/**
-		 * Create a new Image Prompt
-		 * @param loadImage Name of the old image, which is found in the oldImage area
-		 */
-		public ImagePrompt(String loadImage) {
+		public ImagePrompt(String oldUUID) {
 			super();
-			this.setResizable(true);
 
-			oldImage = loadImage;
+			this.oldUUID = (oldUUID != null && !oldUUID.contentEquals("")) ? oldUUID : null;
 
+			// File Chooser for the browse function
 			fileChooser = new FileChooser();
 			fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
 			fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("All Images", "*"), new FileChooser.ExtensionFilter("JPG", "*.jpg"), new FileChooser.ExtensionFilter("PNG", "*.png"));
 
+			// Error Label
 			errorLabel = new Label();
 			errorLabel.setTextFill(Color.RED);
 
-			image = new ImageView();
-			image.setImage(getImage(loadImage));
-			image.setPreserveRatio(true);
-			image.setFitWidth(300);
-			image.setFitHeight(300);
+			// Image View
+			iView = new ImageView();
+			iView.setImage((oldUUID != null) ? Images.getImage(oldUUID) : null);
+			iView.setPreserveRatio(true);
 
+			// URL field
 			urlField = new TextField();
-			urlField.setText(loadImage);
-			HBox.setHgrow(urlField, Priority.ALWAYS);
+		}
 
-			Button browse = new Button("Browse...");
-			browse.setOnAction(e -> {
-				File f = fileChooser.showOpenDialog(null);
-				if(f == null) return;
-				String newURL = f.getPath();
-				if(getImage(newURL) != null) urlField.setText(newURL);
+		private void loadLayout() {
+			this.setResizable(true);
+
+			Button loadURL = new Button("Load");
+			loadURL.setOnAction(e -> {
+
+				if(displayImage(urlField.getText())) {
+					url = urlField.getText();
+				}
+			});
+
+			Button browseFile = new Button("From file...");
+			browseFile.setOnAction(e -> {
+				String image = fileChooser.showOpenDialog(getOwner()).getPath();
+
+				if(displayImage(image)) {
+					url = image;
+					urlField.setText(url);
+				}
+			});
+
+			HBox headerTop = new HBox(urlField, browseFile, loadURL);
+			headerTop.setSpacing(10);
+
+			Button clearImage = new Button("Clear");
+			clearImage.setOnAction(e -> {
+				url = "";
 				displayImage();
 			});
 
-			Button tryDisplay = new Button("Preview");
-			tryDisplay.setOnAction(e -> displayImage());
-
-			Button clear = new Button("Clear Field");
-			clear.setOnAction(e -> {
-				urlField.setText("");
+			Button revertImage = new Button("Revert");
+			revertImage.setOnAction(e -> {
+				url = oldUUID;
 				displayImage();
 			});
 
-			HBox header = new HBox(urlField, errorLabel, browse, tryDisplay, clear);
+			HBox headerBottom = new HBox(clearImage, revertImage);
+			headerBottom.setSpacing(10);
+
+			VBox header = new VBox(headerTop, headerBottom);
 			header.setSpacing(10);
 
 			BorderPane content = new BorderPane();
-
 			content.setTop(header);
-			content.setCenter(image);
+			content.setCenter(iView);
 
 			this.getDialogPane().setContent(content);
-			this.setResultConverter(button -> {
-				if(button.getButtonData() == ButtonData.OK_DONE) {
-					if(getImage(urlField.getText()) != null) return urlField.getText();
-					else return "";
-				} else return oldImage;
-			});
+
+			this.getDialogPane().setPrefWidth(500);
+			this.getDialogPane().setPrefHeight(500);
+			this.getDialogPane().widthProperty().addListener((e, o, n) -> iView.setFitWidth(3 * (double) n / 5));
+			this.getDialogPane().heightProperty().addListener((e, o, n) -> iView.setFitHeight(3 * (double) n / 5));
 
 			ButtonType bAccept = new ButtonType("Accept", ButtonData.OK_DONE);
 			ButtonType bCancel = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
 
 			this.getDialogPane().getButtonTypes().addAll(bAccept, bCancel);
-			this.getDialogPane().setPrefWidth(500);
-			this.getDialogPane().setPrefHeight(500);
 
-			this.getDialogPane().widthProperty().addListener((e, o, n) -> image.setFitWidth(3 * (double) n / 5));
-			this.getDialogPane().heightProperty().addListener((e, o, n) -> image.setFitHeight(3 * (double) n / 5));
+			this.setResultConverter(e -> {
 
+				if(e.getButtonData() == ButtonData.OK_DONE && url != null && getImageFromURL(url) != null) {
+					// If user clicked the ok button, and the url exists and works, save it and send the uuid over
+					return saveImage(url);
+					// if not, then try to return the oldUUID, otherwise return null
+				} else return (oldUUID != null) ? oldUUID : null;
+			});
 		}
 
-		public String prompt() {
+		public boolean displayImage() {
+			return displayImage("");
+		}
+
+		public boolean displayImage(String iURL) {
+			Image i = getImageFromURL((iURL != null && !iURL.contentEquals("")) ? iURL : url);
+			iView.setImage((i != null) ? i : null);
+			return i != null;
+		}
+
+		public String showPrompt() {
+			loadLayout();
 			Optional<String> out = this.showAndWait();
 			if(out.get() == null) return "";
 			else return out.get();
 		}
-
-		private void displayImage() {
-			image.setImage(getImage(urlField.getText()));
-		}
-		
-		public String getURL() {
-			return urlField.getText();
-		}
-		
-		public void setURL(String url) {
-			urlField.setText(url);
-		}
 	}
 
+	// TODO image selection prompt
+
 	private static class extImage {
-		private String name;
+
+		private String uuid;
 		private String url;
 
-		public extImage(String name, String url) {
-			this.name = name;
+		public extImage(String uuid, String url) {
+			this.uuid = uuid;
 			this.url = url;
 		}
 
-		public String getName() {
-			return name;
-		}
-
-		public void setName(String name) {
-			this.name = name;
+		public String getUUID() {
+			return uuid;
 		}
 
 		public String getURL() {

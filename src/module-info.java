@@ -1,8 +1,10 @@
 module buildPlanner {
+
 	exports application;
 	exports classes;
 	exports fxTabs;
 	exports interfaces;
+	exports vars;
 
 	opens classes to com.google.gson;
 

@@ -3,6 +3,7 @@ package classes;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 import interfaces.fxItems;
 import javafx.scene.control.Alert;
@@ -11,34 +12,40 @@ import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import util.system;
+import vars.ItemSlot;
 
 public class Item {
 
-	private transient String oldName;
+	private String ID;
 	private String name;
 	private String type;
 	private String description;
 	private String proficiency;
 	private String bindStatus;
 	private String material;
+	private String iconUUID;
+	private String imageUUID;
 	private int minLevel;
 	private int absoluteMinLevel;
 	private double hardness;
 	private double durability;
 	private double weight;
-	private List<Enchantment> enchantments;
-	private List<String> equipSlots;
+	private List<Enchref> enchantments;
+	private List<ItemSlot> equipSlots;
+	private List<Craftable> crafting;
 
 	// Armor Values
 	private Armor armor;
 
 	private class Armor {
+
 		public Armor() {
 			armorType = "";
+			maxDex = -1;
 		}
 
 		public boolean isEmpty() {
-			return armorType.contentEquals("") && armorBonus == 0 && maxDex == 0 && checkPenalty == 0 && spellFailure == 0;
+			return armorType.contentEquals("") && armorBonus == 0 && maxDex == -1 && checkPenalty == 0 && spellFailure == 0;
 		}
 
 		public String armorType;
@@ -52,6 +59,7 @@ public class Item {
 	private Weapon weapon;
 
 	private class Weapon {
+
 		public Weapon() {
 			damageTypes = new ArrayList<String>();
 			damage = new Dice();
@@ -75,26 +83,27 @@ public class Item {
 
 	public Item(String name) {
 		this.name = name;
-		oldName = name;
-		enchantments = new ArrayList<Enchantment>();
-		equipSlots = new ArrayList<String>();
+		enchantments = new ArrayList<Enchref>();
+		equipSlots = new ArrayList<ItemSlot>();
+		crafting = new ArrayList<Craftable>();
 	}
 
-	public boolean saveItem() {
-		cleanItem();
-
-		Images.renameImage(getImageName(oldName), getImageName());
-		Images.renameImage(getImageName(oldName), getImageName());
-
-		if(!(name == null || name.contentEquals(""))) {
-			Items.saveItem(this);
-			oldName = name + "";
-			fxItems.updateTable();
-			return true;
-		} else return false;
+	/**
+	 * Saves the item to the local database
+	 * 
+	 * @return Returns true if successful or false if unsuccessful
+	 */
+	public void saveItem() {
+		if(ID == null || ID.contentEquals("")) ID = UUID.randomUUID().toString();
+		Items.saveItem(this);
+		fxItems.updateTable();
 	}
 
+	/**
+	 * Deletes the item from the database. Asks for confirmation if specified to do so in settings
+	 */
 	public void deleteItem() {
+
 		if(Settings.items.warnOnDelete) {
 			Alert alert = new Alert(AlertType.CONFIRMATION);
 			alert.setTitle("Delete " + name + "?");
@@ -105,36 +114,32 @@ public class Item {
 		}
 
 		if(Settings.items.deleteImages) {
-			Images.deleteImage(getImageName());
-			Images.deleteImage(getIconName());
+			Images.deleteImage(imageUUID);
+			Images.deleteImage(iconUUID);
 		}
 
-		system.getAppFile("items", name + ".json").delete();
+		system.getAppFile("items", ID + ".json").delete();
 
 		fxItems.updateTable();
 	}
 
+	/**
+	 * Cleans the item, removing any unnecessary classes
+	 */
 	public void cleanItem() {
 		if(armor != null && armor.isEmpty()) armor = null;
 		if(weapon != null && weapon.isEmpty()) weapon = null;
 		minLevel = Math.max(absoluteMinLevel, minLevel);
+
 		// TODO clear empty fields in damage types
 	}
 
-	public String getImageName() {
-		return getImageName(name);
+	public String getID() {
+		return ID;
 	}
 
-	public String getImageName(String name) {
-		return name + ".image";
-	}
-
-	public String getIconName() {
-		return getIconName(name);
-	}
-
-	public String getIconName(String name) {
-		return name + ".icon";
+	public void setID(String id) {
+		this.ID = id;
 	}
 
 	public String getName() {
@@ -157,8 +162,53 @@ public class Item {
 		return description;
 	}
 
+	public String getDescriptionTrimmed() {
+		if(description == null || description.contentEquals("")) return "";
+		int maxLines = 5;
+		String[] array = description.split("\\n");
+		if(array.length <= maxLines) return description;
+		String ret = "";
+		for(int i = 0; i < maxLines; i++) ret += array[i] + "\n";
+		ret = ret.substring(0, ret.length() - 1);
+		return ret;
+	}
+
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public Image getIcon() {
+		return Images.getImage(iconUUID);
+	}
+
+	public ImageView getIconViewSmall() {
+		Image i = Images.getImage(iconUUID);
+		if(i == null) return null;
+		ImageView r = new ImageView(i);
+		r.setPreserveRatio(true);
+		r.setFitWidth(Settings.appearance.icon.size);
+		r.setFitHeight(Settings.appearance.icon.size);
+		return r;
+	}
+
+	public String getIconUUID() {
+		return iconUUID;
+	}
+
+	public void setIconUUID(String iconUUID) {
+		this.iconUUID = iconUUID;
+	}
+
+	public Image getImage() {
+		return Images.getImage(imageUUID);
+	}
+
+	public String getImageUUID() {
+		return imageUUID;
+	}
+
+	public void setImageUUID(String imageUUID) {
+		this.imageUUID = imageUUID;
 	}
 
 	public String getProficiency() {
@@ -183,52 +233,6 @@ public class Item {
 
 	public void setMaterial(String material) {
 		this.material = material;
-	}
-
-	public Image getIcon() {
-		return Images.getImage(getIconName());
-	}
-
-	public ImageView getIconView() {
-		return new ImageView(getIcon());
-	}
-
-	public ImageView getIconViewSmall() {
-		ImageView r = new ImageView(getIcon());
-		double size = 40;
-		r.setFitHeight(size);
-		r.setFitWidth(size);
-		r.setPreserveRatio(true);
-
-		return r;
-	}
-
-	public void setIcon(String iconURL) {
-		if(iconURL.contentEquals("")) {
-			Images.deleteImage(getIconName());
-			return;
-		}
-		if(iconURL.contentEquals(getIconName())) return;
-		Images.saveImage(getIconName(), iconURL);
-	}
-
-	public Image getImage() {
-		return Images.getImage(getImageName());
-	}
-
-	public ImageView getImageView() {
-		return new ImageView(getImage());
-	}
-
-	public void setImage(String imageURL) {
-		if(imageURL.contentEquals("")) {
-			Images.deleteImage(getImageName());
-			return;
-		}
-		
-		if(imageURL.contentEquals(getImageName())) return;
-		
-		Images.saveImage(getImageName(), imageURL);
 	}
 
 	public int getMinLevel() {
@@ -271,34 +275,92 @@ public class Item {
 		this.weight = weight;
 	}
 
-	public List<Enchantment> getEnchantments() {
+	// Enchantments
+
+	public List<Enchref> getEnchantments() {
 		return enchantments;
 	}
 
-	public void setEnchantments(List<Enchantment> enchantments) {
+	public void setEnchantments(List<Enchref> enchantments) {
 		this.enchantments = enchantments;
 	}
 
-	public List<String> getEquipSlots() {
+	public void addEnchantment(Enchref enchantment) {
+		this.enchantments.add(enchantment);
+	}
+
+	public void removeEnchantment(Enchref enchantment) {
+		if(this.enchantments.contains(enchantment)) enchantments.remove(enchantment);
+	}
+
+	public void updateEnchantment(Enchref previous, Enchref post) {
+		if(this.enchantments.contains(previous)) this.enchantments.set(enchantments.indexOf(previous), post);
+	}
+
+	// Crafting
+
+	public List<Craftable> getCrafting() {
+		return crafting;
+	}
+
+	public Craftable getCraft(String uuid) {
+		for(Craftable c : crafting) if(uuid.contentEquals(c.getUUID())) return c;
+		return null;
+	}
+
+	public void setCrafting(List<Craftable> crafting) {
+		for(Craftable c : crafting) if(c.getUUID().contentEquals("")) c.newUUID();
+
+		this.crafting = crafting;
+	}
+
+	public void addCraftable(Craftable craftable) {
+		if(craftable != null) this.crafting.add(craftable);
+	}
+
+	public void updateCraftable(Craftable previous, Craftable updated) {
+
+		if(updated == null) {
+			removeCraftable(previous);
+		} else {
+			if(crafting.contains(previous)) crafting.set(crafting.indexOf(previous), updated);
+			else addCraftable(updated);
+		}
+	}
+
+	public void removeCraftable(Craftable craftable) {
+		this.crafting.remove(craftable);
+	}
+
+	// Equip Slots
+
+	public List<ItemSlot> getEquipSlots() {
 		return equipSlots;
 	}
 
-	public void setEquipSlots(List<String> equipSlots) {
+	public boolean hasEquipSlot(ItemSlot... slots) {
+		for(ItemSlot s : slots) if(equipSlots.contains(s)) return true;
+		return false;
+	}
+
+	public void setEquipSlots(List<ItemSlot> equipSlots) {
 		this.equipSlots = equipSlots;
 	}
 
-	public void removeEquipSlot(String slot) {
+	public void removeEquipSlot(ItemSlot slot) {
 		while(equipSlots.contains(slot)) equipSlots.remove(slot);
 	}
 
-	public void addEquipSlot(String slot) {
+	public void addEquipSlot(ItemSlot slot) {
 		if(!equipSlots.contains(slot)) equipSlots.add(slot);
 	}
 
-	public void setEquipSlot(String slot, boolean equipped) {
-		if(equipped) addEquipSlot(slot);
+	public void setEquipSlot(ItemSlot slot, boolean equippable) {
+		if(equippable) addEquipSlot(slot);
 		else removeEquipSlot(slot);
 	}
+
+	// Armor Types
 
 	public String getArmorType() {
 		if(armor == null) return "";
@@ -310,6 +372,8 @@ public class Item {
 		this.armor.armorType = armorType;
 	}
 
+	// Armor Bonus
+
 	public int getArmorBonus() {
 		if(armor == null) return 0;
 		return armor.armorBonus;
@@ -319,6 +383,8 @@ public class Item {
 		if(armor == null) armor = new Armor();
 		this.armor.armorBonus = armorBonus;
 	}
+
+	// Max Dex
 
 	public int getMaxDex() {
 		if(armor == null) return 0;
@@ -330,6 +396,8 @@ public class Item {
 		this.armor.maxDex = maxDex;
 	}
 
+	// Check Penalty
+
 	public int getCheckPenalty() {
 		if(armor == null) return 0;
 		return armor.checkPenalty;
@@ -339,6 +407,8 @@ public class Item {
 		if(armor == null) armor = new Armor();
 		this.armor.checkPenalty = checkPenalty;
 	}
+
+	// Spell Failure
 
 	public double getSpellFailure() {
 		if(armor == null) return 0;
@@ -365,14 +435,40 @@ public class Item {
 		return weapon.damageTypes;
 	}
 
+	/**
+	 * Gets the damage type text, each type is specified on a new line
+	 * 
+	 * @return String of damage types separated by \n
+	 */
 	public String getDamageTypeText() {
 		if(weapon == null) return "";
 		String r = "";
+
 		for(String l : getDamageTypes()) {
 			if(!r.contentEquals("")) r += "\n";
 			r += l;
 		}
+
 		return r;
+	}
+
+	/**
+	 * Adds the damage type to the damage types
+	 * 
+	 * @param type Damage Type
+	 */
+	public void addDamageType(String type) {
+		if(weapon == null) weapon = new Weapon();
+		this.weapon.damageTypes.add(type);
+	}
+
+	/**
+	 * Removes a damage type from the damage types
+	 * 
+	 * @param type Damage Type
+	 */
+	public void removeDamageType(String type) {
+		if(weapon != null) this.weapon.damageTypes.remove(type);
 	}
 
 	public void setDamageTypes(List<String> damageTypes) {
@@ -380,6 +476,11 @@ public class Item {
 		this.weapon.damageTypes = damageTypes;
 	}
 
+	/**
+	 * Sets the damage types from a single String
+	 * 
+	 * @param text Text, damage types should be separated by \n
+	 */
 	public void setDamageTypesText(String text) {
 		setDamageTypes(Arrays.asList(text.split("\n")));
 	}
@@ -403,5 +504,4 @@ public class Item {
 		if(weapon == null) weapon = new Weapon();
 		this.weapon.critMultiplier = critMultiplier;
 	}
-
 }

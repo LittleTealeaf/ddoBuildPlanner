@@ -18,7 +18,6 @@ public class Settings {
 		Saving = new saving();
 		Advanced = new advanced();
 		Items = new items();
-		Images = new images();
 
 		version = Main.version;
 	}
@@ -26,13 +25,17 @@ public class Settings {
 	private static appearance Appearance;
 
 	public static class appearance {
+
 		private static dice Dice;
+		private static icon Icon;
 
 		public appearance() {
 			Dice = new dice();
+			Icon = new icon();
 		}
 
 		public static class dice {
+
 			public dice() {}
 
 			public static boolean showDice;
@@ -40,37 +43,50 @@ public class Settings {
 
 			public static boolean compactDice;
 		}
+
+		public static class icon {
+
+			public icon() {}
+
+			public static double size;
+		}
 	}
 
 	private static saving Saving;
 
 	public static class saving {
-		public saving() {}
+
+		public saving() {
+			Images = new images();
+		}
 
 		public static double inactivityTime;
 		public static double periodicalTime;
-	}
 
-	public static images Images;
+		public static images Images;
 
-	public static class images {
-		public images() {}
+		public static class images {
 
-		public static boolean storeLocal;
+			public images() {}
+
+			public static boolean storeLocal;
+		}
 	}
 
 	public static items Items;
 
 	public static class items {
+
 		public items() {}
 
 		public static boolean warnOnDelete;
-		public static boolean deleteImages;
+		public static boolean deleteImages;// TODO do i really need this?
 	}
 
 	private static advanced Advanced;
 
 	public static class advanced {
+
 		public advanced() {
 			Debug = new debug();
 		}
@@ -78,6 +94,7 @@ public class Settings {
 		public static debug Debug;
 
 		public static class debug {
+
 			public debug() {}
 
 			public static boolean showCrashReports;
@@ -88,11 +105,11 @@ public class Settings {
 		appearance.dice.showDice = true;
 		appearance.dice.compactDice = false;
 		appearance.dice.showRange = false;
+		appearance.icon.size = 40;
 
 		saving.inactivityTime = 100;
 		saving.periodicalTime = 0;
-
-		images.storeLocal = true;
+		saving.images.storeLocal = true;
 
 		items.warnOnDelete = true;
 		items.deleteImages = true;
@@ -102,27 +119,27 @@ public class Settings {
 
 	public static void loadSettings() {
 		defaultSettings();
+
 		if(system.settings.exists()) {
+
 			try {
 				system.staticJSON.fromJson(Files.newBufferedReader(system.settings.toPath()), Settings.class);
 
 				if(!version.contentEquals(Main.version)) saveSettings();
 				trimSettings();
-
 			} catch(IOException e) {}
-
 		} else {
 			system.settings.getParentFile().mkdirs();
 
 			try {
 				system.settings.createNewFile();
 			} catch(IOException e) {}
-
-			saveSettings();
 		}
+		saveSettings();
 	}
 
 	public static void saveSettings() {
+
 		try {
 			FileWriter writer = new FileWriter(system.settings);
 			writer.write(system.staticJSON.toJson(new Settings()));

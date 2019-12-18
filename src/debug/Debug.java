@@ -26,23 +26,20 @@ public class Debug {
 	public static void setCrashReporting() {
 		Thread.setDefaultUncaughtExceptionHandler((t, e) -> {
 			e.printStackTrace();
-			String filename = "crashlogs\\crash_log" + new SimpleDateFormat("yyyMMdd_HHmmss").format(Calendar.getInstance().getTime()) + ".txt";
+			String filename = "crash_log" + new SimpleDateFormat("yyyMMdd_HHmmss").format(Calendar.getInstance().getTime()) + ".txt";
 
-			File file = system.getAppFile(filename);
+			File file = system.getAppFile("crashlogs", filename);
 			file.getParentFile().mkdirs();
 
 			try {
-
 				PrintStream stream = new PrintStream(file);
 				stream.print(e.getMessage() + "\n");
 				e.printStackTrace(stream);
 
 				if(Settings.advanced.debug.showCrashReports) showPrompt(Files.readAllLines(file.toPath()));
-
 			} catch(Exception e1) {
 				e1.printStackTrace();
 			}
-
 		});
 	}
 
@@ -67,6 +64,7 @@ public class Debug {
 			StringSelection stringSelection = new StringSelection(exception);
 			Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
 			clipboard.setContents(stringSelection, null);
+
 			try {
 				java.awt.Desktop.getDesktop().browse(new URI("https://github.com/LittleTealeaf/ddoBuildPlanner/issues/new?assignees=LittleTealeaf&labels=crash&template=crash_report.md&title=Crash+Report"));
 			} catch(Exception exce) {}

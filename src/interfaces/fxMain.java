@@ -35,7 +35,13 @@ public class fxMain extends Application {
 		MenuItem items = new MenuItem("Items");
 		items.setOnAction(e -> fxItems.open());
 
-		file.getItems().addAll(settings, items);
+		MenuItem inventory = new MenuItem("Inventory");
+		inventory.setOnAction(e -> fxInventory.open());
+
+		MenuItem enchantments = new MenuItem("Enchantments");
+		enchantments.setOnAction(e -> fxEnchantments.open());
+
+		file.getItems().addAll(settings, items, inventory, enchantments);
 
 		menu.getMenus().addAll(file);
 
@@ -53,6 +59,7 @@ public class fxMain extends Application {
 		root.setCenter(tabs);
 
 		Scene scene = new Scene(root, 400, 400);
+
 		try {
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 		} catch(Exception e) {}
@@ -61,5 +68,4 @@ public class fxMain extends Application {
 		sMain.show();
 		sMain.setMaximized(true);
 	}
-
 }
