@@ -233,7 +233,7 @@ public class fxEditItem {
 		// Item Hardness
 		Text tHardness = new Text("Hardness:");
 		Spinner<Double> hardness = new Spinner<Double>();
-		hardness.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(0, 1000, item.getHardness()));
+		hardness.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(0, 10000, item.getHardness()));
 		hardness.valueProperty().addListener((e, o, n) -> item.setHardness(n));
 		hardness.setPrefWidth(100);
 		hardness.setMinWidth(75);
