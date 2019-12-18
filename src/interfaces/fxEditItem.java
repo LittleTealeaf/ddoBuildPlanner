@@ -521,7 +521,7 @@ public class fxEditItem {
 		Text tMaxDex = new Text("Max Dex Bonus");
 
 		Spinner<Integer> maxDex = new Spinner<Integer>();
-		maxDex.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 1000, item.getMaxDex()));
+		maxDex.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(-1, 1000, item.getMaxDex()));
 		maxDex.valueProperty().addListener((e, o, n) -> item.setMaxDex(n));
 		maxDex.setPrefWidth(75);
 		maxDex.setEditable(true);

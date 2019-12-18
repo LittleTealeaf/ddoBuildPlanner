@@ -41,10 +41,11 @@ public class Item {
 
 		public Armor() {
 			armorType = "";
+			maxDex = -1;
 		}
 
 		public boolean isEmpty() {
-			return armorType.contentEquals("") && armorBonus == 0 && maxDex == 0 && checkPenalty == 0 && spellFailure == 0;
+			return armorType.contentEquals("") && armorBonus == 0 && maxDex == -1 && checkPenalty == 0 && spellFailure == 0;
 		}
 
 		public String armorType;
