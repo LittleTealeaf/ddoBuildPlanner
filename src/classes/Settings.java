@@ -80,7 +80,7 @@ public class Settings {
 		public items() {}
 
 		public static boolean warnOnDelete;
-		public static boolean deleteImages;//TODO do i really need this?
+		public static boolean deleteImages;// TODO do i really need this?
 	}
 
 	private static advanced Advanced;

@@ -70,7 +70,7 @@ public class Craftable {
 	public void removeChoice(Enchref choice) {
 		this.choices.remove(choice);
 	}
-	
+
 	public void updateChoice(Enchref from, Enchref to) {
 		if(choices.contains(from)) choices.set(choices.indexOf(from), to);
 		else choices.add(to);

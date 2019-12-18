@@ -368,8 +368,9 @@ public class fxEditItem {
 		r.setText("Crafting");
 
 		crafting = new ListView<Craftable>();
-		
+
 		crafting.setOnMouseClicked(e -> {
+
 			if(e.getClickCount() == 2) {
 				item.updateCraftable(crafting.getSelectionModel().getSelectedItem(), fxEditCraftable.openEditor(crafting.getSelectionModel().getSelectedItem()));
 				crafting.setItems(FXCollections.observableArrayList(item.getCrafting()));
@@ -384,7 +385,7 @@ public class fxEditItem {
 				else setText(item.getName());
 			}
 		});
-		
+
 		crafting.setItems(FXCollections.observableArrayList(item.getCrafting()));
 
 		Button create = new Button("Create");
@@ -392,22 +393,22 @@ public class fxEditItem {
 			item.addCraftable(fxEditCraftable.openEditor());
 			crafting.setItems(FXCollections.observableArrayList(item.getCrafting()));
 		});
-		
+
 		Button delete = new Button("Delete");
-		delete.setOnAction(e ->{
-			 item.removeCraftable(crafting.getSelectionModel().getSelectedItem());
-			 crafting.setItems(FXCollections.observableArrayList(item.getCrafting()));
+		delete.setOnAction(e -> {
+			item.removeCraftable(crafting.getSelectionModel().getSelectedItem());
+			crafting.setItems(FXCollections.observableArrayList(item.getCrafting()));
 		});
-		
-		HBox buttons = new HBox(create,delete);
+
+		HBox buttons = new HBox(create, delete);
 		buttons.setSpacing(10);
-		
+
 		BorderPane con = new BorderPane();
 		con.setCenter(crafting);
 		con.setBottom(buttons);
-		
+
 		r.setContent(con);
-		
+
 		return r;
 	}
 

@@ -3,7 +3,6 @@ package classes;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class Iref {
 
 	public String uuid;
@@ -19,24 +18,25 @@ public class Iref {
 	public Item getItem() {
 		return (temp == null) ? (temp = Items.readItem(uuid)) : temp;
 	}
-	
+
 	public List<Craftref> getCrafting() {
 		return crafting;
 	}
-	
+
 	public void setCrafting(List<Craftref> crafting) {
 		this.crafting = crafting;
 	}
-	
+
 	public void addCraftref(Craftref craftref) {
 		this.crafting.add(craftref);
 	}
-	
+
 	public void removeCraftRef(Craftref craftref) {
 		this.crafting.remove(craftref);
 	}
-	
+
 	public void updateCraftRef(Craftref craftref) {
+
 		for(Craftref c : crafting) {
 			if(craftref.getUUID().contentEquals(c.getUUID())) c.setIndex(craftref.getIndex());
 		}
@@ -47,9 +47,10 @@ public class Iref {
 		r.addAll(getCraftingEnchantments());
 		return r;
 	}
-	
+
 	public List<Enchref> getCraftingEnchantments() {
 		List<Enchref> r = new ArrayList<Enchref>();
+
 		for(Craftref c : crafting) {
 			r.add(getItem().getCraft(c.getUUID()).getChoice(c.getIndex()));
 		}

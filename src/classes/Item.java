@@ -314,8 +314,9 @@ public class Item {
 	public void addCraftable(Craftable craftable) {
 		if(craftable != null) this.crafting.add(craftable);
 	}
-	
+
 	public void updateCraftable(Craftable previous, Craftable updated) {
+
 		if(updated == null) {
 			removeCraftable(previous);
 		} else {

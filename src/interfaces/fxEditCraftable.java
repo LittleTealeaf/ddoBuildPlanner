@@ -18,7 +18,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 
 public class fxEditCraftable {
-	
+
 	private static Craftable craft;
 
 	public static Craftable openEditor() {
@@ -27,29 +27,28 @@ public class fxEditCraftable {
 
 	public static Craftable openEditor(Craftable c) {
 		Dialog<Craftable> editor = new Dialog<Craftable>();
-		
+
 		editor.setTitle((c != null) ? "Editing " + c.getName() : "Create Craftable");
-		
+
 		craft = (c != null) ? c : new Craftable();
-		
+
 		Text lName = new Text("Name:");
-		
+
 		TextField name = new TextField();
 		name.setText((c != null) ? c.getName() : "");
-		name.textProperty().addListener((e,o,n) -> craft.setName(n));
-		
-		
-		HBox top = new HBox(lName,name);
+		name.textProperty().addListener((e, o, n) -> craft.setName(n));
+
+		HBox top = new HBox(lName, name);
 		top.setSpacing(10);
-		
+
 		BorderPane content = new BorderPane();
 		content.setTop(top);
 		content.setCenter(choiceView());
-		
+
 		editor.getDialogPane().setContent(content);
-		
+
 		editor.setResultConverter(e -> (e.getButtonData() == ButtonData.OK_DONE) ? craft : c);
-		
+
 		ButtonType bAccept = new ButtonType("Accept", ButtonData.OK_DONE);
 		ButtonType bCancel = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
 
@@ -58,10 +57,10 @@ public class fxEditCraftable {
 		Optional<Craftable> r = editor.showAndWait();
 		return (!r.isEmpty()) ? r.get() : c;
 	}
-	
+
 	private static BorderPane choiceView() {
 		ListView<Enchref> r = new ListView<>();
-		
+
 		r.setItems(FXCollections.observableArrayList(craft.getChoices()));
 		r.setOnMouseClicked(click -> {
 
@@ -101,7 +100,7 @@ public class fxEditCraftable {
 		BorderPane content = new BorderPane();
 		content.setCenter(r);
 		content.setBottom(buttons);
-		
+
 		return content;
 	}
 }
