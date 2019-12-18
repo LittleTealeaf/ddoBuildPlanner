@@ -181,7 +181,9 @@ public class Item {
 	}
 
 	public ImageView getIconViewSmall() {
-		ImageView r = new ImageView(Images.getImage(iconUUID));
+		Image i = Images.getImage(iconUUID);
+		if(i == null) return null;
+		ImageView r = new ImageView(i);
 		r.setPreserveRatio(true);
 		r.setFitWidth(Settings.appearance.icon.size);
 		r.setFitHeight(Settings.appearance.icon.size);
