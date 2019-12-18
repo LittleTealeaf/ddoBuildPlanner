@@ -1,6 +1,6 @@
 # ddoBuildPlanner
-
-Hi! For all those wishing to see in-progress work, the current in-progress branch is the 0.0.1 branch
-https://github.com/LittleTealeaf/ddoBuildPlanner/tree/0.0.1
+Hi!
+To get this running, make sure to get the JDK version of java (not the SE)
+https://www.oracle.com/technetwork/java/javase/downloads/jdk13-downloads-5672538.html
 
 https://github.com/eldur/jwbf
