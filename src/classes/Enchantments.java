@@ -65,9 +65,17 @@ public class Enchantments {
 		for(Enchantment e : enchantments) if(e.getName() != null && e.getName().toLowerCase().contentEquals(name.toLowerCase())) return e;
 		return null;
 	}
+	
+	public static void addEnchantments(List<Enchantment> adds) {
+		for(Enchantment e : adds) addEnchantment(e);
+	}
 
 	public static void addEnchantment(Enchantment enchantment) {
-		if(!enchantments.contains(enchantment)) enchantments.add(enchantment);
+		for(Enchantment e : enchantments) if(e.getUUID().contentEquals(enchantment.getUUID())) {
+			updateEnchantment(enchantment);
+			return;
+		}
+		enchantments.add(enchantment);
 		save();
 	}
 
@@ -82,7 +90,7 @@ public class Enchantments {
 	}
 
 	public static void updateEnchantment(Enchantment enchantment) {
-		for(Enchantment e : enchantments) if(e.getUUID() == enchantment.getUUID()) {
+		for(Enchantment e : enchantments) if(e.getUUID().contentEquals(enchantment.getUUID())) {
 			e = enchantment;
 			save();
 			return;

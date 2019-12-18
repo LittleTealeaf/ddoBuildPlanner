@@ -1,5 +1,6 @@
 package interfaces;
 
+import classes.Importing;
 import classes.Item;
 import classes.Items;
 import javafx.collections.FXCollections;
@@ -27,8 +28,11 @@ public class fxItems {
 
 		Button create = new Button("Create Item");
 		create.setOnAction(e -> fxEditItem.open());
+		
+		Button importItem = new Button("Import Item");
+		importItem.setOnAction(e -> Importing.importItem());
 
-		HBox footer = new HBox(create);
+		HBox footer = new HBox(create, importItem);
 		footer.setPadding(new Insets(10));
 		footer.setSpacing(10);
 
