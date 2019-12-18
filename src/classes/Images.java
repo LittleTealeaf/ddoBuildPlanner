@@ -1,17 +1,22 @@
 package classes;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Scanner;
 import java.util.UUID;
 
 import javafx.scene.control.Button;
@@ -105,7 +110,7 @@ public class Images {
 		File f = null;
 
 		try {
-			f = system.getAppFile("images", uuid + imageType);
+			f = getImagePath(uuid);
 		} catch(Exception e) {
 
 			try {
@@ -121,6 +126,36 @@ public class Images {
 
 		return getImageFromURL(uuid);
 	}
+	
+	public static String[] getImageFileContents(String uuid) {
+		File f = getImagePath(uuid);
+		System.out.println(f.getPath());
+		
+		//Localzies if needed
+		if(!f.exists()) for(extImage e : externalImages) if(uuid.contentEquals(e.getUUID())) localizeImage(e);
+		
+		//byte[] bytes = Files.readAllBytes(f.toPath());
+		String[] r = null;
+		try {
+			byte[] bytes = Files.readAllBytes(f.toPath());
+			r = new String(bytes, "UTF-8").split("\n");
+		} catch(IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return r;
+		
+	}
+	
+	public static void saveImageFromContents(String uuid, String[] file) {
+		try {
+			if(getImagePath(uuid).exists()) return;
+			
+			FileWriter writer = new FileWriter(getImagePath(uuid));
+			for(String line : file) writer.write(line + "\n");
+			writer.close();
+		} catch(Exception e) {}
+	}
 
 	/**
 	 * Deletes an image in the database
@@ -134,10 +169,14 @@ public class Images {
 
 		externalImages = n;
 
-		File f = system.getAppFile("images", uuid + imageType);
+		File f = getImagePath(uuid);
 		if(f.exists()) f.delete();
 
 		save();
+	}
+	
+	public static File getImagePath(String name) {
+		return system.getAppFile("images", name + imageType);
 	}
 
 	/**
@@ -155,7 +194,7 @@ public class Images {
 	 * @param img
 	 */
 	private static void localizeImage(extImage img) {
-		File writeTo = system.getAppFile("images", img.getUUID() + imageType);
+		File writeTo = getImagePath(img.getUUID());
 		writeTo.getParentFile().mkdirs();
 
 		try {
@@ -166,6 +205,7 @@ public class Images {
 
 				while((length = fis.read(buffer)) > 0) fos.write(buffer, 0, length);
 			}
+			
 		} catch(Exception e) {
 
 			try {
@@ -333,6 +373,11 @@ public class Images {
 		private String uuid;
 		private String url;
 
+		/**
+		 * 
+		 * @param uuid
+		 * @param url
+		 */
 		public extImage(String uuid, String url) {
 			this.uuid = uuid;
 			this.url = url;

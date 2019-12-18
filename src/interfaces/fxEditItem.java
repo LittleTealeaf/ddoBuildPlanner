@@ -128,8 +128,11 @@ public class fxEditItem {
 		openJSON.setOnAction(e -> {
 			system.openExtFile(Items.getFile(item.getID()));
 		});
+		
+		Button export = new Button("Export");
+		export.setOnAction(e -> Items.exportItem(item));
 
-		r.getChildren().addAll(labelName, itemName, errorText, openJSON);
+		r.getChildren().addAll(labelName, itemName, errorText, openJSON, export);
 
 		return r;
 	}

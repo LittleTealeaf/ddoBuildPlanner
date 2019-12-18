@@ -3,6 +3,7 @@ package classes;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +15,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
+import javafx.stage.FileChooser;
 import util.system;
 import vars.ItemSlot;
 
@@ -51,6 +53,27 @@ public class Items {
 			writer.close();
 			System.out.println("Saved to: " + file.getPath());
 		} catch(Exception e) {}
+	}
+	
+	public static void exportItem(Item item) {
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+		fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Item Export", "*.exportItem"));
+		
+		File f = fileChooser.showSaveDialog(null);
+		if(f.exists()) f.delete();
+
+		try {
+			FileWriter writer;
+			writer = new FileWriter(f);
+			writer.write(system.objectJSON.toJson(new ItemExport(item)));
+			writer.close();
+		} catch(IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 	}
 
 	public static List<Item> getAllItems() {
