@@ -10,11 +10,14 @@ public class ItemExport {
 	public ItemExport(Item item) {
 		this.item = item;
 		for(Enchref ench : item.getEnchantments()) enchantments.add(ench.getEnchantment());
+		//IMAGES
 	}
 
-	public Item importItem() {
-		return null;
+	public void importItem() {
+		
 	}
-
-	public void exportItem() {}
+	
+	public void exportItem() {
+		
+	}
 }

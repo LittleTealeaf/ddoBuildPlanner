@@ -52,7 +52,7 @@ public class fxSettings {
 
 		ObservableList<settingsPage> pages = FXCollections.observableArrayList();
 
-		pages.addAll(pageAppearance(), pageSaving(), pageItems(), pageAdvanced());
+		pages.addAll(pageAppearance(), pageSaving(), pageItems(), pagePorting(), pageAdvanced());
 
 		// http://www.java2s.com/Code/Java/JavaFX/ListViewselectionlistener.htm
 		ListView<settingsPage> pageSelection = new ListView<settingsPage>(pages);
@@ -236,6 +236,24 @@ public class fxSettings {
 
 		r.setContent(content);
 
+		return r;
+	}
+	
+	private static settingsPage pagePorting() {
+		settingsPage r = new settingsPage("Import / Export");
+		
+		VBox content = new VBox();
+		content.setPadding(new Insets(10));
+		content.setSpacing(10);
+		
+		CheckBox includeImages = new CheckBox("Include Images");
+		includeImages.setSelected(Settings.porting.exporting.includeImages);
+		includeImages.selectedProperty().addListener((e,o,n) -> Settings.porting.exporting.includeImages = n);
+		
+		content.getChildren().add(settingSection("Items", Arrays.asList(includeImages),null));
+		
+		r.setContent(content);
+		
 		return r;
 	}
 
