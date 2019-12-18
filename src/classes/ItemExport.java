@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ItemExport {
+	
+	//TODO change this to use a .zip for import / export
 
 	private Item item;
 	private List<Enchantment> enchantments;

@@ -4,12 +4,10 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 
-import application.Main;
 import javafx.stage.FileChooser;
 import util.system;
 
-public class Importing {
-	
+public class Porting {
 	public static void importItem() {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));

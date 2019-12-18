@@ -1,8 +1,8 @@
 package interfaces;
 
-import classes.Importing;
 import classes.Item;
 import classes.Items;
+import classes.Porting;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -30,7 +30,7 @@ public class fxItems {
 		create.setOnAction(e -> fxEditItem.open());
 		
 		Button importItem = new Button("Import Item");
-		importItem.setOnAction(e -> Importing.importItem());
+		importItem.setOnAction(e -> Porting.importItem());
 
 		HBox footer = new HBox(create, importItem);
 		footer.setPadding(new Insets(10));
