@@ -4,13 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ItemExport {
-	
-	//TODO change this to use a .zip for import / export
 
 	private Item item;
 	private List<Enchantment> enchantments;
-//	private String[] icon;
-//	private String[] image;
+	private String icon;
+	private String image;
 
 	public ItemExport(Item item) {
 		this.item = item;
@@ -20,10 +18,10 @@ public class ItemExport {
 			enchantments.add(ench.getEnchantment());
 		}
 		
-//		if(Settings.porting.exporting.includeImages) {
-//			icon = Images.getImageFileContents(item.getIconUUID());
-//			image = Images.getImageFileContents(item.getImageUUID()); 
-//		}
+		if(Settings.porting.exporting.includeImages) {
+			icon = (item.getIconUUID() != null) ? Images.getImageFileContents(item.getIconUUID()) : null;
+			image = (item.getImageUUID() != null) ? Images.getImageFileContents(item.getImageUUID()) : null;
+		}
 	}
 
 	public void importItem() {
@@ -32,10 +30,7 @@ public class ItemExport {
 		
 		Enchantments.addEnchantments(enchantments);
 		
-//		if(icon != null) {
-//			Images.saveImageFromContents(item.getIconUUID(), icon);
-//			Images.saveImageFromContents(item.getImageUUID(), image);
-//		}
-		//TODO fix images
+		if(icon != null) Images.saveImageFromContents(item.getIconUUID(), icon);
+		if(image != null) Images.saveImageFromContents(item.getImageUUID(), image);
 	}
 }

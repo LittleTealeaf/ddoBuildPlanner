@@ -2,6 +2,7 @@ package classes;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -10,6 +11,7 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -122,33 +124,49 @@ public class Images {
 		return getImageFromURL(uuid);
 	}
 	
-	public static String[] getImageFileContents(String uuid) {
+	public static String getImageFileContents(String uuid) {
 		File f = getImagePath(uuid);
 		System.out.println(f.getPath());
 		
 		//Localzies if needed
 		if(!f.exists()) for(extImage e : externalImages) if(uuid.contentEquals(e.getUUID())) localizeImage(e);
 		
-		//byte[] bytes = Files.readAllBytes(f.toPath());
-		String[] r = null;
+		String r = null;
+		
 		try {
-			byte[] bytes = Files.readAllBytes(f.toPath());
-			r = new String(bytes, "UTF-8").split("\n");
-		} catch(IOException e) {
+			FileInputStream fileInputStreamReader = new FileInputStream(f);
+//			byte[] bytes = new byte[(int)f.length()];
+//            fileInputStreamReader.read(bytes);
+			byte[] bytes = fileInputStreamReader.readAllBytes();
+			r = new String(Base64.getEncoder().encode(bytes), "UTF-8");
+			
+			fileInputStreamReader.close();
+            
+		} catch(Exception e1) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			e1.printStackTrace();
 		}
+
+		
+//		//byte[] bytes = Files.readAllBytes(f.toPath());
+//		try {
+//			byte[] bytes = Files.readAllBytes(f.toPath());
+//			r = new String(bytes, "UTF-8").split("\n");
+//		} catch(IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+		
+		
+		
 		return r;
 		
 	}
 	
-	public static void saveImageFromContents(String uuid, String[] file) {
+	public static void saveImageFromContents(String uuid, String lines) {
 		try {
 			if(getImagePath(uuid).exists()) return;
-			
-			FileWriter writer = new FileWriter(getImagePath(uuid));
-			for(String line : file) writer.write(line + "\n");
-			writer.close();
+			Files.write(getImagePath(uuid).toPath(), Base64.getDecoder().decode(lines));
 		} catch(Exception e) {}
 	}
 
