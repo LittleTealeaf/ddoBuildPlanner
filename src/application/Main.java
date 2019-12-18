@@ -1,6 +1,5 @@
 package application;
 
-import classes.Enchantment;
 import classes.Enchantments;
 import classes.Images;
 import classes.Inventory;

@@ -2,12 +2,10 @@ package util;
 
 import java.awt.Desktop;
 import java.io.File;
-import java.io.IOException;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import classes.Items;
 import net.harawata.appdirs.AppDirs;
 import net.harawata.appdirs.AppDirsFactory;
 

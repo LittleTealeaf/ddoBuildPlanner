@@ -4,7 +4,6 @@ import java.util.Arrays;
 
 import classes.Craftable;
 import classes.Dice;
-import classes.Enchantment;
 import classes.Enchantments;
 import classes.Enchref;
 import classes.Images;
