@@ -63,7 +63,7 @@ public class Settings {
 		public static double inactivityTime;
 		public static double periodicalTime;
 
-		public static images Images;
+		private static images Images;
 
 		public static class images {
 
@@ -83,6 +83,24 @@ public class Settings {
 		public static boolean deleteImages;// TODO do i really need this?
 	}
 
+	private static porting Porting;
+
+	public static class porting {
+
+		public porting() {
+			Exporting = new exporting();
+		}
+
+		private static exporting Exporting;
+
+		public static class exporting {
+
+			public exporting() {}
+
+			public static boolean includeImages;
+		}
+	}
+
 	private static advanced Advanced;
 
 	public static class advanced {
@@ -91,7 +109,7 @@ public class Settings {
 			Debug = new debug();
 		}
 
-		public static debug Debug;
+		private static debug Debug;
 
 		public static class debug {
 
@@ -113,6 +131,8 @@ public class Settings {
 
 		items.warnOnDelete = true;
 		items.deleteImages = true;
+
+		porting.exporting.includeImages = true;
 
 		advanced.debug.showCrashReports = true; // TODO PRODUCTION: change to false
 	}
