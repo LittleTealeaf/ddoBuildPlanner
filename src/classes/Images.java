@@ -102,6 +102,7 @@ public class Images {
 		try {
 			f = system.getAppFile("images", uuid + imageType);
 		} catch(Exception e) {
+
 			try {
 				f = new File(uuid);
 			} catch(Exception d) {}
