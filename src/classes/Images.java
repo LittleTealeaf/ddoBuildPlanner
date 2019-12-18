@@ -30,6 +30,11 @@ import javafx.stage.FileChooser;
 import util.system;
 
 public class Images {
+	
+	/*
+	 * TODO error:
+	 * has errors when trying to get external images
+	 */
 
 	private static List<extImage> externalImages;
 
@@ -109,7 +114,7 @@ public class Images {
 		}
 
 		if(f.exists()) return getImageFromURL(f.getPath());
-
+		
 		for(extImage i : externalImages) {
 			if(uuid.contentEquals(i.getUUID())) return getImageFromURL(i.getURL());
 		}
