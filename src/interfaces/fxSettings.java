@@ -238,22 +238,22 @@ public class fxSettings {
 
 		return r;
 	}
-	
+
 	private static settingsPage pagePorting() {
 		settingsPage r = new settingsPage("Import / Export");
-		
+
 		VBox content = new VBox();
 		content.setPadding(new Insets(10));
 		content.setSpacing(10);
-		
+
 		CheckBox includeImages = new CheckBox("Include Images");
 		includeImages.setSelected(Settings.porting.exporting.includeImages);
-		includeImages.selectedProperty().addListener((e,o,n) -> Settings.porting.exporting.includeImages = n);
-		
-		content.getChildren().add(settingSection("Items", Arrays.asList(includeImages),null));
-		
+		includeImages.selectedProperty().addListener((e, o, n) -> Settings.porting.exporting.includeImages = n);
+
+		content.getChildren().add(settingSection("Items", Arrays.asList(includeImages), null));
+
 		r.setContent(content);
-		
+
 		return r;
 	}
 

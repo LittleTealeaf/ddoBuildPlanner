@@ -12,12 +12,13 @@ public class ItemExport {
 
 	public ItemExport(Item item) {
 		this.item = item;
-		
+
 		enchantments = new ArrayList<Enchantment>();
+
 		for(Enchref ench : item.getEnchantments()) {
 			enchantments.add(ench.getEnchantment());
 		}
-		
+
 		if(Settings.porting.exporting.includeImages) {
 			icon = (item.getIconUUID() != null) ? Images.getImageFileContents(item.getIconUUID()) : null;
 			image = (item.getImageUUID() != null) ? Images.getImageFileContents(item.getImageUUID()) : null;
@@ -25,11 +26,10 @@ public class ItemExport {
 	}
 
 	public void importItem() {
-		
 		item.saveItem();
-		
+
 		Enchantments.addEnchantments(enchantments);
-		
+
 		if(icon != null) Images.saveImageFromContents(item.getIconUUID(), icon);
 		if(image != null) Images.saveImageFromContents(item.getImageUUID(), image);
 	}

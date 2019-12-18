@@ -65,7 +65,7 @@ public class Enchantments {
 		for(Enchantment e : enchantments) if(e.getName() != null && e.getName().toLowerCase().contentEquals(name.toLowerCase())) return e;
 		return null;
 	}
-	
+
 	public static void addEnchantments(List<Enchantment> adds) {
 		for(Enchantment e : adds) addEnchantment(e);
 	}

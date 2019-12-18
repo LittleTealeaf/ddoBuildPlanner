@@ -82,22 +82,23 @@ public class Settings {
 		public static boolean warnOnDelete;
 		public static boolean deleteImages;// TODO do i really need this?
 	}
-	
+
 	private static porting Porting;
-	
+
 	public static class porting {
+
 		public porting() {
 			Exporting = new exporting();
 		}
-		
+
 		private static exporting Exporting;
-		
+
 		public static class exporting {
+
 			public exporting() {}
-			
+
 			public static boolean includeImages;
 		}
-		
 	}
 
 	private static advanced Advanced;
@@ -130,7 +131,7 @@ public class Settings {
 
 		items.warnOnDelete = true;
 		items.deleteImages = true;
-		
+
 		porting.exporting.includeImages = true;
 
 		advanced.debug.showCrashReports = true; // TODO PRODUCTION: change to false

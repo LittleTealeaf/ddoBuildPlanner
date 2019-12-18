@@ -28,7 +28,7 @@ public class fxItems {
 
 		Button create = new Button("Create Item");
 		create.setOnAction(e -> fxEditItem.open());
-		
+
 		Button importItem = new Button("Import Item");
 		importItem.setOnAction(e -> Porting.importItem());
 

@@ -2,7 +2,6 @@ package classes;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -32,7 +31,7 @@ import javafx.stage.FileChooser;
 import util.system;
 
 public class Images {
-	
+
 	/*
 	 * TODO error:
 	 * has errors when trying to get external images
@@ -116,54 +115,40 @@ public class Images {
 		}
 
 		if(f.exists()) return getImageFromURL(f.getPath());
-		
+
 		for(extImage i : externalImages) {
 			if(uuid.contentEquals(i.getUUID())) return getImageFromURL(i.getURL());
 		}
 
 		return getImageFromURL(uuid);
 	}
-	
+
 	public static String getImageFileContents(String uuid) {
 		File f = getImagePath(uuid);
 		System.out.println(f.getPath());
-		
-		//Localzies if needed
+
+		// Localzies if needed
 		if(!f.exists()) for(extImage e : externalImages) if(uuid.contentEquals(e.getUUID())) localizeImage(e);
-		
+
 		String r = null;
-		
+
 		try {
 			FileInputStream fileInputStreamReader = new FileInputStream(f);
-//			byte[] bytes = new byte[(int)f.length()];
-//            fileInputStreamReader.read(bytes);
+
 			byte[] bytes = fileInputStreamReader.readAllBytes();
 			r = new String(Base64.getEncoder().encode(bytes), "UTF-8");
-			
+
 			fileInputStreamReader.close();
-            
 		} catch(Exception e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 
-		
-//		//byte[] bytes = Files.readAllBytes(f.toPath());
-//		try {
-//			byte[] bytes = Files.readAllBytes(f.toPath());
-//			r = new String(bytes, "UTF-8").split("\n");
-//		} catch(IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-		
-		
-		
 		return r;
-		
 	}
-	
+
 	public static void saveImageFromContents(String uuid, String lines) {
+
 		try {
 			if(getImagePath(uuid).exists()) return;
 			Files.write(getImagePath(uuid).toPath(), Base64.getDecoder().decode(lines));
@@ -187,7 +172,7 @@ public class Images {
 
 		save();
 	}
-	
+
 	public static File getImagePath(String name) {
 		return system.getAppFile("images", name + imageType);
 	}
@@ -218,7 +203,6 @@ public class Images {
 
 				while((length = fis.read(buffer)) > 0) fos.write(buffer, 0, length);
 			}
-			
 		} catch(Exception e) {
 
 			try {

@@ -10,6 +10,7 @@ import classes.Images;
 import classes.Iref;
 import classes.Item;
 import classes.Items;
+import classes.Porting;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -128,9 +129,9 @@ public class fxEditItem {
 		openJSON.setOnAction(e -> {
 			system.openExtFile(Items.getFile(item.getID()));
 		});
-		
+
 		Button export = new Button("Export");
-		export.setOnAction(e -> Items.exportItem(item));
+		export.setOnAction(e -> Porting.exportItem(item));
 
 		r.getChildren().addAll(labelName, itemName, errorText, openJSON, export);
 
