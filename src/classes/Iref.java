@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Iref {
+	
+	//TODO mythic / reaper stats
 
 	public String uuid;
 
