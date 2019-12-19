@@ -1,10 +1,14 @@
 package classes;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonSyntaxException;
 
 import javafx.collections.FXCollections;
 import javafx.scene.control.ButtonBar.ButtonData;
@@ -45,7 +49,7 @@ public class Items {
 	public static void saveItem(Item i) {
 
 		try {
-			File file = getFile(i.getID());
+			File file = getFile(i.getUUID());
 			file.getParentFile().mkdirs();
 			FileWriter writer = new FileWriter(file);
 			writer.write(system.staticJSON.toJson(i));
@@ -53,6 +57,14 @@ public class Items {
 			System.out.println("Saved to: " + file.getPath());
 		} catch(Exception e) {}
 
+	}
+	
+	public static Item getItem(String uuid) {
+		try {
+			return system.objectJSON.fromJson(new FileReader(getFile(uuid)), Item.class);
+		} catch(JsonSyntaxException | JsonIOException | FileNotFoundException e) {
+			return null;
+		}
 	}
 
 	public static List<Item> getAllItems() {

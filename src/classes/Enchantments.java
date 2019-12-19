@@ -23,7 +23,7 @@ import util.resource;
 import util.system;
 
 public class Enchantments {
-	
+
 	public Enchantments() {}
 
 	private static List<Enchantment> enchantments;

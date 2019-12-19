@@ -3,15 +3,22 @@ package classes;
 import java.util.ArrayList;
 import java.util.List;
 
+import vars.ItemSlot;
+
 public class Iref {
 
 	// TODO mythic / reaper stats
 
-	public String uuid;
+	private String uuid;
 
 	private List<Craftref> crafting;
 
 	private transient Item temp;
+
+	public Iref(Item item) {
+		if(Items.getItem(item.getUUID()) != null) item.saveItem();
+		this.uuid = item.getUUID();
+	}
 
 	public Iref(String uuid) {
 		this.uuid = uuid;

@@ -273,7 +273,7 @@ public class fxSettings {
 	public static class settingsPage extends ScrollPane {
 
 		private String name;
-		
+
 		private VBox content;
 
 		public settingsPage(String Name) {
@@ -285,7 +285,7 @@ public class fxSettings {
 			content.setPadding(new Insets(10));
 			name = Name;
 		}
-		
+
 		public void addSection(String name, List<Node> options, List<Node> display) {
 			Text header = new Text(name);
 			header.setFont(new Font(20));
@@ -307,11 +307,11 @@ public class fxSettings {
 				row.getChildren().add(lDisplay);
 			}
 
-			VBox r = new VBox(header,row);
+			VBox r = new VBox(header, row);
 			r.setSpacing(10);
 			content.getChildren().add(r);
 		}
-		
+
 		public settingsPage toPage() {
 			this.setContent(content);
 			return this;

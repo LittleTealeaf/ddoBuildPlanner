@@ -23,7 +23,7 @@ public enum ItemSlot {
 	}
 
 	public String displayName() {
-		return displayName();
+		return displayName;
 	}
 
 	public String toString() {

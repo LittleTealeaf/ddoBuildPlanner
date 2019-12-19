@@ -53,7 +53,7 @@ public class fxEditEnchantment {
 		contText += "\n[type] - Type (sub-enchantment)";
 		contText += "\n[bonus] - Bonus Type (Insightful, etc)";
 		contText += "\n[value] - value";
-		contText+="\n* The Value field can only include either a number or \'[value]\'";
+		contText += "\n* The Value field can only include either a number or \'[value]\'";
 
 		variables.setText(contText);
 
@@ -144,7 +144,7 @@ public class fxEditEnchantment {
 
 			TextField value = new TextField();
 			value.setText(a.getValue());
-			value.textProperty().addListener((e,o,n) -> a.setValue(n));
+			value.textProperty().addListener((e, o, n) -> a.setValue(n));
 			value.setPrefWidth(75);
 
 			Button delete = new Button("Delete");

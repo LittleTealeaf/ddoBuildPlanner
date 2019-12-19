@@ -90,7 +90,7 @@ public class Enchantment {
 		private String attribute;
 		private String bonus;
 		private String value;
-		
+
 		public AttributeBonus() {
 			this("");
 		}
@@ -124,7 +124,7 @@ public class Enchantment {
 		public String getValue() {
 			return value;
 		}
-		
+
 		public void setValue(String value) {
 			this.value = value;
 		}

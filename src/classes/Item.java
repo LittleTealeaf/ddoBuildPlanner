@@ -16,7 +16,7 @@ import vars.ItemSlot;
 
 public class Item {
 
-	private String ID;
+	private String uuid;
 	private String name;
 	private String type;
 	private String description;
@@ -94,7 +94,7 @@ public class Item {
 	 * @return Returns true if successful or false if unsuccessful
 	 */
 	public void saveItem() {
-		if(ID == null || ID.contentEquals("")) ID = UUID.randomUUID().toString();
+		if(uuid == null || uuid.contentEquals("")) uuid = UUID.randomUUID().toString();
 		Items.saveItem(this);
 		fxItems.updateTable();
 	}
@@ -118,7 +118,7 @@ public class Item {
 			Images.deleteImage(iconUUID);
 		}
 
-		system.getAppFile("items", ID + ".json").delete();
+		system.getAppFile("items", uuid + ".json").delete();
 
 		fxItems.updateTable();
 	}
@@ -134,12 +134,12 @@ public class Item {
 		// TODO clear empty fields in damage types
 	}
 
-	public String getID() {
-		return ID;
+	public String getUUID() {
+		return uuid;
 	}
 
-	public void setID(String id) {
-		this.ID = id;
+	public void setUUID(String id) {
+		this.uuid = id;
 	}
 
 	public String getName() {
@@ -340,7 +340,9 @@ public class Item {
 	}
 
 	public boolean hasEquipSlot(ItemSlot... slots) {
-		for(ItemSlot s : slots) if(equipSlots.contains(s)) return true;
+		for(ItemSlot s : slots) {
+			if(equipSlots.contains(s)) return true;
+		}
 		return false;
 	}
 
