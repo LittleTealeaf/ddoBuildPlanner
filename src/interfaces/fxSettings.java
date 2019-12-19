@@ -109,10 +109,6 @@ public class fxSettings {
 	private static settingsPage pageAppearance() {
 		settingsPage r = new settingsPage("Appearance");
 
-		VBox content = new VBox();
-		content.setSpacing(10);
-		content.setPadding(new Insets(10));
-
 		// DICE FORMAT
 
 		Text diceDisplay = new Text(new Dice(3, 4, 5, 6, 7).toString());
@@ -147,7 +143,7 @@ public class fxSettings {
 			updateDisplay.apply("");
 		});
 
-		content.getChildren().add(settingSection("Dice Format", Arrays.asList(cShowDice, cShowRange, new Separator(), cCompactDice), Arrays.asList(diceDisplay)));
+		r.addSection("Dice Format", Arrays.asList(cShowDice, cShowRange, new Separator(), cCompactDice), Arrays.asList(diceDisplay));
 
 		// ICONS
 
@@ -168,19 +164,13 @@ public class fxSettings {
 		sIconSize.setEditable(true);
 		sIconSize.setPrefWidth(75);
 
-		content.getChildren().add(settingSection("Icon", Arrays.asList(sIconSize), Arrays.asList(image)));
+		r.addSection("Icon", Arrays.asList(sIconSize), Arrays.asList(image));
 
-		r.setContent(content);
-
-		return r;
+		return r.toPage();
 	}
 
 	private static settingsPage pageSaving() {
 		settingsPage r = new settingsPage("Saving");
-
-		VBox content = new VBox();
-		content.setPadding(new Insets(10));
-		content.setSpacing(10);
 
 		// REGULAR SAVING
 
@@ -222,7 +212,7 @@ public class fxSettings {
 		hPeriod.setAlignment(Pos.CENTER_LEFT);
 		hPeriod.setSpacing(5);
 
-		content.getChildren().add(settingSection("Auto Saving", Arrays.asList(hInactive, hPeriod), null));
+		r.addSection("Auto Saving", Arrays.asList(hInactive, hPeriod), null);
 
 		// IMAGES
 
@@ -233,37 +223,25 @@ public class fxSettings {
 		Button bLocalizeImages = new Button("Localize Images");
 		bLocalizeImages.setOnAction(e -> Images.localizeImages());
 
-		content.getChildren().add(settingSection("Images", Arrays.asList(cStoreLocalImages), Arrays.asList(bLocalizeImages)));
+		r.addSection("Images", Arrays.asList(cStoreLocalImages), Arrays.asList(bLocalizeImages));
 
-		r.setContent(content);
-
-		return r;
+		return r.toPage();
 	}
 
 	private static settingsPage pagePorting() {
 		settingsPage r = new settingsPage("Import / Export");
 
-		VBox content = new VBox();
-		content.setPadding(new Insets(10));
-		content.setSpacing(10);
-
 		CheckBox includeImages = new CheckBox("Include Images");
 		includeImages.setSelected(Settings.porting.exporting.includeImages);
 		includeImages.selectedProperty().addListener((e, o, n) -> Settings.porting.exporting.includeImages = n);
 
-		content.getChildren().add(settingSection("Items", Arrays.asList(includeImages), null));
+		r.addSection("Items", Arrays.asList(includeImages), null);
 
-		r.setContent(content);
-
-		return r;
+		return r.toPage();
 	}
 
 	private static settingsPage pageItems() {
 		settingsPage r = new settingsPage("Items");
-
-		VBox content = new VBox();
-		content.setPadding(new Insets(10));
-		content.setSpacing(10);
 
 		CheckBox warnOnDelete = new CheckBox("Warn on deleting an item");
 		warnOnDelete.setSelected(Settings.items.warnOnDelete);
@@ -274,70 +252,69 @@ public class fxSettings {
 		deleteImages.setSelected(Settings.items.deleteImages);
 		deleteImages.selectedProperty().addListener((e, o, n) -> Settings.items.deleteImages = n);
 
-		content.getChildren().add(settingSection("Deleting", Arrays.asList(warnOnDelete, deleteImages), null));
+		r.addSection("Deleting", Arrays.asList(warnOnDelete, deleteImages), null);
 
-		r.setContent(content);
-
-		return r;
+		return r.toPage();
 	}
 
 	private static settingsPage pageAdvanced() {
 		settingsPage r = new settingsPage("Advanced");
-
-		VBox content = new VBox();
-		content.setPadding(new Insets(10));
-		content.setSpacing(10);
 
 		CheckBox cDebug = new CheckBox("Show Crash Reports");
 		cDebug.setTooltip(new Tooltip("On a crash, display a dialog that includes the crash report\nas well as a button to add an issue to the github"));
 		cDebug.setSelected(Settings.advanced.debug.showCrashReports);
 		cDebug.selectedProperty().addListener(a -> Settings.advanced.debug.showCrashReports = cDebug.isSelected());
 
-		content.getChildren().add(settingSection("Debug Mode", Arrays.asList(cDebug), null));
+		r.addSection("Debug Mode", Arrays.asList(cDebug), null);
 
-		r.setContent(content);
-
-		return r;
-	}
-
-	private static VBox settingSection(String name, List<Node> options, List<Node> display) {
-		VBox r = new VBox();
-		r.setSpacing(10);
-
-		Text header = new Text(name);
-		header.setFont(new Font(20));
-
-		HBox row = new HBox();
-		row.setSpacing(10);
-
-		if(options != null) {
-			VBox lOptions = new VBox();
-			lOptions.setSpacing(10);
-			lOptions.getChildren().addAll(options);
-			row.getChildren().add(lOptions);
-		}
-
-		if(display != null) {
-			VBox lDisplay = new VBox();
-			lDisplay.setSpacing(10);
-			lDisplay.getChildren().addAll(display);
-			row.getChildren().add(lDisplay);
-		}
-
-		r.getChildren().addAll(header, row);
-
-		return r;
+		return r.toPage();
 	}
 
 	public static class settingsPage extends ScrollPane {
 
 		private String name;
+		
+		private VBox content;
 
 		public settingsPage(String Name) {
 			super();
 			super.setHbarPolicy(ScrollBarPolicy.NEVER);
 			super.setVbarPolicy(ScrollBarPolicy.AS_NEEDED);
+			content = new VBox();
+			content.setSpacing(10);
+			content.setPadding(new Insets(10));
 			name = Name;
+		}
+		
+		public void addSection(String name, List<Node> options, List<Node> display) {
+			Text header = new Text(name);
+			header.setFont(new Font(20));
+
+			HBox row = new HBox();
+			row.setSpacing(10);
+
+			if(options != null) {
+				VBox lOptions = new VBox();
+				lOptions.setSpacing(10);
+				lOptions.getChildren().addAll(options);
+				row.getChildren().add(lOptions);
+			}
+
+			if(display != null) {
+				VBox lDisplay = new VBox();
+				lDisplay.setSpacing(10);
+				lDisplay.getChildren().addAll(display);
+				row.getChildren().add(lDisplay);
+			}
+
+			VBox r = new VBox(header,row);
+			r.setSpacing(10);
+			content.getChildren().add(r);
+		}
+		
+		public settingsPage toPage() {
+			this.setContent(content);
+			return this;
 		}
 
 		public String getName() {
