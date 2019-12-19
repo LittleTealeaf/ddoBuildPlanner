@@ -24,7 +24,9 @@ public class Inventory {
 			try {
 				system.staticJSON.fromJson(Files.newBufferedReader(system.inventory.toPath()), Inventory.class);
 			} catch(Exception e) {}
+
 		}
+
 	}
 
 	public static void save() {
@@ -36,6 +38,7 @@ public class Inventory {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+
 	}
 
 	public static List<invItem> getItems() {

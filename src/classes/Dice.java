@@ -70,6 +70,7 @@ public class Dice {
 				System.out.println("could not parse");
 				break;
 			}
+
 		} catch(Exception e) {}
 
 		isNewDice = false;
@@ -116,6 +117,7 @@ public class Dice {
 			if(preAdd != 0) isNewDice = false;
 			if(postAdd != 0) isNewDice = false;
 		}
+
 		return isNewDice;
 	}
 

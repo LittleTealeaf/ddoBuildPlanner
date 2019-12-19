@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Iref {
-	
-	//TODO mythic / reaper stats
+
+	// TODO mythic / reaper stats
 
 	public String uuid;
 
@@ -42,6 +42,7 @@ public class Iref {
 		for(Craftref c : crafting) {
 			if(craftref.getUUID().contentEquals(c.getUUID())) c.setIndex(craftref.getIndex());
 		}
+
 	}
 
 	public List<Enchref> getEnchantments() {
@@ -56,6 +57,7 @@ public class Iref {
 		for(Craftref c : crafting) {
 			r.add(getItem().getCraft(c.getUUID()).getChoice(c.getIndex()));
 		}
+
 		return r;
 	}
 }

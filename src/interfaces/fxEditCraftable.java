@@ -70,6 +70,7 @@ public class fxEditCraftable {
 				if(n != null) craft.updateChoice(i, n);
 				r.setItems(FXCollections.observableArrayList(craft.getChoices()));
 			}
+
 		});
 		r.setCellFactory(param -> new ListCell<Enchref>() {
 

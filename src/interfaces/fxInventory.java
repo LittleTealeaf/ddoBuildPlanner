@@ -73,6 +73,7 @@ public class fxInventory {
 				Inventory.removeItem(items.getSelectionModel().getSelectedItem().getName());
 				updateTable();
 			}
+
 		});
 
 		updateTable();

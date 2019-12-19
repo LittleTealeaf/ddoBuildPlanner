@@ -71,6 +71,7 @@ public class Images {
 			writer.write(system.staticJSON.toJson(new Images()));
 			writer.close();
 		} catch(IOException e) {}
+
 	}
 
 	/**
@@ -112,6 +113,7 @@ public class Images {
 			try {
 				f = new File(uuid);
 			} catch(Exception d) {}
+
 		}
 
 		if(f.exists()) return getImageFromURL(f.getPath());
@@ -153,6 +155,7 @@ public class Images {
 			if(getImagePath(uuid).exists()) return;
 			Files.write(getImagePath(uuid).toPath(), Base64.getDecoder().decode(lines));
 		} catch(Exception e) {}
+
 	}
 
 	/**
@@ -203,6 +206,7 @@ public class Images {
 
 				while((length = fis.read(buffer)) > 0) fos.write(buffer, 0, length);
 			}
+
 		} catch(Exception e) {
 
 			try {
@@ -220,7 +224,9 @@ public class Images {
 				is.close();
 				os.close();
 			} catch(Exception f) {}
+
 		}
+
 	}
 
 	/**
@@ -286,6 +292,7 @@ public class Images {
 				if(displayImage(urlField.getText())) {
 					url = urlField.getText();
 				}
+
 			});
 
 			Button browseFile = new Button("From file...");
@@ -296,6 +303,7 @@ public class Images {
 					url = image;
 					urlField.setText(url);
 				}
+
 			});
 
 			HBox headerTop = new HBox(urlField, browseFile, loadURL);
@@ -342,6 +350,7 @@ public class Images {
 					return saveImage(url);
 					// if not, then try to return the oldUUID, otherwise return null
 				} else return (oldUUID != null) ? oldUUID : null;
+
 			});
 		}
 

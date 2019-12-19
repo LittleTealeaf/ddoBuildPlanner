@@ -55,6 +55,7 @@ public class fxEnchantments {
 			if(click.getClickCount() == 2) {
 				fxEditEnchantment.open(table.getSelectionModel().getSelectedItem());
 			}
+
 		});
 
 		updateTable();

@@ -40,6 +40,7 @@ public class Debug {
 			} catch(Exception e1) {
 				e1.printStackTrace();
 			}
+
 		});
 	}
 
@@ -68,6 +69,7 @@ public class Debug {
 			try {
 				java.awt.Desktop.getDesktop().browse(new URI("https://github.com/LittleTealeaf/ddoBuildPlanner/issues/new?assignees=LittleTealeaf&labels=crash&template=crash_report.md&title=Crash+Report"));
 			} catch(Exception exce) {}
+
 		});
 
 		Label warning = new Label("Warning: This will use your clipboard");

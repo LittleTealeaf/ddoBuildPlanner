@@ -76,6 +76,7 @@ public class fxSettings {
 							tooltip.setText(item.getName());
 							setTooltip(tooltip);
 						}
+
 					}
 				};
 				return cell;

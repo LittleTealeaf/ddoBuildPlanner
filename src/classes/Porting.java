@@ -19,11 +19,12 @@ public class Porting {
 			ItemExport i = system.objectJSON.fromJson(Files.newBufferedReader(fileChooser.showOpenDialog(null).toPath()), ItemExport.class);
 			i.importItem();
 		} catch(IOException e) {}
+
 	}
-	
+
 	public static void exportItem(Item item) {
 		item.saveItem();
-		
+
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
 		fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Item Export", "*.exportItem"));
@@ -40,5 +41,6 @@ public class Porting {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
 	}
 }

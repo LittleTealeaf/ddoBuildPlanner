@@ -326,6 +326,7 @@ public class Item {
 			if(crafting.contains(previous)) crafting.set(crafting.indexOf(previous), updated);
 			else addCraftable(updated);
 		}
+
 	}
 
 	public void removeCraftable(Craftable craftable) {

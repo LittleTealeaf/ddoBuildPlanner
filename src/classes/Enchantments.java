@@ -41,7 +41,9 @@ public class Enchantments {
 				system.staticJSON.fromJson(resource.getBufferedReader("enchantments.json"), Enchantments.class);
 				save();
 			}
+
 		} catch(Exception e) {}
+
 	}
 
 	public static void save() {
@@ -51,6 +53,7 @@ public class Enchantments {
 			writer.write(system.staticJSON.toJson(new Enchantments()));
 			writer.close();
 		} catch(Exception e) {}
+
 	}
 
 	public static List<Enchantment> getEnchantments() {
@@ -139,6 +142,7 @@ public class Enchantments {
 			default:
 				break;
 			}
+
 		});
 
 		VBox choiceBox = new VBox(choice, suggestedInputs);
@@ -151,13 +155,16 @@ public class Enchantments {
 
 		Spinner<Double> value = new Spinner<Double>();
 		value.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(-1000, 1000, (ench != null) ? ench.getValue() : 0));
-		value.getEditor().focusedProperty().addListener((e,o,n) -> {
+		value.getEditor().focusedProperty().addListener((e, o, n) -> {
 			Platform.runLater(new Runnable() {
+
 				@Override
 				public void run() {
+
 					if(n.booleanValue() && !value.getEditor().getText().contentEquals("")) {
 						value.getEditor().selectAll();
 					}
+
 				}
 			});
 		});
@@ -195,8 +202,10 @@ public class Enchantments {
 					addEnchantment(create);
 					fxEditEnchantment.openAndWait(create);
 				}
+
 				return new Enchref(getEnchantmentName(choice.getText()).getUUID(), type.getText(), bonus.getText(), value.getValue());
 			}
+
 			return null;
 		});
 
@@ -214,6 +223,7 @@ public class Enchantments {
 		for(Enchantment e : getEnchantments()) {
 			if(in.contentEquals("") || (e.getName() != null && e.getName().toLowerCase().contains(in.toLowerCase()))) r.add(e.getName());
 		}
+
 		return r;
 	}
 }

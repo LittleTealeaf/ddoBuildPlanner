@@ -62,6 +62,7 @@ public class SetBonus {
 		for(BonusTier t : bonusTiers) {
 			tier = ((tier == null) || (tier.getPieceCount() < t.getPieceCount() && t.getPieceCount() <= pieceCount)) ? t : tier;
 		}
+
 		return tier.getBonuses();
 	}
 

@@ -156,6 +156,7 @@ public class fxEditEnchantment {
 
 			row++;
 		}
+
 	}
 
 	private static void deleteBonus(AttributeBonus a) {

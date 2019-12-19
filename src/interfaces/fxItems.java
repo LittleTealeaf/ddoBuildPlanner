@@ -65,6 +65,7 @@ public class fxItems {
 			default:
 				break;
 			}
+
 		});
 
 		table.prefWidthProperty().bind(r.widthProperty());

@@ -23,6 +23,7 @@ public class ItemExport {
 			icon = (item.getIconUUID() != null) ? Images.getImageFileContents(item.getIconUUID()) : null;
 			image = (item.getImageUUID() != null) ? Images.getImageFileContents(item.getImageUUID()) : null;
 		}
+
 	}
 
 	public void importItem() {

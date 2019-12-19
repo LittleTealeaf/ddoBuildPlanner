@@ -331,6 +331,7 @@ public class fxEditItem {
 				if(n != null) item.updateEnchantment(i, n);
 				enchantmentView.setItems(FXCollections.observableArrayList(item.getEnchantments()));
 			}
+
 		});
 		enchantmentView.setCellFactory(param -> new ListCell<Enchref>() {
 
@@ -379,6 +380,7 @@ public class fxEditItem {
 				item.updateCraftable(crafting.getSelectionModel().getSelectedItem(), fxEditCraftable.openEditor(crafting.getSelectionModel().getSelectedItem()));
 				crafting.setItems(FXCollections.observableArrayList(item.getCrafting()));
 			}
+
 		});
 
 		crafting.setCellFactory(param -> new ListCell<Craftable>() {
@@ -434,6 +436,7 @@ public class fxEditItem {
 				if(!d.isDefault()) item.setDamage(d);
 				dice.setText(item.getDamage().toEditString());
 			}
+
 		});
 		dice.focusedProperty().addListener((e, o, n) -> {
 
@@ -442,6 +445,7 @@ public class fxEditItem {
 				if(!d.isDefault()) item.setDamage(d);
 				dice.setText(item.getDamage().toEditString());
 			}
+
 		});
 
 		Text tLowRoll = new Text("Low Crit Roll:");
@@ -608,6 +612,7 @@ public class fxEditItem {
 				iImage.fitHeightProperty().unbind();
 				iImage.setFitWidth(10);
 			}
+
 		});
 
 		iImage.setImage(item.getImage());

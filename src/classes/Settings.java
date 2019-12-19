@@ -148,13 +148,16 @@ public class Settings {
 				if(!version.contentEquals(Main.version)) saveSettings();
 				trimSettings();
 			} catch(IOException e) {}
+
 		} else {
 			system.settings.getParentFile().mkdirs();
 
 			try {
 				system.settings.createNewFile();
 			} catch(IOException e) {}
+
 		}
+
 		saveSettings();
 	}
 
@@ -168,6 +171,7 @@ public class Settings {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+
 	}
 
 	private static void trimSettings() {

@@ -39,6 +39,7 @@ public class Items {
 		} catch(Exception e) {
 			return null;
 		}
+
 	}
 
 	public static void saveItem(Item i) {
@@ -51,6 +52,7 @@ public class Items {
 			writer.close();
 			System.out.println("Saved to: " + file.getPath());
 		} catch(Exception e) {}
+
 	}
 
 	public static List<Item> getAllItems() {
@@ -68,6 +70,7 @@ public class Items {
 				Item n = system.objectJSON.fromJson(new FileReader(f), Item.class);
 				if(n != null) r.add(n);
 			} catch(Exception e) {}
+
 		}
 
 		items = r;
@@ -120,6 +123,7 @@ public class Items {
 			if(b.getButtonData() == ButtonData.OK_DONE) {
 				return table.getSelectionModel().getSelectedItem();
 			} else return null;
+
 		});
 
 		try {
@@ -127,6 +131,7 @@ public class Items {
 		} catch(Exception e) {
 			return null;
 		}
+
 	}
 
 	@SuppressWarnings("unchecked")
