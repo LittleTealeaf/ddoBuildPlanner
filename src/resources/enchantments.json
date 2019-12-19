@@ -1,7 +1,7 @@
 {
   "enchantments": [
     {
-      "id": 0,
+      "uuid": "39aa506d-87e5-4abd-bf82-5c8257ea0c85",
       "displayName": "[value] [bonus] [type] Spell Power",
       "name": "Spell Power",
       "attributes": [
@@ -13,7 +13,7 @@
       ]
     },
     {
-      "id": 2,
+      "uuid": "2a0aa8f3-974e-468c-978d-fa88de44c206",
       "displayName": "[value] [bonus] [type] Spell Lore",
       "name": "Spell Lore",
       "attributes": [
@@ -25,7 +25,7 @@
       ]
     },
     {
-      "id": 3,
+      "uuid": "321df143-1fb3-4abf-8ac9-d796261b254b",
       "displayName": "[value] [bonus] [type] Spell Focus",
       "name": "Spell Focus",
       "attributes": [
@@ -37,7 +37,7 @@
       ]
     },
     {
-      "id": 1,
+      "uuid": "aa21c96d-3d82-4bfc-b604-fb70bf674fb6",
       "displayName": "[value] [bonus] [type]",
       "name": "Standard",
       "attributes": [
