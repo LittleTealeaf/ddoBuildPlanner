@@ -200,6 +200,7 @@ public class fxEditItem {
 
 		// Item Bind Status
 		Text tBindStatus = new Text("Bind Status:");
+		//TODO change to enumerator (also in the item class)
 		ChoiceBox<String> bindStatus = new ChoiceBox<String>(FXCollections.observableList(Arrays.asList("Unbound", "Bound to Account on Acquire", "Bound to Account on Equip", "Bound to Character on Acquire", "Bound to Character on Equip")));
 		bindStatus.setValue(item.getBindStatus());
 		bindStatus.valueProperty().addListener((e, o, n) -> item.setBindStatus(n));
