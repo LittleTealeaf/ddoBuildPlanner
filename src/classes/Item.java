@@ -340,9 +340,11 @@ public class Item {
 	}
 
 	public boolean hasEquipSlot(ItemSlot... slots) {
+
 		for(ItemSlot s : slots) {
 			if(equipSlots.contains(s)) return true;
 		}
+
 		return false;
 	}
 

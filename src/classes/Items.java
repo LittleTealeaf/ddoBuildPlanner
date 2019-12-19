@@ -58,13 +58,15 @@ public class Items {
 		} catch(Exception e) {}
 
 	}
-	
+
 	public static Item getItem(String uuid) {
+
 		try {
 			return system.objectJSON.fromJson(new FileReader(getFile(uuid)), Item.class);
 		} catch(JsonSyntaxException | JsonIOException | FileNotFoundException e) {
 			return null;
 		}
+
 	}
 
 	public static List<Item> getAllItems() {

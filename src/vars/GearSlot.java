@@ -20,7 +20,7 @@ public enum GearSlot {
 	private String displayName;
 	private ItemSlot itemSlot;
 
-	GearSlot(String displayName,ItemSlot itemSlot) {
+	GearSlot(String displayName, ItemSlot itemSlot) {
 		this.displayName = displayName;
 		this.itemSlot = itemSlot;
 	}
@@ -28,7 +28,7 @@ public enum GearSlot {
 	public String displayName() {
 		return displayName;
 	}
-	
+
 	public ItemSlot getItemSlot() {
 		return itemSlot;
 	}
