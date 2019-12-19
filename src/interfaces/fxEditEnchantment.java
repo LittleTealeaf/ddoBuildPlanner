@@ -53,6 +53,7 @@ public class fxEditEnchantment {
 		contText += "\n[type] - Type (sub-enchantment)";
 		contText += "\n[bonus] - Bonus Type (Insightful, etc)";
 		contText += "\n[value] - value";
+		contText+="\n* The Value field can only include either a number or \'[value]\'";
 
 		variables.setText(contText);
 
@@ -126,7 +127,7 @@ public class fxEditEnchantment {
 
 		attributes.add(new Text("Attribute"), 0, 0);
 		attributes.add(new Text("Bonus"), 1, 0);
-		attributes.add(new Text("Multiplier"), 2, 0);
+		attributes.add(new Text("Value"), 2, 0);
 
 		int row = 1;
 
@@ -141,17 +142,17 @@ public class fxEditEnchantment {
 			bonus.setText(a.getBonus());
 			bonus.textProperty().addListener((e, o, n) -> a.setBonus(n));
 
-			Spinner<Double> multiplier = new Spinner<Double>();
-			multiplier.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(-10000, 10000, a.getmultiplier()));
-			multiplier.setEditable(true);
-			multiplier.setPrefWidth(75);
+			TextField value = new TextField();
+			value.setText(a.getValue());
+			value.textProperty().addListener((e,o,n) -> a.setValue(n));
+			value.setPrefWidth(75);
 
 			Button delete = new Button("Delete");
 			delete.setOnAction(e -> deleteBonus(a));
 
 			attributes.add(attrName, 0, row);
 			attributes.add(bonus, 1, row);
-			attributes.add(multiplier, 2, row);
+			attributes.add(value, 2, row);
 			attributes.add(delete, 3, row);
 
 			row++;

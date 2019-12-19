@@ -8,7 +8,7 @@
         {
           "attribute": "[type] Spell Power",
           "bonus": "[bonus]",
-          "multiplier": 1.0
+	  "value": "[value]"
         }
       ]
     },
@@ -20,7 +20,7 @@
         {
           "attribute": "[type] Spell Lore",
           "bonus": "[bonus]",
-          "multiplier": 1.0
+	  "value": "[value]"
         }
       ]
     },
@@ -32,7 +32,7 @@
         {
           "attribute": "[type] Spell Focus",
           "bonus": "[bonus]",
-          "multiplier": 1.0
+	  "value": "[value]"
         }
       ]
     },
@@ -44,7 +44,7 @@
         {
           "attribute": "[type]",
           "bonus": "[bonus]",
-          "multiplier": 1.0
+	  "value": "[value]"
         }
       ]
     }

@@ -89,22 +89,20 @@ public class Enchantment {
 
 		private String attribute;
 		private String bonus;
-		private double multiplier;
+		private String value;
+		
+		public AttributeBonus() {
+			this("");
+		}
 
 		public AttributeBonus(String attribute) {
-			this(attribute, "", 1);
+			this(attribute, "[bonus]", "[value]");
 		}
 
-		public AttributeBonus(String attribute, String bonus, double multiplier) {
+		public AttributeBonus(String attribute, String bonus, String value) {
 			this.attribute = attribute;
 			this.bonus = bonus;
-			this.multiplier = multiplier;
-		}
-
-		public AttributeBonus() {
-			this.attribute = "";
-			this.bonus = "";
-			this.multiplier = 1;
+			this.value = value;
 		}
 
 		public String getAttribute() {
@@ -123,16 +121,16 @@ public class Enchantment {
 			this.bonus = bonus;
 		}
 
-		public double getmultiplier() {
-			return multiplier;
+		public String getValue() {
+			return value;
 		}
-
-		public void setValue(double multiplier) {
-			this.multiplier = multiplier;
+		
+		public void setValue(String value) {
+			this.value = value;
 		}
 
 		public Attribute toAttribute(String bonus, double value) {
-			return new Attribute(attribute, this.bonus.contentEquals("") ? bonus : this.bonus, value * multiplier);
+			return new Attribute(attribute, this.bonus.contentEquals("") ? bonus : this.bonus, value * Double.parseDouble(this.value.replace("[value]", value + "")));
 		}
 	}
 }
