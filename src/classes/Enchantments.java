@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 import interfaces.fxEditEnchantment;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
@@ -150,6 +151,16 @@ public class Enchantments {
 
 		Spinner<Double> value = new Spinner<Double>();
 		value.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(-1000, 1000, (ench != null) ? ench.getValue() : 0));
+		value.getEditor().focusedProperty().addListener((e,o,n) -> {
+			Platform.runLater(new Runnable() {
+				@Override
+				public void run() {
+					if(n.booleanValue() && !value.getEditor().getText().contentEquals("")) {
+						value.getEditor().selectAll();
+					}
+				}
+			});
+		});
 		value.setPrefWidth(75);
 		value.setEditable(true);
 
