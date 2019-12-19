@@ -23,9 +23,7 @@ import util.resource;
 import util.system;
 
 public class Enchantments {
-
-	// TODO import / export for transferring builds between people
-
+	
 	public Enchantments() {}
 
 	private static List<Enchantment> enchantments;
