@@ -53,9 +53,7 @@ public class Items {
 			if(i.getUUID() == null || i.getUUID().contentEquals("")) i.setUUID(UUID.randomUUID().toString());
 			File file = getFile(i.getUUID());
 			file.getParentFile().mkdirs();
-			FileWriter writer = new FileWriter(file);
-			writer.write(system.staticJSON.toJson(i));
-			writer.close();
+			system.writeFile(file, system.staticJSON.toJson(i));
 			System.out.println("Saved to: " + file.getPath());
 		} catch(Exception e) {}
 

@@ -33,15 +33,6 @@ public class Porting {
 		File f = fileChooser.showSaveDialog(null);
 		if(f.exists()) f.delete();
 
-		try {
-			FileWriter writer;
-			writer = new FileWriter(f);
-			writer.write(system.objectJSON.toJson(new ItemExport(item)));
-			writer.close();
-		} catch(IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
+		system.writeFile(f, system.objectJSON.toJson(new ItemExport(item)));
 	}
 }

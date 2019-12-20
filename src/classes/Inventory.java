@@ -30,15 +30,7 @@ public class Inventory {
 	}
 
 	public static void save() {
-
-		try {
-			FileWriter writer = new FileWriter(system.inventory);
-			writer.write(system.staticJSON.toJson(new Inventory()));
-			writer.close();
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-
+		system.writeFile(system.inventory, system.staticJSON.toJson(new Inventory()));
 	}
 
 	public static List<invItem> getItems() {

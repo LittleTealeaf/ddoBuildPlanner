@@ -2,10 +2,12 @@ package util;
 
 import java.awt.Desktop;
 import java.io.File;
+import java.io.FileWriter;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import classes.Enchantments;
 import net.harawata.appdirs.AppDirs;
 import net.harawata.appdirs.AppDirsFactory;
 
@@ -19,6 +21,7 @@ public class system {
 	public static File settings;
 	public static File inventory;
 	public static File enchantments;
+	public static File setBonuses;
 
 	// TODO add save/load file methods
 
@@ -31,6 +34,7 @@ public class system {
 		settings = getAppFile("Settings.json");
 		inventory = getAppFile("Inventory.json");
 		enchantments = getAppFile(true, "data", "Enchantments.json");
+		setBonuses = getAppFile(true, "data", "SetBonuses.json");
 	}
 
 	public static void createFileDirs(String... path) {
@@ -56,6 +60,16 @@ public class system {
 
 		try {
 			Desktop.getDesktop().open(file);
+		} catch(Exception e) {}
+
+	}
+
+	public static void writeFile(File file, String data) {
+
+		try {
+			FileWriter writer = new FileWriter(file);
+			writer.write(data);
+			writer.close();
 		} catch(Exception e) {}
 
 	}

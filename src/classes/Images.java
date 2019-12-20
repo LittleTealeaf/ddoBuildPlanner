@@ -66,12 +66,7 @@ public class Images {
 
 		if(!f.exists()) f.getParentFile().mkdirs();
 
-		try {
-			FileWriter writer = new FileWriter(f);
-			writer.write(system.staticJSON.toJson(new Images()));
-			writer.close();
-		} catch(IOException e) {}
-
+		system.writeFile(f, system.staticJSON.toJson(new Images()));
 	}
 
 	/**

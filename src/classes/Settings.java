@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 
 import application.Main;
+import classes.Item.ItemExport;
 import util.system;
 
 @SuppressWarnings("unused")
@@ -163,16 +164,8 @@ public class Settings {
 	}
 
 	public static void saveSettings() {
-
-		try {
-			FileWriter writer = new FileWriter(system.settings);
-			writer.write(system.staticJSON.toJson(new Settings()));
-			writer.close();
-			System.out.println("Saved Settings to: " + system.settings.getPath());
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-
+		system.writeFile(system.settings, system.staticJSON.toJson(new Settings()));
+		System.out.println("Saved Settings to: " + system.settings.getPath());
 	}
 
 	private static void trimSettings() {

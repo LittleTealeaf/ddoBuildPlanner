@@ -45,13 +45,7 @@ public class Enchantments {
 	}
 
 	public static void save() {
-
-		try {
-			FileWriter writer = new FileWriter(system.enchantments);
-			writer.write(system.staticJSON.toJson(new Enchantments()));
-			writer.close();
-		} catch(Exception e) {}
-
+		system.writeFile(system.enchantments, system.staticJSON.toJson(new Enchantments()));
 	}
 
 	public static List<Enchantment> getEnchantments() {

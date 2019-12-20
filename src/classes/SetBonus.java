@@ -56,7 +56,7 @@ public class SetBonus {
 		this.bonusTiers.remove(bonusTier);
 	}
 
-	public List<Enchantment> getEnchantments(int pieceCount) {
+	public List<Enchref> getEnchantments(int pieceCount) {
 		BonusTier tier = null;
 
 		for(BonusTier t : bonusTiers) {
@@ -69,17 +69,17 @@ public class SetBonus {
 	public static class BonusTier {
 
 		private int pieceCount;
-		private List<Enchantment> bonuses;
+		private List<Enchref> bonuses;
 
 		public BonusTier() {
 			this(0);
 		}
 
 		public BonusTier(int pieceCount) {
-			this(pieceCount, new ArrayList<Enchantment>());
+			this(pieceCount, new ArrayList<Enchref>());
 		}
 
-		public BonusTier(int pieceCount, List<Enchantment> bonuses) {
+		public BonusTier(int pieceCount, List<Enchref> bonuses) {
 			this.pieceCount = pieceCount;
 			this.bonuses = bonuses;
 		}
@@ -92,20 +92,36 @@ public class SetBonus {
 			this.pieceCount = pieceCount;
 		}
 
-		public List<Enchantment> getBonuses() {
+		public List<Enchref> getBonuses() {
 			return bonuses;
 		}
 
-		public void setBonuses(List<Enchantment> bonuses) {
+		public void setBonuses(List<Enchref> bonuses) {
 			this.bonuses = bonuses;
 		}
 
-		public void addBonus(Enchantment bonus) {
+		public void addBonus(Enchref bonus) {
 			bonuses.add(bonus);
 		}
 
-		public void removeBonus(Enchantment bonus) {
+		public void removeBonus(Enchref bonus) {
 			bonuses.remove(bonus);
+		}
+	}
+
+	public static class SetBonusExport {
+
+		private SetBonus setbonus;
+		private List<Enchantment> enchantments;
+
+		public SetBonusExport(SetBonus setbonus) {
+			this.setbonus = setbonus;
+
+			enchantments = new ArrayList<Enchantment>();
+
+			for(BonusTier tier : setbonus.getBonusTiers()) for(Enchref e : tier.getBonuses()) if(!enchantments.contains(e)) {
+				enchantments.add(e.getEnchantment());
+			}
 		}
 	}
 }
