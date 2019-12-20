@@ -94,7 +94,6 @@ public class Item {
 	 * @return Returns true if successful or false if unsuccessful
 	 */
 	public void saveItem() {
-		if(uuid == null || uuid.contentEquals("")) uuid = UUID.randomUUID().toString();
 		Items.saveItem(this);
 		fxItems.updateTable();
 	}

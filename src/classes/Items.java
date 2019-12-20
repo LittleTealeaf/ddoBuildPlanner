@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
@@ -49,6 +50,7 @@ public class Items {
 	public static void saveItem(Item i) {
 
 		try {
+			if(i.getUUID() == null || i.getUUID().contentEquals("")) i.setUUID(UUID.randomUUID().toString());
 			File file = getFile(i.getUUID());
 			file.getParentFile().mkdirs();
 			FileWriter writer = new FileWriter(file);
