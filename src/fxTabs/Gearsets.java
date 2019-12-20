@@ -1,10 +1,5 @@
 package fxTabs;
 
-import java.util.Arrays;
-import java.util.List;
-
-import javax.security.auth.callback.Callback;
-
 import classes.Craftable;
 import classes.Craftref;
 import classes.Enchref;
@@ -14,13 +9,11 @@ import classes.Item;
 import classes.Items;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import javafx.scene.image.ImageView;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
+import javafx.scene.control.Tab;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -34,7 +27,7 @@ public class Gearsets {
 
 	private static GridPane grid;
 
-	private static Gearset currentGearset;
+	public static Gearset currentGearset;
 
 	public static Tab getTab() {
 		tab = new Tab("Gearsets");
@@ -113,10 +106,9 @@ public class Gearsets {
 			craftingChoices.setSpacing(10);
 
 			if(ref != null && ref.getCrafting() != null) {
-				
 
 				for(Craftref cref : ref.getCrafting()) {
-					HBox h = new HBox(new Text(ref.getItem().getCraft(cref.getUUID()).getName()), new craftingChoice(ref, cref).toChoiceBox());
+					HBox h = new HBox(new Text(ref.getItem().getCraft(cref.getUUID()).getName()), new craftingChoice(ref, cref).toComboBox());
 					h.setSpacing(2.5);
 					craftingChoices.getChildren().add(h);
 				}
@@ -124,14 +116,17 @@ public class Gearsets {
 			}
 
 			Button bClear = new Button("Clear");
-			bClear.setOnAction(e -> currentGearset.setItemBySlot((Iref) null, slot));
+			bClear.setOnAction(e -> {
+				currentGearset.setItemBySlot((Iref) null, slot);
+				updateContent();
+			});
 
 			grid.addRow((row++), new Text(slot.displayName()), icon, name, enchantments, craftingChoices, bSelect, bClear);
 		}
 
 	}
 
-	private static class craftingChoice extends ChoiceBox<Enchref> { //TODO change to combo box
+	private static class craftingChoice extends ComboBox<Enchref> { // TODO change to combo box
 
 		private Craftref ref;
 		private Craftable craftable;
@@ -142,10 +137,10 @@ public class Gearsets {
 			this.craftable = iref.getItem().getCraft(ref.getUUID());
 		}
 
-		public ChoiceBox<Enchref> toChoiceBox() {
-	         
+		public ComboBox<Enchref> toComboBox() {
 			this.getItems().addAll(craftable.getChoices());
 			this.getSelectionModel().select(craftable.getChoice(ref.getIndex()));
+			this.getSelectionModel().selectedIndexProperty().addListener((e, o, n) -> ref.setIndex(n.intValue()));
 
 			return this;
 		}

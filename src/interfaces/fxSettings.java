@@ -233,7 +233,7 @@ public class fxSettings {
 
 		CheckBox includeImages = new CheckBox("Include Images");
 		includeImages.setSelected(Settings.porting.exporting.includeImages);
-		includeImages.selectedProperty().addListener((e, o, n) -> Settings.porting.exporting.includeImages = n);
+		includeImages.selectedProperty().addListener((e, o, n) -> Settings.porting.exporting.includeImages = n.booleanValue());
 
 		r.addSection("Items", Arrays.asList(includeImages), null);
 

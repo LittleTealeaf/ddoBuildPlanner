@@ -1,8 +1,15 @@
 package debug;
 
+import java.io.FileWriter;
+
+import classes.GearsetExport;
 import classes.Items;
+import classes.Settings;
+import fxTabs.Gearsets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
+import javafx.stage.FileChooser;
+import util.system;
 
 public class debugTab {
 
@@ -13,7 +20,15 @@ public class debugTab {
 
 		Button execFunction = new Button("Open");
 		execFunction.setOnAction(e -> {
-			Items.selectItemPrompt();
+			FileChooser chooser = new FileChooser();
+
+			try {
+				FileWriter writer = new FileWriter(chooser.showSaveDialog(null));
+				writer.write(system.objectJSON.toJson(Gearsets.currentGearset.export(), GearsetExport.class));
+				writer.flush();
+				writer.close();
+			} catch(Exception g) {}
+
 		});
 
 		tab.setContent(execFunction);

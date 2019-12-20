@@ -18,6 +18,7 @@ public class Settings {
 		Saving = new saving();
 		Advanced = new advanced();
 		Items = new items();
+		Porting = new porting();
 
 		version = Main.version;
 	}

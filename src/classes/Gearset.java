@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import vars.GearSlot;
-import vars.ItemSlot;
 
 public class Gearset {
 
@@ -29,6 +28,10 @@ public class Gearset {
 		List<Attribute> r = new ArrayList<Attribute>();
 		for(Iref i : getAllIrefs()) for(Enchref e : i.getEnchantments()) r.addAll(e.getAttributes());
 		return r;
+	}
+
+	public GearsetExport export() {
+		return new GearsetExport(this);
 	}
 
 	private void onEdit() {

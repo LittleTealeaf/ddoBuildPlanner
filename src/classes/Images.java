@@ -131,7 +131,6 @@ public class Images {
 
 	public static String getImageFileContents(String uuid) {
 		File f = getImagePath(uuid);
-		System.out.println(f.getPath());
 
 		// Localzies if needed
 		if(!f.exists()) for(extImage e : externalImages) if(uuid.contentEquals(e.getUUID())) localizeImage(e);

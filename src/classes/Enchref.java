@@ -58,4 +58,8 @@ public class Enchref {
 	public List<Attribute> getAttributes() {
 		return getEnchantment().getAttributes(bonus, value);
 	}
+
+	public String toString() {
+		return getDisplayName();
+	}
 }
