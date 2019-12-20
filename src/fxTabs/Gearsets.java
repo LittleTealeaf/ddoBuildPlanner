@@ -7,6 +7,7 @@ import classes.Gearset;
 import classes.Iref;
 import classes.Item;
 import classes.Items;
+import interfaces.fxEditItem;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -14,6 +15,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.control.Tab;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -36,6 +38,9 @@ public class Gearsets {
 
 		BorderPane content = new BorderPane();
 		content.setCenter(gridContent());
+		content.setOnKeyPressed(key -> {
+			if(key.getCode() == KeyCode.F5) updateContent();
+		});
 
 		// TODO build the gearset into the build class
 
@@ -86,11 +91,16 @@ public class Gearsets {
 
 			Text name = new Text();
 			name.setText((ref != null) ? ref.getItem().getName() : "");
+			name.setOnMouseClicked(click -> {
+				if(click.getClickCount() == 2) {
+					fxEditItem.open(ref);
+				}
+			});
 
 			Text enchantments = new Text();
 			if(ref != null) for(Enchref e : ref.getItem().getEnchantments()) enchantments.setText(enchantments.getText() + e.getDisplayName() + "\n");
 
-			Button bSelect = new Button("Select...");
+			Button bSelect = new Button("Select " + slot.displayName() + "...");
 			bSelect.setOnAction(e -> {
 				Item i = Items.selectItemPrompt(slot.getItemSlot());
 
