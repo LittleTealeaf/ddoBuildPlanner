@@ -3,6 +3,8 @@ package fxTabs;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.security.auth.callback.Callback;
+
 import classes.Craftable;
 import classes.Craftref;
 import classes.Enchref;
@@ -21,6 +23,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import vars.GearSlot;
@@ -86,7 +89,7 @@ public class Gearsets {
 		for(GearSlot slot : GearSlot.values()) {
 			Iref ref = currentGearset.getItemBySlot(slot);
 
-			ImageView icon = (ref != null) ? ref.getItem().getIconViewSmall() : new ImageView();
+			ImageView icon = (ref != null && ref.getItem().getIconViewSmall() != null) ? ref.getItem().getIconViewSmall() : new ImageView();
 
 			Text name = new Text();
 			name.setText((ref != null) ? ref.getItem().getName() : "");
@@ -107,12 +110,15 @@ public class Gearsets {
 			});
 
 			VBox craftingChoices = new VBox();
+			craftingChoices.setSpacing(10);
 
 			if(ref != null && ref.getCrafting() != null) {
-				craftingChoices.setSpacing(5);
+				
 
 				for(Craftref cref : ref.getCrafting()) {
-					craftingChoices.getChildren().add(new craftingChoice(ref, cref));
+					HBox h = new HBox(new Text(ref.getItem().getCraft(cref.getUUID()).getName()), new craftingChoice(ref, cref).toChoiceBox());
+					h.setSpacing(2.5);
+					craftingChoices.getChildren().add(h);
 				}
 
 			}
@@ -120,12 +126,12 @@ public class Gearsets {
 			Button bClear = new Button("Clear");
 			bClear.setOnAction(e -> currentGearset.setItemBySlot((Iref) null, slot));
 
-			grid.addRow((row++), new Text(slot.displayName()), icon, name, enchantments, bSelect, bClear);
+			grid.addRow((row++), new Text(slot.displayName()), icon, name, enchantments, craftingChoices, bSelect, bClear);
 		}
 
 	}
 
-	private static class craftingChoice extends ChoiceBox<Enchref> {
+	private static class craftingChoice extends ChoiceBox<Enchref> { //TODO change to combo box
 
 		private Craftref ref;
 		private Craftable craftable;
@@ -137,6 +143,7 @@ public class Gearsets {
 		}
 
 		public ChoiceBox<Enchref> toChoiceBox() {
+	         
 			this.getItems().addAll(craftable.getChoices());
 			this.getSelectionModel().select(craftable.getChoice(ref.getIndex()));
 

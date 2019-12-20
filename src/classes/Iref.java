@@ -17,6 +17,8 @@ public class Iref {
 
 	public Iref(Item item) {
 		if(Items.getItem(item.getUUID()) != null) item.saveItem();
+		crafting = new ArrayList<Craftref>();
+		if(item.getCrafting() != null) for(Craftable c : item.getCrafting()) crafting.add(new Craftref(c, 0));
 		this.uuid = item.getUUID();
 	}
 
