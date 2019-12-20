@@ -85,7 +85,7 @@ public class Gearsets {
 
 		for(GearSlot slot : GearSlot.values()) {
 			Iref ref = currentGearset.getItemBySlot(slot);
-			
+
 			ImageView icon = (ref != null) ? ref.getItem().getIconViewSmall() : new ImageView();
 
 			Text name = new Text();
@@ -105,17 +105,18 @@ public class Gearsets {
 				}
 
 			});
-			
-			VBox craftingChoices = null;
-			
+
+			VBox craftingChoices = new VBox();
+
 			if(ref != null && ref.getCrafting() != null) {
-				VBox craftingChoices = new VBox();
 				craftingChoices.setSpacing(5);
+
 				for(Craftref cref : ref.getCrafting()) {
-					craftingChoices.getChildren().add(new craftingChoice(ref,cref));
+					craftingChoices.getChildren().add(new craftingChoice(ref, cref));
 				}
+
 			}
-			
+
 			Button bClear = new Button("Clear");
 			bClear.setOnAction(e -> currentGearset.setItemBySlot((Iref) null, slot));
 
@@ -123,25 +124,23 @@ public class Gearsets {
 		}
 
 	}
-	
+
 	private static class craftingChoice extends ChoiceBox<Enchref> {
-		
+
 		private Craftref ref;
 		private Craftable craftable;
-		
+
 		public craftingChoice(Iref iref, Craftref ref) {
 			super();
 			this.ref = ref;
 			this.craftable = iref.getItem().getCraft(ref.getUUID());
 		}
-		
+
 		public ChoiceBox<Enchref> toChoiceBox() {
 			this.getItems().addAll(craftable.getChoices());
 			this.getSelectionModel().select(craftable.getChoice(ref.getIndex()));
-			
-			
+
 			return this;
 		}
-		
 	}
 }
