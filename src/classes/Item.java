@@ -3,7 +3,6 @@ package classes;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
 
 import interfaces.fxItems;
 import javafx.scene.control.Alert;
@@ -14,6 +13,16 @@ import javafx.scene.image.ImageView;
 import util.system;
 import vars.ItemSlot;
 
+/**
+ * Class that describes a certain item. It contains a unique identifier, name, and other variables
+ * specified for that item.
+ * <p>
+ * Also included are the crafting choices avaliable for selection.
+ * </p>
+ * 
+ * @see Iref Item Reference
+ * @author Tealeaf
+ */
 public class Item {
 
 	private String uuid;
@@ -34,9 +43,13 @@ public class Item {
 	private List<ItemSlot> equipSlots;
 	private List<Craftable> crafting;
 
-	// Armor Values
 	private Armor armor;
 
+	/**
+	 * All variables that pertain to any armor or shield.
+	 * 
+	 * @author Tealeaf
+	 */
 	private class Armor {
 
 		public Armor() {
@@ -55,9 +68,13 @@ public class Item {
 		public double spellFailure;
 	}
 
-	// Weapon Values
 	private Weapon weapon;
 
+	/**
+	 * All variables that pertain to any weapon
+	 * 
+	 * @author Tealeaf
+	 */
 	private class Weapon {
 
 		public Weapon() {
@@ -509,6 +526,16 @@ public class Item {
 		this.weapon.critMultiplier = critMultiplier;
 	}
 
+	/**
+	 * An exportable version of the {@link #item} class, along the item itself, this class contains the
+	 * following
+	 * <ul>
+	 * <li>All Referenced Enchantments</li>
+	 * <li>Content/Text versions of the image and icon, if specified in {@link Settings}</li>
+	 * </ul>
+	 * 
+	 * @author Creep
+	 */
 	public static class ItemExport {
 
 		private Item item;
@@ -531,6 +558,9 @@ public class Item {
 
 		}
 
+		/**
+		 * Imports the item, saving any images and enchantments in the database
+		 */
 		public void importItem() {
 			if(enchantments != null) Enchantments.addEnchantments(enchantments);
 
@@ -541,8 +571,7 @@ public class Item {
 
 			item.saveItem();
 		}
-
-		// Values that can be up-rooted
+		
 		public List<Enchantment> getEnchantments() {
 			return enchantments;
 		}

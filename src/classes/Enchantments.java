@@ -1,7 +1,6 @@
 package classes;
 
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -28,6 +27,9 @@ public class Enchantments {
 
 	private static List<Enchantment> enchantments;
 
+	/**
+	 * Initially loads Enchantments. This method should only be called by the Main class
+	 */
 	public static void load() {
 		enchantments = new ArrayList<Enchantment>();
 
@@ -36,6 +38,7 @@ public class Enchantments {
 			if(system.enchantments.exists()) {
 				system.staticJSON.fromJson(new FileReader(system.enchantments), Enchantments.class);
 			} else {
+				// Loads from the resource version
 				system.staticJSON.fromJson(resource.getBufferedReader("enchantments.json"), Enchantments.class);
 				save();
 			}
@@ -44,28 +47,60 @@ public class Enchantments {
 
 	}
 
+	/**
+	 * Saves all enchantments to the computer
+	 */
 	public static void save() {
 		system.writeFile(system.enchantments, system.staticJSON.toJson(new Enchantments()));
 	}
 
+	/**
+	 * Gets all the enchantments currently loaded
+	 * 
+	 * @return List of all loaded enchantments
+	 * @see Enchantment
+	 */
 	public static List<Enchantment> getEnchantments() {
 		return enchantments;
 	}
 
+	/**
+	 * Gets an enchantment depending on the enchantment's UUID
+	 * 
+	 * @param uuid the unique identifier of the enchantment
+	 * @return Enchantment with that UUID. Returns {@code null} if the enchantment does not exist or is
+	 *         not currently in the database.
+	 */
 	public static Enchantment getEnchantmentUUID(String uuid) {
 		for(Enchantment e : enchantments) if(e.getUUID().contentEquals(uuid)) return e;
 		return null;
 	}
 
+	/**
+	 * Gets the enchantment by name, ignoring caps.
+	 * 
+	 * @param name Name of the enchantment
+	 * @return Enchantment by that name. Returns {@code null} if that enchantment does not exist
+	 */
 	public static Enchantment getEnchantmentName(String name) {
 		for(Enchantment e : enchantments) if(e.getName() != null && e.getName().toLowerCase().contentEquals(name.toLowerCase())) return e;
 		return null;
 	}
 
+	/**
+	 * Adds a list of enchantments to the database
+	 * 
+	 * @param adds Adds each enchantment to the database
+	 */
 	public static void addEnchantments(List<Enchantment> adds) {
 		for(Enchantment e : adds) addEnchantment(e);
 	}
 
+	/**
+	 * Adds a single enchantment to the database, then saves the whole database
+	 * 
+	 * @param enchantment Enchantment to add to the database
+	 */
 	public static void addEnchantment(Enchantment enchantment) {
 		for(Enchantment e : enchantments) if(e.getUUID().contentEquals(enchantment.getUUID())) {
 			updateEnchantment(enchantment);
@@ -75,16 +110,34 @@ public class Enchantments {
 		save();
 	}
 
+	/**
+	 * Removes a single enchantment from the database
+	 * 
+	 * @param uuid {@code UUID} of the enchantment to remove
+	 */
 	public static void removeEnchantment(String uuid) {
 		removeEnchantment(getEnchantmentUUID(uuid));
-		save();
 	}
 
+	/**
+	 * Removes a single enchantment from the database
+	 * <p>
+	 * Will do nothing if the enchantment is already in the database
+	 * 
+	 * @param enchantment Enchantment to remove.
+	 */
 	public static void removeEnchantment(Enchantment enchantment) {
 		if(enchantments.contains(enchantment)) enchantments.remove(enchantment);
 		save();
 	}
 
+	/**
+	 * Updates the database version of the enchantment. Will replace the enchantment that has the same
+	 * {@code UUID} as the given enchantment. If it can not find an existing enchantment with the same
+	 * {@code UUID}, then it will add it as a new enchantment
+	 * 
+	 * @param enchantment
+	 */
 	public static void updateEnchantment(Enchantment enchantment) {
 		for(Enchantment e : enchantments) if(e.getUUID().contentEquals(enchantment.getUUID())) {
 			e = enchantment;
@@ -94,18 +147,39 @@ public class Enchantments {
 		addEnchantment(enchantment);
 	}
 
+	/**
+	 * Loads the enchantment dialog:
+	 * 
+	 * @see #enchrefDialog(Enchref)
+	 * @return New Enchantment dialog
+	 */
 	public static Enchref enchrefDialog() {
 		return enchrefDialog(null);
 	}
 
+	/**
+	 * Loads the enchantment dialog:
+	 * <p>
+	 * The enchantment dialog is set up with a name field, display name field, and a list of attributes
+	 * / attribute bonuses
+	 * 
+	 * @param ench Enchantment dialog to load
+	 * @return Edited Enchantment Dialog
+	 * @see #enchrefDialog()
+	 * @see Enchref
+	 * @see Enchantment
+	 */
 	public static Enchref enchrefDialog(Enchref ench) {
+		// Creating the dialog
 		Dialog<Enchref> dialog = new Dialog<Enchref>();
 		dialog.setTitle((ench == null) ? "Add Enchantment" : "Edit Enchantment");
 		dialog.setResizable(true);
 
+		// Choice Textfield
 		TextField choice = new TextField();
 		choice.setText((ench != null) ? ench.getEnchantment().getName() : "");
 
+		// Suggested input field, updates whenever the user types in the choice field
 		ListView<String> suggestedInputs = new ListView<String>();
 		suggestedInputs.setItems(FXCollections.observableArrayList(getNames()));
 		suggestedInputs.setPrefHeight(100);
@@ -139,12 +213,15 @@ public class Enchantments {
 
 		VBox choiceBox = new VBox(choice, suggestedInputs);
 
+		// Field for the Enchantment Type
 		TextField type = new TextField();
 		type.setText((ench != null) ? ench.getType() : "");
 
+		// Field for the Bonus Type
 		TextField bonus = new TextField();
 		bonus.setText((ench != null) ? ench.getBonus() : "");
 
+		// Enchantment Value
 		Spinner<Double> value = new Spinner<Double>();
 		value.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(-1000, 1000, (ench != null) ? ench.getValue() : 0));
 		value.getEditor().focusedProperty().addListener((e, o, n) -> {
@@ -163,6 +240,7 @@ public class Enchantments {
 		value.setPrefWidth(75);
 		value.setEditable(true);
 
+		// Organizes all the right-most fields into a grid
 		GridPane otherFields = new GridPane();
 		otherFields.setHgap(10);
 		otherFields.setVgap(10);
@@ -173,6 +251,7 @@ public class Enchantments {
 		otherFields.add(bonus, 1, 1);
 		otherFields.add(value, 1, 2);
 
+		// Organizes the choice box and the other fields into a grid
 		GridPane content = new GridPane();
 		content.setHgap(10);
 		content.add(choiceBox, 0, 0);
@@ -189,6 +268,7 @@ public class Enchantments {
 
 			if(e.getButtonData() == ButtonData.OK_DONE) {
 
+				// If the enchantment does not exist, Open up the new enchantment editor
 				if(getEnchantmentName(choice.getText()) == null) {
 					Enchantment create = new Enchantment(choice.getText());
 					addEnchantment(create);
@@ -205,10 +285,23 @@ public class Enchantments {
 		return (res.isEmpty()) ? null : res.get();
 	}
 
+	/**
+	 * Gets a list of names of all enchantments
+	 * 
+	 * @return List of enchantment names, in a {@code List<String>} format
+	 * @see #getNames(String in)
+	 */
 	public static List<String> getNames() {
 		return getNames("");
 	}
 
+	/**
+	 * Gets a list of enchantment names that contain a set parameter
+	 * 
+	 * @param in String to filter the enchantments by
+	 * @return List of enchantment names, in a {@code List<String>} format, that contain the parameter
+	 * @see #getNames()
+	 */
 	public static List<String> getNames(String in) {
 		List<String> r = new ArrayList<String>();
 

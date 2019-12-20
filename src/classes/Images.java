@@ -3,8 +3,6 @@ package classes;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
@@ -124,6 +122,16 @@ public class Images {
 		return getImageFromURL(uuid);
 	}
 
+	/**
+	 * Gets the file contents of an image in a Base64
+	 * <p>
+	 * This will localize the image if the image is not already localized
+	 * </p>
+	 * 
+	 * @param uuid {@code UUID} of the image
+	 * @return Base64 representation of the image
+	 * @see #localizeImage(extImage)
+	 */
 	public static String getImageFileContents(String uuid) {
 		File f = getImagePath(uuid);
 
@@ -174,6 +182,12 @@ public class Images {
 		save();
 	}
 
+	/**
+	 * Gets the image path depending on the image name
+	 * 
+	 * @param name Name or {@code UUID} of the image
+	 * @return Image File
+	 */
 	public static File getImagePath(String name) {
 		return system.getAppFile("images", name + imageType);
 	}
@@ -378,7 +392,6 @@ public class Images {
 		private String url;
 
 		/**
-		 * 
 		 * @param uuid
 		 * @param url
 		 */

@@ -3,7 +3,6 @@ package classes;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -34,7 +33,14 @@ public class Items {
 	 * item table -- item table
 	 */
 
+	/**
+	 * Last modified time of the items folder
+	 */
 	private static long lastModified;
+	
+	/**
+	 * Loaded Items
+	 */
 	private static List<Item> items;
 
 	public static Item readItem(String ID) {

@@ -35,6 +35,11 @@ public class Dice {
 		isNewDice = false;
 	}
 
+	/**
+	 * Creates a Dice class, and imports values set in a string
+	 * 
+	 * @param str String to parse into a dice class
+	 */
 	public Dice(String str) {
 		this();
 

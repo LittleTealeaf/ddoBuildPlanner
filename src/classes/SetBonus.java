@@ -114,6 +114,7 @@ public class SetBonus {
 		private SetBonus setbonus;
 		private List<Enchantment> enchantments;
 
+		@SuppressWarnings("unlikely-arg-type")
 		public SetBonusExport(SetBonus setbonus) {
 			this.setbonus = setbonus;
 
@@ -122,6 +123,11 @@ public class SetBonus {
 			for(BonusTier tier : setbonus.getBonusTiers()) for(Enchref e : tier.getBonuses()) if(!enchantments.contains(e)) {
 				enchantments.add(e.getEnchantment());
 			}
+		}
+
+		public SetBonus importSetBonus() {
+			Enchantments.addEnchantments(enchantments);
+			return setbonus;
 		}
 	}
 }

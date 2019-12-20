@@ -46,6 +46,9 @@ public class Craftable {
 		this.uuid = uuid;
 	}
 
+	/**
+	 * Gives the crafting object a new random UUID
+	 */
 	public void newUUID() {
 		this.uuid = UUID.randomUUID().toString();
 	}

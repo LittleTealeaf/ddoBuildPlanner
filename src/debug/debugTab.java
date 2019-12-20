@@ -3,8 +3,6 @@ package debug;
 import java.io.FileWriter;
 
 import classes.Gearset.GearsetExport;
-import classes.Items;
-import classes.Settings;
 import fxTabs.Gearsets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tab;

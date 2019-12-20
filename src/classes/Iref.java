@@ -3,16 +3,31 @@ package classes;
 import java.util.ArrayList;
 import java.util.List;
 
-import vars.ItemSlot;
-
+/**
+ * A reference object used to indirectly reference an item, while keeping crafting options separate
+ * and reducing the amount of data stored
+ * 
+ * @author Tealeaf
+ */
 public class Iref {
 
 	// TODO mythic / reaper stats
 
+	/**
+	 * Universal Identifier of the Item
+	 */
 	private String uuid;
 
+	/**
+	 * Crafting choices of the item
+	 * 
+	 * @see Craftref
+	 */
 	private List<Craftref> crafting;
 
+	/**
+	 * Temporary item variable
+	 */
 	private transient Item temp;
 
 	public Iref(Item item) {
@@ -54,12 +69,27 @@ public class Iref {
 
 	}
 
+	/**
+	 * Gets all the enchantments, including the crafting enchantments
+	 * 
+	 * @return All Item Enchantments
+	 * @see Enchref
+	 * @see #getCraftingEnchantments()
+	 */
 	public List<Enchref> getEnchantments() {
 		List<Enchref> r = getItem().getEnchantments();
 		r.addAll(getCraftingEnchantments());
 		return r;
 	}
 
+	/**
+	 * Gets all the Enchantments depending on the item crafting options
+	 * 
+	 * @see Craftable
+	 * @see Craftref
+	 * @see Enchref
+	 * @return
+	 */
 	public List<Enchref> getCraftingEnchantments() {
 		List<Enchref> r = new ArrayList<Enchref>();
 

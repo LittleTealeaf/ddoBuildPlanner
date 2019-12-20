@@ -29,5 +29,13 @@ public class SetBonuses {
 
 	}
 
+	public static List<SetBonus> getSets() {
+		return sets;
+	}
+
+	public static void setSets(List<SetBonus> sets) {
+		SetBonuses.sets = sets;
+	}
+
 	public static void save() {}
 }

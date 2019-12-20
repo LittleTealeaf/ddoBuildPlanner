@@ -7,10 +7,24 @@ import java.util.List;
 import classes.Item.ItemExport;
 import vars.GearSlot;
 
+/**
+ * An object that represents a gear set, or a set of items worn at a given time. This class includes
+ * any item crafting options
+ * 
+ * @see Iref
+ * @author Tealeaf
+ */
 public class Gearset {
 
 	private String name;
 
+	/**
+	 * Inventory Reference Slot
+	 * <p>
+	 * This is a reference of the set item, in order to reduce file size and include unique identifiers
+	 * such as crafting choices
+	 * </p>
+	 */
 	private Iref goggles, helmet, necklace, trinket, cloak, bracers, belt, ring1, ring2, gloves, boots, armor, mainHand, offHand;
 
 	public Gearset() {
@@ -21,6 +35,11 @@ public class Gearset {
 		this.name = name;
 	}
 
+	/**
+	 * Returns all the item references of the gearset
+	 * 
+	 * @return All item references {@link Iref}
+	 */
 	public List<Iref> getAllIrefs() {
 		return Arrays.asList(goggles, helmet, necklace, trinket, cloak, bracers, belt, ring1, ring2, gloves, boots, armor, mainHand, offHand);
 	}
@@ -31,14 +50,22 @@ public class Gearset {
 		return r;
 	}
 
+	/**
+	 * Exports the gearset into the exported class
+	 * 
+	 * @return Gearset Exported class
+	 */
 	public GearsetExport export() {
 		return new GearsetExport(this);
 	}
 
-	private void onEdit() {
-		// ?
-	}
-
+	/**
+	 * Gets the item in the selected slot
+	 * 
+	 * @param slot {@code GearSlot} of the item
+	 * @return Item currently in that {@code GearSlot}
+	 * @see vars.GearSlot
+	 */
 	public Iref getItemBySlot(GearSlot slot) {
 
 		switch (slot) {
@@ -75,10 +102,26 @@ public class Gearset {
 		return null;
 	}
 
+	/**
+	 * Sets the item in the specified slot, overwriting whatever item was already in that slot
+	 * 
+	 * @param item Item to place in the slot
+	 * @param slot {@code GearSlot} of the item
+	 * @see vars.GearSlot
+	 * @see Item
+	 */
 	public void setItemBySlot(Item item, GearSlot slot) {
 		setItemBySlot(new Iref(item), slot);
 	}
 
+	/**
+	 * Sets the item in the specified slot, overwriting whatever item was already in that slot
+	 * 
+	 * @param item Item to place in the slot
+	 * @param slot {@code GearSlot} of the item
+	 * @see vars.GearSlot
+	 * @see Iref
+	 */
 	public void setItemBySlot(Iref item, GearSlot slot) {
 
 		switch (slot) {
@@ -304,6 +347,16 @@ public class Gearset {
 		this.offHand = new Iref(offHand);
 	}
 
+	/**
+	 * An exportable version of the gearset that includes the following:
+	 * <ul>
+	 * <li>The Gearset itself, including the item references</li>
+	 * <li>All referenced Items in the gearset item list</li>
+	 * <li>All referenced Enchantments in each of the items</li>
+	 * </ul>
+	 * 
+	 * @author Tealeaf
+	 */
 	public static class GearsetExport {
 
 		private Gearset gearset;
@@ -333,6 +386,11 @@ public class Gearset {
 
 		}
 
+		/**
+		 * Imports the gearset, including importing all required items and enchantments
+		 * 
+		 * @return The final imported gearset
+		 */
 		public Gearset importGearset() {
 			Enchantments.addEnchantments(enchantments);
 			for(ItemExport i : items) i.importItem();

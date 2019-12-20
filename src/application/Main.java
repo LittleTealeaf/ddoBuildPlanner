@@ -1,7 +1,6 @@
 package application;
 
 import classes.Enchantments;
-import classes.Gearset;
 import classes.Images;
 import classes.Inventory;
 import classes.SetBonuses;

@@ -6,10 +6,27 @@ import java.util.UUID;
 
 public class Enchantment {
 
-	private String uuid; // static identifier
-	private String displayName; // display / selection name
-	private String name; // Initial Name (aka. Spell Power)
-	private String description; // Description
+	/**
+	 * Static identifier of the enchantment
+	 */
+	private String uuid;
+	/**
+	 * Display name
+	 * 
+	 * @see #parseVars(Enchref, String)
+	 */
+	private String displayName;
+	/**
+	 * Internal Name
+	 */
+	private String name;
+	/**
+	 * Enchantment Description
+	 */
+	private String description;
+	/**
+	 * Enchantment Attributes
+	 */
 	private List<AttributeBonus> attributes;
 
 	public Enchantment() {
@@ -26,10 +43,22 @@ public class Enchantment {
 		return uuid;
 	}
 
+	/**
+	 * Gets the display name of the enchantment. No variables in the name is parsed before getting the
+	 * name
+	 * 
+	 * @return Display name of the enchantment
+	 */
 	public String getDisplayName() {
 		return displayName;
 	}
 
+	/**
+	 * Gets the display name of the enchantment, parsing with the reference
+	 * 
+	 * @param ench Enchantment Reference
+	 * @return Display name with all the variables parsed
+	 */
 	public String getDisplayName(Enchref ench) {
 		return parseVars(ench, displayName);
 	}
@@ -76,6 +105,21 @@ public class Enchantment {
 		return r;
 	}
 
+	/**
+	 * Replaces the user-inputted variables in a string with the correct values set by the reference
+	 * <p>
+	 * The following variables are currently supported:
+	 * <ul>
+	 * <li>[type] - Enchantment Type (ex. Ability - Strength, Spell Power - Fire)</li>
+	 * <li>[bonus] - Enchantment Bonus (ex. Insightful, Quality, Enchantment, Artifact)</li>
+	 * <li>[value] - Value of the bonus</li>
+	 * </ul>
+	 * </p>
+	 * 
+	 * @param reference Enchantment Reference that contains the variables
+	 * @param string    The string to parse
+	 * @return Inputted String, where all variables are replaced by their corresponding values
+	 */
 	public String parseVars(Enchref reference, String string) {
 		if(string == null || string.contentEquals("")) return "";
 		String r = string;

@@ -1,11 +1,10 @@
 package classes;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
-import classes.Item.ItemExport;
 
+import classes.Item.ItemExport;
 import javafx.stage.FileChooser;
 import util.system;
 

@@ -1,6 +1,5 @@
 package classes;
 
-import java.io.FileWriter;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
