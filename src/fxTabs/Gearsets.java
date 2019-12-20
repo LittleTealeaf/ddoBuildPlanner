@@ -3,6 +3,8 @@ package fxTabs;
 import java.util.Arrays;
 import java.util.List;
 
+import classes.Craftable;
+import classes.Craftref;
 import classes.Enchref;
 import classes.Gearset;
 import classes.Iref;
@@ -10,6 +12,7 @@ import classes.Item;
 import classes.Items;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextArea;
@@ -18,6 +21,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import vars.GearSlot;
 
@@ -101,9 +105,43 @@ public class Gearsets {
 				}
 
 			});
+			
+			VBox craftingChoices = null;
+			
+			if(ref != null && ref.getCrafting() != null) {
+				VBox craftingChoices = new VBox();
+				craftingChoices.setSpacing(5);
+				for(Craftref cref : ref.getCrafting()) {
+					craftingChoices.getChildren().add(new craftingChoice(ref,cref));
+				}
+			}
+			
+			Button bClear = new Button("Clear");
+			bClear.setOnAction(e -> currentGearset.setItemBySlot((Iref) null, slot));
 
-			grid.addRow((row++), new Text(slot.displayName()), icon, name, enchantments, bSelect);
+			grid.addRow((row++), new Text(slot.displayName()), icon, name, enchantments, bSelect, bClear);
 		}
 
+	}
+	
+	private static class craftingChoice extends ChoiceBox<Enchref> {
+		
+		private Craftref ref;
+		private Craftable craftable;
+		
+		public craftingChoice(Iref iref, Craftref ref) {
+			super();
+			this.ref = ref;
+			this.craftable = iref.getItem().getCraft(ref.getUUID());
+		}
+		
+		public ChoiceBox<Enchref> toChoiceBox() {
+			this.getItems().addAll(craftable.getChoices());
+			this.getSelectionModel().select(craftable.getChoice(ref.getIndex()));
+			
+			
+			return this;
+		}
+		
 	}
 }

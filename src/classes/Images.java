@@ -118,9 +118,11 @@ public class Images {
 
 		if(f.exists()) return getImageFromURL(f.getPath());
 
-		for(extImage i : externalImages) {
-			if(uuid.contentEquals(i.getUUID())) return getImageFromURL(i.getURL());
-		}
+		try {
+			for(extImage i : externalImages) {
+				if(uuid.contentEquals(i.getUUID())) return getImageFromURL(i.getURL());
+			}
+		} catch(Exception e) {}
 
 		return getImageFromURL(uuid);
 	}
