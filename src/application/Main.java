@@ -4,6 +4,7 @@ import classes.Enchantments;
 import classes.Gearset;
 import classes.Images;
 import classes.Inventory;
+import classes.SetBonuses;
 import classes.Settings;
 import debug.Debug;
 import interfaces.fxMain;
@@ -20,6 +21,7 @@ public class Main {
 		Images.load();
 		Inventory.load();
 		Enchantments.load();
+		SetBonuses.load();
 
 		fxMain.open(args);
 	}

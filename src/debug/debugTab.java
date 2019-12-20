@@ -2,7 +2,7 @@ package debug;
 
 import java.io.FileWriter;
 
-import classes.GearsetExport;
+import classes.Gearset.GearsetExport;
 import classes.Items;
 import classes.Settings;
 import fxTabs.Gearsets;

@@ -92,7 +92,6 @@ public class Gearsets {
 
 			Button bSelect = new Button("Select...");
 			bSelect.setOnAction(e -> {
-				System.out.println("slot " + slot.getItemSlot());
 				Item i = Items.selectItemPrompt(slot.getItemSlot());
 
 				if(i != null) {
@@ -126,7 +125,7 @@ public class Gearsets {
 
 	}
 
-	private static class craftingChoice extends ComboBox<Enchref> { // TODO change to combo box
+	private static class craftingChoice extends ComboBox<Enchref> {
 
 		private Craftref ref;
 		private Craftable craftable;
