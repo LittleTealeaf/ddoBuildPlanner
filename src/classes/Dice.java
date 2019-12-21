@@ -34,15 +34,25 @@ public class Dice {
 		this.postAdd = postAdd;
 		isNewDice = false;
 	}
-	
+
 	public Dice(List<String> input) {
-		try {
-			this.coeff = Double.parseDouble(input.get(0));
-			this.dieCount = Integer.parseInt(input.get(1));
-			this.dieSides = Integer.parseInt(input.get(2));
-			this.preAdd = Double.parseDouble(input.get(3));
-			this.postAdd = Double.parseDouble(input.get(4));
-		}catch(Exception e) {}
+		this();
+
+		System.out.println(input);
+
+		switch (input.size()) {
+		case 5:
+			if(input.get(4) != null && !input.get(4).contentEquals("")) this.postAdd = Double.parseDouble(input.get(4));
+		case 4:
+			if(input.get(3) != null && !input.get(3).contentEquals("")) this.preAdd = Double.parseDouble(input.get(3));
+		case 3:
+			if(input.get(2) != null && !input.get(2).contentEquals("")) this.dieSides = Integer.parseInt(input.get(2));
+		case 2:
+			if(input.get(1) != null && !input.get(1).contentEquals("")) this.dieCount = Integer.parseInt(input.get(1));
+		case 1:
+			if(input.get(0) != null && !input.get(0).contentEquals("")) this.coeff = Double.parseDouble(input.get(0));
+		}
+
 		isNewDice = false;
 	}
 

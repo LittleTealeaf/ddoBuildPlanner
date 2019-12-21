@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import classes.Dice;
+import classes.Images;
 import classes.Item;
 import util.internet;
 
@@ -13,18 +14,24 @@ public class Compendium {
 
 	public static Item scrapeItem(String itemName) {
 		Item item = new Item();
-
-		// Get the item contents
-		String HTML = internet.getContents(getURL(itemName));
-		final String START = "name=\"wpTextbox1\">", END = "</textarea>";
-		String itemContents = HTML.substring(HTML.indexOf(START) + START.length(), HTML.indexOf(END));
-
-		// Get all the variables of an item
+		item.setName(itemName);
+		
+		String contents = internet.getContents(getURL(itemName));
+		//System.out.println(contents);
+		String iconXPath = "//*[@class=\"icon\"]/p/img/@src";
+		String imageXPath = "//*[@class=\"item-image\"]/span/img/@src";
+		
+		item.setIconUUID(Images.saveImage("https://ddocompendium.com" + internet.getXPathContents(iconXPath, contents)));
+		item.setImageUUID(Images.saveImage("https://ddocompendium.com" + internet.getXPathContents(imageXPath, contents)));
+		
+		// Get all the variables of an item		
 		List<String[]> vars = new ArrayList<String[]>();
 		String temp = "";
 		int index = 0;
+		String xPath = "//*[@id=\"wpTextbox1\"]/text()";
+		String editContents = internet.getXPathContents(xPath, getEditURL(itemName));
 
-		for(char c : itemContents.toCharArray()) {
+		for(char c : editContents.toCharArray()) {
 
 			if(c == '|' && index == 2) {
 
@@ -56,9 +63,15 @@ public class Compendium {
 				case "minlevel":
 					item.setMinLevel(Integer.parseInt(i));
 					break;
+				case "absoluteminlevel":
+					if(!i.contentEquals("")) item.setAbsoluteMinLevel(Integer.parseInt(i));
+					break;
+				case "type":
+					item.setType(a[1]); break;
+				case "proficiency":
+					item.setProficiency(a[1]); break;
 				case "hardness":
 					item.setHardness(Double.parseDouble(i));
-					;
 					break;
 				case "durability":
 					item.setDurability(Double.parseDouble(i));
@@ -120,10 +133,19 @@ public class Compendium {
 	private static URL getURL(String pageName) {
 
 		try {
-			return new URL("https://ddocompendium.com/w/" + internet.convertToURL(pageName));
+			return new URL("https://ddocompendium.com/w/" + internet.convertToURL(pageName).replace("+", "_"));
 		} catch(MalformedURLException e) {
 			return null;
 		}
 
+	}
+	
+	private static URL getEditURL(String pageName) {
+		//https://ddocompendium.com/index.php?title=Legendary_Bracers_of_the_Fallen_Hero&action=edit
+		try {
+			return new URL("https://ddocompendium.com/index.php?title=" + internet.convertToURL(pageName).replace("+", "_") + "&action=edit");
+		} catch(MalformedURLException e) {
+			return null;
+		}
 	}
 }

@@ -15,4 +15,5 @@ module buildPlanner {
 	requires net.harawata.appdirs;
 	requires java.datatransfer;
 	requires java.desktop;
+	requires java.xml;
 }

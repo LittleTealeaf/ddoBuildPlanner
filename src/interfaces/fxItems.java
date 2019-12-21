@@ -31,8 +31,15 @@ public class fxItems {
 
 		Button importItem = new Button("Import Item");
 		importItem.setOnAction(e -> Porting.importItem());
+		
+		Button importCompendium = new Button("Import from Compendium");
+		importCompendium.setOnAction(e -> {
+			Item i = scrapers.Compendium.scrapeItem("The Lunar Eclipse");
+			i.saveItem();
+			fxEditItem.open(i);
+		});
 
-		HBox footer = new HBox(create, importItem);
+		HBox footer = new HBox(create, importItem, importCompendium);
 		footer.setPadding(new Insets(10));
 		footer.setSpacing(10);
 
