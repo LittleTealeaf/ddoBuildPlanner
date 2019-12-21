@@ -92,9 +92,11 @@ public class Gearsets {
 			Text name = new Text();
 			name.setText((ref != null) ? ref.getItem().getName() : "");
 			name.setOnMouseClicked(click -> {
+
 				if(click.getClickCount() == 2) {
 					fxEditItem.open(ref);
 				}
+
 			});
 
 			Text enchantments = new Text();

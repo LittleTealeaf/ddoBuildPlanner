@@ -37,7 +37,7 @@ public class Items {
 	 * Last modified time of the items folder
 	 */
 	private static long lastModified;
-	
+
 	/**
 	 * Loaded Items
 	 */

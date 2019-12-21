@@ -34,6 +34,17 @@ public class Dice {
 		this.postAdd = postAdd;
 		isNewDice = false;
 	}
+	
+	public Dice(List<String> input) {
+		try {
+			this.coeff = Double.parseDouble(input.get(0));
+			this.dieCount = Integer.parseInt(input.get(1));
+			this.dieSides = Integer.parseInt(input.get(2));
+			this.preAdd = Double.parseDouble(input.get(3));
+			this.postAdd = Double.parseDouble(input.get(4));
+		}catch(Exception e) {}
+		isNewDice = false;
+	}
 
 	/**
 	 * Creates a Dice class, and imports values set in a string
