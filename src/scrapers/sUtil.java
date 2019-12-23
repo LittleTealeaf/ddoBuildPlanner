@@ -31,4 +31,25 @@ public class sUtil {
 		if(!includeName) ret.remove(0);
 		return ret;
 	}
+
+	public static List<List<String>> parseTemplates(String input) {
+		List<List<String>> r = new ArrayList<List<String>>();
+
+		String template = "";
+		char prev = ' ';
+
+		for(char c : template.toCharArray()) {
+
+			//TODO fix this so it also tracks the { 
+			
+			if(c == '}' && prev == '}') {
+				r.add(parseTemplate(template));
+				template = "";
+			} else template += c;
+
+			prev = c;
+		}
+
+		return r;
+	}
 }

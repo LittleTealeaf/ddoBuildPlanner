@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import classes.Dice;
+import classes.Enchantment;
 import classes.Images;
 import classes.Item;
 import util.internet;
@@ -129,7 +130,7 @@ public class Compendium {
 					break;
 				// TODO add the rest of the variables
 
-				// case "enchantments": i.enchantments = parseEnchantments(a[1]); break;
+				case "enchantments": parseEnchantments(a[1]);
 				default: // System.out.println(a[0] + " is empty");
 				}
 
@@ -159,5 +160,11 @@ public class Compendium {
 			return null;
 		}
 
+	}
+	
+	private static List<Enchantment> parseEnchantments(String input) {
+		List<Enchantment> r = new ArrayList<Enchantment>();
+		System.out.println(sUtil.parseTemplates(input));
+		return r;
 	}
 }
