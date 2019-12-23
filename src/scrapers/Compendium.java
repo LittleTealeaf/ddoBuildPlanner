@@ -185,63 +185,81 @@ public class Compendium {
 					a[0] += s;
 				}
 			}
+			System.out.println(a[0]);
 
-			switch (a[0].toLowerCase()) {
-			// Template Structure: [enchantment], [type], [value], [bonus]
-			case "ability":
-			case "skill":
-				/**
-				 * Uses the standard template
-				 * Has a specific type
-				 */
-				e = new Enchref("aa21c96d-3d82-4bfc-b604-fb70bf674fb6");
-				if(e.getEnchantment() == null) e = new Enchref(Enchantments.getEnchantmentName("Standard"));
-				e.setType(a[1]);
-				e.setValue(Double.parseDouble(a[2].replace(" ", "")));
-				if(a.length > 3) e.setBonus(a[3]);
-				r.add(e);
-				break;
-			case "fortification":
-				/**
-				 * Uses the standard template
-				 * Has no specific types
-				 */
-				e = new Enchref("aa21c96d-3d82-4bfc-b604-fb70bf674fb6");
-				if(e.getEnchantment() == null) e = new Enchref(Enchantments.getEnchantmentName("Standard"));
-				e.setType(a[0]);
-				if(a.length > 1) e.setValue(Double.parseDouble(a[1].replace(" ", "")));
-				if(a.length > 2) e.setBonus(a[2]);
-				break;
-			case "augment":
-			case "sheltering":
-			case "spell power":
-			case "spell lore":
-			case "spell focus":
-				/**
-				 * Uses its individual template
-				 * Has specific types
-				 */
-				e = new Enchref(Enchantments.getEnchantmentName(a[0]));
-				if(a.length > 1) e.setType(a[1]);
-				if(a.length > 2) try {
+			try {
+				switch (a[0].toLowerCase()) {
+				// Template Structure: [enchantment], [type], [value], [bonus]
+				case "ability":
+				case "skill":
+					/**
+					 * Uses the standard template
+					 * Has a specific type
+					 */
+					e = new Enchref("aa21c96d-3d82-4bfc-b604-fb70bf674fb6");
+					if(e.getEnchantment() == null) e = new Enchref(Enchantments.getEnchantmentName("Standard"));
+					e.setType(a[1]);
 					e.setValue(Double.parseDouble(a[2].replace(" ", "")));
-				} catch(Exception f) {}
-				if(a.length > 3) e.setBonus(a[3]);
-				break;
-			case "deadly":
-			case "accuracy":
-			case "shatter":
-			case "stunning":
-				/**
-				 * Uses its individual template
-				 * Has no specific types
-				 */
-				e = new Enchref(Enchantments.getEnchantmentName(a[0]));
-				if(a.length > 1) e.setValue(Double.parseDouble(a[1].replace(" ", "")));
-				if(a.length > 2) e.setBonus(a[2]);
-				break;
-			default:
-			}
+					if(a.length > 3) e.setBonus(a[3]);
+					r.add(e);
+					break;
+				case "fortification":
+					/**
+					 * Uses the standard template
+					 * Has no specific types
+					 */
+					e = new Enchref("aa21c96d-3d82-4bfc-b604-fb70bf674fb6");
+					if(e.getEnchantment() == null) e = new Enchref(Enchantments.getEnchantmentName("Standard"));
+					e.setType(a[0]);
+					if(a.length > 1) e.setValue(Double.parseDouble(a[1].replace(" ", "")));
+					if(a.length > 2) e.setBonus(a[2]);
+					r.add(e);
+					break;
+				case "augment":
+				case "spell power":
+				case "spell lore":
+				case "spell focus":
+					/**
+					 * Uses its individual template
+					 * Has specific types
+					 */
+					e = new Enchref(Enchantments.getEnchantmentName(a[0]).getUUID());
+					if(a.length > 1) e.setType(a[1]);
+					if(a.length > 2) try {
+						e.setValue(Double.parseDouble(a[2].replace(" ", "")));
+					} catch(Exception f) {}
+					if(a.length > 3) e.setBonus(a[3]);
+					r.add(e);
+					break;
+				case "deadly":
+				case "accuracy":
+				case "shatter":
+				case "stunning":
+					/**
+					 * Uses its individual template
+					 * Has no specific types
+					 */
+					e = new Enchref(Enchantments.getEnchantmentName(a[0]).getUUID());
+					if(a.length > 1) e.setValue(Double.parseDouble(a[1].replace(" ", "")));
+					if(a.length > 2) e.setBonus(a[2]);
+					r.add(e);
+					break;
+					//Custom Vars
+				case "sheltering":
+					/**
+					 * Uses individual template
+					 * Format is: [value] [type] [bonus]
+					 */
+					e = new Enchref(Enchantments.getEnchantmentName(a[0]).getUUID());
+					if(a.length > 1) try {
+						e.setValue(Double.parseDouble(a[1].replace(" ", "")));
+					} catch(Exception f) {}
+					if(a.length > 2) e.setType(a[2]);
+					if(a.length > 3) e.setBonus(a[3]);
+					r.add(e);
+				default:
+				}
+			} catch(Exception f) {f.printStackTrace();}
 
 		}
 

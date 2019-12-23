@@ -36,6 +36,9 @@ public class Enchref {
 	
 	public Enchref(String uuid) {
 		this.uuid = uuid;
+		this.type = "";
+		this.bonus = "";
+		this.value = 0;
 	}
 
 	public Enchref(String uuid, String type, String bonus, double value) {

@@ -61,6 +61,7 @@ public class Enchantments {
 	 * @see Enchantment
 	 */
 	public static List<Enchantment> getEnchantments() {
+		if(enchantments != null) load();
 		return enchantments;
 	}
 
@@ -72,7 +73,7 @@ public class Enchantments {
 	 *         not currently in the database.
 	 */
 	public static Enchantment getEnchantmentUUID(String uuid) {
-		for(Enchantment e : enchantments) if(e.getUUID().contentEquals(uuid)) return e;
+		for(Enchantment e : getEnchantments()) if(e.getUUID().contentEquals(uuid)) return e;
 		return null;
 	}
 
@@ -83,7 +84,8 @@ public class Enchantments {
 	 * @return Enchantment by that name. Returns {@code null} if that enchantment does not exist
 	 */
 	public static Enchantment getEnchantmentName(String name) {
-		for(Enchantment e : enchantments) if(e.getName() != null && e.getName().toLowerCase().contentEquals(name.toLowerCase())) return e;
+		System.out.println("Search for enchantment: " + name);
+		for(Enchantment e : getEnchantments()) if(e.getName() != null && e.getName().toLowerCase().contentEquals(name.toLowerCase())) return e;
 		return null;
 	}
 
@@ -102,7 +104,7 @@ public class Enchantments {
 	 * @param enchantment Enchantment to add to the database
 	 */
 	public static void addEnchantment(Enchantment enchantment) {
-		for(Enchantment e : enchantments) if(e.getUUID().contentEquals(enchantment.getUUID())) {
+		for(Enchantment e : getEnchantments()) if(e.getUUID().contentEquals(enchantment.getUUID())) {
 			updateEnchantment(enchantment);
 			return;
 		}

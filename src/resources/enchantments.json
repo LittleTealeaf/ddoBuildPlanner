@@ -112,6 +112,12 @@
           "value": "[value]"
         }
       ]
+    },
+    {
+      "uuid": "e9be6636-a070-49c2-a564-ef43bc5bc513",
+      "displayName": "Augment: [type]",
+      "name": "Augment",
+      "attributes": []
     }
   ]
 }
