@@ -9,6 +9,7 @@ import classes.Dice;
 import classes.Images;
 import classes.Item;
 import util.internet;
+import vars.Ability;
 
 public class Compendium {
 
@@ -98,9 +99,13 @@ public class Compendium {
 					item.setLowCritRoll(Integer.parseInt(t.get(0)));
 					item.setCritMultiplier(Double.parseDouble(t.get(1)));
 					break;
-				// case "attackmod": = clenseAbilities(sUtil.parseTemplate(a[1],false)); break;
-				// case "damagemod": ret.weapon.damageModifiers = clenseAbilities(sUtil.parseTemplate(a[1],false));
-				// break;
+				case "attackmod":
+					item.setAttackModifiers(Ability.parseAbilities(s));
+					break;
+				case "damagemod":
+					item.setDamageModifiers(Ability.parseAbilities(s));
+					break;
+
 				// TODO add attack and damage modifiers to item
 				// ARMOR
 				case "armorcheckpenalty":
