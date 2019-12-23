@@ -8,7 +8,7 @@
         {
           "attribute": "[type] Spell Power",
           "bonus": "[bonus]",
-	  "value": "[value]"
+          "value": "[value]"
         }
       ]
     },
@@ -20,7 +20,7 @@
         {
           "attribute": "[type] Spell Lore",
           "bonus": "[bonus]",
-	  "value": "[value]"
+          "value": "[value]"
         }
       ]
     },
@@ -32,7 +32,7 @@
         {
           "attribute": "[type] Spell Focus",
           "bonus": "[bonus]",
-	  "value": "[value]"
+          "value": "[value]"
         }
       ]
     },
@@ -44,7 +44,72 @@
         {
           "attribute": "[type]",
           "bonus": "[bonus]",
-	  "value": "[value]"
+          "value": "[value]"
+        }
+      ]
+    },
+    {
+      "uuid": "29dba434-b34a-44f4-a1c2-f15a86acc52e",
+      "displayName": "[value] [bonus] Stunning",
+      "name": "Stunning",
+      "attributes": [
+        {
+          "attribute": "Stunning Fist DC",
+          "bonus": "[bonus]",
+          "value": "[value]"
+        },
+        {
+          "attribute": "Stunning Blow DC",
+          "bonus": "[bonus]",
+          "value": "[value]"
+        }
+      ]
+    },
+    {
+      "uuid": "f8a34953-6ad3-4e40-a36a-acb5fa951e09",
+      "displayName": "[value] [bonus] Deadly",
+      "name": "Deadly",
+      "attributes": [
+        {
+          "attribute": "Damage",
+          "bonus": "[bonus]",
+          "value": "[value]"
+        }
+      ]
+    },
+    {
+      "uuid": "442e2bef-3b96-456d-badd-a8b7fa0914a8",
+      "displayName": "[value] [bonus] Accuracy",
+      "name": "Accuracy",
+      "attributes": [
+        {
+          "attribute": "Attack",
+          "bonus": "[bonus]",
+          "value": "[value]"
+        }
+      ]
+    },
+    {
+      "uuid": "b670cf01-6d46-4829-8222-ad9e864565d1",
+      "displayName": "[value] [bonus] Shatter",
+      "name": "Shatter",
+      "attributes": [
+        {
+          "attribute": "Sunder DC",
+          "bonus": "[bonus]",
+          "value": "[value]"
+        }
+      ]
+    },
+    {
+      "uuid": "6d11ab34-9a00-4c4e-bbb1-887f99ec267a",
+      "displayName": "[value] [bonus] [type] Sheltering",
+      "name": "Sheltering",
+      "attributes": [
+        {
+          "attribute": "[type] Sheltering",
+          "bonus": "[bonus]",
+          "value": "[value]"
         }
       ]
     }
