@@ -54,6 +54,7 @@ public class Compendium {
 		// Parse Attributes
 		for(String[] a : vars) {
 			String i = a[1].replace(" ", "");
+			String s = a[1].replace("\n", "");
 
 			try {
 
@@ -65,10 +66,10 @@ public class Compendium {
 					if(!i.contentEquals("")) item.setAbsoluteMinLevel(Integer.parseInt(i));
 					break;
 				case "type":
-					item.setType(a[1]);
+					item.setType(s);
 					break;
 				case "proficiency":
-					item.setProficiency(a[1]);
+					item.setProficiency(s);
 					break;
 				case "hardness":
 					item.setHardness(Double.parseDouble(i));
@@ -77,23 +78,23 @@ public class Compendium {
 					item.setDurability(Double.parseDouble(i));
 					break;
 				case "material":
-					item.setMaterial(a[1]);
+					item.setMaterial(s);
 					break;
 				case "description":
-					item.setDescription(a[1]);
+					item.setDescription(s);
 					break;
 				case "weight":
 					item.setWeight(Double.parseDouble(i));
 					break;
 				// WEAPON
 				case "damage":
-					item.setDamage(new Dice(sUtil.parseTemplate(a[1], false)));
+					item.setDamage(new Dice(sUtil.parseTemplate(s, false)));
 					break;
 				case "damagetype":
-					item.setDamageTypes(sUtil.parseTemplate(a[1], false));
+					item.setDamageTypes(sUtil.parseTemplate(s, false));
 					break;
 				case "critprofile":
-					List<String> t = sUtil.parseTemplate(a[1], false);
+					List<String> t = sUtil.parseTemplate(s, false);
 					item.setLowCritRoll(Integer.parseInt(t.get(0)));
 					item.setCritMultiplier(Double.parseDouble(t.get(1)));
 					break;
