@@ -7,6 +7,8 @@ import java.util.List;
 
 import classes.Dice;
 import classes.Enchantment;
+import classes.Enchantments;
+import classes.Enchref;
 import classes.Images;
 import classes.Item;
 import util.internet;
@@ -130,7 +132,8 @@ public class Compendium {
 					break;
 				// TODO add the rest of the variables
 
-				case "enchantments": parseEnchantments(a[1]);
+				case "enchantments":
+					item.setEnchantments(parseEnchantments(a[1])); break;
 				default: // System.out.println(a[0] + " is empty");
 				}
 
@@ -162,9 +165,29 @@ public class Compendium {
 
 	}
 	
-	private static List<Enchantment> parseEnchantments(String input) {
-		List<Enchantment> r = new ArrayList<Enchantment>();
-		System.out.println(sUtil.parseTemplates(input));
+	private static List<Enchref> parseEnchantments(String input) {
+		List<Enchref> r = new ArrayList<Enchref>();
+		for(List<String> t : sUtil.parseTemplates(input)) {
+			String[] a = new String[t.size()];
+			for(int i = 0; i< t.size(); i++) a[i] = t.get(i);
+			System.out.println(t);
+			
+			Enchref e = null;
+			
+			switch(a[0].toLowerCase()) {
+			//Template Structure: [enchantment], [type], [value], [bonus]
+			case "ability": case "skill":
+				
+				e = new Enchref(Enchantments.getEnchantmentName(a[0]));
+				e.setType(a[1]);
+				e.setValue(Double.parseDouble(a[2].replace(" ", "")));
+				if(a.length > 3) e.setBonus(a[3]);
+				r.add(e);
+				
+				break;
+			default:
+			}
+		}
 		return r;
 	}
 }

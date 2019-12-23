@@ -30,6 +30,10 @@ public class Enchref {
 	 */
 	private transient Enchantment enchantment;
 
+	public Enchref(Enchantment e) {
+		this(e.getUUID());
+	}
+	
 	public Enchref(String uuid) {
 		this.uuid = uuid;
 	}

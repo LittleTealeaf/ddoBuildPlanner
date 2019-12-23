@@ -11,23 +11,23 @@ public class sUtil {
 
 	public static List<String> parseTemplate(String template, boolean includeName) {
 		List<String> ret = new ArrayList<String>();
+
+		int ind = 0;
 		String tmp = "";
-
+		
 		for(char c : template.toCharArray()) {
-
-			if(c != '{' && c != '}') {
-
-				if(c == '|') {
-					if(tmp.replace(" ", "").contentEquals("")) tmp = "";
-					ret.add(tmp);
-					tmp = "";
-				} else tmp += c;
-
+			ind += (c == '{') ? 1 : (c == '}') ? -1 : 0;
+			if(ind == 2 && c == '|') {
+				ret.add(tmp);
+				tmp = "";
+			} else if((c != '{' && ind == 2) || ind > 2) {
+				tmp+=c;
 			}
-
 		}
-
 		ret.add(tmp);
+
+		System.out.println(ret);
+		
 		if(!includeName) ret.remove(0);
 		return ret;
 	}
@@ -36,18 +36,18 @@ public class sUtil {
 		List<List<String>> r = new ArrayList<List<String>>();
 
 		String template = "";
-		char prev = ' ';
+		int ind = 0;
 
-		for(char c : template.toCharArray()) {
-
-			//TODO fix this so it also tracks the { 
+		for(char c : input.toCharArray()) {
 			
-			if(c == '}' && prev == '}') {
+			ind += (c == '{') ? 1 : (c == '}') ? -1 : 0;
+			System.out.println(c + " " + ind);
+			if(ind >= 1) template += c;
+			else if(c == '}') {
+				template+='}';
 				r.add(parseTemplate(template));
 				template = "";
-			} else template += c;
-
-			prev = c;
+			}
 		}
 
 		return r;
