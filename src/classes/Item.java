@@ -11,6 +11,7 @@ import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import util.system;
+import vars.Ability;
 import vars.ItemSlot;
 
 /**
@@ -58,14 +59,16 @@ public class Item {
 		}
 
 		public boolean isEmpty() {
-			return armorType.contentEquals("") && armorBonus == 0 && maxDex == -1 && checkPenalty == 0 && spellFailure == 0;
+			return armorType.contentEquals("") && armorBonus == 0 && maxDex == -1 && checkPenalty == 0 && spellFailure == 0 && attackPenalty == 0 && damageReduction == 0;
 		}
 
-		public String armorType;
-		public int armorBonus;
-		public int maxDex;
-		public int checkPenalty;
-		public double spellFailure;
+		private String armorType;
+		private int armorBonus;
+		private int maxDex;
+		private int checkPenalty;
+		private double spellFailure;
+		private int attackPenalty;
+		private double damageReduction;
 	}
 
 	private Weapon weapon;
@@ -82,6 +85,8 @@ public class Item {
 			damage = new Dice();
 			lowCritRoll = 20;
 			critMultiplier = 2;
+			attackModifiers = new ArrayList<Ability>();
+			damageModifiers = new ArrayList<Ability>();
 		}
 
 		public boolean isEmpty() {
@@ -92,6 +97,8 @@ public class Item {
 		private List<String> damageTypes;
 		private int lowCritRoll;
 		private double critMultiplier;
+		private List<Ability> attackModifiers;
+		private List<Ability> damageModifiers;
 	}
 
 	public Item() {
@@ -432,13 +439,34 @@ public class Item {
 	// Spell Failure
 
 	public double getSpellFailure() {
-		if(armor == null) return 0;
-		return armor.spellFailure;
+		return (armor != null) ? armor.spellFailure : 0;
 	}
 
 	public void setSpellFailure(double spellFailure) {
 		if(armor == null) armor = new Armor();
 		this.armor.spellFailure = spellFailure;
+	}
+
+	// Attack Penalty
+
+	public int getAttackPenalty() {
+		return (armor != null) ? armor.attackPenalty : 0;
+	}
+
+	public void setAttackPenalty(int attackPenalty) {
+		if(armor == null) armor = new Armor();
+		this.armor.attackPenalty = attackPenalty;
+	}
+
+	// Damage Reduction
+
+	public double getDamageReduction() {
+		return (armor != null) ? armor.damageReduction : 0;
+	}
+
+	public void setDamageReduction(double damageReduction) {
+		if(armor == null) armor = new Armor();
+		this.armor.damageReduction = damageReduction;
 	}
 
 	public Dice getDamage() {
@@ -505,6 +533,68 @@ public class Item {
 	public void setDamageTypesText(String text) {
 		setDamageTypes(Arrays.asList(text.split("\n")));
 	}
+
+	// Attack Modifiers
+
+	public List<Ability> getAttackModifiers() {
+		if(weapon != null) return (weapon.attackModifiers == null) ? (weapon.attackModifiers = new ArrayList<Ability>()) : weapon.attackModifiers;
+		else return null;
+	}
+
+	public boolean hasAttackModifier(Ability ability) {
+		return (weapon != null) ? getAttackModifiers().contains(ability) : null;
+	}
+
+	public void setAttackModifiers(List<Ability> attackModifiers) {
+		if(weapon == null) weapon = new Weapon();
+		this.weapon.attackModifiers = attackModifiers;
+	}
+
+	public void addAttackModifier(Ability ability) {
+		if(weapon == null) weapon = new Weapon();
+		if(!getAttackModifiers().contains(ability)) getAttackModifiers().add(ability);
+	}
+
+	public void removeAttackModifier(Ability ability) {
+		if(weapon != null) getAttackModifiers().remove(ability);
+	}
+
+	public void setAttackModifier(Ability ability, boolean status) {
+		if(status) addAttackModifier(ability);
+		else removeAttackModifier(ability);
+	}
+
+	// Damage Modifiers
+
+	public List<Ability> getDamageModifiers() {
+		if(weapon != null) return (weapon.damageModifiers == null) ? (weapon.damageModifiers = new ArrayList<Ability>()) : weapon.damageModifiers;
+		else return null;
+	}
+
+	public boolean hasDamageModifier(Ability ability) {
+		return (weapon != null) ? getDamageModifiers().contains(ability) : false;
+	}
+
+	public void setDamageModifiers(List<Ability> damageModifiers) {
+		if(weapon == null) weapon = new Weapon();
+		this.weapon.damageModifiers = damageModifiers;
+	}
+
+	public void addDamageModifier(Ability ability) {
+		if(weapon == null) weapon = new Weapon();
+		if(!getDamageModifiers().contains(ability)) this.weapon.damageModifiers.add(ability);
+	}
+
+	public void removeDamageModifier(Ability ability) {
+		if(weapon != null) getDamageModifiers().remove(ability);
+	}
+
+	public void setDamageModifier(Ability ability, boolean status) {
+		if(status) addDamageModifier(ability);
+		else removeDamageModifier(ability);
+	}
+
+	// Low Crit Rolls
 
 	public int getLowCritRoll() {
 		if(weapon == null) return 20;

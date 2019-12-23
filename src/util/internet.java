@@ -48,6 +48,7 @@ public class internet {
 	 * @return Contents of that field
 	 */
 	public static String getXPathContents(String xPath, String contents) {
+
 		try {
 			String con = contents.replace("&times", "");
 			InputSource inputXML = new InputSource(new StringReader(con));

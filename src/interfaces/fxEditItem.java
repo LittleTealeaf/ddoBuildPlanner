@@ -41,6 +41,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import util.system;
+import vars.Ability;
 import vars.ItemSlot;
 
 public class fxEditItem {
@@ -87,7 +88,7 @@ public class fxEditItem {
 
 		// Setting up the stage
 
-		stage.setScene(new Scene(content, 1200, 500));
+		stage.setScene(new Scene(content, 1200, 600));
 		stage.show();
 	}
 
@@ -465,14 +466,29 @@ public class fxEditItem {
 		critMultiplier.setPrefWidth(75);
 		critMultiplier.setEditable(true);
 
-		GridPane leftCont = new GridPane();
-		leftCont.setHgap(10);
-		leftCont.setVgap(10);
+		FlowPane attackPane = new FlowPane();
+		attackPane.getChildren().add(new Text("Attack Modifiers:"));
+		attackPane.setHgap(10);
+		attackPane.setVgap(7);
 
-		leftCont.add(tLowRoll, 0, 0);
-		leftCont.add(lowRoll, 1, 0);
-		leftCont.add(tCritMultiplier, 0, 1);
-		leftCont.add(critMultiplier, 1, 1);
+		for(Ability a : Ability.values()) {
+			CheckBox check = new CheckBox(a.displayName());
+			check.setSelected(item.hasAttackModifier(a));
+			check.selectedProperty().addListener((e, o, n) -> item.setAttackModifier(a, n.booleanValue()));
+			attackPane.getChildren().add(check);
+		}
+
+		FlowPane damagePane = new FlowPane();
+		damagePane.getChildren().add(new Text("Damage Modifiers:"));
+		damagePane.setHgap(10);
+		damagePane.setVgap(7);
+
+		for(Ability a : Ability.values()) {
+			CheckBox check = new CheckBox(a.displayName());
+			check.setSelected(item.hasDamageModifier(a));
+			check.selectedProperty().addListener((e, o, n) -> item.setDamageModifier(a, n.booleanValue()));
+			damagePane.getChildren().add(check);
+		}
 
 		Text tDamageTypes = new Text("Damage Types");
 
@@ -496,7 +512,10 @@ public class fxEditItem {
 		content.add(tCritMultiplier, 0, 2);
 		content.add(critMultiplier, 1, 2);
 
-		HBox contentMerge = new HBox(content, vTypes);
+		VBox leftContent = new VBox(content, attackPane, damagePane);
+		leftContent.setSpacing(10);
+
+		HBox contentMerge = new HBox(leftContent, vTypes);
 		contentMerge.setSpacing(10);
 
 		r.setContent(contentMerge);
@@ -543,6 +562,14 @@ public class fxEditItem {
 		checkPenalty.setPrefWidth(75);
 		checkPenalty.setEditable(true);
 
+		Text tAttackPenalty = new Text("Attack Penalty");
+
+		Spinner<Integer> attackPenalty = new Spinner<Integer>();
+		attackPenalty.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 1000, item.getAttackPenalty()));
+		attackPenalty.valueProperty().addListener((e, o, n) -> item.setAttackPenalty(n));
+		attackPenalty.setPrefWidth(75);
+		attackPenalty.setEditable(true);
+
 		Text tSpellFailure = new Text("Spell Failure");
 
 		Spinner<Double> spellFailure = new Spinner<Double>();
@@ -550,6 +577,14 @@ public class fxEditItem {
 		spellFailure.valueProperty().addListener((e, o, n) -> item.setSpellFailure(n));
 		spellFailure.setPrefWidth(75);
 		spellFailure.setEditable(true);
+
+		Text tDamageReduction = new Text("Damage Reduction");
+
+		Spinner<Double> damageReduction = new Spinner<Double>();
+		damageReduction.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(0, 1000, item.getDamageReduction()));
+		damageReduction.valueProperty().addListener((e, o, n) -> item.setDamageReduction(n));
+		damageReduction.setPrefWidth(75);
+		damageReduction.setEditable(true);
 
 		Button clearValues = new Button("Clear");
 		clearValues.setOnAction(e -> {
@@ -572,10 +607,16 @@ public class fxEditItem {
 		content.add(tCheckPenalty, 0, 3);
 		content.add(checkPenalty, 1, 3);
 
-		content.add(tSpellFailure, 0, 4);
-		content.add(spellFailure, 1, 4);
+		content.add(tAttackPenalty, 0, 4);
+		content.add(attackPenalty, 1, 4);
 
-		content.add(clearValues, 1, 5);
+		content.add(tSpellFailure, 0, 5);
+		content.add(spellFailure, 1, 5);
+
+		content.add(tDamageReduction, 0, 6);
+		content.add(damageReduction, 1, 6);
+
+		content.add(clearValues, 2, 0);
 
 		r.setContent(content);
 

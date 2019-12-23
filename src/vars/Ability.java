@@ -16,7 +16,7 @@ public enum Ability {
 	}
 
 	public String displayName() {
-		return displayName();
+		return displayName;
 	}
 
 	public String toString() {

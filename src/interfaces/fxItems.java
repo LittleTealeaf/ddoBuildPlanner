@@ -31,7 +31,7 @@ public class fxItems {
 
 		Button importItem = new Button("Import Item");
 		importItem.setOnAction(e -> Porting.importItem());
-		
+
 		Button importCompendium = new Button("Import from Compendium");
 		importCompendium.setOnAction(e -> {
 			Item i = scrapers.Compendium.scrapeItem("The Lunar Eclipse");

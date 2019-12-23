@@ -15,16 +15,16 @@ public class Compendium {
 	public static Item scrapeItem(String itemName) {
 		Item item = new Item();
 		item.setName(itemName);
-		
+
 		String contents = internet.getContents(getURL(itemName));
-		//System.out.println(contents);
+		// System.out.println(contents);
 		String iconXPath = "//*[@class=\"icon\"]/p/img/@src";
 		String imageXPath = "//*[@class=\"item-image\"]/span/img/@src";
-		
+
 		item.setIconUUID(Images.saveImage("https://ddocompendium.com" + internet.getXPathContents(iconXPath, contents)));
 		item.setImageUUID(Images.saveImage("https://ddocompendium.com" + internet.getXPathContents(imageXPath, contents)));
-		
-		// Get all the variables of an item		
+
+		// Get all the variables of an item
 		List<String[]> vars = new ArrayList<String[]>();
 		String temp = "";
 		int index = 0;
@@ -58,8 +58,6 @@ public class Compendium {
 			try {
 
 				switch (a[0].toLowerCase()) { // TODO sort these cases
-				// case "icon": i.icon = getImageURL(resUtil.toURL(a[1]) + "_Icon.png"); break;
-				// case "image": i.cosmetic = getImageURL(resUtil.toURL(a[1]) + ".png"); break;
 				case "minlevel":
 					item.setMinLevel(Integer.parseInt(i));
 					break;
@@ -67,9 +65,11 @@ public class Compendium {
 					if(!i.contentEquals("")) item.setAbsoluteMinLevel(Integer.parseInt(i));
 					break;
 				case "type":
-					item.setType(a[1]); break;
+					item.setType(a[1]);
+					break;
 				case "proficiency":
-					item.setProficiency(a[1]); break;
+					item.setProficiency(a[1]);
+					break;
 				case "hardness":
 					item.setHardness(Double.parseDouble(i));
 					break;
@@ -115,8 +115,12 @@ public class Compendium {
 				case "shieldbonus":
 					item.setArmorBonus(Integer.parseInt(i));
 					break;
-				// case "attackpenalty": break; TODO attack penalty / bonus
-				// case "dr": Integer.parseInt(i); break; TODO damage reduction
+				case "attackpenalty":
+					item.setAttackPenalty(Integer.parseInt(i));
+					break;
+				case "dr":
+					item.setDamageReduction(Double.parseDouble(i));
+					break;
 				// TODO add the rest of the variables
 
 				// case "enchantments": i.enchantments = parseEnchantments(a[1]); break;
@@ -139,13 +143,15 @@ public class Compendium {
 		}
 
 	}
-	
+
 	private static URL getEditURL(String pageName) {
-		//https://ddocompendium.com/index.php?title=Legendary_Bracers_of_the_Fallen_Hero&action=edit
+
+		// https://ddocompendium.com/index.php?title=Legendary_Bracers_of_the_Fallen_Hero&action=edit
 		try {
 			return new URL("https://ddocompendium.com/index.php?title=" + internet.convertToURL(pageName).replace("+", "_") + "&action=edit");
 		} catch(MalformedURLException e) {
 			return null;
 		}
+
 	}
 }
