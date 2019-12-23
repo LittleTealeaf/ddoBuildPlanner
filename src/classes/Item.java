@@ -542,7 +542,7 @@ public class Item {
 	}
 
 	public boolean hasAttackModifier(Ability ability) {
-		return (weapon != null) ? getAttackModifiers().contains(ability) : null;
+		return (weapon != null) ? getAttackModifiers().contains(ability) : false;
 	}
 
 	public void setAttackModifiers(List<Ability> attackModifiers) {

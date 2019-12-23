@@ -34,7 +34,7 @@ public class fxItems {
 
 		Button importCompendium = new Button("Import from Compendium");
 		importCompendium.setOnAction(e -> {
-			Item i = scrapers.Compendium.scrapeItem("The Lunar Eclipse");
+			Item i = scrapers.Compendium.scrapeItem("Legendary Platemail of the Barovian Lord");
 			i.saveItem();
 			fxEditItem.open(i);
 		});
