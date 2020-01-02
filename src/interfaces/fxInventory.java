@@ -30,7 +30,7 @@ public class fxInventory {
 		createTable();
 
 		Button bAddItem = new Button("Add Item");
-		bAddItem.setOnAction(e -> addItem(Items.selectItemPrompt()));
+		bAddItem.setOnAction(e -> addItem(new ItemPrompt().showPrompt()));
 
 		HBox bottom = new HBox();
 		bottom.getChildren().add(bAddItem);

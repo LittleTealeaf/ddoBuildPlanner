@@ -7,6 +7,7 @@ import classes.Gearset;
 import classes.Iref;
 import classes.Item;
 import classes.Items;
+import interfaces.ItemPrompt;
 import interfaces.fxEditItem;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -104,7 +105,7 @@ public class Gearsets {
 
 			Button bSelect = new Button("Select " + slot.displayName() + "...");
 			bSelect.setOnAction(e -> {
-				Item i = Items.selectItemPrompt(slot.getItemSlot());
+				Item i = new ItemPrompt().setSlot(slot.getItemSlot()).showPrompt();
 
 				if(i != null) {
 					currentGearset.setItemBySlot(i, slot);

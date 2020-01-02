@@ -99,10 +99,6 @@ public class Items {
 		return r;
 	}
 
-	public static List<Item> getItemsBySlot(List<ItemSlot> slots) {
-		return getItemsBySlot((ItemSlot[]) slots.toArray());
-	}
-
 	public static List<Item> getItemsBySlot(ItemSlot... slots) {
 		List<Item> r = new ArrayList<Item>();
 
@@ -113,49 +109,6 @@ public class Items {
 
 	public static File getFile(String name) {
 		return system.getAppFile("items", name + ".json");
-	}
-
-	public static Item selectItemPrompt() {
-		return selectItemPrompt(null, (ItemSlot[]) null);
-	}
-
-	public static Item selectItemPrompt(ItemSlot... slots) {
-		return selectItemPrompt(null, slots);
-	}
-
-	public static Item selectItemPrompt(Item selItem, ItemSlot... slots) {
-		Dialog<Item> dialog = new Dialog<Item>();
-		dialog.setTitle("Select Item");
-		dialog.setHeaderText("Select an item");
-
-		// Table of all the items selected via slots
-		TableView<Item> table = itemTable((slots == null) ? getAllItems() : getItemsBySlot(slots));
-		table.setOnMouseClicked(click -> {
-			if(click.getClickCount() == 2) dialog.getResult();
-		});
-
-		ButtonType bSelect = new ButtonType("Select", ButtonData.OK_DONE);
-		ButtonType bCancel = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
-
-		dialog.getDialogPane().getButtonTypes().addAll(bSelect, bCancel);
-		dialog.getDialogPane().setContent(table);
-		dialog.getDialogPane().setPrefWidth(500);
-		dialog.getDialogPane().setPrefHeight(500);
-
-		dialog.setResultConverter(b -> {
-
-			if(b.getButtonData() == ButtonData.OK_DONE) {
-				return table.getSelectionModel().getSelectedItem();
-			} else return null;
-
-		});
-
-		try {
-			return dialog.showAndWait().get();
-		} catch(Exception e) {
-			return null;
-		}
-
 	}
 
 	@SuppressWarnings("unchecked")
