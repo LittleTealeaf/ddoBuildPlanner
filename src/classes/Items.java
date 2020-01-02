@@ -99,6 +99,10 @@ public class Items {
 		return r;
 	}
 
+	public static List<Item> getItemsBySlot(List<ItemSlot> slots) {
+		return getItemsBySlot((ItemSlot[]) slots.toArray());
+	}
+
 	public static List<Item> getItemsBySlot(ItemSlot... slots) {
 		List<Item> r = new ArrayList<Item>();
 

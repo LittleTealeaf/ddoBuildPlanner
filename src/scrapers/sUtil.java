@@ -14,20 +14,23 @@ public class sUtil {
 
 		int ind = 0;
 		String tmp = "";
-		
+
 		for(char c : template.toCharArray()) {
 			ind += (c == '{') ? 1 : (c == '}') ? -1 : 0;
+
 			if(ind == 2 && c == '|') {
 				ret.add(tmp);
 				tmp = "";
 			} else if((c != '{' && ind == 2) || ind > 2) {
-				tmp+=c;
+				tmp += c;
 			}
+
 		}
+
 		ret.add(tmp);
 
 		System.out.println(ret);
-		
+
 		if(!includeName) ret.remove(0);
 		return ret;
 	}
@@ -39,12 +42,11 @@ public class sUtil {
 		int ind = 0;
 
 		for(char c : input.toCharArray()) {
-			
 			ind += (c == '{') ? 1 : (c == '}') ? -1 : 0;
 			System.out.println(c + " " + ind);
 			if(ind >= 1) template += c;
 			else if(c == '}') {
-				template+='}';
+				template += '}';
 				r.add(parseTemplate(template));
 				template = "";
 			}

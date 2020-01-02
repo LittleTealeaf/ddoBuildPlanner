@@ -184,10 +184,13 @@ public class Compendium {
 					if(!a[0].contentEquals("")) a[0] += " ";
 					a[0] += s;
 				}
+
 			}
+
 			System.out.println(a[0]);
 
 			try {
+
 				switch (a[0].toLowerCase()) {
 				// Template Structure: [enchantment], [type], [value], [bonus]
 				case "ability":
@@ -244,7 +247,7 @@ public class Compendium {
 					if(a.length > 2) e.setBonus(a[2]);
 					r.add(e);
 					break;
-					//Custom Vars
+				// Custom Vars
 				case "sheltering":
 					/**
 					 * Uses individual template
@@ -259,7 +262,10 @@ public class Compendium {
 					r.add(e);
 				default:
 				}
-			} catch(Exception f) {f.printStackTrace();}
+
+			} catch(Exception f) {
+				f.printStackTrace();
+			}
 
 		}
 

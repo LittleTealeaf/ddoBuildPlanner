@@ -34,9 +34,8 @@ public class fxItems {
 
 		Button importCompendium = new Button("Import from Compendium");
 		importCompendium.setOnAction(e -> {
-			Item i = scrapers.Compendium.scrapeItem("Legendary Platemail of the Barovian Lord");
-			i.saveItem();
-			fxEditItem.open(i);
+			Item i = fxScraper.scrapePrompt();
+			if(i != null) fxEditItem.open(i);
 		});
 
 		HBox footer = new HBox(create, importItem, importCompendium);

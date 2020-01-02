@@ -33,7 +33,7 @@ public class Enchref {
 	public Enchref(Enchantment e) {
 		this(e.getUUID());
 	}
-	
+
 	public Enchref(String uuid) {
 		this.uuid = uuid;
 		this.type = "";
