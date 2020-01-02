@@ -40,6 +40,7 @@ public class ItemPrompt {
 	}
 	
 	public ItemPrompt setItem(Iref i) {
+		if(i == null) return this;
 		return setItem(i.getItem());
 	}
 
