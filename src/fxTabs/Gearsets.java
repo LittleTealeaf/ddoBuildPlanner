@@ -1,5 +1,7 @@
 package fxTabs;
 
+import application.Main;
+import classes.Build;
 import classes.Craftable;
 import classes.Craftref;
 import classes.Enchref;
@@ -29,14 +31,12 @@ public class Gearsets {
 	private static Tab tab;
 
 	private static GridPane grid;
-
-	public static Gearset currentGearset;
-
+	
+	private static Build build = Main.loadedBuild;
+	
 	public static Tab getTab() {
 		tab = new Tab("Gearsets");
-
-		currentGearset = new Gearset();
-
+		
 		BorderPane content = new BorderPane();
 		content.setCenter(gridContent());
 		content.setOnKeyPressed(key -> {
@@ -52,10 +52,6 @@ public class Gearsets {
 		tab.setContent(scrollContent);
 
 		return tab;
-	}
-
-	public static void setGearset(Gearset gearset) {
-		currentGearset = gearset;
 	}
 
 	public static GridPane gridContent() {
@@ -86,7 +82,7 @@ public class Gearsets {
 		int row = 1;
 
 		for(GearSlot slot : GearSlot.values()) {
-			Iref ref = currentGearset.getItemBySlot(slot);
+			Iref ref = build.getCurrentGearset().getItemBySlot(slot);
 
 			ImageView icon = (ref != null && ref.getItem().getIconViewSmall() != null) ? ref.getItem().getIconViewSmall() : new ImageView();
 
@@ -105,10 +101,10 @@ public class Gearsets {
 
 			Button bSelect = new Button("Select " + slot.displayName() + "...");
 			bSelect.setOnAction(e -> {
-				Item i = new ItemPrompt().setSlot(slot.getItemSlot()).setItem(currentGearset.getItemBySlot(slot)).showPrompt();
+				Item i = new ItemPrompt().setSlot(slot.getItemSlot()).setItem(build.getCurrentGearset().getItemBySlot(slot)).showPrompt();
 
 				if(i != null) {
-					currentGearset.setItemBySlot(i, slot);
+					build.getCurrentGearset().setItemBySlot(i, slot);
 					updateContent();
 				}
 
@@ -129,7 +125,7 @@ public class Gearsets {
 
 			Button bClear = new Button("Clear");
 			bClear.setOnAction(e -> {
-				currentGearset.setItemBySlot((Iref) null, slot);
+				build.getCurrentGearset().setItemBySlot((Iref) null, slot);
 				updateContent();
 			});
 

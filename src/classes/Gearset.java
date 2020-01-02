@@ -385,6 +385,14 @@ public class Gearset {
 			}
 
 		}
+		
+		public List<ItemExport> getItems() {
+			return items;
+		}
+		
+		public List<Enchantment> getEnchantments() {
+			return enchantments;
+		}
 
 		/**
 		 * Imports the gearset, including importing all required items and enchantments

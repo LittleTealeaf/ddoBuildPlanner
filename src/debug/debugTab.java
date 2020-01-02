@@ -2,6 +2,7 @@ package debug;
 
 import java.io.FileWriter;
 
+import application.Main;
 import classes.Gearset.GearsetExport;
 import fxTabs.Gearsets;
 import javafx.scene.control.Button;
@@ -22,7 +23,7 @@ public class debugTab {
 
 			try {
 				FileWriter writer = new FileWriter(chooser.showSaveDialog(null));
-				writer.write(system.objectJSON.toJson(Gearsets.currentGearset.export(), GearsetExport.class));
+				writer.write(system.objectJSON.toJson(Main.loadedBuild.getCurrentGearset().export(), GearsetExport.class));
 				writer.flush();
 				writer.close();
 			} catch(Exception g) {}

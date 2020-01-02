@@ -624,7 +624,7 @@ public class Item {
 	 * <li>Content/Text versions of the image and icon, if specified in {@link Settings}</li>
 	 * </ul>
 	 * 
-	 * @author Creep
+	 * @author Tealaef
 	 */
 	public static class ItemExport {
 
