@@ -1,7 +1,6 @@
 package interfaces;
 
 import classes.Inventory;
-import classes.Items;
 import classes.Inventory.invItem;
 import classes.Item;
 import javafx.geometry.Insets;

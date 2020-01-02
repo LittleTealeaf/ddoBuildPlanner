@@ -105,7 +105,7 @@ public class Gearsets {
 
 			Button bSelect = new Button("Select " + slot.displayName() + "...");
 			bSelect.setOnAction(e -> {
-				Item i = new ItemPrompt().setSlot(slot.getItemSlot()).showPrompt();
+				Item i = new ItemPrompt().setSlot(slot.getItemSlot()).setItem(currentGearset.getItemBySlot(slot)).showPrompt();
 
 				if(i != null) {
 					currentGearset.setItemBySlot(i, slot);

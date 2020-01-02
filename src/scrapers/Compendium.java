@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import classes.Dice;
-import classes.Enchantment;
 import classes.Enchantments;
 import classes.Enchref;
 import classes.Images;
