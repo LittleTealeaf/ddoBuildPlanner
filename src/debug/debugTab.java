@@ -19,7 +19,7 @@ public class debugTab {
 
 	public static Tab getTab() {
 		tab = new Tab("Debug");
-		
+
 		GridPane content = new GridPane();
 
 		Button execFunction = new Button("Open");
@@ -34,21 +34,21 @@ public class debugTab {
 			} catch(Exception g) {}
 
 		});
-		
+
 		content.add(execFunction, 0, 0);
-		
-		
-		//Build Test
+
+		// Build Test
 		TextArea text = new TextArea();
-		
-		
+
 		Button bPrint = new Button("Print");
 		bPrint.setOnAction(e -> {
+
 			try {
-				text.setText(system.objectJSON.toJson(Main.loadedBuild,Build.class));
-			}catch(Exception f) {}
+				text.setText(system.objectJSON.toJson(Main.loadedBuild, Build.class));
+			} catch(Exception f) {}
+
 		});
-		
+
 		content.add(bPrint, 0, 1);
 		content.add(text, 1, 1);
 

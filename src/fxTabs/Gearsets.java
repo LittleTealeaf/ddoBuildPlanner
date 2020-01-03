@@ -36,6 +36,11 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import vars.GearSlot;
 
+/**
+ * This class is the display/ui used for the gearsets tab of the main application
+ * 
+ * @author Tealeaf
+ */
 public class Gearsets {
 
 	private static Tab tab;
@@ -50,8 +55,10 @@ public class Gearsets {
 		tab = new Tab("Gearsets");
 
 		BorderPane content = new BorderPane();
+		content.setPadding(new Insets(15));
 		content.setTop(gridTop());
 		content.setCenter(gridContent());
+		
 		content.setOnKeyPressed(key -> {
 			if(key.getCode() == KeyCode.F5) updateContent();
 		});
@@ -67,6 +74,11 @@ public class Gearsets {
 		return tab;
 	}
 
+	/**
+	 * The content of the top portion of the tab display
+	 * 
+	 * @return GridPane content to show
+	 */
 	private static GridPane gridTop() {
 		GridPane r = new GridPane();
 		r.setHgap(10);
@@ -79,51 +91,52 @@ public class Gearsets {
 			build.setCurrentGearset(n);
 			updateContent();
 		});
-		
-		Button bDelete = new Button("Delete");		
+
+		Button bDelete = new Button("Delete");
 		bDelete.setVisible(build.getGearsets().size() > 1);
 		bDelete.setOnAction(e -> {
-			//Create the alert dialog
+			// Create the alert dialog
 			Alert alert = new Alert(AlertType.CONFIRMATION);
-			alert.setTitle("Delete Gearset "  + build.getCurrentGearset().getName());
+			alert.setTitle("Delete Gearset " + build.getCurrentGearset().getName());
 			alert.setHeaderText("Do you really want to delete the gearset " + build.getCurrentGearset().getName() + "?");
 			Optional<ButtonType> option = alert.showAndWait();
-			
+
 			if(option.get() == ButtonType.OK) {
-				//Remove the gearset
+				// Remove the gearset
 				build.removeGearset(build.getCurrentGearset());
-				
-				//Update Display
+
+				// Update Display
 				choice.setItems(FXCollections.observableArrayList(build.getGearsets()));
 				bDelete.setVisible(build.getGearsets().size() > 1);
 				choice.getSelectionModel().select(build.getCurrentGearset());
 			}
+
 		});
-		
+
 		Button bCreate = new Button("Create");
 		bCreate.setOnAction(e -> {
-			//Get a name prompt
+			// Get a name prompt
 			String name = namePrompt("Create Gearset");
-			
-			//If didn't cancel, add the gearset
+
+			// If didn't cancel, add the gearset
 			if(name != null) build.addGearset(new Gearset(name));
-			
-			//Update Display
+
+			// Update Display
 			choice.setItems(FXCollections.observableArrayList(build.getGearsets()));
 			choice.getSelectionModel().select(build.getCurrentGearset());
 			bDelete.setVisible(build.getGearsets().size() > 1);
 		});
-		
+
 		Button bRename = new Button("Rename");
 		bRename.disableProperty().bind(choice.getSelectionModel().selectedItemProperty().isNull());
 		bRename.setOnAction(e -> {
-			//Get a name
+			// Get a name
 			String name = namePrompt("Rename " + build.getCurrentGearset());
-			
-			//If didn't cancel, update the name
+
+			// If didn't cancel, update the name
 			if(name != null) build.getCurrentGearset().setName(name);
-			
-			//Update Display
+
+			// Update Display
 			choice.setItems(FXCollections.observableArrayList(build.getGearsets()));
 		});
 
@@ -135,6 +148,11 @@ public class Gearsets {
 		return r;
 	}
 
+	/**
+	 * The center content to show on the gearsets tab
+	 * 
+	 * @return GridPane content to display
+	 */
 	private static GridPane gridContent() {
 		/*
 		 * Setup:
@@ -151,6 +169,9 @@ public class Gearsets {
 		return grid;
 	}
 
+	/**
+	 * Updates the content of the gearsets
+	 */
 	public static void updateContent() {
 		grid.getChildren().clear();
 
@@ -163,13 +184,16 @@ public class Gearsets {
 		int row = 1;
 
 		for(GearSlot slot : GearSlot.values()) {
+			// Gets the item reference
 			Iref ref = (build.getCurrentGearset() == null) ? null : build.getCurrentGearset().getItemBySlot(slot);
 
+			// Attempts to get the icon
 			ImageView icon = (ref != null && ref.getItem().getIconViewSmall() != null) ? ref.getItem().getIconViewSmall() : new ImageView();
 
+			// Sets the name text, adds double-click feature to open the item if it exists
 			Text name = new Text();
 			name.setText((ref != null) ? ref.getItem().getName() : "");
-			name.setOnMouseClicked(click -> {
+			if(ref != null) name.setOnMouseClicked(click -> {
 
 				if(click.getClickCount() == 2) {
 					fxEditItem.open(ref);
@@ -177,9 +201,28 @@ public class Gearsets {
 
 			});
 
+			// Gets and displays the enchantments of the item
 			Text enchantments = new Text();
 			if(ref != null) for(Enchref e : ref.getItem().getEnchantments()) enchantments.setText(enchantments.getText() + e.getDisplayName() + "\n");
 
+			// Crafting Choices
+			VBox craftingChoices = new VBox();
+			craftingChoices.setSpacing(10);
+
+			// Checks if there's anything to add for crafting
+			if(ref != null && ref.getCrafting() != null) {
+
+				// Cycles through each of the crafting sets
+				for(Craftref cref : ref.getCrafting()) {
+					// Craft Display
+					HBox h = new HBox(new Text(ref.getItem().getCraft(cref.getUUID()).getName()), new craftingChoice(ref, cref).toComboBox());
+					h.setSpacing(2.5);
+					craftingChoices.getChildren().add(h);
+				}
+
+			}
+
+			// Button to select the item
 			Button bSelect = new Button("Select " + slot.displayName() + "...");
 			bSelect.setDisable(build.getCurrentGearset() == null);
 			bSelect.setOnAction(e -> {
@@ -192,19 +235,7 @@ public class Gearsets {
 
 			});
 
-			VBox craftingChoices = new VBox();
-			craftingChoices.setSpacing(10);
-
-			if(ref != null && ref.getCrafting() != null) {
-
-				for(Craftref cref : ref.getCrafting()) {
-					HBox h = new HBox(new Text(ref.getItem().getCraft(cref.getUUID()).getName()), new craftingChoice(ref, cref).toComboBox());
-					h.setSpacing(2.5);
-					craftingChoices.getChildren().add(h);
-				}
-
-			}
-
+			// Button to clear the item
 			Button bClear = new Button("Clear");
 			bClear.setDisable(build.getCurrentGearset() == null);
 			bClear.setOnAction(e -> {
@@ -212,7 +243,8 @@ public class Gearsets {
 				updateContent();
 			});
 
-			grid.addRow((row++), new Text(slot.displayName()), icon, name, enchantments, craftingChoices, bSelect, bClear);
+			// Adds all the fields as a row
+			grid.addRow(row++, new Text(slot.displayName()), icon, name, enchantments, craftingChoices, bSelect, bClear);
 		}
 
 	}
@@ -244,6 +276,11 @@ public class Gearsets {
 		return r.isEmpty() ? null : r.get();
 	}
 
+	/**
+	 * This class is a representation of a craftign choice used to display
+	 * 
+	 * @author Tealeaf
+	 */
 	private static class craftingChoice extends ComboBox<Enchref> {
 
 		private Craftref ref;
@@ -255,6 +292,11 @@ public class Gearsets {
 			this.craftable = iref.getItem().getCraft(ref.getUUID());
 		}
 
+		/**
+		 * Converts the crafting choice to a combo box
+		 * 
+		 * @return ComboBox of the crafting choice
+		 */
 		public ComboBox<Enchref> toComboBox() {
 			this.getItems().addAll(craftable.getChoices());
 			this.getSelectionModel().select(craftable.getChoice(ref.getIndex()));
