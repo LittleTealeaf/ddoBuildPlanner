@@ -69,6 +69,7 @@ public class Gearsets {
 
 	private static GridPane gridTop() {
 		GridPane r = new GridPane();
+		r.setHgap(10);
 
 		ComboBox<Gearset> choice = new ComboBox<Gearset>();
 
@@ -80,32 +81,56 @@ public class Gearsets {
 		});
 		
 		Button bDelete = new Button("Delete");		
-		bDelete.setDisable(build.getGearsets().size() <= 1);
+		bDelete.setVisible(build.getGearsets().size() > 1);
 		bDelete.setOnAction(e -> {
+			//Create the alert dialog
 			Alert alert = new Alert(AlertType.CONFIRMATION);
 			alert.setTitle("Delete Gearset "  + build.getCurrentGearset().getName());
 			alert.setHeaderText("Do you really want to delete the gearset " + build.getCurrentGearset().getName() + "?");
 			Optional<ButtonType> option = alert.showAndWait();
+			
 			if(option.get() == ButtonType.OK) {
+				//Remove the gearset
 				build.removeGearset(build.getCurrentGearset());
+				
+				//Update Display
 				choice.setItems(FXCollections.observableArrayList(build.getGearsets()));
-				System.out.println(build.getGearsets().size());
-				bDelete.setDisable(build.getGearsets().size() <= 1);
+				bDelete.setVisible(build.getGearsets().size() > 1);
 				choice.getSelectionModel().select(build.getCurrentGearset());
 			}
 		});
 		
 		Button bCreate = new Button("Create");
 		bCreate.setOnAction(e -> {
+			//Get a name prompt
 			String name = namePrompt("Create Gearset");
+			
+			//If didn't cancel, add the gearset
 			if(name != null) build.addGearset(new Gearset(name));
+			
+			//Update Display
 			choice.setItems(FXCollections.observableArrayList(build.getGearsets()));
-			bDelete.setDisable(build.getGearsets().size() <= 1);
+			choice.getSelectionModel().select(build.getCurrentGearset());
+			bDelete.setVisible(build.getGearsets().size() > 1);
+		});
+		
+		Button bRename = new Button("Rename");
+		bRename.disableProperty().bind(choice.getSelectionModel().selectedItemProperty().isNull());
+		bRename.setOnAction(e -> {
+			//Get a name
+			String name = namePrompt("Rename " + build.getCurrentGearset());
+			
+			//If didn't cancel, update the name
+			if(name != null) build.getCurrentGearset().setName(name);
+			
+			//Update Display
+			choice.setItems(FXCollections.observableArrayList(build.getGearsets()));
 		});
 
 		r.add(choice, 0, 0);
 		r.add(bCreate, 1, 0);
-		r.add(bDelete, 2, 0);
+		r.add(bRename, 2, 0);
+		r.add(bDelete, 3, 0);
 
 		return r;
 	}
