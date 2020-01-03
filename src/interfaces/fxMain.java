@@ -24,26 +24,76 @@ public class fxMain extends Application {
 	public void start(Stage sMain) {
 		sMainRef = sMain;
 
+		/*
+		 * File
+		 * > save
+		 * > save as
+		 * > open
+		 * > preferences
+		 * > exit
+		 * Database
+		 * > Items
+		 * > Enchantments
+		 * Build
+		 * > Inventory
+		 */
+		
+		
 		// Menu
 		MenuBar menu = new MenuBar();
 
-		Menu file = new Menu("File");
+//		Menu file = new Menu("File");
+//
+//		MenuItem settings = new MenuItem("Settings");
+//		settings.setOnAction(e -> fxSettings.open());
+//
+//		MenuItem items = new MenuItem("Items");
+//		items.setOnAction(e -> fxItems.open());
+//
+//		MenuItem inventory = new MenuItem("Inventory");
+//		inventory.setOnAction(e -> fxInventory.open());
+//
+//		MenuItem enchantments = new MenuItem("Enchantments");
+//		enchantments.setOnAction(e -> fxEnchantments.open());
+//
+//		file.getItems().addAll(settings, items, inventory, enchantments);
 
+		//File Menu
+		Menu file = new Menu("File");
+		
+		MenuItem save = new MenuItem("Save");
+		
+		MenuItem saveAs = new MenuItem("Save As");
+		
+		MenuItem open = new MenuItem("Open");
+		
 		MenuItem settings = new MenuItem("Settings");
 		settings.setOnAction(e -> fxSettings.open());
-
+		
+		MenuItem exit = new MenuItem("Exit");
+		
+		file.getItems().addAll(save,saveAs,open,settings,exit);
+		
+		//Database Menu
+		Menu database = new Menu("Database");
+		
 		MenuItem items = new MenuItem("Items");
 		items.setOnAction(e -> fxItems.open());
-
-		MenuItem inventory = new MenuItem("Inventory");
-		inventory.setOnAction(e -> fxInventory.open());
-
+		
 		MenuItem enchantments = new MenuItem("Enchantments");
 		enchantments.setOnAction(e -> fxEnchantments.open());
-
-		file.getItems().addAll(settings, items, inventory, enchantments);
-
-		menu.getMenus().addAll(file);
+		
+		database.getItems().addAll(items,enchantments);
+		
+		//Build Menu
+		Menu build =new Menu("Build");
+		
+		MenuItem inventory = new MenuItem("Inventory");
+		inventory.setOnAction(e -> fxInventory.open());
+		
+		build.getItems().addAll(inventory);
+		
+		menu.getMenus().addAll(file, database, build);
 
 		// Center Area
 		tabs = new TabPane();
