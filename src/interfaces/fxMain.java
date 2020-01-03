@@ -37,8 +37,7 @@ public class fxMain extends Application {
 		 * Build
 		 * > Inventory
 		 */
-		
-		
+
 		// Menu
 		MenuBar menu = new MenuBar();
 
@@ -58,41 +57,41 @@ public class fxMain extends Application {
 //
 //		file.getItems().addAll(settings, items, inventory, enchantments);
 
-		//File Menu
+		// File Menu
 		Menu file = new Menu("File");
-		
+
 		MenuItem save = new MenuItem("Save");
-		
+
 		MenuItem saveAs = new MenuItem("Save As");
-		
+
 		MenuItem open = new MenuItem("Open");
-		
+
 		MenuItem settings = new MenuItem("Settings");
 		settings.setOnAction(e -> fxSettings.open());
-		
+
 		MenuItem exit = new MenuItem("Exit");
-		
-		file.getItems().addAll(save,saveAs,open,settings,exit);
-		
-		//Database Menu
+
+		file.getItems().addAll(save, saveAs, open, settings, exit);
+
+		// Database Menu
 		Menu database = new Menu("Database");
-		
+
 		MenuItem items = new MenuItem("Items");
 		items.setOnAction(e -> fxItems.open());
-		
+
 		MenuItem enchantments = new MenuItem("Enchantments");
 		enchantments.setOnAction(e -> fxEnchantments.open());
-		
-		database.getItems().addAll(items,enchantments);
-		
-		//Build Menu
-		Menu build =new Menu("Build");
-		
+
+		database.getItems().addAll(items, enchantments);
+
+		// Build Menu
+		Menu build = new Menu("Build");
+
 		MenuItem inventory = new MenuItem("Inventory");
 		inventory.setOnAction(e -> fxInventory.open());
-		
+
 		build.getItems().addAll(inventory);
-		
+
 		menu.getMenus().addAll(file, database, build);
 
 		// Center Area

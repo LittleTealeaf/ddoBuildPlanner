@@ -38,7 +38,7 @@ public class ItemPrompt {
 		this.item = i;
 		return this;
 	}
-	
+
 	public ItemPrompt setItem(Iref i) {
 		if(i == null) return this;
 		return setItem(i.getItem());
@@ -59,7 +59,7 @@ public class ItemPrompt {
 			if(click.getClickCount() == 2) dialog.getResult();
 		});
 		table.getSelectionModel().select(item);
-		
+
 		Text lSort = new Text("Sort:");
 		// TODO sort by enhancement values too
 

@@ -3,10 +3,13 @@ package debug;
 import java.io.FileWriter;
 
 import application.Main;
+import classes.Build;
 import classes.Gearset.GearsetExport;
 import fxTabs.Gearsets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
+import javafx.scene.control.TextArea;
+import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
 import util.system;
 
@@ -16,6 +19,8 @@ public class debugTab {
 
 	public static Tab getTab() {
 		tab = new Tab("Debug");
+		
+		GridPane content = new GridPane();
 
 		Button execFunction = new Button("Open");
 		execFunction.setOnAction(e -> {
@@ -29,8 +34,25 @@ public class debugTab {
 			} catch(Exception g) {}
 
 		});
+		
+		content.add(execFunction, 0, 0);
+		
+		
+		//Build Test
+		TextArea text = new TextArea();
+		
+		
+		Button bPrint = new Button("Print");
+		bPrint.setOnAction(e -> {
+			try {
+				text.setText(system.objectJSON.toJson(Main.loadedBuild,Build.class));
+			}catch(Exception f) {}
+		});
+		
+		content.add(bPrint, 0, 1);
+		content.add(text, 1, 1);
 
-		tab.setContent(execFunction);
+		tab.setContent(content);
 
 		return tab;
 	}

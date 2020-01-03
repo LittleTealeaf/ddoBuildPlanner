@@ -347,6 +347,10 @@ public class Gearset {
 		this.offHand = new Iref(offHand);
 	}
 
+	public String toString() {
+		return name;
+	}
+
 	/**
 	 * An exportable version of the gearset that includes the following:
 	 * <ul>
@@ -385,11 +389,11 @@ public class Gearset {
 			}
 
 		}
-		
+
 		public List<ItemExport> getItems() {
 			return items;
 		}
-		
+
 		public List<Enchantment> getEnchantments() {
 			return enchantments;
 		}

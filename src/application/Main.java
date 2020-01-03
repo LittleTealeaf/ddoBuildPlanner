@@ -13,12 +13,12 @@ import util.system;
 public class Main {
 
 	public static final String version = "0.0.1";
-	
+
 	public static Build loadedBuild;
 
 	public static void main(String[] args) {
 		loadedBuild = new Build();
-		
+
 		Debug.setCrashReporting();
 		system.loadData();
 		Settings.loadSettings();
