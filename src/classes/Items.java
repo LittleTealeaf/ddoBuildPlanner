@@ -121,8 +121,11 @@ public class Items {
 		TableColumn<Item, String> cName = new TableColumn<Item, String>("Name");
 		cName.setCellValueFactory(new PropertyValueFactory<Item, String>("name"));
 
+		//TODO cell factory with worth wrap
+		
 		TableColumn<Item, String> cDescription = new TableColumn<Item, String>("Description");
 		cDescription.setCellValueFactory(new PropertyValueFactory<Item, String>("descriptionTrimmed"));
+		cDescription.maxWidthProperty().bind(table.widthProperty().multiply(0.5));
 
 		table.getColumns().addAll(cIcon, cName, cDescription);
 
