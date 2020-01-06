@@ -160,7 +160,7 @@ public class Gearsets {
 
 	private static BorderPane gridContent() {
 		BorderPane r = new BorderPane();
-		r.setPadding(new Insets(10)));
+		r.setPadding(new Insets(10));
 
 		slotList = new ListView<slotSelection>();
 		slotList.setCellFactory(new Callback<ListView<slotSelection>, ListCell<slotSelection>>() {
