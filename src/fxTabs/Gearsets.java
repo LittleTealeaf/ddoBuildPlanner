@@ -55,6 +55,7 @@ public class Gearsets {
 
 	// private static GridPane grid;
 	private static ListView<slotSelection> slotList;
+	private static GridPane itemGrid;
 
 	private static Build build;
 
@@ -170,10 +171,11 @@ public class Gearsets {
 				return new listCell();
 			}
 		});
-
-		VBox.setVgrow(slotList,Priority.ALWAYS);
 		
-		
+		itemGrid = new GridPane();
+		itemGrid.setPadding(new Insets(10));
+		itemGrid.setHgap(5);
+		itemGrid.setVgap(5);
 
 		// https://stackoverflow.com/questions/27438629/listview-with-custom-content-in-javafx
 		
@@ -192,6 +194,10 @@ public class Gearsets {
 
 			slotList.setItems(FXCollections.observableArrayList(slots));
 		}
+	}
+	
+	private static void displayItem(slotSelection select) {
+		
 	}
 
 //
