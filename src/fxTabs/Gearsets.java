@@ -37,6 +37,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -90,6 +91,7 @@ public class Gearsets {
 	private static GridPane gridTop() {
 		GridPane r = new GridPane();
 		r.setHgap(10);
+		r.setPadding(new Insets(10));
 
 		ComboBox<Gearset> choice = new ComboBox<Gearset>();
 
@@ -156,16 +158,9 @@ public class Gearsets {
 		return r;
 	}
 
-	private static void updateContent() {
-		List<slotSelection> slots = new ArrayList<slotSelection>();
-
-		for(GearSlot s : GearSlot.values()) slots.add(new slotSelection(s, build.getCurrentGearset().getItemBySlot(s)));
-
-		slotList.setItems(FXCollections.observableArrayList(slots));
-	}
-
 	private static BorderPane gridContent() {
 		BorderPane r = new BorderPane();
+		r.setPadding(new Insets(10)));
 
 		slotList = new ListView<slotSelection>();
 		slotList.setCellFactory(new Callback<ListView<slotSelection>, ListCell<slotSelection>>() {
@@ -176,11 +171,27 @@ public class Gearsets {
 			}
 		});
 
-		r.setLeft(slotList);
+		VBox.setVgrow(slotList,Priority.ALWAYS);
+		
+		
 
 		// https://stackoverflow.com/questions/27438629/listview-with-custom-content-in-javafx
-
+		
+		r.setLeft(slotList);
+		
+		updateContent();
+		
 		return r;
+	}
+	
+	private static void updateContent() {
+		if(build.getCurrentGearset() != null) {
+			List<slotSelection> slots = new ArrayList<slotSelection>();
+
+			for(GearSlot s : GearSlot.values()) slots.add(new slotSelection(s, build.getCurrentGearset().getItemBySlot(s)));
+
+			slotList.setItems(FXCollections.observableArrayList(slots));
+		}
 	}
 
 //
