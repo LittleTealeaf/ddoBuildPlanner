@@ -13,8 +13,10 @@ import classes.Gearset;
 import classes.Iref;
 import classes.Item;
 import classes.Items;
+import classes.Settings;
 import interfaces.ItemPrompt;
 import interfaces.fxEditItem;
+import interfaces.fxMain;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
@@ -56,6 +58,7 @@ public class Gearsets {
 	// private static GridPane grid;
 	private static ListView<slotSelection> slotList;
 	private static GridPane itemGrid;
+	private static slotSelection displayItem;
 
 	private static Build build;
 
@@ -159,10 +162,7 @@ public class Gearsets {
 		return r;
 	}
 
-	private static BorderPane gridContent() {
-		BorderPane r = new BorderPane();
-		r.setPadding(new Insets(10));
-
+	private static HBox gridContent() {
 		slotList = new ListView<slotSelection>();
 		slotList.setCellFactory(new Callback<ListView<slotSelection>, ListCell<slotSelection>>() {
 
@@ -171,137 +171,105 @@ public class Gearsets {
 				return new listCell();
 			}
 		});
-		
+		slotList.getSelectionModel().selectedItemProperty().addListener((e, o, n) -> displayItem(n));
+		slotList.prefHeightProperty().bind(fxMain.sMainRef.heightProperty().multiply(0.7));
+		slotList.setPrefWidth(400);
+
 		itemGrid = new GridPane();
 		itemGrid.setPadding(new Insets(10));
 		itemGrid.setHgap(5);
 		itemGrid.setVgap(5);
 
-		// https://stackoverflow.com/questions/27438629/listview-with-custom-content-in-javafx
-		
-		r.setLeft(slotList);
-		
+		VBox vb = new VBox(itemGrid);
+		vb.setSpacing(5);
+		vb.setPadding(new Insets(5));
+
+		HBox r = new HBox(slotList, vb);
+		r.setPadding(new Insets(10));
+		r.setSpacing(5);
+
 		updateContent();
-		
+
 		return r;
 	}
-	
+
 	private static void updateContent() {
+
 		if(build.getCurrentGearset() != null) {
 			List<slotSelection> slots = new ArrayList<slotSelection>();
 
 			for(GearSlot s : GearSlot.values()) slots.add(new slotSelection(s, build.getCurrentGearset().getItemBySlot(s)));
 
 			slotList.setItems(FXCollections.observableArrayList(slots));
+
+			// Updates display item
+			if(displayItem != null) {
+				for(slotSelection s : slots) if(displayItem.getSlot() == s.getSlot()) displayItem(s);
+			}
+
 		}
-	}
-	
-	private static void displayItem(slotSelection select) {
-		
+
 	}
 
-//
-//	/**
-//	 * The center content to show on the gearsets tab
-//	 * 
-//	 * @return GridPane content to display
-//	 */
-//	private static GridPane gridContent() {
-//		/*
-//		 * Setup:
-//		 * name | enchantments? | crafting (choices) | item set ? | [choose] | [delete]
-//		 */
-//
-//		grid = new GridPane();
-//		grid.setHgap(10);
-//		grid.setVgap(10);
-//		grid.setPadding(new Insets(10));
-//
-//		updateContent();
-//
-//		return grid;
-//	}
-//
-//	/**
-//	 * Updates the content of the gearsets
-//	 */
-//	public static void updateContent() {
-//		grid.getChildren().clear();
-//
-//		Text[] headers = {new Text("Slot"), new Text(""), new Text("Name"), new Text("Enchantments"), new Text("Crafting"), new Text("Set")};
-//
-//		// Headers
-//		grid.addRow(0, headers);
-//
-//		// per slot:
-//		int row = 1;
-//
-//		for(GearSlot slot : GearSlot.values()) {
-//			// Gets the item reference
-//			Iref ref = (build.getCurrentGearset() == null) ? null : build.getCurrentGearset().getItemBySlot(slot);
-//
-//			// Attempts to get the icon
-//			ImageView icon = (ref != null && ref.getItem().getIconViewSmall() != null) ? ref.getItem().getIconViewSmall() : new ImageView();
-//
-//			// Sets the name text, adds double-click feature to open the item if it exists
-//			Text name = new Text();
-//			name.setText((ref != null) ? ref.getItem().getName() : "");
-//			if(ref != null) name.setOnMouseClicked(click -> {
-//
-//				if(click.getClickCount() == 2) {
-//					fxEditItem.open(ref);
-//				}
-//
-//			});
-//
-//			// Gets and displays the enchantments of the item
-//			Text enchantments = new Text();
-//			if(ref != null) for(Enchref e : ref.getItem().getEnchantments()) enchantments.setText(enchantments.getText() + e.getDisplayName() + "\n");
-//
-//			// Crafting Choices
-//			VBox craftingChoices = new VBox();
-//			craftingChoices.setSpacing(10);
-//
-//			// Checks if there's anything to add for crafting
-//			if(ref != null && ref.getCrafting() != null) {
-//
-//				// Cycles through each of the crafting sets
-//				for(Craftref cref : ref.getCrafting()) {
-//					// Craft Display
-//					HBox h = new HBox(new Text(ref.getItem().getCraft(cref.getUUID()).getName()), new craftingChoice(ref, cref).toComboBox());
-//					h.setSpacing(2.5);
-//					craftingChoices.getChildren().add(h);
-//				}
-//
-//			}
-//
-//			// Button to select the item
-//			Button bSelect = new Button("Select " + slot.displayName() + "...");
-//			bSelect.setDisable(build.getCurrentGearset() == null);
-//			bSelect.setOnAction(e -> {
-//				Item i = new ItemPrompt().setSlot(slot.getItemSlot()).setItem(build.getCurrentGearset().getItemBySlot(slot)).showPrompt();
-//
-//				if(i != null) {
-//					build.getCurrentGearset().setItemBySlot(i, slot);
-//					updateContent();
-//				}
-//
-//			});
-//
-//			// Button to clear the item
-//			Button bClear = new Button("Clear");
-//			bClear.setDisable(build.getCurrentGearset() == null);
-//			bClear.setOnAction(e -> {
-//				build.getCurrentGearset().setItemBySlot((Iref) null, slot);
-//				updateContent();
-//			});
-//
-//			// Adds all the fields as a row
-//			grid.addRow(row++, new Text(slot.displayName()), icon, name, enchantments, craftingChoices, bSelect, bClear);
-//		}
-//
-//	}
-//
+	private static void displayItem(slotSelection slotsel) {
+		if(slotsel != null) displayItem = slotsel;
+
+		itemGrid.getChildren().clear();
+
+		Button bSelect = new Button("Select " + displayItem.getSlot().displayName());
+		bSelect.setDisable(build.getCurrentGearset() == null);
+		bSelect.setOnAction(e -> {
+			Item i = new ItemPrompt().setSlot(displayItem.getSlot().getItemSlot()).setItem(build.getCurrentGearset().getItemBySlot(displayItem.getSlot())).showPrompt();
+
+			if(i != null) {
+				build.getCurrentGearset().setItemBySlot(i, displayItem.getSlot());
+				updateContent();
+			}
+
+		});
+		
+		HBox buttons = new HBox(bSelect);
+		buttons.setSpacing(5);
+		buttons.setPadding(new Insets(5));
+
+		if(displayItem.getIref() != null) {
+
+			try {
+				itemGrid.add(displayItem.getIref().getItem().getIconViewSmall(), 0, 0);
+			} catch(Exception e) {}
+
+			Item item = displayItem.getIref().getItem();
+
+			Text itemName = new Text(item.getName());
+			itemName.setFont(new Font(14));
+
+			Text enchantments = new Text();
+
+			for(Enchref e : displayItem.getIref().getItem().getEnchantments()) {
+				enchantments.setText(enchantments.getText() + e.getDisplayName() + "\n");
+			}
+			
+			HBox attributeField = new HBox(enchantments);
+			
+			for(Craftref cref : displayItem.getIref().getCrafting()) {
+				// Craft Display
+				HBox h = new HBox(new Text(item.getCraft(cref.getUUID()).getName()), new craftingChoice(displayItem.getIref(), cref).toComboBox());
+				h.setSpacing(2.5);
+				attributeField.getChildren().add(h);
+			}
+			
+			
+			itemGrid.add(itemName, 1, 0);
+			itemGrid.add(buttons, 2, 0);
+			itemGrid.add(attributeField, 1, 1);
+			
+
+		} else {
+			itemGrid.add(buttons, 0, 0);
+		}
+
+	}
+
 	/**
 	 * Displays a prompt for the gearset name
 	 * 
@@ -376,6 +344,9 @@ public class Gearsets {
 			super();
 
 			image = new ImageView();
+			image.setPreserveRatio(true);
+			image.setFitWidth(Settings.appearance.icon.size);
+			image.setFitHeight(Settings.appearance.icon.size);
 
 			name = new Text();
 			name.setFont(new Font(12));
@@ -403,7 +374,7 @@ public class Gearsets {
 
 					try {
 						name.setText(item.getIref().getItem().getName());
-						image = item.getIref().getItem().getIconViewSmall();
+						image.setImage(item.getIref().getItem().getIcon());
 					} catch(Exception e) {}
 
 				}
@@ -416,6 +387,13 @@ public class Gearsets {
 		}
 	}
 
+	/**
+	 * Class that contains an iref and the slot it was specified with inside the gearset
+	 * 
+	 * @author Tealeaf
+	 * @see Iref
+	 * @see GearSlot
+	 */
 	private static class slotSelection {
 
 		private GearSlot slot;
@@ -430,16 +408,8 @@ public class Gearsets {
 			return slot;
 		}
 
-		public void setSlot(GearSlot slot) {
-			this.slot = slot;
-		}
-
 		public Iref getIref() {
 			return iref;
-		}
-
-		public void setIref(Iref iref) {
-			this.iref = iref;
 		}
 	}
 }
