@@ -1,5 +1,7 @@
 package fxTabs;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import application.Main;
@@ -21,6 +23,9 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Dialog;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.control.Tab;
@@ -33,7 +38,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.util.Callback;
 import vars.GearSlot;
 
 /**
@@ -45,7 +52,8 @@ public class Gearsets {
 
 	private static Tab tab;
 
-	private static GridPane grid;
+	// private static GridPane grid;
+	private static ListView<slotSelection> slotList;
 
 	private static Build build;
 
@@ -58,7 +66,7 @@ public class Gearsets {
 		content.setPadding(new Insets(15));
 		content.setTop(gridTop());
 		content.setCenter(gridContent());
-		
+
 		content.setOnKeyPressed(key -> {
 			if(key.getCode() == KeyCode.F5) updateContent();
 		});
@@ -148,107 +156,135 @@ public class Gearsets {
 		return r;
 	}
 
-	/**
-	 * The center content to show on the gearsets tab
-	 * 
-	 * @return GridPane content to display
-	 */
-	private static GridPane gridContent() {
-		/*
-		 * Setup:
-		 * name | enchantments? | crafting (choices) | item set ? | [choose] | [delete]
-		 */
+	private static void updateContent() {
+		List<slotSelection> slots = new ArrayList<slotSelection>();
 
-		grid = new GridPane();
-		grid.setHgap(10);
-		grid.setVgap(10);
-		grid.setPadding(new Insets(10));
+		for(GearSlot s : GearSlot.values()) slots.add(new slotSelection(s, build.getCurrentGearset().getItemBySlot(s)));
 
-		updateContent();
-
-		return grid;
+		slotList.setItems(FXCollections.observableArrayList(slots));
 	}
 
-	/**
-	 * Updates the content of the gearsets
-	 */
-	public static void updateContent() {
-		grid.getChildren().clear();
+	private static BorderPane gridContent() {
+		BorderPane r = new BorderPane();
 
-		Text[] headers = {new Text("Slot"), new Text(""), new Text("Name"), new Text("Enchantments"), new Text("Crafting"), new Text("Set")};
+		slotList = new ListView<slotSelection>();
+		slotList.setCellFactory(new Callback<ListView<slotSelection>, ListCell<slotSelection>>() {
 
-		// Headers
-		grid.addRow(0, headers);
-
-		// per slot:
-		int row = 1;
-
-		for(GearSlot slot : GearSlot.values()) {
-			// Gets the item reference
-			Iref ref = (build.getCurrentGearset() == null) ? null : build.getCurrentGearset().getItemBySlot(slot);
-
-			// Attempts to get the icon
-			ImageView icon = (ref != null && ref.getItem().getIconViewSmall() != null) ? ref.getItem().getIconViewSmall() : new ImageView();
-
-			// Sets the name text, adds double-click feature to open the item if it exists
-			Text name = new Text();
-			name.setText((ref != null) ? ref.getItem().getName() : "");
-			if(ref != null) name.setOnMouseClicked(click -> {
-
-				if(click.getClickCount() == 2) {
-					fxEditItem.open(ref);
-				}
-
-			});
-
-			// Gets and displays the enchantments of the item
-			Text enchantments = new Text();
-			if(ref != null) for(Enchref e : ref.getItem().getEnchantments()) enchantments.setText(enchantments.getText() + e.getDisplayName() + "\n");
-
-			// Crafting Choices
-			VBox craftingChoices = new VBox();
-			craftingChoices.setSpacing(10);
-
-			// Checks if there's anything to add for crafting
-			if(ref != null && ref.getCrafting() != null) {
-
-				// Cycles through each of the crafting sets
-				for(Craftref cref : ref.getCrafting()) {
-					// Craft Display
-					HBox h = new HBox(new Text(ref.getItem().getCraft(cref.getUUID()).getName()), new craftingChoice(ref, cref).toComboBox());
-					h.setSpacing(2.5);
-					craftingChoices.getChildren().add(h);
-				}
-
+			@Override
+			public ListCell<slotSelection> call(ListView<slotSelection> listView) {
+				return new listCell();
 			}
+		});
 
-			// Button to select the item
-			Button bSelect = new Button("Select " + slot.displayName() + "...");
-			bSelect.setDisable(build.getCurrentGearset() == null);
-			bSelect.setOnAction(e -> {
-				Item i = new ItemPrompt().setSlot(slot.getItemSlot()).setItem(build.getCurrentGearset().getItemBySlot(slot)).showPrompt();
+		r.setLeft(slotList);
 
-				if(i != null) {
-					build.getCurrentGearset().setItemBySlot(i, slot);
-					updateContent();
-				}
+		// https://stackoverflow.com/questions/27438629/listview-with-custom-content-in-javafx
 
-			});
-
-			// Button to clear the item
-			Button bClear = new Button("Clear");
-			bClear.setDisable(build.getCurrentGearset() == null);
-			bClear.setOnAction(e -> {
-				build.getCurrentGearset().setItemBySlot((Iref) null, slot);
-				updateContent();
-			});
-
-			// Adds all the fields as a row
-			grid.addRow(row++, new Text(slot.displayName()), icon, name, enchantments, craftingChoices, bSelect, bClear);
-		}
-
+		return r;
 	}
 
+//
+//	/**
+//	 * The center content to show on the gearsets tab
+//	 * 
+//	 * @return GridPane content to display
+//	 */
+//	private static GridPane gridContent() {
+//		/*
+//		 * Setup:
+//		 * name | enchantments? | crafting (choices) | item set ? | [choose] | [delete]
+//		 */
+//
+//		grid = new GridPane();
+//		grid.setHgap(10);
+//		grid.setVgap(10);
+//		grid.setPadding(new Insets(10));
+//
+//		updateContent();
+//
+//		return grid;
+//	}
+//
+//	/**
+//	 * Updates the content of the gearsets
+//	 */
+//	public static void updateContent() {
+//		grid.getChildren().clear();
+//
+//		Text[] headers = {new Text("Slot"), new Text(""), new Text("Name"), new Text("Enchantments"), new Text("Crafting"), new Text("Set")};
+//
+//		// Headers
+//		grid.addRow(0, headers);
+//
+//		// per slot:
+//		int row = 1;
+//
+//		for(GearSlot slot : GearSlot.values()) {
+//			// Gets the item reference
+//			Iref ref = (build.getCurrentGearset() == null) ? null : build.getCurrentGearset().getItemBySlot(slot);
+//
+//			// Attempts to get the icon
+//			ImageView icon = (ref != null && ref.getItem().getIconViewSmall() != null) ? ref.getItem().getIconViewSmall() : new ImageView();
+//
+//			// Sets the name text, adds double-click feature to open the item if it exists
+//			Text name = new Text();
+//			name.setText((ref != null) ? ref.getItem().getName() : "");
+//			if(ref != null) name.setOnMouseClicked(click -> {
+//
+//				if(click.getClickCount() == 2) {
+//					fxEditItem.open(ref);
+//				}
+//
+//			});
+//
+//			// Gets and displays the enchantments of the item
+//			Text enchantments = new Text();
+//			if(ref != null) for(Enchref e : ref.getItem().getEnchantments()) enchantments.setText(enchantments.getText() + e.getDisplayName() + "\n");
+//
+//			// Crafting Choices
+//			VBox craftingChoices = new VBox();
+//			craftingChoices.setSpacing(10);
+//
+//			// Checks if there's anything to add for crafting
+//			if(ref != null && ref.getCrafting() != null) {
+//
+//				// Cycles through each of the crafting sets
+//				for(Craftref cref : ref.getCrafting()) {
+//					// Craft Display
+//					HBox h = new HBox(new Text(ref.getItem().getCraft(cref.getUUID()).getName()), new craftingChoice(ref, cref).toComboBox());
+//					h.setSpacing(2.5);
+//					craftingChoices.getChildren().add(h);
+//				}
+//
+//			}
+//
+//			// Button to select the item
+//			Button bSelect = new Button("Select " + slot.displayName() + "...");
+//			bSelect.setDisable(build.getCurrentGearset() == null);
+//			bSelect.setOnAction(e -> {
+//				Item i = new ItemPrompt().setSlot(slot.getItemSlot()).setItem(build.getCurrentGearset().getItemBySlot(slot)).showPrompt();
+//
+//				if(i != null) {
+//					build.getCurrentGearset().setItemBySlot(i, slot);
+//					updateContent();
+//				}
+//
+//			});
+//
+//			// Button to clear the item
+//			Button bClear = new Button("Clear");
+//			bClear.setDisable(build.getCurrentGearset() == null);
+//			bClear.setOnAction(e -> {
+//				build.getCurrentGearset().setItemBySlot((Iref) null, slot);
+//				updateContent();
+//			});
+//
+//			// Adds all the fields as a row
+//			grid.addRow(row++, new Text(slot.displayName()), icon, name, enchantments, craftingChoices, bSelect, bClear);
+//		}
+//
+//	}
+//
 	/**
 	 * Displays a prompt for the gearset name
 	 * 
@@ -303,6 +339,90 @@ public class Gearsets {
 			this.getSelectionModel().selectedIndexProperty().addListener((e, o, n) -> ref.setIndex(n.intValue()));
 
 			return this;
+		}
+	}
+
+	/**
+	 * Custom cell used to display on the item selection
+	 * 
+	 * @see https://stackoverflow.com/questions/27438629/listview-with-custom-content-in-javafx
+	 * @author Tealeaf
+	 */
+	private static class listCell extends ListCell<slotSelection> {
+
+		private HBox content;
+		private ImageView image;
+		private Text name;
+		private Text slot;
+
+		public listCell() {
+			super();
+
+			image = new ImageView();
+
+			name = new Text();
+			name.setFont(new Font(12));
+
+			slot = new Text();
+			slot.setFont(new Font(10));
+
+			VBox vb = new VBox(name, slot);
+			vb.setSpacing(5);
+
+			content = new HBox(image, vb);
+			content.setSpacing(7.5);
+		}
+
+		@Override
+		protected void updateItem(slotSelection item, boolean empty) {
+			super.updateItem(item, empty);
+
+			if(item != null && !empty) {
+				// <== test for null item and empty parameter
+
+				slot.setText(item.getSlot().displayName());
+
+				if(item.getIref() != null) {
+
+					try {
+						name.setText(item.getIref().getItem().getName());
+						image = item.getIref().getItem().getIconViewSmall();
+					} catch(Exception e) {}
+
+				}
+
+				setGraphic(content);
+			} else {
+				setGraphic(null);
+			}
+
+		}
+	}
+
+	private static class slotSelection {
+
+		private GearSlot slot;
+		private Iref iref;
+
+		public slotSelection(GearSlot slot, Iref iref) {
+			this.slot = slot;
+			this.iref = iref;
+		}
+
+		public GearSlot getSlot() {
+			return slot;
+		}
+
+		public void setSlot(GearSlot slot) {
+			this.slot = slot;
+		}
+
+		public Iref getIref() {
+			return iref;
+		}
+
+		public void setIref(Iref iref) {
+			this.iref = iref;
 		}
 	}
 }
