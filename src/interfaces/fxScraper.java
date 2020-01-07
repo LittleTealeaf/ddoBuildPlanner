@@ -15,6 +15,10 @@ import scrapers.Compendium;
 public class fxScraper {
 
 	public static Item scrapePrompt() {
+		return scrapePrompt("");
+	}
+	
+	public static Item scrapePrompt(String initialName) {
 		Dialog<Item> dialog = new Dialog<Item>();
 		dialog.setTitle("Import Item");
 		dialog.setHeaderText("Import an Item from a website");
@@ -22,6 +26,7 @@ public class fxScraper {
 		Text lName = new Text("Item Name:");
 
 		TextField name = new TextField();
+		name.setText(initialName);
 
 		HBox hb = new HBox(lName, name);
 		hb.setSpacing(10);

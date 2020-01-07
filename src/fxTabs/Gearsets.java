@@ -377,6 +377,9 @@ public class Gearsets {
 						image.setImage(item.getIref().getItem().getIcon());
 					} catch(Exception e) {}
 
+				} else {
+					name.setText("");
+					image.setImage(null);
 				}
 
 				setGraphic(content);
