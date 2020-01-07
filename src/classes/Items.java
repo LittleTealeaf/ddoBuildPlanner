@@ -11,10 +11,16 @@ import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 
 import javafx.collections.FXCollections;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import util.system;
 import vars.ItemSlot;
 
@@ -116,16 +122,17 @@ public class Items {
 
 		TableColumn<Item, ImageView> cIcon = new TableColumn<Item, ImageView>("Icon");
 		cIcon.setCellValueFactory(new PropertyValueFactory<Item, ImageView>("iconViewSmall"));
-		cIcon.setPrefWidth(Settings.appearance.icon.size);
+		cIcon.setMaxWidth(Settings.appearance.icon.size);
+		cIcon.setMinWidth(Settings.appearance.icon.size);
 
 		TableColumn<Item, String> cName = new TableColumn<Item, String>("Name");
 		cName.setCellValueFactory(new PropertyValueFactory<Item, String>("name"));
+		cName.setMinWidth(100);
 
 		//TODO cell factory with worth wrap
 		
 		TableColumn<Item, String> cDescription = new TableColumn<Item, String>("Description");
 		cDescription.setCellValueFactory(new PropertyValueFactory<Item, String>("descriptionTrimmed"));
-		cDescription.maxWidthProperty().bind(table.widthProperty().multiply(0.5));
 
 		table.getColumns().addAll(cIcon, cName, cDescription);
 
@@ -138,5 +145,32 @@ public class Items {
 		} catch(Exception e) {}
 
 		return table;
+	}
+	
+	private static class cellDescription extends ListCell<Item> {
+
+		private TextArea content;
+
+		public cellDescription() {
+			super();
+
+			content.setWrapText(true);
+			
+		}
+
+		@Override
+		protected void updateItem(Item item, boolean empty) {
+			super.updateItem(item, empty);
+
+			if(item != null && !empty) {
+				
+				content.setText(item.getDescriptionTrimmed());
+
+				setGraphic(content);
+			} else {
+				setGraphic(null);
+			}
+
+		}
 	}
 }

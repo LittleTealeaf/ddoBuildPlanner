@@ -31,6 +31,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonBar.ButtonData;
@@ -66,6 +67,8 @@ public class Gearsets {
 		build = Main.loadedBuild;
 
 		tab = new Tab("Gearsets");
+		
+		
 
 		BorderPane content = new BorderPane();
 		content.setPadding(new Insets(15));
@@ -179,8 +182,11 @@ public class Gearsets {
 		itemGrid.setPadding(new Insets(10));
 		itemGrid.setHgap(5);
 		itemGrid.setVgap(5);
+		
+		TabPane tabs = new TabPane();
+		tabs.getTabs().add(breakdownTab());
 
-		VBox vb = new VBox(itemGrid);
+		VBox vb = new VBox(itemGrid,tabs);
 		vb.setSpacing(5);
 		vb.setPadding(new Insets(5));
 
@@ -190,6 +196,15 @@ public class Gearsets {
 
 		updateContent();
 
+		return r;
+	}
+	
+	private static Tab breakdownTab() {
+		Tab r = new Tab("Gear Breakdowns");
+		r.setClosable(false);
+		
+		
+		
 		return r;
 	}
 
@@ -249,7 +264,8 @@ public class Gearsets {
 				enchantments.setText(enchantments.getText() + e.getDisplayName() + "\n");
 			}
 			
-			HBox attributeField = new HBox(enchantments);
+			VBox attributeField = new VBox(enchantments);
+			attributeField.setSpacing(2.5);
 			
 			for(Craftref cref : displayItem.getIref().getCrafting()) {
 				// Craft Display
