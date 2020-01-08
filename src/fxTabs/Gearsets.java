@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import application.Main;
+import classes.Attribute;
 import classes.Build;
 import classes.Craftable;
 import classes.Craftref;
@@ -19,6 +20,7 @@ import interfaces.fxEditItem;
 import interfaces.fxMain;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
+import javafx.scene.control.Accordion;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -33,6 +35,7 @@ import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TitledPane;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.image.ImageView;
@@ -60,6 +63,7 @@ public class Gearsets {
 	private static ListView<slotSelection> slotList;
 	private static GridPane itemGrid;
 	private static slotSelection displayItem;
+	private static VBox breakdowns;
 
 	private static Build build;
 
@@ -67,8 +71,6 @@ public class Gearsets {
 		build = Main.loadedBuild;
 
 		tab = new Tab("Gearsets");
-		
-		
 
 		BorderPane content = new BorderPane();
 		content.setPadding(new Insets(15));
@@ -182,11 +184,12 @@ public class Gearsets {
 		itemGrid.setPadding(new Insets(10));
 		itemGrid.setHgap(5);
 		itemGrid.setVgap(5);
-		
+
 		TabPane tabs = new TabPane();
 		tabs.getTabs().add(breakdownTab());
+		
 
-		VBox vb = new VBox(itemGrid,tabs);
+		VBox vb = new VBox(itemGrid, tabs);
 		vb.setSpacing(5);
 		vb.setPadding(new Insets(5));
 
@@ -198,17 +201,117 @@ public class Gearsets {
 
 		return r;
 	}
-	
+
 	private static Tab breakdownTab() {
 		Tab r = new Tab("Gear Breakdowns");
 		r.setClosable(false);
+
+		breakdowns = new VBox();
+		breakdowns.setPadding(new Insets(10));
 		
+		VBox.setVgrow(breakdowns,Priority.ALWAYS);
+
+		updateBreakdowns();
+
 		
+		ScrollPane scrollview = new ScrollPane();
+		scrollview.setContent(breakdowns);
+		scrollview.setPrefHeight(100);
 		
+		r.setContent(scrollview);
+
 		return r;
 	}
 
+	private static void updateBreakdowns() {
+		
+		List<TitledPane> panes = new ArrayList<TitledPane>();
+
+		// Gets all the attributes
+		
+		if(build.getCurrentGearset() == null) return;
+
+		List<Attribute> attributes = build.getCurrentGearset().getAllAttributes();
+
+		System.out.println("it didn't break");
+		System.out.println(attributes);
+
+		// Optimal Way:
+		List<String> names = new ArrayList<String>();
+
+		/*
+		 * The following code will cycle through each attribute
+		 * if there's an attribute that it hasn't already accounted for
+		 * then it will compile that attribute and print it
+		 */
+		String name = "";
+
+		for(int i = 0; i < attributes.size(); i++) {
+			name = attributes.get(i).getName().toLowerCase(); // Grabs the name so we don't have to reference it
+
+			if(!names.contains(name)) {
+				// Cycles through all remaining attributes and grabs all that have the same name
+				List<Attribute> allAttributes = new ArrayList<Attribute>();
+				for(int j = i; j < attributes.size(); j++) if(attributes.get(j).getName().toLowerCase().contentEquals(name)) allAttributes.add(attributes.get(j));
+
+				// TODO checks
+
+				List<Attribute> usedAttributes = new ArrayList<Attribute>();
+
+				for(Attribute a : allAttributes) {
+					boolean included = false;
+					
+					Attribute remove = null;
+
+					for(Attribute b : usedAttributes) {
+
+						if(b.getType().toLowerCase().contentEquals(a.getType().toLowerCase())) {
+
+							if(a.getValue() > b.getValue()) { // TODO stacking?
+								remove = b;
+							} else included = true;
+
+						}
+
+					}
+					
+					usedAttributes.remove(remove);
+
+					if(!included) usedAttributes.add(a);
+				}
+
+				List<Attribute> unusedAttributes = new ArrayList<Attribute>();
+
+				for(Attribute a : allAttributes) if(!usedAttributes.contains(a)) unusedAttributes.add(a);
+
+				// TODO: add source to bonuses
+
+				String text = "Attributes";
+				for(Attribute a : usedAttributes) text += "\n" + a.getValue() + " " + a.getType();
+				text += "\n Unused Attributes";
+				for(Attribute a : unusedAttributes) text += "\n" + a.getValue() + " " + a.getType();
+
+				Text attText = new Text();
+				attText.setText(text);
+
+				TitledPane pane = new TitledPane();
+				pane.setText(name);
+				pane.setContent(attText);
+				panes.add(pane);
+				
+				System.out.println("Added " + name);
+
+				names.add(name);
+			}
+
+		}
+		
+		breakdowns.getChildren().addAll(panes);
+		
+	}
+
 	private static void updateContent() {
+		// Updating Slots
 
 		if(build.getCurrentGearset() != null) {
 			List<slotSelection> slots = new ArrayList<slotSelection>();
@@ -224,6 +327,7 @@ public class Gearsets {
 
 		}
 
+		updateBreakdowns();
 	}
 
 	private static void displayItem(slotSelection slotsel) {
@@ -242,7 +346,7 @@ public class Gearsets {
 			}
 
 		});
-		
+
 		HBox buttons = new HBox(bSelect);
 		buttons.setSpacing(5);
 		buttons.setPadding(new Insets(5));
@@ -263,23 +367,20 @@ public class Gearsets {
 			for(Enchref e : displayItem.getIref().getItem().getEnchantments()) {
 				enchantments.setText(enchantments.getText() + e.getDisplayName() + "\n");
 			}
-			
+
 			VBox attributeField = new VBox(enchantments);
 			attributeField.setSpacing(2.5);
-			
+
 			for(Craftref cref : displayItem.getIref().getCrafting()) {
 				// Craft Display
 				HBox h = new HBox(new Text(item.getCraft(cref.getUUID()).getName()), new craftingChoice(displayItem.getIref(), cref).toComboBox());
 				h.setSpacing(2.5);
 				attributeField.getChildren().add(h);
 			}
-			
-			
+
 			itemGrid.add(itemName, 1, 0);
 			itemGrid.add(buttons, 2, 0);
 			itemGrid.add(attributeField, 1, 1);
-			
-
 		} else {
 			itemGrid.add(buttons, 0, 0);
 		}

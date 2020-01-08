@@ -61,4 +61,8 @@ public class Attribute {
 	public void removeCheck(String check) {
 		if(this.checks.contains(check)) this.checks.remove(check);
 	}
+	
+	public String toString() {
+		return value + " " + type + " " + name;
+	}
 }

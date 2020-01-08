@@ -46,7 +46,7 @@ public class Gearset {
 
 	public List<Attribute> getAllAttributes() {
 		List<Attribute> r = new ArrayList<Attribute>();
-		for(Iref i : getAllIrefs()) for(Enchref e : i.getEnchantments()) r.addAll(e.getAttributes());
+		for(Iref i : getAllIrefs()) if(i != null) for(Enchref e : i.getEnchantments()) r.addAll(e.getAttributes());
 		return r;
 	}
 

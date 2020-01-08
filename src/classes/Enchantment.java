@@ -99,9 +99,9 @@ public class Enchantment {
 		if(attributes.contains(attribute)) attributes.remove(attribute);
 	}
 
-	public List<Attribute> getAttributes(String bonus, double value) {
+	public List<Attribute> getAttributes(String type, String bonus, double value) {
 		List<Attribute> r = new ArrayList<Attribute>();
-		for(AttributeBonus b : attributes) r.add(b.toAttribute(bonus, value));
+		for(AttributeBonus b : attributes) r.add(b.toAttribute(type,bonus, value));
 		return r;
 	}
 
@@ -173,8 +173,8 @@ public class Enchantment {
 			this.value = value;
 		}
 
-		public Attribute toAttribute(String bonus, double value) {
-			return new Attribute(attribute, this.bonus.contentEquals("") ? bonus : this.bonus, value * Double.parseDouble(this.value.replace("[value]", value + "")));
+		public Attribute toAttribute(String type, String bonus, double value) {
+			return new Attribute(attribute.replace("[type]", type), this.bonus.replace("[bonus]", bonus), Double.parseDouble(this.value.replace("[value]", value + "")));
 		}
 	}
 }
