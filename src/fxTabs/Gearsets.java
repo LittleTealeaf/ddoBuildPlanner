@@ -36,6 +36,8 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
+import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeView;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.image.ImageView;
@@ -63,7 +65,8 @@ public class Gearsets {
 	private static ListView<slotSelection> slotList;
 	private static GridPane itemGrid;
 	private static slotSelection displayItem;
-	private static VBox breakdowns;
+	private static TreeView<Breakdown> breakdowns;
+	private static TreeView<Attribute> furtherBreakdowns;
 
 	private static Build build;
 
@@ -187,7 +190,6 @@ public class Gearsets {
 
 		TabPane tabs = new TabPane();
 		tabs.getTabs().add(breakdownTab());
-		
 
 		VBox vb = new VBox(itemGrid, tabs);
 		vb.setSpacing(5);
@@ -206,18 +208,19 @@ public class Gearsets {
 		Tab r = new Tab("Gear Breakdowns");
 		r.setClosable(false);
 
-		breakdowns = new VBox();
-		breakdowns.setPadding(new Insets(10));
+		breakdowns = new TreeView<Breakdown>();
+		furtherBreakdowns = new TreeView<Attribute>();
 		
-		VBox.setVgrow(breakdowns,Priority.ALWAYS);
-
+		HBox content = new HBox(breakdowns,furtherBreakdowns);
+		content.setSpacing(10);
+		
 		updateBreakdowns();
 
-		
 		ScrollPane scrollview = new ScrollPane();
-		scrollview.setContent(breakdowns);
-		scrollview.setPrefHeight(100);
-		
+		scrollview.setContent(content);
+		scrollview.setPrefHeight(500);
+		scrollview.setPrefWidth(300);
+
 		r.setContent(scrollview);
 
 		return r;
@@ -225,10 +228,11 @@ public class Gearsets {
 
 	private static void updateBreakdowns() {
 		
-		List<TitledPane> panes = new ArrayList<TitledPane>();
-
-		// Gets all the attributes
+		TreeItem<Breakdown> root = new TreeItem<Breakdown>();
 		
+		
+		// Gets all the attributes
+
 		if(build.getCurrentGearset() == null) return;
 
 		List<Attribute> attributes = build.getCurrentGearset().getAllAttributes();
@@ -256,58 +260,22 @@ public class Gearsets {
 
 				// TODO checks
 
-				List<Attribute> usedAttributes = new ArrayList<Attribute>();
+				Breakdown breakdown = new Breakdown(name,allAttributes);
 
-				for(Attribute a : allAttributes) {
-					boolean included = false;
-					
-					Attribute remove = null;
-
-					for(Attribute b : usedAttributes) {
-
-						if(b.getType().toLowerCase().contentEquals(a.getType().toLowerCase())) {
-
-							if(a.getValue() > b.getValue()) { // TODO stacking?
-								remove = b;
-							} else included = true;
-
-						}
-
-					}
-					
-					usedAttributes.remove(remove);
-
-					if(!included) usedAttributes.add(a);
-				}
-
-				List<Attribute> unusedAttributes = new ArrayList<Attribute>();
-
-				for(Attribute a : allAttributes) if(!usedAttributes.contains(a)) unusedAttributes.add(a);
-
-				// TODO: add source to bonuses
-
-				String text = "Attributes";
-				for(Attribute a : usedAttributes) text += "\n" + a.getValue() + " " + a.getType();
-				text += "\n Unused Attributes";
-				for(Attribute a : unusedAttributes) text += "\n" + a.getValue() + " " + a.getType();
-
-				Text attText = new Text();
-				attText.setText(text);
-
-				TitledPane pane = new TitledPane();
-				pane.setText(name);
-				pane.setContent(attText);
-				panes.add(pane);
+				TreeItem<Breakdown> tree = new TreeItem<Breakdown>(breakdown);
+				root.getChildren().add(tree);
 				
-				System.out.println("Added " + name);
-
 				names.add(name);
 			}
 
 		}
+
+		breakdowns.setRoot(root);
+		breakdowns.setShowRoot(false);
 		
-		breakdowns.getChildren().addAll(panes);
-		
+	}
+	
+	private static void updateBreakdownDisplay() {
 	}
 
 	private static void updateContent() {
@@ -363,6 +331,8 @@ public class Gearsets {
 			itemName.setFont(new Font(14));
 
 			Text enchantments = new Text();
+			
+			//TODO bug: seems changing the thingy causes it to add the enchantment to this list
 
 			for(Enchref e : displayItem.getIref().getItem().getEnchantments()) {
 				enchantments.setText(enchantments.getText() + e.getDisplayName() + "\n");
@@ -438,7 +408,10 @@ public class Gearsets {
 		public ComboBox<Enchref> toComboBox() {
 			this.getItems().addAll(craftable.getChoices());
 			this.getSelectionModel().select(craftable.getChoice(ref.getIndex()));
-			this.getSelectionModel().selectedIndexProperty().addListener((e, o, n) -> ref.setIndex(n.intValue()));
+			this.getSelectionModel().selectedIndexProperty().addListener((e, o, n) -> {
+				ref.setIndex(n.intValue());
+				updateContent();
+			});
 
 			return this;
 		}
@@ -504,6 +477,62 @@ public class Gearsets {
 				setGraphic(null);
 			}
 
+		}
+	}
+
+	private static class Breakdown {
+
+		private String name;
+		private String label;
+		private List<Attribute> usedAttributes;
+		private List<Attribute> unusedAttributes;
+
+		private Breakdown(String name, List<Attribute> attributes) {
+			this.name = name;
+			usedAttributes = new ArrayList<Attribute>();
+			unusedAttributes = new ArrayList<Attribute>();
+
+			// Sorting between used and unused
+			List<String> types = new ArrayList<String>();
+
+			for(Attribute a : attributes) if(!types.contains(a.getType().toLowerCase())) {
+				usedAttributes.add(a);
+				types.add(a.getType().toLowerCase());
+			} else {
+				int index = types.indexOf(a.getType().toLowerCase());
+
+				if(usedAttributes.get(index).getValue() < a.getValue()) {
+					unusedAttributes.add(usedAttributes.get(index));
+					usedAttributes.set(index, a);
+				} else {
+					unusedAttributes.add(a);
+				}
+
+			}
+			
+			//TODO label sort
+		}
+
+		public String getName() {
+			return name;
+		}
+
+		public String getLabel() {
+			return label;
+		}
+
+		public List<Attribute> getUsedAttributes() {
+			return usedAttributes;
+		}
+
+		public List<Attribute> getUnusedAttributes() {
+			return unusedAttributes;
+		}
+		
+		public String toString() {
+			double total = 0;
+			for(Attribute a : usedAttributes) total += a.getValue();
+			return total + " " + name;
 		}
 	}
 
