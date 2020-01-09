@@ -350,7 +350,7 @@ public class Gearsets {
 			
 			//TODO bug: seems changing the thingy causes it to add the enchantment to this list
 
-			for(Enchref e : displayItem.getIref().getItem().getEnchantments()) {
+			for(Enchref e : item.getEnchantments()) {
 				enchantments.setText(enchantments.getText() + e.getDisplayName() + "\n");
 			}
 
