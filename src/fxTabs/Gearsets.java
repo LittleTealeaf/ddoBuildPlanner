@@ -50,6 +50,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Callback;
+import util.string;
 import vars.GearSlot;
 
 /**
@@ -66,7 +67,7 @@ public class Gearsets {
 	private static GridPane itemGrid;
 	private static slotSelection displayItem;
 	private static TreeView<Breakdown> breakdowns;
-	private static TreeView<Attribute> furtherBreakdowns;
+	private static TreeView<String> displayBreakdown;
 
 	private static Build build;
 
@@ -74,11 +75,10 @@ public class Gearsets {
 		build = Main.loadedBuild;
 
 		tab = new Tab("Gearsets");
-
-		BorderPane content = new BorderPane();
-		content.setPadding(new Insets(15));
-		content.setTop(gridTop());
-		content.setCenter(gridContent());
+		
+		VBox content = new VBox(contentTop(),contentCenter());
+		content.setSpacing(10);
+		content.setPadding(new Insets(10));
 
 		content.setOnKeyPressed(key -> {
 			if(key.getCode() == KeyCode.F5) updateContent();
@@ -100,7 +100,7 @@ public class Gearsets {
 	 * 
 	 * @return GridPane content to show
 	 */
-	private static GridPane gridTop() {
+	private static GridPane contentTop() {
 		GridPane r = new GridPane();
 		r.setHgap(10);
 		r.setPadding(new Insets(10));
@@ -170,7 +170,7 @@ public class Gearsets {
 		return r;
 	}
 
-	private static HBox gridContent() {
+	private static HBox contentCenter() {
 		slotList = new ListView<slotSelection>();
 		slotList.setCellFactory(new Callback<ListView<slotSelection>, ListCell<slotSelection>>() {
 
@@ -194,6 +194,7 @@ public class Gearsets {
 		VBox vb = new VBox(itemGrid, tabs);
 		vb.setSpacing(5);
 		vb.setPadding(new Insets(5));
+		HBox.setHgrow(vb, Priority.ALWAYS);
 
 		HBox r = new HBox(slotList, vb);
 		r.setPadding(new Insets(10));
@@ -209,17 +210,17 @@ public class Gearsets {
 		r.setClosable(false);
 
 		breakdowns = new TreeView<Breakdown>();
-		furtherBreakdowns = new TreeView<Attribute>();
+		displayBreakdown = new TreeView<String>();
 		
-		HBox content = new HBox(breakdowns,furtherBreakdowns);
+		HBox content = new HBox(breakdowns,displayBreakdown);
 		content.setSpacing(10);
 		
 		updateBreakdowns();
 
 		ScrollPane scrollview = new ScrollPane();
 		scrollview.setContent(content);
-		scrollview.setPrefHeight(500);
-		scrollview.setPrefWidth(300);
+//		scrollview.setPrefHeight(500);
+//		scrollview.setPrefWidth(300);
 
 		r.setContent(scrollview);
 
@@ -272,10 +273,25 @@ public class Gearsets {
 
 		breakdowns.setRoot(root);
 		breakdowns.setShowRoot(false);
-		
+		breakdowns.getSelectionModel().selectedItemProperty().addListener((e,o,n) -> displayBreakdown(n.getValue()));
 	}
 	
-	private static void updateBreakdownDisplay() {
+	private static void displayBreakdown(Breakdown bd) {
+		TreeItem<String> root = new TreeItem<String>();
+		
+		TreeItem<String> used = new TreeItem<String>("Active Bonuses");
+		used.setExpanded(true);
+		for(Attribute a : bd.getUsedAttributes()) used.getChildren().add(new TreeItem<String>(a.getValue() + " " + a.getType()));
+		
+		TreeItem<String> unused = new TreeItem<String>("Inactive Bonuses");
+		unused.setExpanded(true);
+		for(Attribute a : bd.getUnusedAttributes()) unused.getChildren().add(new TreeItem<String>(a.getValue() + " " + a.getType()));
+		
+		root.getChildren().add(used);
+		root.getChildren().add(unused);
+		
+		displayBreakdown.setRoot(root);
+		displayBreakdown.setShowRoot(false);
 	}
 
 	private static void updateContent() {
@@ -383,6 +399,8 @@ public class Gearsets {
 		Optional<String> r = dialog.showAndWait();
 		return r.isEmpty() ? null : r.get();
 	}
+	
+	
 
 	/**
 	 * This class is a representation of a craftign choice used to display
@@ -480,6 +498,11 @@ public class Gearsets {
 		}
 	}
 
+	/**
+	 * A Class that 
+	 * @author Tealeaf
+	 *
+	 */
 	private static class Breakdown {
 
 		private String name;
@@ -495,11 +518,11 @@ public class Gearsets {
 			// Sorting between used and unused
 			List<String> types = new ArrayList<String>();
 
-			for(Attribute a : attributes) if(!types.contains(a.getType().toLowerCase())) {
+			for(Attribute a : attributes) if(!types.contains(string.properTitle(a.getType()))) {
 				usedAttributes.add(a);
-				types.add(a.getType().toLowerCase());
+				types.add(string.properTitle(a.getType()));
 			} else {
-				int index = types.indexOf(a.getType().toLowerCase());
+				int index = types.indexOf(string.properTitle(a.getType()));
 
 				if(usedAttributes.get(index).getValue() < a.getValue()) {
 					unusedAttributes.add(usedAttributes.get(index));

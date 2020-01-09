@@ -2,6 +2,8 @@ package classes;
 
 import java.util.List;
 
+import util.string;
+
 public class Attribute {
 
 	private String name; // ID
@@ -20,6 +22,12 @@ public class Attribute {
 		this.name = name;
 		this.type = type;
 		this.value = value;
+	}
+	
+	public Attribute(Attribute a) {
+		this.name = a.getName();
+		this.type = a.getType();
+		this.value = a.getValue();
 	}
 
 	public String getName() {
@@ -63,6 +71,6 @@ public class Attribute {
 	}
 	
 	public String toString() {
-		return value + " " + type + " " + name;
+		return string.properTitle( value + " " + type + " " + name);
 	}
 }
