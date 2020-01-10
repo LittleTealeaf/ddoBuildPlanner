@@ -2,6 +2,11 @@ package classes;
 
 import java.util.List;
 
+/**
+ * An object that references a given {@link Enchantment} with a set type, bonus, and value
+ * @author Tealeaf
+ *
+ */
 public class Enchref {
 
 	/**
@@ -30,10 +35,18 @@ public class Enchref {
 	 */
 	private transient Enchantment enchantment;
 
+	/**
+	 * Creates an {@link Enchref} object that references a given {@link Enchantment}
+	 * @param e {@link Enchantment} to reference
+	 */
 	public Enchref(Enchantment e) {
 		this(e.getUUID());
 	}
 
+	/**
+	 * Creates a {@link Enchantment} object that references a set {@link UUID}
+	 * @param uuid
+	 */
 	public Enchref(String uuid) {
 		this.uuid = uuid;
 		this.type = "";
@@ -41,6 +54,8 @@ public class Enchref {
 		this.value = 0;
 	}
 
+	//TODO finish commenting 
+	
 	public Enchref(String uuid, String type, String bonus, double value) {
 		this.uuid = uuid;
 		this.type = type;

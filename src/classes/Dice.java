@@ -3,29 +3,100 @@ package classes;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * An object that represents a given dice roll. It contains a starting roll, followed by adding an
+ * number, multiplying that sum by a coefficient, and finally adding a final number
+ * 
+ * @author Tealeaf
+ */
 public class Dice {
 
+	/**
+	 * First Coefficient of the dice
+	 * <br>
+	 * <code>X[_d_+_]+_</code>
+	 */
 	private double coeff;
+	/**
+	 * Number of dice rolled
+	 * <br>
+	 * <code>_[Xd_+_]+_</code>
+	 */
 	private int dieCount;
+	/**
+	 * Number of sides on the dice
+	 * <br>
+	 * <code>_[_dX+_]+_</code>
+	 */
 	private int dieSides;
+	/**
+	 * Number to add before multiplying by the {@link #coeff}
+	 * <br>
+	 * <code>_[_d_+X]+_</code>
+	 */
 	private double preAdd;
+	/**
+	 * Final number to add to the end of the roll
+	 * <br>
+	 * <code>_[_d_+_]+X</code>
+	 */
 	private double postAdd;
 
+	/**
+	 * Marks if the dice is in a standard format where it can be removed to save space
+	 */
 	private transient boolean isNewDice;
 
+	/**
+	 * Creates an empty {@link Dice} object
+	 * <br>
+	 * <code> 1[0d0+0]+0</code>
+	 */
 	public Dice() {
 		this(0, 0);
 		isNewDice = true;
 	}
 
+	/**
+	 * Creates a {@link Dice} object with a set dice count and sides
+	 * <br>
+	 * <br>
+	 * <code> 1 [ {@link #dieCount} d {@link #dieSides} + 0]  + 0</code>
+	 * 
+	 * @param count {@link #dieCount} Number of dice to roll
+	 * @param sides {@link #dieSides} Number of sides on the dice
+	 */
 	public Dice(int count, int sides) {
 		this(count, sides, 0);
 	}
 
+	/**
+	 * Creates a {@link Dice} object with a set dice count, sides, and bonus
+	 * <br>
+	 * <br>
+	 * <code> 1 [ {@link #dieCount} d {@link #dieSides} + {@link #preAdd} ]  + 0</code>
+	 * 
+	 * @param count {@link #dieCount} Number of dice to roll
+	 * @param sides {@link #dieSides} Number of sides on the dice
+	 * @param bonus {@link #preAdd} Number to add to the die roll
+	 */
 	public Dice(int count, int sides, double bonus) {
 		this(1, count, sides, bonus, 0);
 	}
 
+	/**
+	 * Creates a {@link Dice} object with a set coefficient dice count, sides, initial bonus, and final
+	 * bonus
+	 * <br>
+	 * <br>
+	 * <code> {@link #coeff} [ {@link #dieCount} d {@link #dieSides} + {@link #preAdd} ]  + {@link #postAdd}</code>
+	 * 
+	 * @param coefficient {@link #coeff} Number to multiply the initial sum with
+	 * @param count       {@link #dieCount} Number of dice to roll
+	 * @param sides       {@link #dieSides} Number of sides on the dice
+	 * @param bonus       {@link #preAdd} Number to add to the initial die roll
+	 * @param postAdd     {@link #postAdd} Number to add to the final die roll
+	 */
 	public Dice(double coefficient, int count, int sides, double preAdd, double postAdd) {
 		this.coeff = coefficient;
 		this.dieCount = count;
@@ -35,6 +106,11 @@ public class Dice {
 		isNewDice = false;
 	}
 
+	/**
+	 * Creates a dice object by parsing a string list input
+	 * 
+	 * @param input
+	 */
 	public Dice(List<String> input) {
 		this();
 
@@ -132,7 +208,7 @@ public class Dice {
 	/**
 	 * Returns if the dice variables are set to default
 	 * 
-	 * @return
+	 * @return <code>True</code> if the dice is in it's default form
 	 */
 	public boolean isDefault() {
 
@@ -202,46 +278,96 @@ public class Dice {
 		return r;
 	}
 
+	/**
+	 * Gets the {@link #coeff} of the {@link Dice}
+	 * 
+	 * @return The set {@link #coeff}
+	 */
 	public double getCoeff() {
 		return coeff;
 	}
 
+	/**
+	 * Sets the {@link #coeff} of the {@link Dice}
+	 * 
+	 * @param coeff New {@link #coeff} to assign to the {@link Dice}
+	 */
 	public void setCoeff(double coeff) {
 		this.coeff = coeff;
 		isNewDice = false;
 	}
 
+	/**
+	 * Gets the {@link #dieCount} of the {@link Dice}
+	 * 
+	 * @return The {@link #dieCount} of the {@link Dice}
+	 */
 	public int getDieCount() {
 		return dieCount;
 	}
 
+	/**
+	 * Sets the {@link #dieCount} of the {@link Dice}
+	 * 
+	 * @param coeff New {@link #dieCount} to assign to the {@link Dice}
+	 */
 	public void setDieCount(int dieCount) {
 		this.dieCount = dieCount;
 		isNewDice = false;
 	}
 
+	/**
+	 * Gets the {@link #dieSides} of the {@link Dice}
+	 * 
+	 * @return The {@link #dieSides} of the {@link Dice}
+	 */
 	public int getDieSides() {
 		return dieSides;
 	}
 
+	/**
+	 * Sets the {@link #dieSides} of the {@link Dice}
+	 * 
+	 * @param coeff New {@link #dieSides} to assign to the {@link Dice}
+	 */
 	public void setDieSides(int dieSides) {
 		this.dieSides = dieSides;
 		isNewDice = false;
 	}
 
+	/**
+	 * Gets the {@link #preAdd} of the {@link Dice}
+	 * 
+	 * @return The {@link #preAdd} of the {@link Dice}
+	 */
 	public double getPreAdd() {
 		return preAdd;
 	}
 
+	/**
+	 * Sets the {@link #preAdd} of the {@link Dice}
+	 * 
+	 * @param coeff New {@link #preAdd} to assign to the {@link Dice}
+	 */
 	public void setPreAdd(double preAdd) {
 		this.preAdd = preAdd;
 		isNewDice = false;
 	}
 
+	/**
+	 * Gets the {@link #postAdd} of the {@link Dice}
+	 * 
+	 * @return The {@link #postAdd} of the {@link Dice}
+	 */
 	public double getPostAdd() {
 		return postAdd;
 	}
 
+	/**
+	 * Sets the {@link #postAdd} of the {@link Dice}
+	 * 
+	 * @param coeff New {@link #postAdd} to assign to the {@link Dice}
+	 */
 	public void setPostAdd(double postAdd) {
 		this.postAdd = postAdd;
 		isNewDice = false;
