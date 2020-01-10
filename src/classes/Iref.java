@@ -42,7 +42,7 @@ public class Iref {
 	}
 
 	public Item getItem() {
-		return (temp == null) ? (temp = Items.readItem(uuid)) : temp;
+		return (temp == null) ? (temp = Items.getItem(uuid)) : temp;
 	}
 
 	public List<Craftref> getCrafting() {

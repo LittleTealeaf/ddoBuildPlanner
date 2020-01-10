@@ -17,13 +17,17 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import util.system;
 import vars.ItemSlot;
 
+/**
+ * Writing and Reading of the local storage of {@link Item items}<br>
+ * Items are stored under the 'Items' folder of the workspace
+ * 
+ * @author Tealeaf
+ * @see Item
+ * @see system
+ */
 public class Items {
 
 	/*
@@ -42,20 +46,45 @@ public class Items {
 	private static long lastModified;
 
 	/**
-	 * Loaded Items
+	 * Directory of the items folder
+	 * 
+	 * @see system#getAppFile(String...)
+	 */
+	private static File dir = system.getAppFile("items");
+
+	/**
+	 * All the currently loaded {@link Item Items}
+	 * 
+	 * @see Item
+	 * @see #getAllItems()
 	 */
 	private static List<Item> items;
 
-	public static Item readItem(String ID) {
+	/**
+	 * Returns an {@link Item} from the local database
+	 * 
+	 * @param UUID Unique Identifier of the {@link Item}
+	 * @return {@link Item} with the given UUID
+	 * @see system
+	 */
+	private static Item readItem(String UUID) {
 
 		try {
-			return system.objectJSON.fromJson(new FileReader(getFile(ID)), Item.class);
+			return system.objectJSON.fromJson(new FileReader(getFile(UUID)), Item.class);
 		} catch(Exception e) {
 			return null;
 		}
 
 	}
 
+	/**
+	 * Saves an {@link Item} into the database, writing a JSON. This will assign the {@link Item} a
+	 * random UUID if the item has no existing UUID
+	 * 
+	 * @param i {@link Item} to save
+	 * @see {@link Item}
+	 * @see {@link system}
+	 */
 	public static void saveItem(Item i) {
 
 		try {
@@ -68,20 +97,32 @@ public class Items {
 
 	}
 
+	//TODO finish this comment
+	/**
+	 * Gets an item from a UUID<br><br>
+	 * First checks if the loaded items have been updated
+	 * 
+	 * @param uuid
+	 * @return
+	 */
 	public static Item getItem(String uuid) {
 
-		try {
-			return system.objectJSON.fromJson(new FileReader(getFile(uuid)), Item.class);
-		} catch(JsonSyntaxException | JsonIOException | FileNotFoundException e) {
-			return null;
+		if(dir.lastModified() == lastModified) {
+			for(Item i : items) if(i.getUUID().contentEquals(uuid)) return i;
+		} else {
+			for(int i = 0; i < items.size(); i++) if(items.get(i).getUUID().contentEquals(uuid)) {
+				items.remove(i);
+				i--;
+			}
+			Item r = readItem(uuid);
+			items.add(r);
+			return r;
 		}
-
+		return null;
 	}
 
 	public static List<Item> getAllItems() {
 		List<Item> r = new ArrayList<Item>();
-
-		File dir = system.getAppFile("items");
 
 		if(dir.lastModified() == lastModified) return items;
 
@@ -145,30 +186,5 @@ public class Items {
 		} catch(Exception e) {}
 
 		return table;
-	}
-
-	private static class cellDescription extends ListCell<Item> {
-
-		private TextArea content;
-
-		public cellDescription() {
-			super();
-
-			content.setWrapText(true);
-		}
-
-		@Override
-		protected void updateItem(Item item, boolean empty) {
-			super.updateItem(item, empty);
-
-			if(item != null && !empty) {
-				content.setText(item.getDescriptionTrimmed());
-
-				setGraphic(content);
-			} else {
-				setGraphic(null);
-			}
-
-		}
 	}
 }
