@@ -129,8 +129,8 @@ public class Items {
 		cName.setCellValueFactory(new PropertyValueFactory<Item, String>("name"));
 		cName.setMinWidth(100);
 
-		//TODO cell factory with worth wrap
-		
+		// TODO cell factory with worth wrap
+
 		TableColumn<Item, String> cDescription = new TableColumn<Item, String>("Description");
 		cDescription.setCellValueFactory(new PropertyValueFactory<Item, String>("descriptionTrimmed"));
 
@@ -146,7 +146,7 @@ public class Items {
 
 		return table;
 	}
-	
+
 	private static class cellDescription extends ListCell<Item> {
 
 		private TextArea content;
@@ -155,7 +155,6 @@ public class Items {
 			super();
 
 			content.setWrapText(true);
-			
 		}
 
 		@Override
@@ -163,7 +162,6 @@ public class Items {
 			super.updateItem(item, empty);
 
 			if(item != null && !empty) {
-				
 				content.setText(item.getDescriptionTrimmed());
 
 				setGraphic(content);

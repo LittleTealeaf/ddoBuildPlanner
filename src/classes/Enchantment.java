@@ -63,14 +63,29 @@ public class Enchantment {
 		return parseVars(ench, displayName);
 	}
 
+	/**
+	 * Sets the display name of the enchantment
+	 * 
+	 * @param displayName
+	 */
 	public void setDisplayName(String displayName) {
 		this.displayName = displayName;
 	}
 
+	/**
+	 * Gets the enchantment name
+	 * 
+	 * @return Enchantment Name
+	 */
 	public String getName() {
 		return name;
 	}
 
+	/**
+	 * Sets the enchantment name
+	 * 
+	 * @param name Name to give the enchantment
+	 */
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -101,7 +116,7 @@ public class Enchantment {
 
 	public List<Attribute> getAttributes(String type, String bonus, double value) {
 		List<Attribute> r = new ArrayList<Attribute>();
-		for(AttributeBonus b : attributes) r.add(b.toAttribute(type,bonus, value));
+		for(AttributeBonus b : attributes) r.add(b.toAttribute(type, bonus, value));
 		return r;
 	}
 
@@ -129,6 +144,11 @@ public class Enchantment {
 		return r;
 	}
 
+	/**
+	 * A representation of an attribute template, uses 'variables' such as [type] [bonus] [value]
+	 * @author Tealeaf
+	 *@see #toAttribute(String, String, double) toAttribute - converts this class into an attribute class
+	 */
 	public static class AttributeBonus {
 
 		private String attribute;
@@ -173,6 +193,15 @@ public class Enchantment {
 			this.value = value;
 		}
 
+		/**
+		 * Converts to an attribute, parsing out all the variables
+		 * 
+		 * @param type  Enchantment Type
+		 * @param bonus Bonus Type of the value
+		 * @param value Value of the enchantment
+		 * @return Constructed Attribute
+		 * @see Attribute
+		 */
 		public Attribute toAttribute(String type, String bonus, double value) {
 			return new Attribute(attribute.replace("[type]", type), this.bonus.replace("[bonus]", bonus), Double.parseDouble(this.value.replace("[value]", value + "")));
 		}

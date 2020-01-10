@@ -75,8 +75,8 @@ public class Gearsets {
 		build = Main.loadedBuild;
 
 		tab = new Tab("Gearsets");
-		
-		VBox content = new VBox(contentTop(),contentCenter());
+
+		VBox content = new VBox(contentTop(), contentCenter());
 		content.setSpacing(10);
 		content.setPadding(new Insets(10));
 
@@ -211,10 +211,10 @@ public class Gearsets {
 
 		breakdowns = new TreeView<Breakdown>();
 		displayBreakdown = new TreeView<String>();
-		
-		HBox content = new HBox(breakdowns,displayBreakdown);
+
+		HBox content = new HBox(breakdowns, displayBreakdown);
 		content.setSpacing(10);
-		
+
 		updateBreakdowns();
 
 		ScrollPane scrollview = new ScrollPane();
@@ -228,18 +228,13 @@ public class Gearsets {
 	}
 
 	private static void updateBreakdowns() {
-		
 		TreeItem<Breakdown> root = new TreeItem<Breakdown>();
-		
-		
+
 		// Gets all the attributes
 
 		if(build.getCurrentGearset() == null) return;
 
 		List<Attribute> attributes = build.getCurrentGearset().getAllAttributes();
-
-		System.out.println("it didn't break");
-		System.out.println(attributes);
 
 		// Optimal Way:
 		List<String> names = new ArrayList<String>();
@@ -261,11 +256,11 @@ public class Gearsets {
 
 				// TODO checks
 
-				Breakdown breakdown = new Breakdown(name,allAttributes);
+				Breakdown breakdown = new Breakdown(name, allAttributes);
 
 				TreeItem<Breakdown> tree = new TreeItem<Breakdown>(breakdown);
 				root.getChildren().add(tree);
-				
+
 				names.add(name);
 			}
 
@@ -273,25 +268,25 @@ public class Gearsets {
 
 		breakdowns.setRoot(root);
 		breakdowns.setShowRoot(false);
-		breakdowns.getSelectionModel().selectedItemProperty().addListener((e,o,n) -> displayBreakdown((n != null) ? n.getValue() : null));
+		breakdowns.getSelectionModel().selectedItemProperty().addListener((e, o, n) -> displayBreakdown((n != null) ? n.getValue() : null));
 	}
-	
+
 	private static void displayBreakdown(Breakdown bd) {
 		TreeItem<String> root = new TreeItem<String>();
-		
+
 		if(bd != null) {
 			TreeItem<String> used = new TreeItem<String>("Active Bonuses");
 			used.setExpanded(true);
 			for(Attribute a : bd.getUsedAttributes()) used.getChildren().add(new TreeItem<String>(a.getValue() + " " + a.getType()));
-			
+
 			TreeItem<String> unused = new TreeItem<String>("Inactive Bonuses");
 			unused.setExpanded(true);
 			for(Attribute a : bd.getUnusedAttributes()) unused.getChildren().add(new TreeItem<String>(a.getValue() + " " + a.getType()));
-			
+
 			root.getChildren().add(used);
 			root.getChildren().add(unused);
 		}
-		
+
 		displayBreakdown.setRoot(root);
 		displayBreakdown.setShowRoot(false);
 	}
@@ -349,16 +344,17 @@ public class Gearsets {
 			itemName.setFont(new Font(14));
 
 			Text enchantments = new Text();
-			
+
 			String text = "";
-			
-			//TODO bug: seems changing the thingy causes it to add the enchantment to this list
+
+			// TODO bug: seems changing the thingy causes it to add the enchantment to this list
 
 			System.out.println(item.getEnchantments());
+
 			for(Enchref e : item.getEnchantments()) {
-				text+=e.getDisplayName() + "\n";
+				text += e.getDisplayName() + "\n";
 			}
-			
+
 			enchantments.setText(text);
 
 			VBox attributeField = new VBox(enchantments);
@@ -406,8 +402,6 @@ public class Gearsets {
 		Optional<String> r = dialog.showAndWait();
 		return r.isEmpty() ? null : r.get();
 	}
-	
-	
 
 	/**
 	 * This class is a representation of a craftign choice used to display
@@ -506,9 +500,9 @@ public class Gearsets {
 	}
 
 	/**
-	 * A Class that 
+	 * A Class that
+	 * 
 	 * @author Tealeaf
-	 *
 	 */
 	private static class Breakdown {
 
@@ -539,8 +533,8 @@ public class Gearsets {
 				}
 
 			}
-			
-			//TODO label sort
+
+			// TODO label sort
 		}
 
 		public String getName() {
@@ -558,7 +552,7 @@ public class Gearsets {
 		public List<Attribute> getUnusedAttributes() {
 			return unusedAttributes;
 		}
-		
+
 		public String toString() {
 			double total = 0;
 			for(Attribute a : usedAttributes) total += a.getValue();

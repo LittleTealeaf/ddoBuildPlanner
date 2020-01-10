@@ -17,7 +17,7 @@ public class fxScraper {
 	public static Item scrapePrompt() {
 		return scrapePrompt("");
 	}
-	
+
 	public static Item scrapePrompt(String initialName) {
 		Dialog<Item> dialog = new Dialog<Item>();
 		dialog.setTitle("Import Item");

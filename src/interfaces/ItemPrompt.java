@@ -69,22 +69,22 @@ public class ItemPrompt {
 			table.getItems().clear();
 			for(Item i : fullList) if(i.getName().contains(n)) table.getItems().add(i);
 		});
-		
+
 		Button bImport = new Button("Import");
 		bImport.setOnAction(e -> {
 			Item it = fxScraper.scrapePrompt(sort.getText());
 			if(it == null) return;
-			
+
 			it.saveItem();
 			fullList.add(it);
-			
+
 			table.getItems().clear();
 			for(Item i : fullList) if(i.getName().contains(sort.getText())) table.getItems().add(i);
 		});
 
 		HBox.setHgrow(sort, Priority.ALWAYS);
 
-		HBox top = new HBox(lSort, sort,bImport);
+		HBox top = new HBox(lSort, sort, bImport);
 		top.setSpacing(10);
 		top.setPadding(new Insets(10));
 

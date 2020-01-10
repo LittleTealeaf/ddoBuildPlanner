@@ -92,7 +92,7 @@ public class Enchref {
 	 * @return Attributes of referenced enchantment
 	 */
 	public List<Attribute> getAttributes() {
-		return getEnchantment().getAttributes(type,bonus, value);
+		return getEnchantment().getAttributes(type, bonus, value);
 	}
 
 	@Override

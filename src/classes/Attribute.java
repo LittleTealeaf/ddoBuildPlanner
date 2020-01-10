@@ -23,7 +23,7 @@ public class Attribute {
 		this.type = type;
 		this.value = value;
 	}
-	
+
 	public Attribute(Attribute a) {
 		this.name = a.getName();
 		this.type = a.getType();
@@ -69,8 +69,8 @@ public class Attribute {
 	public void removeCheck(String check) {
 		if(this.checks.contains(check)) this.checks.remove(check);
 	}
-	
+
 	public String toString() {
-		return string.properTitle( value + " " + type + " " + name);
+		return string.properTitle(value + " " + type + " " + name);
 	}
 }

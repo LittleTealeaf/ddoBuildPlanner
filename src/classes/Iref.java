@@ -68,7 +68,7 @@ public class Iref {
 		}
 
 	}
-	
+
 	public List<Enchref> getEnchrefs() {
 		List<Enchref> r = new ArrayList<Enchref>();
 		r.addAll(getEnchantments());
