@@ -170,6 +170,7 @@ public class Images {
 	 * @param image Name of the image to delete
 	 */
 	public static void deleteImage(String uuid) {
+		if(uuid == null) return;
 		List<extImage> n = new ArrayList<extImage>();
 
 		for(extImage i : externalImages) if(!i.getUUID().contentEquals(uuid)) n.add(i);
