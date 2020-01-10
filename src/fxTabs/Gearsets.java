@@ -273,22 +273,24 @@ public class Gearsets {
 
 		breakdowns.setRoot(root);
 		breakdowns.setShowRoot(false);
-		breakdowns.getSelectionModel().selectedItemProperty().addListener((e,o,n) -> displayBreakdown(n.getValue()));
+		breakdowns.getSelectionModel().selectedItemProperty().addListener((e,o,n) -> displayBreakdown((n != null) ? n.getValue() : null));
 	}
 	
 	private static void displayBreakdown(Breakdown bd) {
 		TreeItem<String> root = new TreeItem<String>();
 		
-		TreeItem<String> used = new TreeItem<String>("Active Bonuses");
-		used.setExpanded(true);
-		for(Attribute a : bd.getUsedAttributes()) used.getChildren().add(new TreeItem<String>(a.getValue() + " " + a.getType()));
-		
-		TreeItem<String> unused = new TreeItem<String>("Inactive Bonuses");
-		unused.setExpanded(true);
-		for(Attribute a : bd.getUnusedAttributes()) unused.getChildren().add(new TreeItem<String>(a.getValue() + " " + a.getType()));
-		
-		root.getChildren().add(used);
-		root.getChildren().add(unused);
+		if(bd != null) {
+			TreeItem<String> used = new TreeItem<String>("Active Bonuses");
+			used.setExpanded(true);
+			for(Attribute a : bd.getUsedAttributes()) used.getChildren().add(new TreeItem<String>(a.getValue() + " " + a.getType()));
+			
+			TreeItem<String> unused = new TreeItem<String>("Inactive Bonuses");
+			unused.setExpanded(true);
+			for(Attribute a : bd.getUnusedAttributes()) unused.getChildren().add(new TreeItem<String>(a.getValue() + " " + a.getType()));
+			
+			root.getChildren().add(used);
+			root.getChildren().add(unused);
+		}
 		
 		displayBreakdown.setRoot(root);
 		displayBreakdown.setShowRoot(false);
@@ -348,11 +350,16 @@ public class Gearsets {
 
 			Text enchantments = new Text();
 			
+			String text = "";
+			
 			//TODO bug: seems changing the thingy causes it to add the enchantment to this list
 
+			System.out.println(item.getEnchantments());
 			for(Enchref e : item.getEnchantments()) {
-				enchantments.setText(enchantments.getText() + e.getDisplayName() + "\n");
+				text+=e.getDisplayName() + "\n";
 			}
+			
+			enchantments.setText(text);
 
 			VBox attributeField = new VBox(enchantments);
 			attributeField.setSpacing(2.5);

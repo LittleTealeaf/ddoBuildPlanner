@@ -22,23 +22,17 @@ public class debugTab {
 
 		GridPane content = new GridPane();
 
-		Button execFunction = new Button("Open");
+		// Build Test
+		TextArea text = new TextArea();
+		text.setPrefWidth(500);
+		text.setPrefHeight(500);
+
+		Button execFunction = new Button("Print Export");
 		execFunction.setOnAction(e -> {
-			FileChooser chooser = new FileChooser();
-
-			try {
-				FileWriter writer = new FileWriter(chooser.showSaveDialog(null));
-				writer.write(system.objectJSON.toJson(Main.loadedBuild.getCurrentGearset().export(), GearsetExport.class));
-				writer.flush();
-				writer.close();
-			} catch(Exception g) {}
-
+			text.setText(system.objectJSON.toJson(Main.loadedBuild.getCurrentGearset().export(), GearsetExport.class));
 		});
 
 		content.add(execFunction, 0, 0);
-
-		// Build Test
-		TextArea text = new TextArea();
 
 		Button bPrint = new Button("Print");
 		bPrint.setOnAction(e -> {

@@ -68,6 +68,13 @@ public class Iref {
 		}
 
 	}
+	
+	public List<Enchref> getEnchrefs() {
+		List<Enchref> r = new ArrayList<Enchref>();
+		r.addAll(getEnchantments());
+		r.addAll(getCraftingEnchantments());
+		return r;
+	}
 
 	/**
 	 * Gets all the enchantments, including the crafting enchantments
@@ -78,7 +85,6 @@ public class Iref {
 	 */
 	public List<Enchref> getEnchantments() {
 		List<Enchref> r = getItem().getEnchantments();
-		r.addAll(getCraftingEnchantments());
 		return r;
 	}
 
