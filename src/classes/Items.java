@@ -97,13 +97,18 @@ public class Items {
 
 	}
 
-	//TODO finish this comment
+	// TODO finish this comment
 	/**
-	 * Gets an item from a UUID<br><br>
-	 * First checks if the loaded items have been updated
+	 * Gets an {@link Item item} from a given UUID<br>
+	 * <br>
+	 * First checks if the loaded {@link Item items} have been updated<br>
+	 * If it needs to update the {@link Item item}, then it will read the {@link Item item} from the
+	 * saved file<br>
+	 * Otherwise it will just pull the currently loaded {@link Item item}
 	 * 
-	 * @param uuid
-	 * @return
+	 * @param uuid {@link Item#getUUID() UUID} of the item
+	 * @return {@link Item} given
+	 * @see Item
 	 */
 	public static Item getItem(String uuid) {
 
@@ -118,9 +123,19 @@ public class Items {
 			items.add(r);
 			return r;
 		}
+
 		return null;
 	}
 
+	/**
+	 * Gets all {@link Item items} located in the directory<br>
+	 * <br>
+	 * If the directory has been updates since the last time this function is called<br>
+	 * it will read and update all the {@link Item items}
+	 * 
+	 * @return List of all {@link Item items}
+	 * @see Item
+	 */
 	public static List<Item> getAllItems() {
 		List<Item> r = new ArrayList<Item>();
 
@@ -143,6 +158,16 @@ public class Items {
 		return r;
 	}
 
+	/**
+	 * Gets all {@link Item items} by the given {@link ItemSlot slots}
+	 * 
+	 * <br><br>This calls the {@link #getAllItems()} function in order to get an updates list of items
+	 * 
+	 * @param slots Array of {@link ItemSlot Item Slots} to get items from. An item must have at least one of these in order to be added to the list
+	 * @return List of all {@link Item items} that have at least one of the given {@link ItemSlot slots}
+	 * @see ItemSlot Item Slot
+	 * @see Item
+	 */
 	public static List<Item> getItemsBySlot(ItemSlot... slots) {
 		List<Item> r = new ArrayList<Item>();
 
@@ -151,10 +176,26 @@ public class Items {
 		return r;
 	}
 
+	/**
+	 * Gets a {@link File} of a given name in the {@link Item item} directory
+	 * @param name Name of the {@link Item item} to get
+	 * @return {@link File} of that item
+	 */
 	public static File getFile(String name) {
 		return system.getAppFile("items", name + ".json");
 	}
 
+	/**
+	 * A {@link TableView table} representation of a list of {@link Item items}.<br><br>
+	 * 
+	 * The {@link TableView table} is configured to have 3 separate {@link TableColumn columns}<p><ul>
+	 * <li>{@link Item#getIconViewSmall() Icon} of the {@link Item}
+	 * <li>{@link Item#getName() Name} of the {@link Item}
+	 * <li>{@link Item#getDescriptionTrimmed() Description} of the {@link Item}
+	 * </ul>
+	 * @param items List of {@link Item items} to include in the {@link TableView table}. <br>Modification of the {@link TableView table} is perfectly fine after calling this function
+	 * @return {@link TableView Table} of items containing the given {@link Item items}
+	 */
 	@SuppressWarnings("unchecked")
 	public static TableView<Item> itemTable(List<Item> items) {
 		TableView<Item> table = new TableView<Item>();

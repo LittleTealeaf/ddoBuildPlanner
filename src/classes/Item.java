@@ -18,7 +18,7 @@ import vars.ItemSlot;
  * Class that describes a certain item. It contains a unique identifier, name, and other variables
  * specified for that item.
  * <p>
- * Also included are the crafting choices avaliable for selection.
+ * Also included are the crafting choices available  for selection.
  * </p>
  * 
  * @see Iref Item Reference
@@ -101,10 +101,18 @@ public class Item {
 		private List<Ability> damageModifiers;
 	}
 
+	/**
+	 * Creates an empty {@link Item} object
+	 */
 	public Item() {
 		this("");
 	}
 
+	/**
+	 * Creates an empty {@link Item} object with a given name
+	 * 
+	 * @param name String given as the name of the object
+	 */
 	public Item(String name) {
 		this.name = name;
 		enchantments = new ArrayList<Enchref>();
@@ -157,34 +165,94 @@ public class Item {
 		// TODO clear empty fields in damage types
 	}
 
+	/**
+	 * Gets the {@link Item Item's} UUID
+	 * 
+	 * @return The unique identifier of the {@link Item item}, used as the name for saving and loading
+	 *         files
+	 * @see #setUUID(String)
+	 */
 	public String getUUID() {
 		return uuid;
 	}
 
+	/**
+	 * Sets the {@link Item Item's} UUID
+	 * 
+	 * @param id Unique Identifier of the {@link Item item}, used as the name for saving and loading
+	 *           files
+	 * @see #getUUID()
+	 */
 	public void setUUID(String id) {
 		this.uuid = id;
 	}
 
+	/**
+	 * Gets the given name of the {@link Item item}
+	 * 
+	 * @return {@link String} representation of the {@link Item item} name
+	 * @see #Item(String)
+	 * @see #setName(String)
+	 */
 	public String getName() {
 		return name;
 	}
 
+	/**
+	 * Sets the name of the {@link Item item}
+	 * 
+	 * @param name {@link String} representation of the {@link Item item} name
+	 * @see #Item(String)
+	 * @see #getName()
+	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 
+	/**
+	 * Gets the {@link Item item's} type
+	 * 
+	 * @return {@link String} representation of the {@link Item item} type
+	 * @see #setType(String)
+	 */
 	public String getType() {
 		return type;
 	}
 
+	/**
+	 * Sets the {@link Item item's} type
+	 * 
+	 * @param type {@link String} representation of the {@link Item item} type
+	 * @see #getType()
+	 */
 	public void setType(String type) {
 		this.type = type;
 	}
 
+	/**
+	 * Gets the {@link Item item} description
+	 * 
+	 * @return The {@link Item item's} description, given in a single {@link String}
+	 * @see #getDescriptionTrimmed()
+	 * @see #setDescription(String)
+	 */
 	public String getDescription() {
 		return description;
 	}
 
+	/**
+	 * Gets the {@link Item item's} description, trimmed to set number of lines
+	 * <br>
+	 * <br>
+	 * This is mainly used as a display for items in {@link TableView tables} such as
+	 * {@link Items#itemTable(List)}
+	 * 
+	 * @return {@link String} representation of the {@link Item item's} description, trimmed to a set
+	 *         number of lines
+	 * @see #getDescription()
+	 * @see #setDescription(String)
+	 * @see Items#itemTable(List)
+	 */
 	public String getDescriptionTrimmed() {
 		if(description == null || description.contentEquals("")) return "";
 		int maxLines = 5;
@@ -196,6 +264,12 @@ public class Item {
 		return ret;
 	}
 
+	/**
+	 * Sets the {@link Item item's} description
+	 * @param description {@link String} representation of the {@link Item item's} description
+	 * @see #getDescription()
+	 * @see #getDescriptionTrimmed()
+	 */
 	public void setDescription(String description) {
 		this.description = description;
 	}
