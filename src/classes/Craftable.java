@@ -18,35 +18,52 @@ public class Craftable {
 	private List<Enchref> choices;
 
 	/**
-	 * Creates an empty {@link Craftable} object
+	 * Creates an empty {@code Craftable} object<br><br>
+	 * This will create an empty {@link Craftable} object with a random {@code UUID}
+	 * @see #Craftable(String)
+	 * @see #Craftable(String, String)
+	 * @see #Craftable(String, String, List)
 	 */
 	public Craftable() {
 		this(UUID.randomUUID().toString());
 	}
 
 	/**
-	 * Creates a {@link Craftable} object with a set UUID
-	 * @param uuid UUID of the {@link Craftable}
+	 * Creates a {@code Craftable} object with given parameters<br>
+	 * <br>This will create an empty {@link Craftable} object, using the given {@code UUID} as the new object's {@code UUID}
+	 * @param uuid The {@code UUID} of the new {@link Craftable} object
+	 * @see #Craftable()
+	 * @see #Craftable(String, String)
+	 * @see #Craftable(String, String, List)
 	 */
 	public Craftable(String uuid) {
 		this("", uuid);
 	}
 
 	/**
-	 * Creates a {@link Craftable} object with a set name and UUID
-	 * @param name Name of the {@link Craftable}
-	 * @param uuid UUID of the {@link Craftable}
+	 * Creates a {@Code Craftable} object with given parameters<br>
+	 * <br>
+	 * This creates an empty {@link Craftable} object that's given a {@code name} and {@code UUID}
+	 * @param name The {@link String string} representation of the new {@link Craftable craftable} object
+	 * @param uuid The {@code UUID} to give the new {@link Craftable craftable} object
+	 * @see #Craftable()
+	 * @see #Craftable(String)
+	 * @see #Craftable(String, String, List)
 	 */
 	public Craftable(String name, String uuid) {
 		this(name, uuid, new ArrayList<Enchref>());
 	}
 
 	/**
-	 * Creates a {@link Craftable} object with a set name, uuid, and choices
-	 * @param name Name of the {@link Craftable}
-	 * @param uuid UUID of the {@link Craftable}
-	 * @param choices Choices of the {@link Craftable}
+	 * Creates a {@code Craftable} object with given parameters<br><br>
+	 * This creates a {@link Craftable} object that's given a {@code name}, {@code UUID}, and assigned a list of {@link Enchref Enchrefs}
+	 * @param name The {@link String string} representation of the new {@link Craftable craftable} object
+	 * @param uuid The {@code UUID} to give the new {@link Craftable craftable} object
+	 * @param choices A List of {@link Enchref Enchrefs} to assign the new {@link Craftable craftable} object
 	 * @see Enchref
+	 * @see #Craftable()
+	 * @see #Craftable(String)
+	 * @see #Craftable(String, String)
 	 */
 	public Craftable(String name, String uuid, List<Enchref> choices) {
 		this.name = name;
@@ -55,7 +72,7 @@ public class Craftable {
 	}
 
 	/**
-	 * Gets the name of the {@link Craftable}
+	 * Gets the name of the {@code Craftable}
 	 * @return Name of the {@link Craftable}
 	 */
 	public String getName() {
@@ -63,7 +80,7 @@ public class Craftable {
 	}
 
 	/**
-	 * Sets the name of the {@link Craftable}
+	 * Sets the name of the {@code Craftable}
 	 * @param name Name to give the {@link Craftable}
 	 */
 	public void setName(String name) {
@@ -71,7 +88,7 @@ public class Craftable {
 	}
 
 	/**
-	 * Gets the unique UUID of the {@link Craftable}
+	 * Gets the unique UUID of the {@code Craftable}
 	 * @return UUID of the {@link Craftable}
 	 */
 	public String getUUID() {
@@ -79,7 +96,7 @@ public class Craftable {
 	}
 
 	/**
-	 * Gives the {@link Craftable} a new UUID
+	 * Gives the {@code Craftable} a new UUID
 	 * @param uuid New UUID of the {@link Craftable}
 	 */
 	public void setUUID(String uuid) {
@@ -87,14 +104,15 @@ public class Craftable {
 	}
 
 	/**
-	 * Gives the {@link Craftable} a new random UUID
+	 * Gives the {@code Craftable} a new random UUID<br>
+	 * This uses the {@link UUID#randomUUID()#toString()} FUNCTION
 	 */
 	public void newUUID() {
 		this.uuid = UUID.randomUUID().toString();
 	}
 
 	/**
-	 * Gets all the choices of the {@link Craftable}
+	 * Gets all the choices of the {@code Craftable}
 	 * @return {@link Craftable} Choices
 	 * @see Enchref
 	 */
@@ -103,7 +121,7 @@ public class Craftable {
 	}
 
 	/**
-	 * Gets the {@link Enchref} of the {@link Craftable} with a choice index
+	 * Gets the {@code Enchref} of the {@code Craftable} with a choice index
 	 * @param index Index choice of the {@link Craftable}
 	 * @return {@link Enchref} at that selection<br>Null if index is out of range
 	 * @see Enchref
@@ -114,7 +132,7 @@ public class Craftable {
 	}
 
 	/**
-	 * Sets the choices of the {@link Craftable}
+	 * Sets the choices of the {@code Craftable}
 	 * @param choices List of {@link Enchref} options
 	 * @see Enchref
 	 */
@@ -123,7 +141,7 @@ public class Craftable {
 	}
 
 	/**
-	 * Adds a {@link Enchref} to the {@link Craftable} choices
+	 * Adds a {@code Enchref} to the {@code Craftable} choices
 	 * @param choice {@link Enchref} to add to the {@link Craftable}
 	 * @see Enchref
 	 */
@@ -132,7 +150,7 @@ public class Craftable {
 	}
 
 	/**
-	 * Removes a {@link Enchref} to the {@link Craftable} choices
+	 * Removes a {@code Enchref} to the {@code Craftable} choices
 	 * @param choice {@link Enchref} to remove from the {@link Craftable}
 	 * @see Enchref
 	 */
@@ -141,7 +159,7 @@ public class Craftable {
 	}
 
 	/**
-	 * Updates a {@link Enchref} in the {@link Craftable} choices. Adds the new {@link Enchref} if the old {@link Enchref} is not currently in the list
+	 * Updates a {@code Enchref} in the {@code Craftable} choices. Adds the new {@code Enchref} if the old {@code Enchref} is not currently in the list
 	 * @param from {@link Enchref} currently in the {@link Craftable} choices to be replaced
 	 * @param to {@link Enchref} to replace the <code>from</code> variable with.
 	 * @see Enchref
