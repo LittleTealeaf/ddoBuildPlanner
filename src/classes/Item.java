@@ -77,7 +77,7 @@ public class Item {
 	 * All variables that pertain to any weapon
 	 * 
 	 * @author Tealeaf
-	 */avaliable
+	 */
 	private class Weapon {
 
 		public Weapon() {
