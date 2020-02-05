@@ -19,6 +19,8 @@ public class Main {
 	public static void main(String[] args) {
 		loadedBuild = new Build();
 
+		// THIS IS MA EDIT
+
 		Debug.setCrashReporting();
 		system.loadData();
 		Settings.loadSettings();
