@@ -51,7 +51,7 @@ public class fxEditEnchantment {
 		contText += "\n[type] - Type (sub-enchantment)";
 		contText += "\n[bonus] - Bonus Type (Insightful, etc)";
 		contText += "\n[value] - value";
-		contText += "\n* The Value field can only include either a number or \'[value]\'";
+		contText += "\n* The Value field can only include either a number or '[value]'";
 
 		variables.setText(contText);
 
