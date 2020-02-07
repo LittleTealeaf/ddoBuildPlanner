@@ -1,18 +1,19 @@
 package classes;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import interfaces.fxItems;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import util.system;
 import vars.Ability;
 import vars.ItemSlot;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Class that describes a certain item. It contains a unique identifier, name, and other variables
@@ -20,10 +21,11 @@ import vars.ItemSlot;
  * <p>
  * Also included are the crafting choices available  for selection.
  * </p>
- * 
+ *
  * @see Iref Item Reference
  * @author Tealeaf
  */
+@SuppressWarnings("ResultOfMethodCallIgnored")
 public class Item {
 
 	private String uuid;
@@ -46,59 +48,18 @@ public class Item {
 
 	private Armor armor;
 
-	/**
-	 * All variables that pertain to any armor or shield.
-	 * 
-	 * @author Tealeaf
-	 */
-	private class Armor {
-
-		public Armor() {
-			armorType = "";
-			maxDex = -1;
-		}
-
-		public boolean isEmpty() {
-			return armorType.contentEquals("") && armorBonus == 0 && maxDex == -1 && checkPenalty == 0 && spellFailure == 0 && attackPenalty == 0 && damageReduction == 0;
-		}
-
-		private String armorType;
-		private int armorBonus;
-		private int maxDex;
-		private int checkPenalty;
-		private double spellFailure;
-		private int attackPenalty;
-		private double damageReduction;
-	}
-
 	private Weapon weapon;
 
 	/**
-	 * All variables that pertain to any weapon
-	 * 
-	 * @author Tealeaf
+	 * Creates an empty {@link Item} object with a given name
+	 *
+	 * @param name String given as the name of the object
 	 */
-	private class Weapon {
-
-		public Weapon() {
-			damageTypes = new ArrayList<String>();
-			damage = new Dice();
-			lowCritRoll = 20;
-			critMultiplier = 2;
-			attackModifiers = new ArrayList<Ability>();
-			damageModifiers = new ArrayList<Ability>();
-		}
-
-		public boolean isEmpty() {
-			return damage.isDefault() && damageTypes.size() == 0 && lowCritRoll == 0 && critMultiplier == 0.0;
-		}
-
-		private Dice damage;
-		private List<String> damageTypes;
-		private int lowCritRoll;
-		private double critMultiplier;
-		private List<Ability> attackModifiers;
-		private List<Ability> damageModifiers;
+	public Item(String name) {
+		this.name = name;
+		enchantments = new ArrayList<>();
+		equipSlots = new ArrayList<>();
+		crafting = new ArrayList<>();
 	}
 
 	/**
@@ -109,20 +70,49 @@ public class Item {
 	}
 
 	/**
-	 * Creates an empty {@link Item} object with a given name
-	 * 
-	 * @param name String given as the name of the object
+	 * Gets the {@link Item item's} description, trimmed to set number of lines
+	 * <br>
+	 * <br>
+	 * This is mainly used as a display for items in {@link TableView tables} such as
+	 * {@link Items#itemTable(List)}
+	 *
+	 * @return {@link String} representation of the {@link Item item's} description, trimmed to a set
+	 * number of lines
+	 * @see #getDescription()
+	 * @see #setDescription(String)
+	 * @see Items#itemTable(List)
 	 */
-	public Item(String name) {
-		this.name = name;
-		enchantments = new ArrayList<Enchref>();
-		equipSlots = new ArrayList<ItemSlot>();
-		crafting = new ArrayList<Craftable>();
+	public String getDescriptionTrimmed() {
+		if (description == null || description.contentEquals("")) return "";
+		int maxLines = 5;
+		String[] array = description.split("\\n");
+		if (array.length <= maxLines) return description;
+		StringBuilder ret = new StringBuilder();
+		for (int i = 0; i < maxLines; i++) ret.append(array[i]).append("\n");
+		ret = new StringBuilder(ret.substring(0, ret.length() - 1));
+		return ret.toString();
+	}
+
+	/**
+	 * Gets the damage type text, each type is specified on a new line
+	 *
+	 * @return String of damage types separated by \n
+	 */
+	public String getDamageTypeText() {
+		if (weapon == null) return "";
+		StringBuilder r = new StringBuilder();
+
+		for (String l : getDamageTypes()) {
+			if (!r.toString().contentEquals("")) r.append("\n");
+			r.append(l);
+		}
+
+		return r.toString();
 	}
 
 	/**
 	 * Saves the item to the local database
-	 * 
+	 *
 	 * @return Returns true if successful or false if unsuccessful
 	 */
 	public void saveItem() {
@@ -135,7 +125,7 @@ public class Item {
 	 */
 	public void deleteItem() {
 
-		if(Settings.items.warnOnDelete) {
+		if (Settings.items.warnOnDelete) {
 			Alert alert = new Alert(AlertType.CONFIRMATION);
 			alert.setTitle("Delete " + name + "?");
 			alert.setHeaderText("Delete Item?");
@@ -221,7 +211,7 @@ public class Item {
 
 	/**
 	 * Sets the {@link Item item's} type
-	 * 
+	 *
 	 * @param type {@link String} representation of the {@link Item item} type
 	 * @see #getType()
 	 */
@@ -231,7 +221,7 @@ public class Item {
 
 	/**
 	 * Gets the {@link Item item} description
-	 * 
+	 *
 	 * @return The {@link Item item's} description, given in a single {@link String}
 	 * @see #getDescriptionTrimmed()
 	 * @see #setDescription(String)
@@ -241,31 +231,8 @@ public class Item {
 	}
 
 	/**
-	 * Gets the {@link Item item's} description, trimmed to set number of lines
-	 * <br>
-	 * <br>
-	 * This is mainly used as a display for items in {@link TableView tables} such as
-	 * {@link Items#itemTable(List)}
-	 * 
-	 * @return {@link String} representation of the {@link Item item's} description, trimmed to a set
-	 *         number of lines
-	 * @see #getDescription()
-	 * @see #setDescription(String)
-	 * @see Items#itemTable(List)
-	 */
-	public String getDescriptionTrimmed() {
-		if(description == null || description.contentEquals("")) return "";
-		int maxLines = 5;
-		String[] array = description.split("\\n");
-		if(array.length <= maxLines) return description;
-		String ret = "";
-		for(int i = 0; i < maxLines; i++) ret += array[i] + "\n";
-		ret = ret.substring(0, ret.length() - 1);
-		return ret;
-	}
-
-	/**
 	 * Sets the {@link Item item's} description
+	 *
 	 * @param description {@link String} representation of the {@link Item item's} description
 	 * @see #getDescription()
 	 * @see #getDescriptionTrimmed()
@@ -274,13 +241,19 @@ public class Item {
 		this.description = description;
 	}
 
+	public List<Ability> getAttackModifiers() {
+		if (weapon != null)
+			return (weapon.attackModifiers == null) ? (weapon.attackModifiers = new ArrayList<>()) : weapon.attackModifiers;
+		else return null;
+	}
+
 	public Image getIcon() {
 		return Images.getImage(iconUUID);
 	}
 
 	public ImageView getIconViewSmall() {
 		Image i = Images.getImage(iconUUID);
-		if(i == null) return null;
+		if (i == null) return null;
 		ImageView r = new ImageView(i);
 		r.setPreserveRatio(true);
 		r.setFitWidth(Settings.appearance.icon.size);
@@ -528,7 +501,7 @@ public class Item {
 	}
 
 	public void setAttackPenalty(int attackPenalty) {
-		if(armor == null) armor = new Armor();
+		if (armor == null) armor = new Armor();
 		this.armor.attackPenalty = attackPenalty;
 	}
 
@@ -538,133 +511,142 @@ public class Item {
 		return (armor != null) ? armor.damageReduction : 0;
 	}
 
+	public void setAttackModifiers(List<Ability> attackModifiers) {
+		if (weapon == null) weapon = new Weapon();
+		this.weapon.attackModifiers = attackModifiers;
+	}
+
 	public void setDamageReduction(double damageReduction) {
-		if(armor == null) armor = new Armor();
+		if (armor == null) armor = new Armor();
 		this.armor.damageReduction = damageReduction;
 	}
 
 	public Dice getDamage() {
-		if(weapon == null) return new Dice();
+		if (weapon == null) return new Dice();
 		return weapon.damage;
 	}
 
 	public void setDamage(Dice damage) {
-		if(weapon == null) weapon = new Weapon();
+		if (weapon == null) weapon = new Weapon();
 		this.weapon.damage = damage;
 	}
 
 	public List<String> getDamageTypes() {
-		if(weapon == null) return null;
+		if (weapon == null) return null;
 		return weapon.damageTypes;
 	}
 
-	/**
-	 * Gets the damage type text, each type is specified on a new line
-	 * 
-	 * @return String of damage types separated by \n
-	 */
-	public String getDamageTypeText() {
-		if(weapon == null) return "";
-		String r = "";
-
-		for(String l : getDamageTypes()) {
-			if(!r.contentEquals("")) r += "\n";
-			r += l;
-		}
-
-		return r;
-	}
-
-	/**
-	 * Adds the damage type to the damage types
-	 * 
-	 * @param type Damage Type
-	 */
-	public void addDamageType(String type) {
-		if(weapon == null) weapon = new Weapon();
-		this.weapon.damageTypes.add(type);
-	}
-
-	/**
-	 * Removes a damage type from the damage types
-	 * 
-	 * @param type Damage Type
-	 */
-	public void removeDamageType(String type) {
-		if(weapon != null) this.weapon.damageTypes.remove(type);
-	}
-
 	public void setDamageTypes(List<String> damageTypes) {
-		if(weapon == null) weapon = new Weapon();
+		if (weapon == null) weapon = new Weapon();
 		this.weapon.damageTypes = damageTypes;
 	}
 
 	/**
+	 * Removes a damage type from the damage types
+	 *
+	 * @param type Damage Type
+	 */
+	public void removeDamageType(String type) {
+		if (weapon != null) this.weapon.damageTypes.remove(type);
+	}
+
+	public boolean hasAttackModifier(Ability ability) {
+		return (weapon != null) && getAttackModifiers().contains(ability);
+	}
+
+	/**
+	 * Adds the damage type to the damage types
+	 *
+	 * @param type Damage Type
+	 */
+	public void addDamageType(String type) {
+		if (weapon == null) weapon = new Weapon();
+		this.weapon.damageTypes.add(type);
+	}
+
+	// Attack Modifiers
+
+	/**
 	 * Sets the damage types from a single String
-	 * 
+	 *
 	 * @param text Text, damage types should be separated by \n
 	 */
 	public void setDamageTypesText(String text) {
 		setDamageTypes(Arrays.asList(text.split("\n")));
 	}
 
-	// Attack Modifiers
-
-	public List<Ability> getAttackModifiers() {
-		if(weapon != null) return (weapon.attackModifiers == null) ? (weapon.attackModifiers = new ArrayList<Ability>()) : weapon.attackModifiers;
+	public List<Ability> getDamageModifiers() {
+		if (weapon != null)
+			return (weapon.damageModifiers == null) ? (weapon.damageModifiers = new ArrayList<>()) : weapon.damageModifiers;
 		else return null;
 	}
 
-	public boolean hasAttackModifier(Ability ability) {
-		return (weapon != null) ? getAttackModifiers().contains(ability) : false;
+	public void setDamageModifiers(List<Ability> damageModifiers) {
+		if (weapon == null) weapon = new Weapon();
+		this.weapon.damageModifiers = damageModifiers;
 	}
 
-	public void setAttackModifiers(List<Ability> attackModifiers) {
-		if(weapon == null) weapon = new Weapon();
-		this.weapon.attackModifiers = attackModifiers;
+	public boolean hasDamageModifier(Ability ability) {
+		return (weapon != null) && getDamageModifiers().contains(ability);
 	}
 
 	public void addAttackModifier(Ability ability) {
-		if(weapon == null) weapon = new Weapon();
-		if(!getAttackModifiers().contains(ability)) getAttackModifiers().add(ability);
+		if (weapon == null) weapon = new Weapon();
+		if (!getAttackModifiers().contains(ability)) getAttackModifiers().add(ability);
 	}
 
 	public void removeAttackModifier(Ability ability) {
-		if(weapon != null) getAttackModifiers().remove(ability);
-	}
-
-	public void setAttackModifier(Ability ability, boolean status) {
-		if(status) addAttackModifier(ability);
-		else removeAttackModifier(ability);
+		if (weapon != null) getAttackModifiers().remove(ability);
 	}
 
 	// Damage Modifiers
 
-	public List<Ability> getDamageModifiers() {
-		if(weapon != null) return (weapon.damageModifiers == null) ? (weapon.damageModifiers = new ArrayList<Ability>()) : weapon.damageModifiers;
-		else return null;
-	}
-
-	public boolean hasDamageModifier(Ability ability) {
-		return (weapon != null) ? getDamageModifiers().contains(ability) : false;
-	}
-
-	public void setDamageModifiers(List<Ability> damageModifiers) {
-		if(weapon == null) weapon = new Weapon();
-		this.weapon.damageModifiers = damageModifiers;
+	public void setAttackModifier(Ability ability, boolean status) {
+		if (status) addAttackModifier(ability);
+		else removeAttackModifier(ability);
 	}
 
 	public void addDamageModifier(Ability ability) {
-		if(weapon == null) weapon = new Weapon();
-		if(!getDamageModifiers().contains(ability)) this.weapon.damageModifiers.add(ability);
+		if (weapon == null) weapon = new Weapon();
+		if (!getDamageModifiers().contains(ability)) this.weapon.damageModifiers.add(ability);
+	}
+
+	public void setCritMultiplier(double critMultiplier) {
+		if (weapon == null) weapon = new Weapon();
+		this.weapon.critMultiplier = critMultiplier;
+	}
+
+	/**
+	 * All variables that pertain to any armor or shield.
+	 *
+	 * @author Tealeaf
+	 */
+	private static class Armor {
+
+		private String armorType;
+		private int armorBonus;
+		private int maxDex;
+		private int checkPenalty;
+		private double spellFailure;
+		private int attackPenalty;
+		private double damageReduction;
+
+		public Armor() {
+			armorType = "";
+			maxDex = -1;
+		}
+
+		public boolean isEmpty() {
+			return armorType.contentEquals("") && armorBonus == 0 && maxDex == -1 && checkPenalty == 0 && spellFailure == 0 && attackPenalty == 0 && damageReduction == 0;
+		}
 	}
 
 	public void removeDamageModifier(Ability ability) {
-		if(weapon != null) getDamageModifiers().remove(ability);
+		if (weapon != null) getDamageModifiers().remove(ability);
 	}
 
 	public void setDamageModifier(Ability ability, boolean status) {
-		if(status) addDamageModifier(ability);
+		if (status) addDamageModifier(ability);
 		else removeDamageModifier(ability);
 	}
 
@@ -676,18 +658,41 @@ public class Item {
 	}
 
 	public void setLowCritRoll(int lowCritRoll) {
-		if(weapon == null) weapon = new Weapon();
+		if (weapon == null) weapon = new Weapon();
 		this.weapon.lowCritRoll = lowCritRoll;
 	}
 
 	public double getCritMultiplier() {
-		if(weapon == null) return 2;
+		if (weapon == null) return 2;
 		return weapon.critMultiplier;
 	}
 
-	public void setCritMultiplier(double critMultiplier) {
-		if(weapon == null) weapon = new Weapon();
-		this.weapon.critMultiplier = critMultiplier;
+	/**
+	 * All variables that pertain to any weapon
+	 *
+	 * @author Tealeaf
+	 */
+	private static class Weapon {
+
+		private Dice damage;
+		private List<String> damageTypes;
+		private int lowCritRoll;
+		private double critMultiplier;
+		private List<Ability> attackModifiers;
+		private List<Ability> damageModifiers;
+
+		public Weapon() {
+			damageTypes = new ArrayList<>();
+			damage = new Dice();
+			lowCritRoll = 20;
+			critMultiplier = 2;
+			attackModifiers = new ArrayList<>();
+			damageModifiers = new ArrayList<>();
+		}
+
+		public boolean isEmpty() {
+			return damage.isDefault() && damageTypes.size() == 0 && lowCritRoll == 0 && critMultiplier == 0.0;
+		}
 	}
 
 	/**
@@ -697,12 +702,12 @@ public class Item {
 	 * <li>All Referenced Enchantments</li>
 	 * <li>Content/Text versions of the image and icon, if specified in {@link Settings}</li>
 	 * </ul>
-	 * 
+	 *
 	 * @author Tealaef
 	 */
 	public static class ItemExport {
 
-		private Item item;
+		private final Item item;
 		private List<Enchantment> enchantments;
 		private String icon;
 		private String image;
@@ -710,12 +715,13 @@ public class Item {
 		public ItemExport(Item item) {
 			this.item = item;
 
-			enchantments = new ArrayList<Enchantment>();
+			enchantments = new ArrayList<>();
 
-			for(Enchref ench : item.getEnchantments()) enchantments.add(ench.getEnchantment());
-			for(Craftable craft : item.getCrafting()) for(Enchref ench : craft.getChoices()) enchantments.add(ench.getEnchantment());
+			for (Enchref ench : item.getEnchantments()) enchantments.add(ench.getEnchantment());
+			for (Craftable craft : item.getCrafting())
+				for (Enchref ench : craft.getChoices()) enchantments.add(ench.getEnchantment());
 
-			if(Settings.porting.exporting.includeImages) {
+			if (Settings.porting.exporting.includeImages) {
 				icon = (item.getIconUUID() != null) ? Images.getImageFileContents(item.getIconUUID()) : null;
 				image = (item.getImageUUID() != null) ? Images.getImageFileContents(item.getImageUUID()) : null;
 			}

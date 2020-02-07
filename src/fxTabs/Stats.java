@@ -5,14 +5,12 @@ import javafx.scene.text.Text;
 
 public class Stats {
 
-	private static Text statText;
-
 	public static Tab getTab() {
-		Tab ret = new Tab("Stats");
+        Tab ret = new Tab("Stats");
 
-		statText = new Text();
+        Text statText = new Text();
 
-		ret.setContent(statText);
-		return ret;
-	}
+        ret.setContent(statText);
+        return ret;
+    }
 }

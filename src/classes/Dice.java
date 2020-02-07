@@ -90,11 +90,11 @@ public class Dice {
 	 * <br>
 	 * <br>
 	 * <code> {@link #coeff} [ {@link #dieCount} d {@link #dieSides} + {@link #preAdd} ]  + {@link #postAdd}</code>
-	 * 
+	 *
 	 * @param coefficient {@link #coeff} Number to multiply the initial sum with
 	 * @param count       {@link #dieCount} Number of dice to roll
 	 * @param sides       {@link #dieSides} Number of sides on the dice
-	 * @param bonus       {@link #preAdd} Number to add to the initial die roll
+	 * @param preAdd      {@link #preAdd} Number to add to the initial die roll
 	 * @param postAdd     {@link #postAdd} Number to add to the final die roll
 	 */
 	public Dice(double coefficient, int count, int sides, double preAdd, double postAdd) {
@@ -154,26 +154,27 @@ public class Dice {
 		try {
 
 			switch (parsed.size()) {
-			case 3:
-				preAdd = Double.parseDouble(parsed.get(2));
-			case 2:
-				dieCount = (int) Double.parseDouble(parsed.get(0));
-				dieSides = (int) Double.parseDouble(parsed.get(1));
-				break;
-			case 5:
-				postAdd = Double.parseDouble(parsed.get(4));
-			case 4:
-				coeff = Double.parseDouble(parsed.get(0));
-				dieCount = (int) Double.parseDouble(parsed.get(1));
-				dieSides = (int) Double.parseDouble(parsed.get(2));
-				preAdd = Double.parseDouble(parsed.get(3));
-				break;
-			default:
-				System.out.println("could not parse");
-				break;
+				case 3:
+					preAdd = Double.parseDouble(parsed.get(2));
+				case 2:
+					dieCount = (int) Double.parseDouble(parsed.get(0));
+					dieSides = (int) Double.parseDouble(parsed.get(1));
+					break;
+				case 5:
+					postAdd = Double.parseDouble(parsed.get(4));
+				case 4:
+					coeff = Double.parseDouble(parsed.get(0));
+					dieCount = (int) Double.parseDouble(parsed.get(1));
+					dieSides = (int) Double.parseDouble(parsed.get(2));
+					preAdd = Double.parseDouble(parsed.get(3));
+					break;
+				default:
+					System.out.println("could not parse");
+					break;
 			}
 
-		} catch(Exception e) {}
+		} catch (Exception ignored) {
+		}
 
 		isNewDice = false;
 	}
@@ -299,7 +300,7 @@ public class Dice {
 
 	/**
 	 * Gets the {@link #dieCount} of the {@link Dice}
-	 * 
+	 *
 	 * @return The {@link #dieCount} of the {@link Dice}
 	 */
 	public int getDieCount() {
@@ -308,8 +309,8 @@ public class Dice {
 
 	/**
 	 * Sets the {@link #dieCount} of the {@link Dice}
-	 * 
-	 * @param coeff New {@link #dieCount} to assign to the {@link Dice}
+	 *
+	 * @param dieCount {@link #dieCount} to assign to the {@link Dice}
 	 */
 	public void setDieCount(int dieCount) {
 		this.dieCount = dieCount;
@@ -318,7 +319,7 @@ public class Dice {
 
 	/**
 	 * Gets the {@link #dieSides} of the {@link Dice}
-	 * 
+	 *
 	 * @return The {@link #dieSides} of the {@link Dice}
 	 */
 	public int getDieSides() {
@@ -327,8 +328,8 @@ public class Dice {
 
 	/**
 	 * Sets the {@link #dieSides} of the {@link Dice}
-	 * 
-	 * @param coeff New {@link #dieSides} to assign to the {@link Dice}
+	 *
+	 * @param dieSides New {@link #dieSides} to assign to the {@link Dice}
 	 */
 	public void setDieSides(int dieSides) {
 		this.dieSides = dieSides;
@@ -337,7 +338,7 @@ public class Dice {
 
 	/**
 	 * Gets the {@link #preAdd} of the {@link Dice}
-	 * 
+	 *
 	 * @return The {@link #preAdd} of the {@link Dice}
 	 */
 	public double getPreAdd() {
@@ -346,8 +347,8 @@ public class Dice {
 
 	/**
 	 * Sets the {@link #preAdd} of the {@link Dice}
-	 * 
-	 * @param coeff New {@link #preAdd} to assign to the {@link Dice}
+	 *
+	 * @param preAdd New {@link #preAdd} to assign to the {@link Dice}
 	 */
 	public void setPreAdd(double preAdd) {
 		this.preAdd = preAdd;
@@ -356,7 +357,7 @@ public class Dice {
 
 	/**
 	 * Gets the {@link #postAdd} of the {@link Dice}
-	 * 
+	 *
 	 * @return The {@link #postAdd} of the {@link Dice}
 	 */
 	public double getPostAdd() {
@@ -365,8 +366,8 @@ public class Dice {
 
 	/**
 	 * Sets the {@link #postAdd} of the {@link Dice}
-	 * 
-	 * @param coeff New {@link #postAdd} to assign to the {@link Dice}
+	 *
+	 * @param postAdd New {@link #postAdd} to assign to the {@link Dice}
 	 */
 	public void setPostAdd(double postAdd) {
 		this.postAdd = postAdd;

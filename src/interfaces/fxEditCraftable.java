@@ -1,21 +1,16 @@
 package interfaces;
 
-import java.util.Optional;
-
 import classes.Craftable;
 import classes.Enchantments;
 import classes.Enchref;
 import javafx.collections.FXCollections;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
+import javafx.scene.control.*;
 import javafx.scene.control.ButtonBar.ButtonData;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
+
+import java.util.Optional;
 
 public class fxEditCraftable {
 
@@ -26,7 +21,7 @@ public class fxEditCraftable {
 	}
 
 	public static Craftable openEditor(Craftable c) {
-		Dialog<Craftable> editor = new Dialog<Craftable>();
+		Dialog<Craftable> editor = new Dialog<>();
 
 		editor.setTitle((c != null) ? "Editing " + c.getName() : "Create Craftable");
 
@@ -55,7 +50,7 @@ public class fxEditCraftable {
 		editor.getDialogPane().getButtonTypes().addAll(bAccept, bCancel);
 
 		Optional<Craftable> r = editor.showAndWait();
-		return (!r.isEmpty()) ? r.get() : c;
+		return r.orElse(c);
 	}
 
 	private static BorderPane choiceView() {
@@ -64,19 +59,20 @@ public class fxEditCraftable {
 		r.setItems(FXCollections.observableArrayList(craft.getChoices()));
 		r.setOnMouseClicked(click -> {
 
-			if(click.getClickCount() == 2) {
+			if (click.getClickCount() == 2) {
 				Enchref i = r.getSelectionModel().getSelectedItem();
 				Enchref n = Enchantments.enchrefDialog(i);
-				if(n != null) craft.updateChoice(i, n);
+				if (n != null) craft.updateChoice(i, n);
 				r.setItems(FXCollections.observableArrayList(craft.getChoices()));
 			}
 
 		});
-		r.setCellFactory(param -> new ListCell<Enchref>() {
+		r.setCellFactory(param -> new ListCell<>() {
 
 			protected void updateItem(Enchref item, boolean empty) {
 				super.updateItem(item, empty);
-				if(empty || item == null || item.getDisplayName() == null || item.getDisplayName().contentEquals("")) setText(null);
+				if (empty || item == null || item.getDisplayName() == null || item.getDisplayName().contentEquals(""))
+					setText(null);
 				else setText(item.getDisplayName());
 			}
 		});

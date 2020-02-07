@@ -1,11 +1,11 @@
 package classes;
 
+import classes.Item.ItemExport;
+import vars.GearSlot;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import classes.Item.ItemExport;
-import vars.GearSlot;
 
 /**
  * An object that represents a gear set, or a set of items worn at a given time. This class includes
@@ -45,8 +45,8 @@ public class Gearset {
 	}
 
 	public List<Attribute> getAllAttributes() {
-		List<Attribute> r = new ArrayList<Attribute>();
-		for(Iref i : getAllIrefs()) if(i != null) for(Enchref e : i.getEnchrefs()) r.addAll(e.getAttributes());
+		List<Attribute> r = new ArrayList<>();
+		for (Iref i : getAllIrefs()) if (i != null) for (Enchref e : i.getEnchrefs()) r.addAll(e.getAttributes());
 		return r;
 	}
 
@@ -358,27 +358,27 @@ public class Gearset {
 	 * <li>All referenced Items in the gearset item list</li>
 	 * <li>All referenced Enchantments in each of the items</li>
 	 * </ul>
-	 * 
+	 *
 	 * @author Tealeaf
 	 */
 	public static class GearsetExport {
 
-		private Gearset gearset;
-		private List<ItemExport> items;
-		private List<Enchantment> enchantments;
+		private final Gearset gearset;
+		private final List<ItemExport> items;
+		private final List<Enchantment> enchantments;
 
 		public GearsetExport(Gearset gearset) {
 			this.gearset = gearset;
-			items = new ArrayList<ItemExport>();
-			enchantments = new ArrayList<Enchantment>();
+			items = new ArrayList<>();
+			enchantments = new ArrayList<>();
 
-			for(Iref i : gearset.getAllIrefs()) {
+			for (Iref i : gearset.getAllIrefs()) {
 
-				if(i != null) {
+				if (i != null) {
 					ItemExport ie = new ItemExport(i.getItem());
 
-					for(Enchantment e : ie.getEnchantments()) {
-						if(!enchantments.contains(e)) enchantments.add(e);
+					for (Enchantment e : ie.getEnchantments()) {
+						if (!enchantments.contains(e)) enchantments.add(e);
 					}
 
 					ie.setEnchantments(null);

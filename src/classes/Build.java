@@ -1,10 +1,10 @@
 package classes;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import classes.Gearset.GearsetExport;
 import classes.Item.ItemExport;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Build {
 
@@ -12,7 +12,7 @@ public class Build {
 	private Gearset currentGearset;
 
 	public Build() {
-		gearsets = new ArrayList<Gearset>();
+		gearsets = new ArrayList<>();
 	}
 
 	public List<Gearset> getGearsets() {
@@ -46,16 +46,16 @@ public class Build {
 
 	public static class BuildExport {
 
-		private Build build;
-		private List<ItemExport> items;
-		private List<Enchantment> enchantments;
+		private final Build build;
+		private final List<ItemExport> items;
+		private final List<Enchantment> enchantments;
 
 		public BuildExport(Build build) {
 			this.build = build;
-			items = new ArrayList<ItemExport>();
-			enchantments = new ArrayList<Enchantment>();
+			items = new ArrayList<>();
+			enchantments = new ArrayList<>();
 
-			for(Gearset g : build.gearsets) {
+			for (Gearset g : build.gearsets) {
 				GearsetExport ge = g.export();
 				enchantments.addAll(ge.getEnchantments());
 				items.addAll(ge.getItems());

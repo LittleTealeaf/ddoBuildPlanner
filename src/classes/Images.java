@@ -1,24 +1,7 @@
 package classes;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.URL;
-import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-
-import javafx.scene.control.Button;
+import javafx.scene.control.*;
 import javafx.scene.control.ButtonBar.ButtonData;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -27,6 +10,12 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import util.system;
+
+import java.io.*;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.util.*;
 
 public class Images {
 
@@ -45,11 +34,12 @@ public class Images {
 	public static void load() {
 		File externals = system.getAppFile("images", "external.json");
 
-		externalImages = new ArrayList<extImage>();
+		externalImages = new ArrayList<>();
 
-		if(externals.exists()) try {
+		if (externals.exists()) try {
 			system.staticJSON.fromJson(Files.newBufferedReader(externals.toPath()), Images.class);
-		} catch(Exception e) {}
+		} catch (Exception ignored) {
+		}
 
 		deleteImage(".image");
 		deleteImage(".icon");
@@ -62,16 +52,16 @@ public class Images {
 	public static void save() {
 		File f = system.getAppFile("images", "external.json");
 
-		if(!f.exists()) f.getParentFile().mkdirs();
+		if (!f.exists())
+			if (f.getParentFile().mkdirs()) System.out.println("Created Directory " + f.getParentFile().toString());
 
 		system.writeFile(f, system.staticJSON.toJson(new Images()));
-	}
+    }
 
 	/**
 	 * Saves an image to the database
 	 * If set to in settings, saves a local copy, otherwise adds the reference to external.json
 	 * 
-	 * @param name Name to set it to
 	 * @param url  URL of the image
 	 */
 	public static String saveImage(String url) {
@@ -80,8 +70,8 @@ public class Images {
 		if(Settings.saving.images.storeLocal) {
 			localizeImage(new extImage(uuid, url));
 		} else {
-			List<extImage> images = new ArrayList<extImage>();
-			for(extImage i : externalImages) if(!uuid.contentEquals(i.getUUID())) images.add(i);
+			List<extImage> images = new ArrayList<>();
+			for (extImage i : externalImages) if (!uuid.contentEquals(i.getUUID())) images.add(i);
 			images.add(new extImage(uuid, url));
 			externalImages = images;
 		}
@@ -93,7 +83,6 @@ public class Images {
 	/**
 	 * Gets an image
 	 * 
-	 * @param name Either the URL, file path, or name of the image in the database
 	 * @return Image as an Image class
 	 */
 	public static Image getImage(String uuid) {
@@ -101,23 +90,26 @@ public class Images {
 
 		try {
 			f = getImagePath(uuid);
-		} catch(Exception e) {
+		} catch (Exception e) {
 
 			try {
 				f = new File(uuid);
-			} catch(Exception d) {}
+			} catch (Exception ignored) {
+			}
 
 		}
 
-		if(f.exists()) return getImageFromURL(f.getPath());
+		assert f != null;
+		if (Objects.requireNonNull(f).exists()) return getImageFromURL(f.getPath());
 
 		try {
 
-			for(extImage i : externalImages) {
-				if(uuid.contentEquals(i.getUUID())) return getImageFromURL(i.getURL());
+			for (extImage i : externalImages) {
+				if (uuid.contentEquals(i.getUUID())) return getImageFromURL(i.getURL());
 			}
 
-		} catch(Exception e) {}
+		} catch (Exception ignored) {
+		}
 
 		return getImageFromURL(uuid);
 	}
@@ -144,10 +136,10 @@ public class Images {
 			FileInputStream fileInputStreamReader = new FileInputStream(f);
 
 			byte[] bytes = fileInputStreamReader.readAllBytes();
-			r = new String(Base64.getEncoder().encode(bytes), "UTF-8");
+			r = new String(Base64.getEncoder().encode(bytes), StandardCharsets.UTF_8);
 
 			fileInputStreamReader.close();
-		} catch(Exception e1) {
+		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
@@ -158,27 +150,28 @@ public class Images {
 	public static void saveImageFromContents(String uuid, String lines) {
 
 		try {
-			if(getImagePath(uuid).exists()) return;
+			if (getImagePath(uuid).exists()) return;
 			Files.write(getImagePath(uuid).toPath(), Base64.getDecoder().decode(lines));
-		} catch(Exception e) {}
+		} catch (Exception ignored) {
+		}
 
 	}
 
 	/**
 	 * Deletes an image in the database
-	 * 
-	 * @param image Name of the image to delete
+	 *
+	 * @param uuid UUID of the image to delete
 	 */
 	public static void deleteImage(String uuid) {
-		if(uuid == null) return;
-		List<extImage> n = new ArrayList<extImage>();
+		if (uuid == null) return;
+		List<extImage> n = new ArrayList<>();
 
-		for(extImage i : externalImages) if(!i.getUUID().contentEquals(uuid)) n.add(i);
+		for (extImage i : externalImages) if (!i.getUUID().contentEquals(uuid)) n.add(i);
 
 		externalImages = n;
 
 		File f = getImagePath(uuid);
-		if(f.exists()) f.delete();
+		if (f.exists()) if (f.delete()) System.out.println("Deleted " + f.toString());
 
 		save();
 	}
@@ -209,18 +202,19 @@ public class Images {
 	 */
 	private static void localizeImage(extImage img) {
 		File writeTo = getImagePath(img.getUUID());
-		writeTo.getParentFile().mkdirs();
+		if (writeTo.getParentFile().mkdirs())
+			System.out.println("Made Directory " + writeTo.getParentFile().toString());
 
 		try {
 
-			try(var fis = new FileInputStream(img.getURL()); var fos = new FileOutputStream(writeTo)) {
+			try (var fis = new FileInputStream(img.getURL()); var fos = new FileOutputStream(writeTo)) {
 				byte[] buffer = new byte[1024];
 				int length;
 
-				while((length = fis.read(buffer)) > 0) fos.write(buffer, 0, length);
+				while ((length = fis.read(buffer)) > 0) fos.write(buffer, 0, length);
 			}
 
-		} catch(Exception e) {
+		} catch (Exception e) {
 
 			try {
 				URL url = new URL(img.url);
@@ -230,13 +224,13 @@ public class Images {
 				byte[] b = new byte[2048];
 				int length;
 
-				while((length = is.read(b)) != -1) {
+				while ((length = is.read(b)) != -1) {
 					os.write(b, 0, length);
 				}
 
 				is.close();
 				os.close();
-			} catch(Exception f) {}
+			} catch (Exception ignored) {}
 
 		}
 
@@ -252,20 +246,20 @@ public class Images {
 
 		try {
 			return new Image(url);
-		} catch(IllegalArgumentException a) {
+		} catch (IllegalArgumentException a) {
 			return new Image(new File(url).toURI().toString());
-		} catch(Exception a) {}
+		} catch (Exception ignored) {
+		}
 
 		return null;
-	}
+    }
 
 	public static class ImagePrompt extends Dialog<String> {
 
-		private String oldUUID;
-		private FileChooser fileChooser;
-		private Label errorLabel;
-		private ImageView iView;
-		private TextField urlField;
+		private final String oldUUID;
+		private final FileChooser fileChooser;
+		private final ImageView iView;
+		private final TextField urlField;
 
 		private String url;
 
@@ -284,7 +278,7 @@ public class Images {
 			fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("All Images", "*"), new FileChooser.ExtensionFilter("JPG", "*.jpg"), new FileChooser.ExtensionFilter("PNG", "*.png"));
 
 			// Error Label
-			errorLabel = new Label();
+			Label errorLabel = new Label();
 			errorLabel.setTextFill(Color.RED);
 
 			// Image View
@@ -358,29 +352,29 @@ public class Images {
 
 			this.setResultConverter(e -> {
 
-				if(e.getButtonData() == ButtonData.OK_DONE && url != null && getImageFromURL(url) != null) {
+				if (e.getButtonData() == ButtonData.OK_DONE && url != null && getImageFromURL(url) != null) {
 					// If user clicked the ok button, and the url exists and works, save it and send the uuid over
 					return saveImage(url);
 					// if not, then try to return the oldUUID, otherwise return null
-				} else return (oldUUID != null) ? oldUUID : null;
+				} else return oldUUID;
 
 			});
 		}
 
-		public boolean displayImage() {
-			return displayImage("");
+		public void displayImage() {
+			displayImage("");
 		}
 
 		public boolean displayImage(String iURL) {
 			Image i = getImageFromURL((iURL != null && !iURL.contentEquals("")) ? iURL : url);
-			iView.setImage((i != null) ? i : null);
+			iView.setImage(i);
 			return i != null;
 		}
 
 		public String showPrompt() {
 			loadLayout();
 			Optional<String> out = this.showAndWait();
-			if(out.get() == null) return "";
+			if (out.get() == null) return "";
 			else return out.get();
 		}
 	}
@@ -389,8 +383,8 @@ public class Images {
 
 	private static class extImage {
 
-		private String uuid;
-		private String url;
+		private final String uuid;
+		private final String url;
 
 		/**
 		 * @param uuid

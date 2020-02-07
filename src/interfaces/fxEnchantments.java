@@ -39,20 +39,20 @@ public class fxEnchantments {
 	}
 
 	public static ListView<Enchantment> getEnchantmentTable() {
-		table = new ListView<>();
+        table = new ListView<>();
 
-		table.setCellFactory(param -> new ListCell<Enchantment>() {
+		table.setCellFactory(param -> new ListCell<>() {
 
 			protected void updateItem(Enchantment item, boolean empty) {
 				super.updateItem(item, empty);
-				if(empty || item == null || item.getName() == null) setText(null);
+				if (empty || item == null || item.getName() == null) setText(null);
 				else setText(item.getName());
 			}
 		});
 
 		table.setOnMouseClicked(click -> {
 
-			if(click.getClickCount() == 2) {
+			if (click.getClickCount() == 2) {
 				fxEditEnchantment.open(table.getSelectionModel().getSelectedItem());
 			}
 

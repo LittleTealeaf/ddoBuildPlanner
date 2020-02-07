@@ -9,6 +9,7 @@ import java.util.List;
  * 
  * @author Tealeaf
  */
+@SuppressWarnings("CanBeFinal")
 public class Iref {
 
 	// TODO mythic / reaper stats
@@ -16,7 +17,7 @@ public class Iref {
 	/**
 	 * Universal Identifier of the Item
 	 */
-	private String uuid;
+	private final String uuid;
 
 	/**
 	 * Crafting choices of the item
@@ -31,9 +32,9 @@ public class Iref {
 	private transient Item temp;
 
 	public Iref(Item item) {
-		if(Items.getItem(item.getUUID()) != null) item.saveItem();
-		crafting = new ArrayList<Craftref>();
-		if(item.getCrafting() != null) for(Craftable c : item.getCrafting()) crafting.add(new Craftref(c, 0));
+		if (Items.getItem(item.getUUID()) != null) item.saveItem();
+		crafting = new ArrayList<>();
+		if (item.getCrafting() != null) for (Craftable c : item.getCrafting()) crafting.add(new Craftref(c, 0));
 		this.uuid = item.getUUID();
 	}
 
@@ -70,7 +71,7 @@ public class Iref {
 	}
 
 	public List<Enchref> getEnchrefs() {
-		List<Enchref> r = new ArrayList<Enchref>();
+		List<Enchref> r = new ArrayList<>();
 		r.addAll(getEnchantments());
 		r.addAll(getCraftingEnchantments());
 		return r;
@@ -84,8 +85,7 @@ public class Iref {
 	 * @see #getCraftingEnchantments()
 	 */
 	public List<Enchref> getEnchantments() {
-		List<Enchref> r = getItem().getEnchantments();
-		return r;
+		return getItem().getEnchantments();
 	}
 
 	/**
@@ -97,9 +97,9 @@ public class Iref {
 	 * @return
 	 */
 	public List<Enchref> getCraftingEnchantments() {
-		List<Enchref> r = new ArrayList<Enchref>();
+		List<Enchref> r = new ArrayList<>();
 
-		for(Craftref c : crafting) {
+		for (Craftref c : crafting) {
 			r.add(getItem().getCraft(c.getUUID()).getChoice(c.getIndex()));
 		}
 

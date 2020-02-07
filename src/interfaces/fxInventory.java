@@ -48,27 +48,27 @@ public class fxInventory {
 
 	@SuppressWarnings("unchecked")
 	private static void createTable() {
-		items = new TableView<invItem>();
+		items = new TableView<>();
 
 		TableColumn<invItem, ImageView> cIcon = new TableColumn<>("Icon");
-		cIcon.setCellValueFactory(new PropertyValueFactory<invItem, ImageView>("iconViewSmall"));
+		cIcon.setCellValueFactory(new PropertyValueFactory<>("iconViewSmall"));
 
 		TableColumn<invItem, String> cName = new TableColumn<>("Name");
-		cName.setCellValueFactory(new PropertyValueFactory<invItem, String>("name"));
+		cName.setCellValueFactory(new PropertyValueFactory<>("name"));
 
 		TableColumn<invItem, String> cDescription = new TableColumn<>("Description");
-		cDescription.setCellValueFactory(new PropertyValueFactory<invItem, String>("description"));
+		cDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
 
 		TableColumn<invItem, String> cCount = new TableColumn<>("Count");
-		cCount.setCellValueFactory(new PropertyValueFactory<invItem, String>("countView"));
+		cCount.setCellValueFactory(new PropertyValueFactory<>("countView"));
 
 		items.getColumns().addAll(cIcon, cName, cDescription, cCount);
 
-		for(TableColumn<invItem, ?> col : items.getColumns()) col.setReorderable(false);
+		for (TableColumn<invItem, ?> col : items.getColumns()) col.setReorderable(false);
 
 		items.setOnKeyPressed(key -> {
 
-			if(key.getCode() == KeyCode.DELETE) {
+			if (key.getCode() == KeyCode.DELETE) {
 				Inventory.removeItem(items.getSelectionModel().getSelectedItem().getName());
 				updateTable();
 			}

@@ -2,19 +2,13 @@ package interfaces;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 public class fxMain extends Application {
 
 	public static Stage sMainRef;
-
-	private static TabPane tabs;
 
 	public static void open(String[] args) {
 		launch(args);
@@ -95,11 +89,11 @@ public class fxMain extends Application {
 		menu.getMenus().addAll(file, database, build);
 
 		// Center Area
-		tabs = new TabPane();
+		TabPane tabs = new TabPane();
 
 		tabs.getTabs().addAll(fxTabs.Tabs.getMainTabs());
 
-		for(Tab t : tabs.getTabs()) {
+		for (Tab t : tabs.getTabs()) {
 			t.setClosable(false);
 		}
 
@@ -111,7 +105,8 @@ public class fxMain extends Application {
 
 		try {
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-		} catch(Exception e) {}
+		} catch (Exception ignored) {
+		}
 
 		sMain.setScene(scene);
 		sMain.show();

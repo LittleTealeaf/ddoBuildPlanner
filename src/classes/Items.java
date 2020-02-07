@@ -1,24 +1,18 @@
 package classes;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-
-import com.google.gson.JsonIOException;
-import com.google.gson.JsonSyntaxException;
-
 import javafx.collections.FXCollections;
-import javafx.scene.control.ListCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import util.system;
 import vars.ItemSlot;
+
+import java.io.File;
+import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 /**
  * Writing and Reading of the local storage of {@link Item items}<br>
@@ -28,6 +22,7 @@ import vars.ItemSlot;
  * @see Item
  * @see system
  */
+@SuppressWarnings({"ConstantConditions", "ResultOfMethodCallIgnored"})
 public class Items {
 
 	/*
@@ -47,14 +42,14 @@ public class Items {
 
 	/**
 	 * Directory of the items folder
-	 * 
+	 *
 	 * @see system#getAppFile(String...)
 	 */
-	private static File dir = system.getAppFile("items");
+	private static final File dir = system.getAppFile("items");
 
 	/**
 	 * All the currently loaded {@link Item Items}
-	 * 
+	 *
 	 * @see Item
 	 * @see #getAllItems()
 	 */
@@ -71,7 +66,7 @@ public class Items {
 
 		try {
 			return system.objectJSON.fromJson(new FileReader(getFile(UUID)), Item.class);
-		} catch(Exception e) {
+		} catch (Exception e) {
 			return null;
 		}
 
@@ -80,20 +75,20 @@ public class Items {
 	/**
 	 * Saves an {@link Item} into the database, writing a JSON. This will assign the {@link Item} a
 	 * random UUID if the item has no existing UUID
-	 * 
+	 *
 	 * @param i {@link Item} to save
-	 * @see {@link Item}
-	 * @see {@link system}
+	 * @see Item
+	 * @see system
 	 */
 	public static void saveItem(Item i) {
 
 		try {
-			if(i.getUUID() == null || i.getUUID().contentEquals("")) i.setUUID(UUID.randomUUID().toString());
+			if (i.getUUID() == null || i.getUUID().contentEquals("")) i.setUUID(UUID.randomUUID().toString());
 			File file = getFile(i.getUUID());
 			file.getParentFile().mkdirs();
 			system.writeFile(file, system.staticJSON.toJson(i));
 			System.out.println("Saved to: " + file.getPath());
-		} catch(Exception e) {}
+		} catch (Exception ignored) {}
 
 	}
 
@@ -137,18 +132,18 @@ public class Items {
 	 * @see Item
 	 */
 	public static List<Item> getAllItems() {
-		List<Item> r = new ArrayList<Item>();
+		List<Item> r = new ArrayList<>();
 
-		if(dir.lastModified() == lastModified) return items;
+		if (dir.lastModified() == lastModified) return items;
 
 		System.out.println("Directory updated, loading new");
 
-		for(File f : dir.listFiles()) {
+		for (File f : dir.listFiles()) {
 
 			try {
 				Item n = system.objectJSON.fromJson(new FileReader(f), Item.class);
-				if(n != null) r.add(n);
-			} catch(Exception e) {}
+				if (n != null) r.add(n);
+			} catch (Exception ignored) {}
 
 		}
 
@@ -169,11 +164,11 @@ public class Items {
 	 * @see Item
 	 */
 	public static List<Item> getItemsBySlot(ItemSlot... slots) {
-		List<Item> r = new ArrayList<Item>();
+		List<Item> r = new ArrayList<>();
 
-		for(Item i : getAllItems()) if(i.hasEquipSlot(slots)) r.add(i);
+		for (Item i : getAllItems()) if (i.hasEquipSlot(slots)) r.add(i);
 
-		return r;
+        return r;
 	}
 
 	/**
@@ -198,33 +193,34 @@ public class Items {
 	 */
 	@SuppressWarnings("unchecked")
 	public static TableView<Item> itemTable(List<Item> items) {
-		TableView<Item> table = new TableView<Item>();
+		TableView<Item> table = new TableView<>();
 
 		// Setting up the columns
 
-		TableColumn<Item, ImageView> cIcon = new TableColumn<Item, ImageView>("Icon");
-		cIcon.setCellValueFactory(new PropertyValueFactory<Item, ImageView>("iconViewSmall"));
-		cIcon.setMaxWidth(Settings.appearance.icon.size);
-		cIcon.setMinWidth(Settings.appearance.icon.size);
+		TableColumn<Item, ImageView> cIcon = new TableColumn<>("Icon");
+		cIcon.setCellValueFactory(new PropertyValueFactory<>("iconViewSmall"));
+		double iconWidth = Settings.appearance.icon.size + 5;
+		cIcon.setMaxWidth(iconWidth);
+		cIcon.setMinWidth(iconWidth);
 
-		TableColumn<Item, String> cName = new TableColumn<Item, String>("Name");
-		cName.setCellValueFactory(new PropertyValueFactory<Item, String>("name"));
+		TableColumn<Item, String> cName = new TableColumn<>("Name");
+		cName.setCellValueFactory(new PropertyValueFactory<>("name"));
 		cName.setMinWidth(100);
 
 		// TODO cell factory with worth wrap
 
-		TableColumn<Item, String> cDescription = new TableColumn<Item, String>("Description");
-		cDescription.setCellValueFactory(new PropertyValueFactory<Item, String>("descriptionTrimmed"));
+		TableColumn<Item, String> cDescription = new TableColumn<>("Description");
+		cDescription.setCellValueFactory(new PropertyValueFactory<>("descriptionTrimmed"));
 
 		table.getColumns().addAll(cIcon, cName, cDescription);
 
-		for(TableColumn<Item, ?> col : table.getColumns()) col.setReorderable(false);
+		for (TableColumn<Item, ?> col : table.getColumns()) col.setReorderable(false);
 
 		table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
 		try {
 			table.getItems().addAll(FXCollections.observableArrayList(items));
-		} catch(Exception e) {}
+		} catch (Exception ignored) {}
 
 		return table;
 	}

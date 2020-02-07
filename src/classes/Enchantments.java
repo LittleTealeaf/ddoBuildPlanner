@@ -1,25 +1,20 @@
 package classes;
 
-import java.io.FileReader;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
 import interfaces.fxEditEnchantment;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.scene.control.ButtonBar.ButtonData;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.ListView;
-import javafx.scene.control.Spinner;
-import javafx.scene.control.SpinnerValueFactory;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import util.resource;
 import util.system;
+
+import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 public class Enchantments {
 
@@ -31,11 +26,11 @@ public class Enchantments {
 	 * Initially loads Enchantments. This method should only be called by the Main class
 	 */
 	public static void load() {
-		enchantments = new ArrayList<Enchantment>();
+		enchantments = new ArrayList<>();
 
 		try {
 
-			if(system.enchantments.exists()) {
+			if (system.enchantments.exists()) {
 				system.staticJSON.fromJson(new FileReader(system.enchantments), Enchantments.class);
 			} else {
 				// Loads from the resource version
@@ -43,7 +38,8 @@ public class Enchantments {
 				save();
 			}
 
-		} catch(Exception e) {}
+		} catch (Exception ignored) {
+		}
 
 	}
 
@@ -129,7 +125,7 @@ public class Enchantments {
 	 * @param enchantment Enchantment to remove.
 	 */
 	public static void removeEnchantment(Enchantment enchantment) {
-		if(enchantments.contains(enchantment)) enchantments.remove(enchantment);
+		enchantments.remove(enchantment);
 		save();
 	}
 
@@ -173,7 +169,7 @@ public class Enchantments {
 	 */
 	public static Enchref enchrefDialog(Enchref ench) {
 		// Creating the dialog
-		Dialog<Enchref> dialog = new Dialog<Enchref>();
+		Dialog<Enchref> dialog = new Dialog<>();
 		dialog.setTitle((ench == null) ? "Add Enchantment" : "Edit Enchantment");
 		dialog.setResizable(true);
 
@@ -182,11 +178,11 @@ public class Enchantments {
 		choice.setText((ench != null) ? ench.getEnchantment().getName() : "");
 
 		// Suggested input field, updates whenever the user types in the choice field
-		ListView<String> suggestedInputs = new ListView<String>();
+		ListView<String> suggestedInputs = new ListView<>();
 		suggestedInputs.setItems(FXCollections.observableArrayList(getNames()));
 		suggestedInputs.setPrefHeight(100);
 		suggestedInputs.setOnMouseClicked(click -> {
-			if(click.getClickCount() == 2) choice.setText(suggestedInputs.getSelectionModel().getSelectedItem());
+			if (click.getClickCount() == 2) choice.setText(suggestedInputs.getSelectionModel().getSelectedItem());
 		});
 		suggestedInputs.visibleProperty().bind(choice.focusedProperty());
 
@@ -224,21 +220,15 @@ public class Enchantments {
 		bonus.setText((ench != null) ? ench.getBonus() : "");
 
 		// Enchantment Value
-		Spinner<Double> value = new Spinner<Double>();
+		Spinner<Double> value = new Spinner<>();
 		value.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(-1000, 1000, (ench != null) ? ench.getValue() : 0));
-		value.getEditor().focusedProperty().addListener((e, o, n) -> {
-			Platform.runLater(new Runnable() {
+		value.getEditor().focusedProperty().addListener((e, o, n) -> Platform.runLater(() -> {
 
-				@Override
-				public void run() {
+			if (n && !value.getEditor().getText().contentEquals("")) {
+				value.getEditor().selectAll();
+			}
 
-					if(n.booleanValue() && !value.getEditor().getText().contentEquals("")) {
-						value.getEditor().selectAll();
-					}
-
-				}
-			});
-		});
+		}));
 		value.setPrefWidth(75);
 		value.setEditable(true);
 
@@ -305,10 +295,11 @@ public class Enchantments {
 	 * @see #getNames()
 	 */
 	public static List<String> getNames(String in) {
-		List<String> r = new ArrayList<String>();
+		List<String> r = new ArrayList<>();
 
-		for(Enchantment e : getEnchantments()) {
-			if(in.contentEquals("") || (e.getName() != null && e.getName().toLowerCase().contains(in.toLowerCase()))) r.add(e.getName());
+		for (Enchantment e : getEnchantments()) {
+			if (in.contentEquals("") || (e.getName() != null && e.getName().toLowerCase().contains(in.toLowerCase())))
+				r.add(e.getName());
 		}
 
 		return r;

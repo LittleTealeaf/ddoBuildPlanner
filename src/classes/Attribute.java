@@ -1,8 +1,8 @@
 package classes;
 
-import java.util.List;
-
 import util.string;
+
+import java.util.List;
 
 public class Attribute {
 
@@ -28,6 +28,7 @@ public class Attribute {
 		this.name = a.getName();
 		this.type = a.getType();
 		this.value = a.getValue();
+		this.checks = a.getChecks();
 	}
 
 	public String getName() {
@@ -67,7 +68,7 @@ public class Attribute {
 	}
 
 	public void removeCheck(String check) {
-		if(this.checks.contains(check)) this.checks.remove(check);
+		this.checks.remove(check);
 	}
 
 	public String toString() {

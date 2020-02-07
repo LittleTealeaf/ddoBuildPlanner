@@ -1,66 +1,36 @@
 package fxTabs;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
 import application.Main;
-import classes.Attribute;
-import classes.Build;
-import classes.Craftable;
-import classes.Craftref;
-import classes.Enchref;
-import classes.Gearset;
-import classes.Iref;
-import classes.Item;
-import classes.Items;
-import classes.Settings;
+import classes.*;
 import interfaces.ItemPrompt;
-import interfaces.fxEditItem;
 import interfaces.fxMain;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
-import javafx.scene.control.Accordion;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.ScrollPane.ScrollBarPolicy;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TitledPane;
-import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeView;
+import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.util.Callback;
 import util.string;
 import vars.GearSlot;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 /**
  * This class is the display/ui used for the gearsets tab of the main application
- * 
+ *
  * @author Tealeaf
  */
 public class Gearsets {
-
-	private static Tab tab;
 
 	// private static GridPane grid;
 	private static ListView<slotSelection> slotList;
@@ -74,14 +44,14 @@ public class Gearsets {
 	public static Tab getTab() {
 		build = Main.loadedBuild;
 
-		tab = new Tab("Gearsets");
+		Tab tab = new Tab("Gearsets");
 
 		VBox content = new VBox(contentTop(), contentCenter());
 		content.setSpacing(10);
 		content.setPadding(new Insets(10));
 
 		content.setOnKeyPressed(key -> {
-			if(key.getCode() == KeyCode.F5) updateContent();
+			if (key.getCode() == KeyCode.F5) updateContent();
 		});
 
 		// TODO build the gearset into the build class
@@ -105,7 +75,7 @@ public class Gearsets {
 		r.setHgap(10);
 		r.setPadding(new Insets(10));
 
-		ComboBox<Gearset> choice = new ComboBox<Gearset>();
+		ComboBox<Gearset> choice = new ComboBox<>();
 
 		choice.setItems(FXCollections.observableArrayList(build.getGearsets()));
 		choice.getSelectionModel().select(build.getCurrentGearset());
@@ -171,14 +141,8 @@ public class Gearsets {
 	}
 
 	private static HBox contentCenter() {
-		slotList = new ListView<slotSelection>();
-		slotList.setCellFactory(new Callback<ListView<slotSelection>, ListCell<slotSelection>>() {
-
-			@Override
-			public ListCell<slotSelection> call(ListView<slotSelection> listView) {
-				return new listCell();
-			}
-		});
+		slotList = new ListView<>();
+		slotList.setCellFactory(listView -> new listCell());
 		slotList.getSelectionModel().selectedItemProperty().addListener((e, o, n) -> displayItem(n));
 		slotList.prefHeightProperty().bind(fxMain.sMainRef.heightProperty().multiply(0.7));
 		slotList.setPrefWidth(400);
@@ -209,8 +173,8 @@ public class Gearsets {
 		Tab r = new Tab("Gear Breakdowns");
 		r.setClosable(false);
 
-		breakdowns = new TreeView<Breakdown>();
-		displayBreakdown = new TreeView<String>();
+		breakdowns = new TreeView<>();
+		displayBreakdown = new TreeView<>();
 
 		HBox content = new HBox(breakdowns, displayBreakdown);
 		content.setSpacing(10);
@@ -228,16 +192,16 @@ public class Gearsets {
 	}
 
 	private static void updateBreakdowns() {
-		TreeItem<Breakdown> root = new TreeItem<Breakdown>();
+		TreeItem<Breakdown> root = new TreeItem<>();
 
 		// Gets all the attributes
 
-		if(build.getCurrentGearset() == null) return;
+		if (build.getCurrentGearset() == null) return;
 
 		List<Attribute> attributes = build.getCurrentGearset().getAllAttributes();
 
 		// Optimal Way:
-		List<String> names = new ArrayList<String>();
+		List<String> names = new ArrayList<>();
 
 		/*
 		 * The following code will cycle through each attribute
@@ -246,19 +210,21 @@ public class Gearsets {
 		 */
 		String name = "";
 
-		for(int i = 0; i < attributes.size(); i++) {
+		for (int i = 0; i < attributes.size(); i++) {
 			name = attributes.get(i).getName().toLowerCase(); // Grabs the name so we don't have to reference it
 
-			if(!names.contains(name)) {
+			if (!names.contains(name)) {
 				// Cycles through all remaining attributes and grabs all that have the same name
-				List<Attribute> allAttributes = new ArrayList<Attribute>();
-				for(int j = i; j < attributes.size(); j++) if(attributes.get(j).getName().toLowerCase().contentEquals(name)) allAttributes.add(attributes.get(j));
+				List<Attribute> allAttributes = new ArrayList<>();
+				for (int j = i; j < attributes.size(); j++)
+					if (attributes.get(j).getName().toLowerCase().contentEquals(name))
+						allAttributes.add(attributes.get(j));
 
 				// TODO checks
 
 				Breakdown breakdown = new Breakdown(name, allAttributes);
 
-				TreeItem<Breakdown> tree = new TreeItem<Breakdown>(breakdown);
+				TreeItem<Breakdown> tree = new TreeItem<>(breakdown);
 				root.getChildren().add(tree);
 
 				names.add(name);
@@ -272,16 +238,18 @@ public class Gearsets {
 	}
 
 	private static void displayBreakdown(Breakdown bd) {
-		TreeItem<String> root = new TreeItem<String>();
+		TreeItem<String> root = new TreeItem<>();
 
-		if(bd != null) {
-			TreeItem<String> used = new TreeItem<String>("Active Bonuses");
+		if (bd != null) {
+			TreeItem<String> used = new TreeItem<>("Active Bonuses");
 			used.setExpanded(true);
-			for(Attribute a : bd.getUsedAttributes()) used.getChildren().add(new TreeItem<String>(a.getValue() + " " + a.getType()));
+			for (Attribute a : bd.getUsedAttributes())
+				used.getChildren().add(new TreeItem<>(a.getValue() + " " + a.getType()));
 
-			TreeItem<String> unused = new TreeItem<String>("Inactive Bonuses");
+			TreeItem<String> unused = new TreeItem<>("Inactive Bonuses");
 			unused.setExpanded(true);
-			for(Attribute a : bd.getUnusedAttributes()) unused.getChildren().add(new TreeItem<String>(a.getValue() + " " + a.getType()));
+			for (Attribute a : bd.getUnusedAttributes())
+				unused.getChildren().add(new TreeItem<>(a.getValue() + " " + a.getType()));
 
 			root.getChildren().add(used);
 			root.getChildren().add(unused);
@@ -295,15 +263,16 @@ public class Gearsets {
 		// Updating Slots
 
 		if(build.getCurrentGearset() != null) {
-			List<slotSelection> slots = new ArrayList<slotSelection>();
+			List<slotSelection> slots = new ArrayList<>();
 
-			for(GearSlot s : GearSlot.values()) slots.add(new slotSelection(s, build.getCurrentGearset().getItemBySlot(s)));
+			for (GearSlot s : GearSlot.values())
+				slots.add(new slotSelection(s, build.getCurrentGearset().getItemBySlot(s)));
 
 			slotList.setItems(FXCollections.observableArrayList(slots));
 
 			// Updates display item
-			if(displayItem != null) {
-				for(slotSelection s : slots) if(displayItem.getSlot() == s.getSlot()) displayItem(s);
+			if (displayItem != null) {
+				for (slotSelection s : slots) if (displayItem.getSlot() == s.getSlot()) displayItem(s);
 			}
 
 		}
@@ -336,7 +305,8 @@ public class Gearsets {
 
 			try {
 				itemGrid.add(displayItem.getIref().getItem().getIconViewSmall(), 0, 0);
-			} catch(Exception e) {}
+			} catch (Exception ignored) {
+			}
 
 			Item item = displayItem.getIref().getItem();
 
@@ -345,22 +315,22 @@ public class Gearsets {
 
 			Text enchantments = new Text();
 
-			String text = "";
+			StringBuilder text = new StringBuilder();
 
 			// TODO bug: seems changing the thingy causes it to add the enchantment to this list
 
 			System.out.println(item.getEnchantments());
 
-			for(Enchref e : item.getEnchantments()) {
-				text += e.getDisplayName() + "\n";
+			for (Enchref e : item.getEnchantments()) {
+				text.append(e.getDisplayName()).append("\n");
 			}
 
-			enchantments.setText(text);
+			enchantments.setText(text.toString());
 
 			VBox attributeField = new VBox(enchantments);
 			attributeField.setSpacing(2.5);
 
-			for(Craftref cref : displayItem.getIref().getCrafting()) {
+			for (Craftref cref : displayItem.getIref().getCrafting()) {
 				// Craft Display
 				HBox h = new HBox(new Text(item.getCraft(cref.getUUID()).getName()), new craftingChoice(displayItem.getIref(), cref).toComboBox());
 				h.setSpacing(2.5);
@@ -383,7 +353,7 @@ public class Gearsets {
 	 * @return String, returns null if cancelled or empty
 	 */
 	private static String namePrompt(String title) {
-		Dialog<String> dialog = new Dialog<String>();
+		Dialog<String> dialog = new Dialog<>();
 		dialog.setTitle(title);
 
 		Text name = new Text("Gearset Name");
@@ -405,13 +375,13 @@ public class Gearsets {
 
 	/**
 	 * This class is a representation of a craftign choice used to display
-	 * 
+	 *
 	 * @author Tealeaf
 	 */
 	private static class craftingChoice extends ComboBox<Enchref> {
 
-		private Craftref ref;
-		private Craftable craftable;
+		private final Craftref ref;
+		private final Craftable craftable;
 
 		public craftingChoice(Iref iref, Craftref ref) {
 			super();
@@ -421,7 +391,7 @@ public class Gearsets {
 
 		/**
 		 * Converts the crafting choice to a combo box
-		 * 
+		 *
 		 * @return ComboBox of the crafting choice
 		 */
 		public ComboBox<Enchref> toComboBox() {
@@ -438,16 +408,16 @@ public class Gearsets {
 
 	/**
 	 * Custom cell used to display on the item selection
-	 * 
-	 * @see https://stackoverflow.com/questions/27438629/listview-with-custom-content-in-javafx
+	 *
 	 * @author Tealeaf
+	 * @see <a href=https://stackoverflow.com/questions/27438629/listview-with-custom-content-in-javafx>Stack Overflow</a>
 	 */
 	private static class listCell extends ListCell<slotSelection> {
 
-		private HBox content;
-		private ImageView image;
-		private Text name;
-		private Text slot;
+		private final HBox content;
+		private final ImageView image;
+		private final Text name;
+		private final Text slot;
 
 		public listCell() {
 			super();
@@ -484,7 +454,8 @@ public class Gearsets {
 					try {
 						name.setText(item.getIref().getItem().getName());
 						image.setImage(item.getIref().getItem().getIcon());
-					} catch(Exception e) {}
+					} catch (Exception ignored) {
+					}
 
 				} else {
 					name.setText("");
@@ -501,35 +472,36 @@ public class Gearsets {
 
 	/**
 	 * A Class that
-	 * 
+	 *
 	 * @author Tealeaf
 	 */
 	private static class Breakdown {
 
-		private String name;
+		private final String name;
 		private String label;
-		private List<Attribute> usedAttributes;
-		private List<Attribute> unusedAttributes;
+		private final List<Attribute> usedAttributes;
+		private final List<Attribute> unusedAttributes;
 
 		private Breakdown(String name, List<Attribute> attributes) {
 			this.name = name;
-			usedAttributes = new ArrayList<Attribute>();
-			unusedAttributes = new ArrayList<Attribute>();
+			usedAttributes = new ArrayList<>();
+			unusedAttributes = new ArrayList<>();
 
 			// Sorting between used and unused
-			List<String> types = new ArrayList<String>();
+			List<String> types = new ArrayList<>();
 
-			for(Attribute a : attributes) if(!types.contains(string.properTitle(a.getType()))) {
-				usedAttributes.add(a);
-				types.add(string.properTitle(a.getType()));
-			} else {
-				int index = types.indexOf(string.properTitle(a.getType()));
-
-				if(usedAttributes.get(index).getValue() < a.getValue()) {
-					unusedAttributes.add(usedAttributes.get(index));
-					usedAttributes.set(index, a);
+			for (Attribute a : attributes)
+				if (!types.contains(string.properTitle(a.getType()))) {
+					usedAttributes.add(a);
+					types.add(string.properTitle(a.getType()));
 				} else {
-					unusedAttributes.add(a);
+					int index = types.indexOf(string.properTitle(a.getType()));
+
+					if (usedAttributes.get(index).getValue() < a.getValue()) {
+						unusedAttributes.add(usedAttributes.get(index));
+						usedAttributes.set(index, a);
+					} else {
+						unusedAttributes.add(a);
 				}
 
 			}
@@ -562,15 +534,15 @@ public class Gearsets {
 
 	/**
 	 * Class that contains an iref and the slot it was specified with inside the gearset
-	 * 
+	 *
 	 * @author Tealeaf
 	 * @see Iref
 	 * @see GearSlot
 	 */
 	private static class slotSelection {
 
-		private GearSlot slot;
-		private Iref iref;
+		private final GearSlot slot;
+		private final Iref iref;
 
 		public slotSelection(GearSlot slot, Iref iref) {
 			this.slot = slot;

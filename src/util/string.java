@@ -9,14 +9,14 @@ public class string {
 	 * @return
 	 */
 	public static String properTitle(String name) {
-		String r = "";
-		boolean space = false;
+        StringBuilder r = new StringBuilder();
+        boolean space = false;
 
-		for(char c : name.toCharArray()) {
-			r += (space && c != ' ') ? (c + "").toUpperCase() : c;
-			space = c == ' ';
-		}
+        for (char c : name.toCharArray()) {
+            r.append((space && c != ' ') ? (c + "").toUpperCase() : c);
+            space = c == ' ';
+        }
 
-		return r;
-	}
+        return r.toString();
+    }
 }

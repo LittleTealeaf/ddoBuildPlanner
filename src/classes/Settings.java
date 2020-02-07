@@ -1,14 +1,13 @@
 package classes;
 
-import java.io.FileWriter;
+import application.Main;
+import util.system;
+
 import java.io.IOException;
 import java.nio.file.Files;
 
-import application.Main;
-import classes.Item.ItemExport;
-import util.system;
-
-@SuppressWarnings("unused")
+@SuppressWarnings({"ALL", "ResultOfMethodCallIgnored"})
+//TODO complete rewrite
 public class Settings {
 
 	private static String version;
@@ -147,16 +146,18 @@ public class Settings {
 			try {
 				system.staticJSON.fromJson(Files.newBufferedReader(system.settings.toPath()), Settings.class);
 
-				if(!version.contentEquals(Main.version)) saveSettings();
+				if (!version.contentEquals(Main.version)) saveSettings();
 				trimSettings();
-			} catch(IOException e) {}
+			} catch (IOException ignored) {
+			}
 
 		} else {
 			system.settings.getParentFile().mkdirs();
 
 			try {
 				system.settings.createNewFile();
-			} catch(IOException e) {}
+			} catch (IOException ignored) {
+			}
 
 		}
 

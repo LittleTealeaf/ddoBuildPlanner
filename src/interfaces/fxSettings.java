@@ -1,9 +1,5 @@
 package interfaces;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.function.Function;
-
 import classes.Dice;
 import classes.Images;
 import classes.Settings;
@@ -13,16 +9,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.Separator;
-import javafx.scene.control.Spinner;
-import javafx.scene.control.SpinnerValueFactory;
-import javafx.scene.control.Tooltip;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -33,6 +20,11 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import util.resource;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.function.Function;
+
 public class fxSettings {
 
 	public static Stage stage;
@@ -41,7 +33,7 @@ public class fxSettings {
 
 	public static void open() {
 
-		if(stage != null && stage.isShowing()) {
+		if (stage != null && stage.isShowing()) {
 			stage.requestFocus();
 			return;
 		}
@@ -55,22 +47,22 @@ public class fxSettings {
 		pages.addAll(pageAppearance(), pageSaving(), pageItems(), pagePorting(), pageAdvanced());
 
 		// http://www.java2s.com/Code/Java/JavaFX/ListViewselectionlistener.htm
-		ListView<settingsPage> pageSelection = new ListView<settingsPage>(pages);
+		ListView<settingsPage> pageSelection = new ListView<>(pages);
 		pageSelection.setPrefWidth(150);
 		pageSelection.getSelectionModel().selectedItemProperty().addListener((e, o, n) -> content.setCenter(n));
-		pageSelection.setCellFactory(new Callback<ListView<settingsPage>, ListCell<settingsPage>>() {
+		pageSelection.setCellFactory(new Callback<>() {
 
 			@Override
 			public ListCell<settingsPage> call(ListView<settingsPage> param) {
 				final Label leadLbl = new Label();
 				final Tooltip tooltip = new Tooltip();
-				final ListCell<settingsPage> cell = new ListCell<settingsPage>() {
+				return new ListCell<>() {
 
 					@Override
 					public void updateItem(settingsPage item, boolean empty) {
 						super.updateItem(item, empty);
 
-						if(item != null) {
+						if (item != null) {
 							leadLbl.setText(item.getName());
 							setText(item.getName());
 							tooltip.setText(item.getName());
@@ -79,7 +71,6 @@ public class fxSettings {
 
 					}
 				};
-				return cell;
 			}
 		});
 
@@ -125,13 +116,13 @@ public class fxSettings {
 		cShowRange.setSelected(Settings.appearance.dice.showRange);
 
 		cShowDice.selectedProperty().addListener((obs, o, n) -> {
-			if(!n.booleanValue()) cShowRange.setSelected(true);
-			Settings.appearance.dice.showDice = n.booleanValue();
+			if (!n) cShowRange.setSelected(true);
+			Settings.appearance.dice.showDice = n;
 			updateDisplay.apply("");
 		});
 		cShowRange.selectedProperty().addListener((obs, o, n) -> {
-			if(!n.booleanValue()) cShowDice.setSelected(true);
-			Settings.appearance.dice.showRange = n.booleanValue();
+			if (!n) cShowDice.setSelected(true);
+			Settings.appearance.dice.showRange = n;
 			updateDisplay.apply("");
 		});
 
@@ -143,7 +134,7 @@ public class fxSettings {
 			updateDisplay.apply("");
 		});
 
-		r.addSection("Dice Format", Arrays.asList(cShowDice, cShowRange, new Separator(), cCompactDice), Arrays.asList(diceDisplay));
+		r.addSection("Dice Format", Arrays.asList(cShowDice, cShowRange, new Separator(), cCompactDice), Collections.singletonList(diceDisplay));
 
 		// ICONS
 
@@ -155,7 +146,7 @@ public class fxSettings {
 			return a;
 		};
 
-		Spinner<Double> sIconSize = new Spinner<Double>();
+		Spinner<Double> sIconSize = new Spinner<>();
 		sIconSize.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(1, 300, Settings.appearance.icon.size));
 		sIconSize.valueProperty().addListener((e, o, n) -> {
 			Settings.appearance.icon.size = n;
@@ -164,7 +155,7 @@ public class fxSettings {
 		sIconSize.setEditable(true);
 		sIconSize.setPrefWidth(75);
 
-		r.addSection("Icon", Arrays.asList(sIconSize), Arrays.asList(image));
+		r.addSection("Icon", Collections.singletonList(sIconSize), Collections.singletonList(image));
 
 		return r.toPage();
 	}
@@ -174,7 +165,7 @@ public class fxSettings {
 
 		// REGULAR SAVING
 
-		Spinner<Double> sInactive = new Spinner<Double>();
+		Spinner<Double> sInactive = new Spinner<>();
 		sInactive.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(0, 24 * 60, Settings.saving.inactivityTime));
 		sInactive.valueProperty().addListener(o -> Settings.saving.inactivityTime = sInactive.getValue());
 		sInactive.setEditable(true);
@@ -185,7 +176,7 @@ public class fxSettings {
 		cInactive.setTooltip(new Tooltip("Save everything in the build after the a set timeframe after you last edit"));
 		cInactive.setSelected(Settings.saving.inactivityTime > 0);
 		cInactive.selectedProperty().addListener(o -> {
-			if(!cInactive.isSelected()) sInactive.getValueFactory().setValue((double) 0);
+			if (!cInactive.isSelected()) sInactive.getValueFactory().setValue((double) 0);
 		});
 		sInactive.disableProperty().bind(cInactive.selectedProperty().not());
 
@@ -193,7 +184,7 @@ public class fxSettings {
 		hInactive.setAlignment(Pos.CENTER_LEFT);
 		hInactive.setSpacing(5);
 
-		Spinner<Double> sPeriod = new Spinner<Double>();
+		Spinner<Double> sPeriod = new Spinner<>();
 		sPeriod.setTooltip(new Tooltip("Number of minutes between saves"));
 		sPeriod.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(0, 200, Settings.saving.periodicalTime));
 		sPeriod.valueProperty().addListener(o -> Settings.saving.periodicalTime = sPeriod.getValue());
@@ -223,7 +214,7 @@ public class fxSettings {
 		Button bLocalizeImages = new Button("Localize Images");
 		bLocalizeImages.setOnAction(e -> Images.localizeImages());
 
-		r.addSection("Images", Arrays.asList(cStoreLocalImages), Arrays.asList(bLocalizeImages));
+		r.addSection("Images", Collections.singletonList(cStoreLocalImages), Collections.singletonList(bLocalizeImages));
 
 		return r.toPage();
 	}
@@ -233,9 +224,9 @@ public class fxSettings {
 
 		CheckBox includeImages = new CheckBox("Include Images");
 		includeImages.setSelected(Settings.porting.exporting.includeImages);
-		includeImages.selectedProperty().addListener((e, o, n) -> Settings.porting.exporting.includeImages = n.booleanValue());
+		includeImages.selectedProperty().addListener((e, o, n) -> Settings.porting.exporting.includeImages = n);
 
-		r.addSection("Items", Arrays.asList(includeImages), null);
+		r.addSection("Items", Collections.singletonList(includeImages), null);
 
 		return r.toPage();
 	}
@@ -265,16 +256,16 @@ public class fxSettings {
 		cDebug.setSelected(Settings.advanced.debug.showCrashReports);
 		cDebug.selectedProperty().addListener(a -> Settings.advanced.debug.showCrashReports = cDebug.isSelected());
 
-		r.addSection("Debug Mode", Arrays.asList(cDebug), null);
+		r.addSection("Debug Mode", Collections.singletonList(cDebug), null);
 
 		return r.toPage();
 	}
 
 	public static class settingsPage extends ScrollPane {
 
-		private String name;
+		private final String name;
 
-		private VBox content;
+		private final VBox content;
 
 		public settingsPage(String Name) {
 			super();

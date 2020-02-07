@@ -1,17 +1,14 @@
 package scrapers;
 
+import classes.*;
+import util.internet;
+import vars.Ability;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-
-import classes.Dice;
-import classes.Enchantments;
-import classes.Enchref;
-import classes.Images;
-import classes.Item;
-import util.internet;
-import vars.Ability;
+import java.util.Objects;
 
 public class Compendium {
 
@@ -24,31 +21,31 @@ public class Compendium {
 		String iconXPath = "//*[@class=\"icon\"]/p/img/@src";
 		String imageXPath = "//*[@class=\"item-image\"]/span/img/@src";
 
-		item.setIconUUID(Images.saveImage("https://ddocompendium.com" + internet.getXPathContents(iconXPath, contents)));
+		item.setIconUUID(Images.saveImage("https://ddocompendium.com" + internet.getXPathContents(iconXPath, Objects.requireNonNull(contents))));
 		item.setImageUUID(Images.saveImage("https://ddocompendium.com" + internet.getXPathContents(imageXPath, contents)));
 
 		// Get all the variables of an item
-		List<String[]> vars = new ArrayList<String[]>();
-		String temp = "";
+		List<String[]> vars = new ArrayList<>();
+		StringBuilder temp = new StringBuilder();
 		int index = 0;
 		String xPath = "//*[@id=\"wpTextbox1\"]/text()";
 		String editContents = internet.getXPathContents(xPath, getEditURL(itemName));
 
-		for(char c : editContents.toCharArray()) {
+		for (char c : editContents.toCharArray()) {
 
-			if(c == '|' && index == 2) {
+			if (c == '|' && index == 2) {
 
-				if(temp.contains("=")) {
-					String name = temp.substring(0, temp.indexOf('='));
-					String data = temp.substring(temp.indexOf('=') + 1);
-					if(temp.contains(" =")) name = name.substring(0, name.length() - 1);
-					if(temp.contains("= ")) data = data.substring(1);
+				if (temp.toString().contains("=")) {
+					String name = temp.substring(0, temp.toString().indexOf('='));
+					String data = temp.substring(temp.toString().indexOf('=') + 1);
+					if (temp.toString().contains(" =")) name = name.substring(0, name.length() - 1);
+					if (temp.toString().contains("= ")) data = data.substring(1);
 					System.out.println(name + " " + data);
-					vars.add(new String[] {name, data});
+					vars.add(new String[]{name, data});
 				}
 
-				temp = "";
-			} else temp += c;
+				temp = new StringBuilder();
+			} else temp.append(c);
 
 			if(c == '{') index++;
 			if(c == '}') index--;
@@ -116,27 +113,28 @@ public class Compendium {
 				case "spellfailure":
 					item.setSpellFailure(Double.parseDouble(i.replace("%", "")));
 					break;
-				case "maxdex":
-					item.setMaxDex(Integer.parseInt(i));
-					break;
-				case "armorbonus":
-				case "shieldbonus":
-					item.setArmorBonus(Integer.parseInt(i));
-					break;
-				case "attackpenalty":
-					item.setAttackPenalty(Integer.parseInt(i));
-					break;
-				case "dr":
-					item.setDamageReduction(Double.parseDouble(i));
-					break;
-				// TODO add the rest of the variables
-				case "enchantments":
-					item.setEnchantments(parseEnchantments(a[1]));
-					break;
-				default: // System.out.println(a[0] + " is empty");
+					case "maxdex":
+						item.setMaxDex(Integer.parseInt(i));
+						break;
+					case "armorbonus":
+					case "shieldbonus":
+						item.setArmorBonus(Integer.parseInt(i));
+						break;
+					case "attackpenalty":
+						item.setAttackPenalty(Integer.parseInt(i));
+						break;
+					case "dr":
+						item.setDamageReduction(Double.parseDouble(i));
+						break;
+					// TODO add the rest of the variables
+					case "enchantments":
+						item.setEnchantments(parseEnchantments(a[1]));
+						break;
+					default: // System.out.println(a[0] + " is empty");
 				}
 
-			} catch(Exception e) {}
+			} catch (Exception ignored) {
+			}
 
 		}
 
@@ -165,22 +163,22 @@ public class Compendium {
 	}
 
 	private static List<Enchref> parseEnchantments(String input) {
-		List<Enchref> r = new ArrayList<Enchref>();
+		List<Enchref> r = new ArrayList<>();
 
-		for(List<String> t : sUtil.parseTemplates(input)) {
+		for (List<String> t : sUtil.parseTemplates(input)) {
 			String[] a = new String[t.size()];
-			for(int i = 0; i < t.size(); i++) a[i] = t.get(i);
+			for (int i = 0; i < t.size(); i++) a[i] = t.get(i);
 			System.out.println(t);
 
 			Enchref e = null;
 
 			// Splits the string if there's upper case letters
-			if(!a[0].contains(" ")) {
+			if (!a[0].contains(" ")) {
 				String[] uppercase = a[0].split("(?=\\p{Upper})");
 				a[0] = "";
 
-				for(String s : uppercase) {
-					if(!a[0].contentEquals("")) a[0] += " ";
+				for (String s : uppercase) {
+					if (!a[0].contentEquals("")) a[0] += " ";
 					a[0] += s;
 				}
 
@@ -191,83 +189,71 @@ public class Compendium {
 			try {
 
 				switch (a[0].toLowerCase()) {
-				// Template Structure: [enchantment], [type], [value], [bonus]
-				case "ability":
-				case "skill":
-					/**
-					 * Uses the standard template
-					 * Has a specific type
-					 */
-					e = new Enchref("aa21c96d-3d82-4bfc-b604-fb70bf674fb6");
-					if(e.getEnchantment() == null) e = new Enchref(Enchantments.getEnchantmentName("Standard"));
-					e.setType(a[1]);
-					e.setValue(Double.parseDouble(a[2].replace(" ", "")));
-					if(a.length > 3) e.setBonus(a[3]);
-					r.add(e);
-					break;
-				case "fortification":
-					/**
-					 * Uses the standard template
-					 * Has no specific types
-					 */
-					e = new Enchref("aa21c96d-3d82-4bfc-b604-fb70bf674fb6");
-					if(e.getEnchantment() == null) e = new Enchref(Enchantments.getEnchantmentName("Standard"));
-					e.setType(a[0]);
-					if(a.length > 1) e.setValue(Double.parseDouble(a[1].replace(" ", "")));
-					if(a.length > 2) e.setBonus(a[2]);
-					r.add(e);
-					break;
-				case "augment":
-				case "spell power":
-				case "spell lore":
-				case "spell focus":
-					/**
-					 * Uses its individual template
-					 * Has specific types
-					 */
-					e = new Enchref(Enchantments.getEnchantmentName(a[0]).getUUID());
-					if(a.length > 1) e.setType(a[1]);
-					if(a.length > 2) try {
-						e.setValue(Double.parseDouble(a[2].replace(" ", "")));
-					} catch(Exception f) {}
-					if(a.length > 3) e.setBonus(a[3]);
-					r.add(e);
-					break;
-				case "deadly":
-				case "accuracy":
-				case "shatter":
-				case "stunning":
-					/**
-					 * Uses its individual template
-					 * Has no specific types
-					 */
-					e = new Enchref(Enchantments.getEnchantmentName(a[0]).getUUID());
-					if(a.length > 1) e.setValue(Double.parseDouble(a[1].replace(" ", "")));
-					if(a.length > 2) e.setBonus(a[2]);
-					r.add(e);
-					break;
-				// Custom Vars
-				case "sheltering":
-					/**
-					 * Uses individual template
-					 * Format is: [value] [type] [bonus]
-					 */
-					e = new Enchref(Enchantments.getEnchantmentName(a[0]).getUUID());
-					if(a.length > 1) try {
-						e.setValue(Double.parseDouble(a[1].replace(" ", "")));
-					} catch(Exception f) {}
-					if(a.length > 2) e.setType(a[2]);
-					if(a.length > 3) e.setBonus(a[3]);
-					r.add(e);
-				default:
+					// Template Structure: [enchantment], [type], [value], [bonus]
+					case "ability":
+					case "skill":
+						e = new Enchref("aa21c96d-3d82-4bfc-b604-fb70bf674fb6");
+						if (e.getEnchantment() == null)
+							e = new Enchref(Objects.requireNonNull(Enchantments.getEnchantmentName("Standard")));
+						e.setType(a[1]);
+						e.setValue(parseDouble(a[2]));
+						if (a.length > 3) e.setBonus(a[3]);
+						r.add(e);
+						break;
+					case "fortification":
+						e = new Enchref("aa21c96d-3d82-4bfc-b604-fb70bf674fb6");
+						if (e.getEnchantment() == null)
+							e = new Enchref(Objects.requireNonNull(Enchantments.getEnchantmentName("Standard")));
+						e.setType(a[0]);
+						if (a.length > 1) e.setValue(parseDouble(a[1]));
+						if (a.length > 2) e.setBonus(a[2]);
+						r.add(e);
+						break;
+					case "augment":
+					case "spell power":
+					case "spell lore":
+					case "spell focus":
+						e = new Enchref(Objects.requireNonNull(Enchantments.getEnchantmentName(a[0])).getUUID());
+						if (a.length > 1) e.setType(a[1]);
+						if (a.length > 2) try {
+							e.setValue(parseDouble(a[2]));
+						} catch (Exception ignored) {
+						}
+						if (a.length > 3) e.setBonus(a[3]);
+						r.add(e);
+						break;
+					case "deadly":
+					case "accuracy":
+					case "shatter":
+					case "stunning":
+						e = new Enchref(Objects.requireNonNull(Enchantments.getEnchantmentName(a[0])).getUUID());
+						if (a.length > 1) e.setValue(parseDouble(a[1]));
+						if (a.length > 2) e.setBonus(a[2]);
+						r.add(e);
+						break;
+					// Custom Vars
+					case "sheltering":
+						e = new Enchref(Objects.requireNonNull(Enchantments.getEnchantmentName(a[0])).getUUID());
+						if (a.length > 1) try {
+							e.setValue(parseDouble(a[1]));
+						} catch (Exception ignored) {
+						}
+						if (a.length > 2) e.setType(a[2]);
+						if (a.length > 3) e.setBonus(a[3]);
+						r.add(e);
+					default:
 				}
 
-			} catch(Exception f) {
+			} catch (Exception f) {
 				f.printStackTrace();
 			}
 
 		}
 
 		return r;
+	}
+
+	private static double parseDouble(String text) {
+		return Double.parseDouble(text.replace(" ", ""));
 	}
 }

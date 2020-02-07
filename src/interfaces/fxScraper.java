@@ -2,11 +2,11 @@ package interfaces;
 
 import classes.Item;
 import javafx.collections.FXCollections;
+import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.TextField;
-import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -19,7 +19,7 @@ public class fxScraper {
 	}
 
 	public static Item scrapePrompt(String initialName) {
-		Dialog<Item> dialog = new Dialog<Item>();
+		Dialog<Item> dialog = new Dialog<>();
 		dialog.setTitle("Import Item");
 		dialog.setHeaderText("Import an Item from a website");
 
@@ -31,7 +31,7 @@ public class fxScraper {
 		HBox hb = new HBox(lName, name);
 		hb.setSpacing(10);
 
-		ChoiceBox<Website> website = new ChoiceBox<Website>();
+		ChoiceBox<Website> website = new ChoiceBox<>();
 		website.setItems(FXCollections.observableArrayList(Website.values()));
 
 		VBox vb = new VBox(hb, website);
@@ -49,11 +49,14 @@ public class fxScraper {
 
 			if(b.getButtonData() == ButtonData.OK_DONE) {
 
+
 				switch (website.getSelectionModel().getSelectedItem()) {
-				case COMPENDIUM:
-					return Compendium.scrapeItem(name.getText());
-				default:
-					return null;
+					case COMPENDIUM:
+						return Compendium.scrapeItem(name.getText());
+					case WIKI:
+						return new Item();
+					default:
+						return null;
 				}
 
 			} else return null;
@@ -64,14 +67,14 @@ public class fxScraper {
 			Item i = dialog.showAndWait().get();
 			i.saveItem();
 			return i;
-		} catch(Exception e) {
+		} catch (Exception e) {
 			return null;
 		}
 
 	}
 
-	private static enum Website {
+	private enum Website {
 		COMPENDIUM,
-		WIKI;
+		WIKI
 	}
 }

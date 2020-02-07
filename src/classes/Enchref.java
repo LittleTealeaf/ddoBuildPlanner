@@ -1,6 +1,7 @@
 package classes;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * An object that references a given {@link Enchantment} with a set type, bonus, and value
@@ -12,7 +13,7 @@ public class Enchref {
 	/**
 	 * {@code UUID} of the referenced enchantment
 	 */
-	private String uuid;
+	private final String uuid;
 
 	/**
 	 * Enchantment type
@@ -45,7 +46,7 @@ public class Enchref {
 
 	/**
 	 * Creates a {@link Enchantment} object that references a set {@link UUID}
-	 * @param uuid
+	 * @param uuid Enchantment Refrence UUID
 	 */
 	public Enchref(String uuid) {
 		this.uuid = uuid;

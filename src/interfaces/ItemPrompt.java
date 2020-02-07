@@ -1,32 +1,29 @@
 package interfaces;
 
-import java.util.List;
-
 import classes.Iref;
 import classes.Item;
 import classes.Items;
 import javafx.geometry.Insets;
-import javafx.scene.control.Button;
+import javafx.scene.control.*;
 import javafx.scene.control.ButtonBar.ButtonData;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.text.Text;
 import vars.ItemSlot;
 
+import java.util.List;
+
 public class ItemPrompt {
 
 	private ItemSlot[] slots;
 	private Item item;
 
-	public ItemPrompt() {}
+	public ItemPrompt() {
+	}
 
 	public ItemPrompt setSlot(ItemSlot slot) {
-		slots = new ItemSlot[] {slot};
+		slots = new ItemSlot[]{slot};
 		return this;
 	}
 
@@ -46,7 +43,7 @@ public class ItemPrompt {
 	}
 
 	public Item showPrompt() {
-		Dialog<Item> dialog = new Dialog<Item>();
+		Dialog<Item> dialog = new Dialog<>();
 		dialog.setTitle("Select Item");
 		dialog.setHeaderText("Select an item");
 
@@ -55,9 +52,9 @@ public class ItemPrompt {
 		// Table of all the items selected via slots
 		TableView<Item> table = Items.itemTable(Items.getAllItems());
 		table.getItems().clear();
-		for(Item i : fullList) table.getItems().add(i);
+		for (Item i : fullList) table.getItems().add(i);
 		table.setOnMouseClicked(click -> {
-			if(click.getClickCount() == 2) dialog.getResult();
+			if (click.getClickCount() == 2) dialog.getResult();
 		});
 		table.getSelectionModel().select(item);
 

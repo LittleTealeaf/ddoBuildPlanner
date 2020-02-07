@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@SuppressWarnings("ConstantConditions")
 public class SetBonus {
 
-	private String uuid;
+	private final String uuid;
 	private String name;
 	private List<BonusTier> bonusTiers;
 
@@ -19,7 +20,7 @@ public class SetBonus {
 	}
 
 	public SetBonus(String uuid, String name) {
-		this(uuid, name, new ArrayList<BonusTier>());
+		this(uuid, name, new ArrayList<>());
 	}
 
 	public SetBonus(String uuid, String name, List<BonusTier> bonusTiers) {
@@ -76,7 +77,7 @@ public class SetBonus {
 		}
 
 		public BonusTier(int pieceCount) {
-			this(pieceCount, new ArrayList<Enchref>());
+			this(pieceCount, new ArrayList<>());
 		}
 
 		public BonusTier(int pieceCount, List<Enchref> bonuses) {
@@ -111,18 +112,20 @@ public class SetBonus {
 
 	public static class SetBonusExport {
 
-		private SetBonus setbonus;
-		private List<Enchantment> enchantments;
+		private final SetBonus setbonus;
+		private final List<Enchantment> enchantments;
 
 		@SuppressWarnings("unlikely-arg-type")
 		public SetBonusExport(SetBonus setbonus) {
 			this.setbonus = setbonus;
 
-			enchantments = new ArrayList<Enchantment>();
+			enchantments = new ArrayList<>();
 
-			for(BonusTier tier : setbonus.getBonusTiers()) for(Enchref e : tier.getBonuses()) if(!enchantments.contains(e)) {
-				enchantments.add(e.getEnchantment());
-			}
+			for (BonusTier tier : setbonus.getBonusTiers())
+				for (Enchref e : tier.getBonuses())
+					if (!enchantments.contains(e)) {
+						enchantments.add(e.getEnchantment());
+					}
 		}
 
 		public SetBonus importSetBonus() {

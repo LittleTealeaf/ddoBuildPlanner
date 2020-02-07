@@ -1,11 +1,11 @@
 package classes;
 
+import javafx.scene.image.ImageView;
+import util.system;
+
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
-
-import javafx.scene.image.ImageView;
-import util.system;
 
 public class Inventory {
 
@@ -15,14 +15,15 @@ public class Inventory {
 
 	public static void load() {
 
-		if(!system.inventory.exists()) {
-			items = new ArrayList<invItem>();
+		if (!system.inventory.exists()) {
+			items = new ArrayList<>();
 			save();
 		} else {
 
 			try {
 				system.staticJSON.fromJson(Files.newBufferedReader(system.inventory.toPath()), Inventory.class);
-			} catch(Exception e) {}
+			} catch (Exception ignored) {
+			}
 
 		}
 
@@ -50,11 +51,12 @@ public class Inventory {
 	}
 
 	public static void removeItem(String itemName) {
-		List<invItem> replace = new ArrayList<invItem>();
+		List<invItem> replace = new ArrayList<>();
 		int count = 0;
-		for(invItem i : items) if(!i.getName().contentEquals(itemName) || count >= 1) {
-			replace.add(i);
-		} else count++;
+		for (invItem i : items)
+			if (!i.getName().contentEquals(itemName) || count >= 1) {
+				replace.add(i);
+			} else count++;
 		items = replace;
 		save();
 	}

@@ -9,10 +9,10 @@ public class Enchantment {
 	/**
 	 * Static identifier of the enchantment
 	 */
-	private String uuid;
+	private final String uuid;
 	/**
 	 * Display name
-	 * 
+	 *
 	 * @see #parseVars(Enchref, String)
 	 */
 	private String displayName;
@@ -36,7 +36,7 @@ public class Enchantment {
 	public Enchantment(String name) {
 		this.name = name;
 		uuid = UUID.randomUUID().toString();
-		attributes = new ArrayList<AttributeBonus>();
+		attributes = new ArrayList<>();
 	}
 
 	public String getUUID() {
@@ -111,12 +111,12 @@ public class Enchantment {
 	}
 
 	public void removeAttributeBonus(AttributeBonus attribute) {
-		if(attributes.contains(attribute)) attributes.remove(attribute);
+		attributes.remove(attribute);
 	}
 
 	public List<Attribute> getAttributes(String type, String bonus, double value) {
-		List<Attribute> r = new ArrayList<Attribute>();
-		for(AttributeBonus b : attributes) r.add(b.toAttribute(type, bonus, value));
+		List<Attribute> r = new ArrayList<>();
+		for (AttributeBonus b : attributes) r.add(b.toAttribute(type, bonus, value));
 		return r;
 	}
 

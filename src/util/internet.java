@@ -1,5 +1,9 @@
 package util;
 
+import org.xml.sax.InputSource;
+
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
 import java.io.StringReader;
 import java.net.URL;
 import java.net.URLConnection;
@@ -7,16 +11,12 @@ import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.util.Scanner;
 
-import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathFactory;
-
-import org.xml.sax.InputSource;
-
 /**
  * Any and all general utils that relate to the internet
  * 
  * @author Tealeaf
  */
+@SuppressWarnings("ConstantConditions")
 public class internet {
 
 	/**
@@ -69,7 +69,7 @@ public class internet {
 
 		try {
 			return getContents(new URL(siteURL));
-		} catch(Exception e) {
+		} catch (Exception e) {
 			return null;
 		}
 
@@ -77,8 +77,8 @@ public class internet {
 
 	/**
 	 * Strips the site contents from the URL
-	 * 
-	 * @param siteURL
+	 *
+	 * @param url
 	 * @return
 	 */
 	public static String getContents(URL url) {

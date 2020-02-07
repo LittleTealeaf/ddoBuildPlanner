@@ -1,48 +1,23 @@
 package interfaces;
 
-import java.util.Arrays;
-
-import classes.Craftable;
-import classes.Dice;
-import classes.Enchantments;
-import classes.Enchref;
-import classes.Images;
-import classes.Iref;
-import classes.Item;
-import classes.Items;
-import classes.Porting;
+import classes.*;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Accordion;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
-import javafx.scene.control.Spinner;
-import javafx.scene.control.SpinnerValueFactory;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TitledPane;
-import javafx.scene.control.Tooltip;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import util.system;
 import vars.Ability;
 import vars.ItemSlot;
+
+import java.util.Arrays;
 
 public class fxEditItem {
 
@@ -127,9 +102,7 @@ public class fxEditItem {
 		errorText.setTextFill(Color.RED);
 
 		Button openJSON = new Button("Open .JSON");
-		openJSON.setOnAction(e -> {
-			system.openExtFile(Items.getFile(item.getUUID()));
-		});
+		openJSON.setOnAction(e -> system.openExtFile(Items.getFile(item.getUUID())));
 
 		Button export = new Button("Export");
 		export.setOnAction(e -> Porting.exportItem(item));
@@ -183,7 +156,7 @@ public class fxEditItem {
 
 		// Item Minimum Level
 		Text tMinLevel = new Text("Minimum Level:");
-		Spinner<Integer> minLevel = new Spinner<Integer>();
+		Spinner<Integer> minLevel = new Spinner<>();
 		minLevel.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 30, item.getMinLevel()));
 		minLevel.valueProperty().addListener((e, o, n) -> item.setMinLevel(n));
 		minLevel.setEditable(true);
@@ -192,7 +165,7 @@ public class fxEditItem {
 
 		// Item Absolute Minimum Level
 		Text tAbsMinLevel = new Text("Absolute Minimum Level:");
-		Spinner<Integer> absMinLevel = new Spinner<Integer>();
+		Spinner<Integer> absMinLevel = new Spinner<>();
 		absMinLevel.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 30, item.getAbsoluteMinLevel()));
 		absMinLevel.valueProperty().addListener((e, o, n) -> item.setAbsoluteMinLevel(n));
 		absMinLevel.setEditable(true);
@@ -202,7 +175,7 @@ public class fxEditItem {
 		// Item Bind Status
 		Text tBindStatus = new Text("Bind Status:");
 		// TODO change to enumerator (also in the item class)
-		ChoiceBox<String> bindStatus = new ChoiceBox<String>(FXCollections.observableList(Arrays.asList("Unbound", "Bound to Account on Acquire", "Bound to Account on Equip", "Bound to Character on Acquire", "Bound to Character on Equip")));
+		ChoiceBox<String> bindStatus = new ChoiceBox<>(FXCollections.observableList(Arrays.asList("Unbound", "Bound to Account on Acquire", "Bound to Account on Equip", "Bound to Character on Acquire", "Bound to Character on Equip")));
 		bindStatus.setValue(item.getBindStatus());
 		bindStatus.valueProperty().addListener((e, o, n) -> item.setBindStatus(n));
 
@@ -210,7 +183,7 @@ public class fxEditItem {
 		Button bSetIcon = new Button("Set Icon");
 		bSetIcon.setOnAction(e -> {
 			item.setIconUUID(new Images.ImagePrompt(item.getIconUUID()).showPrompt());
-			if(item.getIcon() != null) stage.getIcons().add(item.getIcon());
+			if (item.getIcon() != null) stage.getIcons().add(item.getIcon());
 			else stage.getIcons().clear();
 		});
 
@@ -229,7 +202,7 @@ public class fxEditItem {
 
 		// Item Weight
 		Text tWeight = new Text("Weight (lbs):");
-		Spinner<Double> weight = new Spinner<Double>();
+		Spinner<Double> weight = new Spinner<>();
 		weight.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(0, 100000, item.getWeight()));
 		weight.valueProperty().addListener((e, o, n) -> item.setWeight(n));
 		weight.setPrefWidth(100);
@@ -238,7 +211,7 @@ public class fxEditItem {
 
 		// Item Hardness
 		Text tHardness = new Text("Hardness:");
-		Spinner<Double> hardness = new Spinner<Double>();
+		Spinner<Double> hardness = new Spinner<>();
 		hardness.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(0, 10000, item.getHardness()));
 		hardness.valueProperty().addListener((e, o, n) -> item.setHardness(n));
 		hardness.setPrefWidth(100);
@@ -247,7 +220,7 @@ public class fxEditItem {
 
 		// Item Durability
 		Text tDurability = new Text("Durability:");
-		Spinner<Double> durability = new Spinner<Double>();
+		Spinner<Double> durability = new Spinner<>();
 		durability.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(0, 10000, item.getDurability()));
 		durability.valueProperty().addListener((e, o, n) -> item.setDurability(n));
 		durability.setPrefWidth(100);
@@ -310,7 +283,7 @@ public class fxEditItem {
 		for(ItemSlot s : ItemSlot.values()) {
 			CheckBox checkBox = new CheckBox(s.toString());
 			checkBox.setSelected(item.hasEquipSlot(s));
-			checkBox.selectedProperty().addListener((e, o, n) -> item.setEquipSlot(s, n.booleanValue()));
+			checkBox.selectedProperty().addListener((e, o, n) -> item.setEquipSlot(s, n));
 			content.getChildren().add(checkBox);
 		}
 
@@ -323,23 +296,23 @@ public class fxEditItem {
 		TitledPane r = new TitledPane();
 		r.setText("Enchantments");
 
-		enchantmentView = new ListView<Enchref>();
+		enchantmentView = new ListView<>();
 		enchantmentView.setItems(FXCollections.observableArrayList(item.getEnchantments()));
 		enchantmentView.setOnMouseClicked(click -> {
 
-			if(click.getClickCount() == 2) {
+			if (click.getClickCount() == 2) {
 				Enchref i = enchantmentView.getSelectionModel().getSelectedItem();
 				Enchref n = Enchantments.enchrefDialog(i);
-				if(n != null) item.updateEnchantment(i, n);
+				if (n != null) item.updateEnchantment(i, n);
 				enchantmentView.setItems(FXCollections.observableArrayList(item.getEnchantments()));
 			}
 
 		});
-		enchantmentView.setCellFactory(param -> new ListCell<Enchref>() {
+		enchantmentView.setCellFactory(param -> new ListCell<>() {
 
 			protected void updateItem(Enchref item, boolean empty) {
 				super.updateItem(item, empty);
-				if(empty || item == null || item.getDisplayName() == null) setText(null);
+				if (empty || item == null || item.getDisplayName() == null) setText(null);
 				else setText(item.getDisplayName());
 			}
 		});
@@ -374,22 +347,22 @@ public class fxEditItem {
 		TitledPane r = new TitledPane();
 		r.setText("Crafting");
 
-		crafting = new ListView<Craftable>();
+		crafting = new ListView<>();
 
 		crafting.setOnMouseClicked(e -> {
 
-			if(e.getClickCount() == 2) {
+			if (e.getClickCount() == 2) {
 				item.updateCraftable(crafting.getSelectionModel().getSelectedItem(), fxEditCraftable.openEditor(crafting.getSelectionModel().getSelectedItem()));
 				crafting.setItems(FXCollections.observableArrayList(item.getCrafting()));
 			}
 
 		});
 
-		crafting.setCellFactory(param -> new ListCell<Craftable>() {
+		crafting.setCellFactory(param -> new ListCell<>() {
 
 			protected void updateItem(Craftable item, boolean empty) {
 				super.updateItem(item, empty);
-				if(empty || item == null || item.getName() == null) setText(null);
+				if (empty || item == null || item.getName() == null) setText(null);
 				else setText(item.getName());
 			}
 		});
@@ -442,9 +415,9 @@ public class fxEditItem {
 		});
 		dice.focusedProperty().addListener((e, o, n) -> {
 
-			if(!n.booleanValue()) {
+			if (!n) {
 				Dice d = new Dice(dice.getText());
-				if(!d.isDefault()) item.setDamage(d);
+				if (!d.isDefault()) item.setDamage(d);
 				dice.setText(item.getDamage().toEditString());
 			}
 
@@ -452,7 +425,7 @@ public class fxEditItem {
 
 		Text tLowRoll = new Text("Low Crit Roll:");
 
-		Spinner<Integer> lowRoll = new Spinner<Integer>();
+		Spinner<Integer> lowRoll = new Spinner<>();
 		lowRoll.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 20, item.getLowCritRoll()));
 		lowRoll.valueProperty().addListener((e, o, n) -> item.setLowCritRoll(n));
 		lowRoll.setPrefWidth(75);
@@ -460,7 +433,7 @@ public class fxEditItem {
 
 		Text tCritMultiplier = new Text("Crit Multiplier:");
 
-		Spinner<Double> critMultiplier = new Spinner<Double>();
+		Spinner<Double> critMultiplier = new Spinner<>();
 		critMultiplier.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(1, 1000, item.getCritMultiplier()));
 		critMultiplier.valueProperty().addListener((e, o, n) -> item.setCritMultiplier(n));
 		critMultiplier.setPrefWidth(75);
@@ -474,7 +447,7 @@ public class fxEditItem {
 		for(Ability a : Ability.values()) {
 			CheckBox check = new CheckBox(a.displayName());
 			check.setSelected(item.hasAttackModifier(a));
-			check.selectedProperty().addListener((e, o, n) -> item.setAttackModifier(a, n.booleanValue()));
+			check.selectedProperty().addListener((e, o, n) -> item.setAttackModifier(a, n));
 			attackPane.getChildren().add(check);
 		}
 
@@ -486,7 +459,7 @@ public class fxEditItem {
 		for(Ability a : Ability.values()) {
 			CheckBox check = new CheckBox(a.displayName());
 			check.setSelected(item.hasDamageModifier(a));
-			check.selectedProperty().addListener((e, o, n) -> item.setDamageModifier(a, n.booleanValue()));
+			check.selectedProperty().addListener((e, o, n) -> item.setDamageModifier(a, n));
 			damagePane.getChildren().add(check);
 		}
 
@@ -534,13 +507,13 @@ public class fxEditItem {
 
 		Text tArmorType = new Text("Armor Type");
 
-		ChoiceBox<String> armorType = new ChoiceBox<String>(FXCollections.observableArrayList("", "Armor", "Shield"));
+		ChoiceBox<String> armorType = new ChoiceBox<>(FXCollections.observableArrayList("", "Armor", "Shield"));
 		armorType.getSelectionModel().select(item.getArmorType());
 		armorType.getSelectionModel().selectedItemProperty().addListener((e, o, n) -> item.setArmorType(n));
 
 		Text tArmorBonus = new Text("Armor Bonus");
 
-		Spinner<Integer> armorBonus = new Spinner<Integer>();
+		Spinner<Integer> armorBonus = new Spinner<>();
 		armorBonus.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 1000, item.getArmorBonus()));
 		armorBonus.valueProperty().addListener((e, o, n) -> item.setArmorBonus(n));
 		armorBonus.setPrefWidth(75);
@@ -548,7 +521,7 @@ public class fxEditItem {
 
 		Text tMaxDex = new Text("Max Dex Bonus");
 
-		Spinner<Integer> maxDex = new Spinner<Integer>();
+		Spinner<Integer> maxDex = new Spinner<>();
 		maxDex.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(-1, 1000, item.getMaxDex()));
 		maxDex.valueProperty().addListener((e, o, n) -> item.setMaxDex(n));
 		maxDex.setPrefWidth(75);
@@ -556,7 +529,7 @@ public class fxEditItem {
 
 		Text tCheckPenalty = new Text("Armor Check Penalty");
 
-		Spinner<Integer> checkPenalty = new Spinner<Integer>();
+		Spinner<Integer> checkPenalty = new Spinner<>();
 		checkPenalty.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 1000, item.getCheckPenalty()));
 		checkPenalty.valueProperty().addListener((e, o, n) -> item.setCheckPenalty(n));
 		checkPenalty.setPrefWidth(75);
@@ -564,7 +537,7 @@ public class fxEditItem {
 
 		Text tAttackPenalty = new Text("Attack Penalty");
 
-		Spinner<Integer> attackPenalty = new Spinner<Integer>();
+		Spinner<Integer> attackPenalty = new Spinner<>();
 		attackPenalty.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 1000, item.getAttackPenalty()));
 		attackPenalty.valueProperty().addListener((e, o, n) -> item.setAttackPenalty(n));
 		attackPenalty.setPrefWidth(75);
@@ -572,7 +545,7 @@ public class fxEditItem {
 
 		Text tSpellFailure = new Text("Spell Failure");
 
-		Spinner<Double> spellFailure = new Spinner<Double>();
+		Spinner<Double> spellFailure = new Spinner<>();
 		spellFailure.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(0, 1000, item.getSpellFailure()));
 		spellFailure.valueProperty().addListener((e, o, n) -> item.setSpellFailure(n));
 		spellFailure.setPrefWidth(75);
@@ -580,7 +553,7 @@ public class fxEditItem {
 
 		Text tDamageReduction = new Text("Damage Reduction");
 
-		Spinner<Double> damageReduction = new Spinner<Double>();
+		Spinner<Double> damageReduction = new Spinner<>();
 		damageReduction.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(0, 1000, item.getDamageReduction()));
 		damageReduction.valueProperty().addListener((e, o, n) -> item.setDamageReduction(n));
 		damageReduction.setPrefWidth(75);

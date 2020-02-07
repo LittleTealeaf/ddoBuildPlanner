@@ -51,7 +51,7 @@ public class Craftable {
 	 * @see #Craftable(String, String, List)
 	 */
 	public Craftable(String name, String uuid) {
-		this(name, uuid, new ArrayList<Enchref>());
+		this(name, uuid, new ArrayList<>());
 	}
 
 	/**
