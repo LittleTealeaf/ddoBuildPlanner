@@ -8,7 +8,7 @@ import java.nio.file.Files;
 
 public class Settings {
 
-	public static final String version = "0.0.1";
+	public static String version = "0.0.1";
 
 	public static void loadSettings() {
 
